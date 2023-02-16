@@ -1,0 +1,18 @@
+<!DOCTYPE xml>
+<menu>
+	<submenu label="Home"  icon="pi pi-home">
+		<grupo value="ADMINISTRATIVOS"></grupo>
+		<menuitem value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem>		
+	</submenu>
+
+	<submenu label="Cadastros" icon="pi pi-folder-open">
+		<grupo value="GESTORES"></grupo>
+		<menuitem value="Propriedades" outcome="/restricted/unidade/PesquisaUnidade.xhtml"></menuitem>
+		<menuitem value="Usuários" outcome="/restricted/usuario/PesquisaUsuario.xhtml"></menuitem>
+		<submenu2 label="Relatórios">
+			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml">
+			</menuitem2>			
+		</submenu2>
+	</submenu>
+
+</menu>

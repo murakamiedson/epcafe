@@ -1,0 +1,159 @@
+<ui:composition
+  template="/WEB-INF/template/LayoutHome.xhtml"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+>
+  <ui:define name="titulo">Cafe</ui:define>
+  <ui:define name="corpo">
+	<section class="sectionIntroduction" id="sectionIntroduction">
+      <div class="containerIntroduction">
+        <div class="containerImgIntroduction">
+          <h:graphicImage alt="Logo do Café" library="imagens" name="cafe.png"></h:graphicImage>
+        </div>
+        <div class="containerCol">
+          <div class="containerText">
+            <span>épCafé</span>
+            <h1>épCafé</h1>
+            <p>
+              O épCafé automatiza os processos de gestão de propriedades cafeeiras.
+            </p>
+          </div>
+          <div class="containerLinks">            
+            <a href="#sectionCards" class="whySoftware">Porque utilizar o épCafé?</a>
+            <a href="#{request.contextPath}/unrestricted/Treinamento.xhtml" class="whySoftware">Como utilizar o épCafé</a>
+            <a href="#sectionPrices" class="buySoftware">Como adiquirir o épCafé?</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sectionCardsMotivationSVSA" id="sectionCards">
+      <div class="containerCards">
+        <article>
+          <i class="pi pi-sun"></i>
+          <h2>O que é o épCafé?</h2>
+          <p>
+            Uma aplicação web que automatiza as tarefas do dia a dia dos
+            produtores de café.
+          </p>
+        </article>
+        
+        
+        
+        <article>
+          <i class="pi pi-sun"></i>
+          <h2>Como surgiu o épCafé?</h2>
+          <p>
+            O SVSA surgiu de um projeto de pesquisa e inovação desenvolvido 
+            pelo IFSP e o IFsuldeminas.
+          </p>
+        </article>
+
+		<article>
+          <i class="pi pi-sun"></i>
+          <h2>Qual o público alvo do épCafé?</h2>
+          <p>
+            Os proprietários de propriedades produtoras de café.
+          </p>
+        </article>
+        
+        <article>
+          <i class="pi pi-sun"></i>
+          <h2>Quais os benefícios em utilizar o épCafé?</h2>
+          <p>
+            O épCafé sistematiza os trabalhos dos técnicos e gestores, 
+            estrutura e padroniza as informações sobre produtividade, o que
+            permite aos gestores realizarem atividades de
+            planejamento, organização e execução de ações com maior precisão.
+          </p>
+        </article>
+
+        
+
+        <article>
+          <i class="pi pi-sun"></i>
+          <h2>Como o épCafé pode melhorar a produtividade dos produtores de café?</h2>
+          <p>
+            O sistema oferece as ferramentas necessárias para obtenção dos dados
+            operacionais nas propriedades no cultivo de café. Dados que são consolidados e visualizados
+            de forma tabular, gráfica e estatística, o que permite aos produtores 
+            de forma precisa, gerenciar, planejar, redefinir ou definir
+            novas ações de melhoria da produtividade.
+          </p>
+        </article>
+
+        
+
+        <article>
+          <i class="pi pi-sun"></i>
+          <h2>E-book Gratuito</h2>
+          <p>
+            Nós temos um E-book Gratuito para download sobre como o épCafé pode
+            ajudar os produtores na gestão do cultivo de café.            
+          </p>
+          <a href="">Baixar E-book</a>
+        </article>
+      </div>
+    </section>
+
+    <hr class="dividerSection" />
+
+    <section class="sectionPrices" id="sectionPrices">
+      <div class="containerTextPrice">
+        <i class="pi pi-heart-fill"></i>
+        <h2>
+          Escolha o plano do épCafé ideal para sua propriedade!
+        </h2>
+      </div>
+      
+      <div class="containerPrices">
+      	<div class="cardPrices">
+	        <h2>Plano Free</h2>
+	        <span>Gratuito</span>
+	        <ul>
+	          <li>1 Propriedade</li>
+	          <li>3 Usuários</li>
+	        </ul>	        
+	        <a href="#{request.contextPath}/home.xhtml">Começar agora</a>
+      	</div>
+      	
+      	<div class="cardPrices">
+        	<h2>Plano Profissional</h2>
+        	<span><sup>R$</sup>-</span>
+	        <ul>	         
+	          <li>5 Propriedades</li>
+	          <li>50 Usuários</li>
+	        </ul>
+        	<a href="https://gaian.com.br/contact/">Entrar em contato</a>
+      	</div>
+      	
+      	<div class="cardPrices">
+        	<h2>Plano Especial</h2>
+        	<span><sup>R$</sup>-</span>
+	        <ul>	         
+	          <li>Propriedades ilimitadas</li>
+	          <li>Usuários ilimitados</li>	         
+	        </ul>
+        	<a href="https://gaian.com.br/contact/">Entrar em contato</a>
+      	</div>
+      </div>
+    </section>
+    
+    <section class="sectionPartnerships">
+    	<div class="containerPartnershipsAll">
+    		<div class="containerPartnerships">
+	    		<h4>Nossos parceiros</h4>
+	    	</div>
+    	
+	    	<div class="containerImgPartnerships">
+	    		<h:graphicImage alt="slide image" library="imagens" name="ifsp_t.png"></h:graphicImage>
+	            <h:graphicImage class="imagePart" alt="slide image" library="imagens" name="ifsuldeminas.png"></h:graphicImage>	            
+	    	</div>
+    	</div>
+    </section>
+	
+  </ui:define>
+</ui:composition>

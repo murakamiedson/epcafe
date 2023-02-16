@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+>
+  <body>
+    <ui:composition>
+      <div class="toast">
+      	<div class="toast-content">
+      		<i class="pi pi-check-circle check"></i>
+      		
+      		<div class="message">
+      			<span class="text textTitle">E-mail copiado</span>
+      			<span class="text textSubtitle">endereço de e-mail copiado para a área de transferência</span>
+      		</div>
+      	</div>
+      	<i class="pi pi-times close"></i>
+      	
+      	<div class="progress"></div>
+      </div>
+      <div class="containerFooter">
+        <div class="col-1">
+          <h2>épCafé</h2>
+          <p>
+            O épCafé pode ajudar os produtores de café na 
+            gestão de produtividade de suas lavouras de café.
+          </p>
+        </div>
+        <div class="col-2">
+          <h2>Link</h2>
+          <nav class="navFooter">
+            <ul class="listItensFooter">
+              <li><a href="#{request.contextPath}/restricted/home/CafeHome.xhtml">Login</a></li>                
+              <li><a href="#sectionCards">Sobre</a></li>
+              <li><a href="#sectionPrices">Planos</a></li>
+              <li><a href="#{request.contextPath}/unrestricted/Treinamento.xhtml">Como usar o épCafé</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-3">
+          <h2>Contato</h2>
+          <p>
+            Dúvidas e esclarecimentos? Clique no botão abaixo para enviar um
+            email para a gente
+          </p>
+          <button class="btnCopyEmail" id="btnCopyEmail">
+            <div>
+              <i class="pi pi-copy"></i>
+            </div>
+            <span>
+              murakami@ifsp.edu.br
+            </span>
+          </button>
+        </div>
+      </div>
+    </ui:composition>
+  </body>
+</html>
