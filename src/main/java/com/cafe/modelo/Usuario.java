@@ -1,7 +1,7 @@
 package com.cafe.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,13 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 
@@ -141,18 +139,11 @@ public class Usuario implements Serializable {
 	/*
 	 * Datas de Criação e Modificação
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataModificacao;
-
-	@PrePersist
-	@PreUpdate
-	public void configuraDatasCriacaoAlteracao() {
-		this.setDataModificacao( new Date() );
-				
-		if (this.getDataCriacao() == null) {
-			this.setDataCriacao( new Date() );
-		}		
-	}
+	@CreationTimestamp	
+	@Column(columnDefinition = "datetime")
+	private OffsetDateTime dataCriacao;
+	
+	@UpdateTimestamp
+	@Column(columnDefinition = "datetime")
+	private OffsetDateTime dataModificacao;
 }

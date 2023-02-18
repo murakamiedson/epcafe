@@ -1,55 +1,53 @@
 package com.cafe.modelo;
 
-import java.io.Serializable;
 import java.time.OffsetDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.TipoPlano;
-
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-/**
- * @author murakamiadmin
- *
- */
-@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Tenant.buscarTodos", query="select t from Tenant t")
-	
+	@NamedQuery(name="Fabricante.buscarTodos", query="select u from Fabricante u where u.tenant_id = :tenantId"),	
 })
-public class Tenant implements Serializable {
+public class Fabricante {
 
-	private static final long serialVersionUID = -5526059262907035239L;
-	
+
 	@EqualsAndHashCode.Include
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long codigo;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	@NotBlank(message="O nome do tenant/municipio é obrigatório.")
-	private String tenant;	
+	private Long tenant_id;
+	
+	@NotBlank
+	@Column(nullable = false)
+	private String nome;
+	
 
-	@Enumerated(EnumType.STRING)
-	private TipoPlano tipoPlano;
+	@NotNull
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="codigo_endereco")
+	private Endereco endereco;
 	
+
 	/*
 	 * Datas de Criação e Modificação
 	 */

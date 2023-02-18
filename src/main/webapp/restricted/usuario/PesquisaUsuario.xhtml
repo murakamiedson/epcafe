@@ -25,8 +25,12 @@
 				</p:toolbarGroup>
 			</p:toolbar>
 
-			<p:dataTable id="usuariosTable" var="usuario" value="#{pesquisaUsuarioBean.lazyUsuarios}"  paginator="true" rows="10"
-				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			<p:dataTable id="usuariosTable" var="usuario" value="#{pesquisaUsuarioBean.lazyUsuarios}" 
+		    	style="margin-top: 20px" emptyMessage="Nenhuma unidade encontrada."
+				paginator="true" rows="10"
+				paginatorPosition="bottom"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} 
+				{CurrentPageReport} {NextPageLink} {LastPageLink}"
                 currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
                 rowsPerPageTemplate="10,15,{ShowAll|'All'}" lazy="true"
 				rowStyleClass="#{usuario.status eq 'INATIVO' ? 'inativo' : null}">
