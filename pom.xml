@@ -17,7 +17,7 @@
 		<hibernate.version>5.6.8.Final</hibernate.version>
 	</properties>
 	<build>
-		<finalName>svsa-web</finalName>
+		<finalName>cafe-web</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
