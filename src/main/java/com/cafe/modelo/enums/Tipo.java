@@ -1,4 +1,4 @@
-package com.cafe.modelo;
+package com.cafe.modelo.enums;
 
 public enum Tipo {
 

@@ -19,6 +19,8 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.cafe.modelo.enums.Tipo;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
