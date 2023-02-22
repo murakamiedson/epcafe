@@ -8,31 +8,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.Fabricante;
+import com.cafe.modelo.Maquina;
+import com.cafe.modelo.enums.Status;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
-
-import lombok.extern.log4j.Log4j;
 
 /**
  * @author murakamiadmin
  *
  */
-@Log4j
-public class FabricanteDAO implements Serializable {
+public class MaquinaDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private EntityManager manager;	
+	private EntityManager manager;
+	
 	
 	@Transactional
-	public void salvar(Fabricante fabricante) throws NegocioException {
-		log.info("DAO : tenant = " + fabricante.getTenant_id());
+	public void salvar(Maquina maquina) throws PersistenceException, NegocioException {
 		try {
-			manager.merge(fabricante);
+			manager.merge(maquina);	
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw e;
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
@@ -43,16 +42,14 @@ public class FabricanteDAO implements Serializable {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
 		}
-	}
-	
+	}	
+		
 	@Transactional
-	public void excluir(Fabricante fabricante) throws NegocioException {
-		fabricante = buscarPeloCodigo(fabricante.getId());
+	public void excluir(Maquina maquina) throws NegocioException {
+			
 		try {
-			manager.remove(fabricante);
-			manager.flush();
-		} catch (PersistenceException e) {
-			e.printStackTrace();
+			manager.merge(maquina);
+		} catch (PersistenceException e) {			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
@@ -72,23 +69,29 @@ public class FabricanteDAO implements Serializable {
 	 * Buscas
 	 */
 	
-	
-	public Fabricante buscarPeloCodigo(Long codigo) {
-		return manager.find(Fabricante.class, codigo);
-	}
+	public Maquina buscarPeloCodigo(Long id) {
+		return manager.find(Maquina.class, id);
+	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<Fabricante> buscarFabricantes(Long tenantId) {
-		return manager.createNamedQuery("Fabricante.buscarFabricantes")
+	public List<Maquina> buscarMaquinas(Long tenantId) {
+		return manager.createNamedQuery("Maquina.buscarMaquinas")
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
+	
+	public List<Maquina> buscarMaquinasPorFabricante(Fabricante fabricante, Long tenantId) {
+		return manager.createNamedQuery("Maquina.buscarPorFabricante", Maquina.class)				
+				.setParameter("fabricante", fabricante)
+				.setParameter("tenantId", tenantId)
+				.setParameter("status", Status.ATIVO)
+				.getResultList();
+	}
+	
 	
 	
 	// criado para realização de testes unitários com JIntegrity
 	public void setEntityManager(EntityManager manager) {
 		this.manager = manager;
 	}
-
-	
 }

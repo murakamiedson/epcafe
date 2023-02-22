@@ -25,7 +25,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Fabricante.buscarTodos", query="select u from Fabricante u where u.tenant_id = :tenantId"),	
+	@NamedQuery(name="Fabricante.buscarFabricantes", query="select u from Fabricante u where u.tenant_id = :tenantId"),	
 })
 public class Fabricante {
 

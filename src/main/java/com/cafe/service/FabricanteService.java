@@ -31,25 +31,18 @@ public class FabricanteService implements Serializable {
 		this.fabricanteDAO.salvar(fabricante);
 	}
 	
-	
+	public void excluir(Fabricante fabricante) throws NegocioException {
+		fabricanteDAO.excluir(fabricante);		
+	}
+		
 	public Fabricante buscarPeloCodigo(long codigo) {
 		return fabricanteDAO.buscarPeloCodigo(codigo);
-	}
-	
-
-	public List<Fabricante> buscarTodos(Long tenantId) {
-		return fabricanteDAO.buscarTodos(tenantId);
 	}	
-	
-	public void excluir(Fabricante fabricante) throws NegocioException {
-		fabricanteDAO.excluir(fabricante);
 		
-	}
-	
 	public List<Fabricante> buscarFabricantes(Long tenantId) {	
 		log.info("Primeiro acesso a banco... buscar unidades");
 					
-		return fabricanteDAO.buscarTodos(tenantId);
+		return fabricanteDAO.buscarFabricantes(tenantId);
 	}
 
 	public FabricanteDAO getFabricanteDAO() {

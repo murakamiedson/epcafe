@@ -1,0 +1,96 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Máquina</ui:define>
+    
+    <ui:define name="corpo">
+   	
+   		<h2>Pesquisa de Máquinas</h2>
+   		
+    	<h:form id="frmPesquisa">
+    	
+    		<p:messages id="messages" showDetail="false" closable="true">
+        		<p:autoUpdate />
+    		</p:messages>
+    		
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" 
+	    				action="/restricted/maquina/CadastroMaquina.xhtml"/>
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    		    	
+	    	<p:dataTable id="maquinasTable" value="#{pesquisaMaquinaBean.maquinas}" var="maquina"
+		    		style="margin-top: 20px" emptyMessage="Nenhuma máquina encontrada." rows="10"
+		    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
+		    		rowsPerPageTemplate="5,10,15">
+		    		
+	    		<p:column headerText="Código" style="width: 10px; text-align: center">
+	    			<h:outputText value="#{maquina.id}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Maquina" sortBy="#{maquina.nome}" style="width: 80px; text-align: left">
+	    			<h:outputText value="#{maquina.nome}" />
+	    		</p:column>	
+	    		
+	    		<p:column headerText="Modelo" sortBy="#{maquina.modelo}" style="width: 60px; text-align: left">
+	    			<h:outputText value="#{maquina.modelo}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Valor" style="width: 30px; text-align: center">
+	    			<h:outputText value="#{maquina.valor}">
+	    				<f:convertNumber type="currency" />
+	    			</h:outputText>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Potência" style="width: 15px; text-align: center">
+	    			<h:outputText value="#{maquina.potencia}">
+	    				<f:convertNumber pattern="#0.00" />
+	    			</h:outputText>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Vida Útil" style="width: 15px; text-align: center">
+	    			<h:outputText value="#{maquina.vidaUtil}">
+	    			</h:outputText>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Tipo" sortBy="#{maquina.tipo}" style="width: 80px; text-align: left">
+	    			<h:outputText value="#{maquina.tipo}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Fabricante" sortBy="#{maquina.fabricante}" style="width: 50px; text-align: left">
+	    			<h:outputText value="#{maquina.fabricante.nome}" />
+	    		</p:column>	
+	    		
+	    		
+	    				
+	    		
+	    		<p:column style="width: 25px; text-align: center" headerText="Operações">
+		    		<p:button outcome="CadastroMaquina" icon="pi pi-pencil" title="Editar">
+		    			<f:param name="maquina" value="#{maquina.id}"/>
+		    		</p:button>
+		    		<p:commandButton icon="pi pi-trash" title="Excluir"		    				
+		    			onclick="PF('confirmacaoExclusao').show();"
+						process="@this">
+						<f:setPropertyActionListener target="#{pesquisaMaquinaBean.maquinaSelecionada}" value="#{maquina}" />
+					</p:commandButton>
+		    	</p:column>
+		   	</p:dataTable>
+		   	<p:confirmDialog id="confirmacaoExclusaoDialog" 
+		   			widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir a maquina #{pesquisaMaquinaBean.maquinaSelecionada.nome}?"  
+	                header="Exclusão de maquina" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
+	        		update=":frmPesquisa:maquinasTable"
+	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaMaquinaBean.excluir}" />
+	    	</p:confirmDialog>
+    	</h:form>
+    </ui:define>
+</ui:composition>

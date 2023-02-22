@@ -3,15 +3,11 @@ package com.cafe.modelo;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-
-import com.cafe.modelo.enums.Uf;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,7 +36,5 @@ public class Estado implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	private String nome;
-	
-	@Enumerated(EnumType.STRING)
-	private Uf uf;	
+	private String uf;	
 }
