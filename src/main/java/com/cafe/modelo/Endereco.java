@@ -30,7 +30,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Endereco.buscarTodos", query="select e from Endereco e where e.tenant_id = :tenantId")	
+	@NamedQuery(name="Endereco.buscarTodos", query="select e from Endereco e")	
 })
 public class Endereco implements Cloneable, Serializable {
 
@@ -40,8 +40,6 @@ public class Endereco implements Cloneable, Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
-	
-	private Long tenant_id;
 	
 	@NotBlank(message="O endereco é obrigatório.")
 	private String endereco;

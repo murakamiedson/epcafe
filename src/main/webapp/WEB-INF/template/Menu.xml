@@ -7,9 +7,9 @@
 
 	<submenu label="Cadastros" icon="pi pi-folder-open">
 		<grupo value="GESTORES"></grupo>
-		<menuitem value="Máquinas" outcome="/restricted/maquina/PesquisaMaquina.xhtml"></menuitem>
-		<menuitem value="Fabricantes" outcome="/restricted/fabricante/PesquisaFabricante.xhtml"></menuitem>
 		<menuitem value="Propriedades" outcome="/restricted/unidade/PesquisaUnidade.xhtml"></menuitem>
+		<menuitem value="Fabricantes" outcome="/restricted/fabricante/PesquisaFabricante.xhtml"></menuitem>
+		<menuitem value="Máquinas" outcome="/restricted/maquina/PesquisaMaquina.xhtml"></menuitem>		
 		<menuitem value="Usuários" outcome="/restricted/usuario/PesquisaUsuario.xhtml"></menuitem>
 		<submenu2 label="Relatórios">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			

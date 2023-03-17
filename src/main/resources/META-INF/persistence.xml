@@ -6,10 +6,19 @@
              
 	<persistence-unit name="cafePU" transaction-type="RESOURCE_LOCAL">
 
-		<properties> 		
-						
-			<!-- ################ DESENVOLVIMENTO  ###################-->
+		<properties> 
+		
+		<!-- ################ PRODUÇÃO  ###################-->
 							
+			<!-- INCONFIDENTES epCafe 
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://200.131.80.160:3306/cafeweb?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.user" value="epcafe"/>
+			<property name="javax.persistence.jdbc.password" value="v2eb_*qxo:7P"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>		
+			-->
+					
+			<!-- ################ DESENVOLVIMENTO  ###################-->
+										
 			<!-- SALTO epCafe -->
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cafeweb?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
