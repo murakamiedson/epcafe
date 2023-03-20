@@ -1,0 +1,104 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Maquina</ui:define>
+    
+    <ui:define name="corpo">
+    	<f:metadata>
+			<o:viewParam name="maquina" value="#{cadastroMaquinaBean.maquina}" />
+		</f:metadata>
+    
+    	<h2>Cadastro de Maquinas</h2>
+    
+    	<h:form id="frmCadastro">
+    	
+	    	<p:messages id="messages" showDetail="false" closable="true">
+        		<p:autoUpdate />
+    		</p:messages>
+    		
+    		<p:defaultCommand target="botaoSalvar" />    		
+	    	
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+	    				action="#{cadastroMaquinaBean.salvar}" update="frmCadastro"/>
+	    			<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/maquina/PesquisaMaquina.xhtml"/>
+				</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
+	    			columnClasses="rotulo, campo">
+	    		<p:outputLabel value="Código" for="codigo"/>
+	    		<p:outputLabel id="codigo" size="20" maxlength="20" 
+	    			value="#{cadastroMaquinaBean.maquina.id}"/>		    		
+	    		
+	    		
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="60" maxlength="80" 
+	    			value="#{cadastroMaquinaBean.maquina.nome}"
+	    			required="true" 
+			    	validatorMessage="O nome é obrigatório."/>	 	    		
+			   
+			   <p:outputLabel value="Modelo" for="modelo"/>
+	    		<p:inputText id="modelo" size="20" maxlength="20"
+	    			required="true"
+	    			validatorMessage="O modelo é obrigatório." 
+	    			value="#{cadastroMaquinaBean.maquina.modelo}"/>
+			   
+	    		
+	    		<p:outputLabel value="Valor" for="valor"/>
+	    		 <p:inputNumber id="valor" value="#{cadastroMaquinaBean.maquina.valor}" 
+	    		 	symbol="R$ " symbolPosition="p" 
+                    decimalSeparator="," thousandSeparator="."
+                    minValue="0" decimalPlaces="2" 
+	    			required="true" 
+			    	validatorMessage="O valor é obrigatório.">			    	
+			    </p:inputNumber>
+			    
+			    <p:outputLabel value="Potência" for="potencia"/>
+	    		 <p:inputNumber id="potencia" value="#{cadastroMaquinaBean.maquina.potencia}" 
+	    		 	symbol=" CV" symbolPosition="s" 
+	    		 	decimalSeparator="," thousandSeparator="."
+	    		 	minValue="0" decimalPlaces="0" 
+	    			required="true" 
+			    	validatorMessage="A potência é obrigatória.">			    	
+			    </p:inputNumber>			    			    	
+			    
+	    		<p:outputLabel value="Vida Útil" for="vida"/>
+	    		 <p:inputNumber id="vida" value="#{cadastroMaquinaBean.maquina.vidaUtil}" 
+	    		 	symbol=" anos" symbolPosition="s"
+	    		 	minValue="0" decimalPlaces="0" 
+	    			required="true" 
+			    	validatorMessage="A vida útil é obrigatória.">			    	
+			    </p:inputNumber>	
+	    		
+	    		<p:outputLabel value="Tipo" for="tipo"/>
+	    		<p:selectOneMenu id="tipo" value="#{cadastroMaquinaBean.maquina.tipo}"
+	    			required="true" 
+			    	validatorMessage="O tipo é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o tipo" />
+	    			<f:selectItems value="#{cadastroMaquinaBean.tipos}" var="tipo" 
+						itemLabel="#{tipo}" itemValue="#{tipo}"/>
+	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Fabricante" for="fabricante"/>
+	    		<p:selectOneMenu id="fabricante" value="#{cadastroMaquinaBean.maquina.fabricante}"
+	    			required="true" 
+			    	validatorMessage="O fabricante é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o fabricante" />
+	    			<f:selectItems value="#{cadastroMaquinaBean.fabricantes}" var="fab"
+						itemLabel="#{fab.nome}" itemValue="#{fab}"/>
+	    		</p:selectOneMenu>
+	    		
+	    	</p:panelGrid>
+    	</h:form>
+    </ui:define>
+</ui:composition>

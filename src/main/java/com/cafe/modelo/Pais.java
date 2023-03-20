@@ -1,7 +1,6 @@
 package com.cafe.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,10 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -48,23 +43,5 @@ public class Pais implements Serializable {
 	private String capital;		//Capital
 	private Long area;			//Area em km2
 	private Long populacao;		//Population
-	private String continente;	//continent
-	
-	/*
-	 * Datas de Criação e Modificação
-	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataModificacao;
-
-	@PrePersist
-	@PreUpdate
-	public void configuraDatasCriacaoAlteracao() {
-		this.setDataModificacao( new Date() );
-				
-		if (this.getDataCriacao() == null) {
-			this.setDataCriacao( new Date() );
-		}		
-	}
+	private String continente;	//continent	
 }

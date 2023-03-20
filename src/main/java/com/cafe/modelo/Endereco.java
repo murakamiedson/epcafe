@@ -1,20 +1,20 @@
 package com.cafe.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +30,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Endereco.buscarTodos", query="select e from Endereco e where e.tenant_id = :tenantId")	
+	@NamedQuery(name="Endereco.buscarTodos", query="select e from Endereco e")	
 })
 public class Endereco implements Cloneable, Serializable {
 
@@ -40,8 +40,6 @@ public class Endereco implements Cloneable, Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
-	
-	private Long tenant_id;
 	
 	@NotBlank(message="O endereco é obrigatório.")
 	private String endereco;
@@ -66,25 +64,21 @@ public class Endereco implements Cloneable, Serializable {
 		return (Endereco) super.clone();
 	}
 	
-	/*
-	 * Datas de Criação e Modificação
-	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataModificacao;
-
-	@PrePersist
-	@PreUpdate
-	public void configuraDatasCriacaoAlteracao() {
-		this.setDataModificacao( new Date() );
-				
-		if (this.getDataCriacao() == null) {
-			this.setDataCriacao( new Date() );
-		}
-	}
-
 	public String toString() {
 		return endereco + ", " + numero + ". " + bairro + " - " + municipio + "/" + uf + ". CEP: " + cep;
 	}	
+	
+	
+	/*
+	 * Datas de Criação e Modificação
+	 */
+	
+	@CreationTimestamp	
+	@Column(columnDefinition = "datetime")
+	private OffsetDateTime dataCriacao;
+	
+	@UpdateTimestamp
+	@Column(columnDefinition = "datetime")
+	private OffsetDateTime dataModificacao;
+	
 }
