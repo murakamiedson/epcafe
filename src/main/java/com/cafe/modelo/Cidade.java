@@ -1,7 +1,6 @@
 package com.cafe.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
 import lombok.EqualsAndHashCode;
@@ -57,21 +52,4 @@ public class Cidade implements Serializable {
 	@JoinColumn(name="codigo_estado")
 	private Estado estado;
 	
-	/*
-	 * Datas de Criação e Modificação
-	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataModificacao;
-
-	@PrePersist
-	@PreUpdate
-	public void configuraDatasCriacaoAlteracao() {
-		this.setDataModificacao( new Date() );
-				
-		if (this.getDataCriacao() == null) {
-			this.setDataCriacao( new Date() );
-		}		
-	}
 }

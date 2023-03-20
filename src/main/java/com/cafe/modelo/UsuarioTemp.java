@@ -1,13 +1,22 @@
 package com.cafe.modelo;
 
+import java.io.Serializable;
+import java.time.OffsetDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.validation.constraints.Email;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
 
 @Setter
 @Getter
@@ -33,18 +42,12 @@ public class UsuarioTemp implements Serializable {
     /*
 	 * Datas de Criação e Modificação
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCriacao;	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataModificacao;
-
-	@PrePersist
-	@PreUpdate
-	public void configuraDatasCriacaoAlteracao() {
-		this.setDataModificacao( new Date() );
-				
-		if (this.getDataCriacao() == null) {
-			this.setDataCriacao( new Date() );
-		}		
-	}
+	
+	@CreationTimestamp	
+	@Column(columnDefinition = "datetime")
+	private OffsetDateTime dataCriacao;
+	
+	@UpdateTimestamp
+	@Column(columnDefinition = "datetime")
+	private OffsetDateTime dataModificacao;
 }
