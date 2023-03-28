@@ -54,7 +54,7 @@ public class Maquina {
 	private BigDecimal valor;
 	
 	@PositiveOrZero
-	private Long potencia;
+	private BigDecimal potencia;
 	
 	@PositiveOrZero
 	private Integer vidaUtil;

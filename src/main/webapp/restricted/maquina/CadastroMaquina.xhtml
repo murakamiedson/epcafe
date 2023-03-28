@@ -63,18 +63,17 @@
 			    	validatorMessage="O valor é obrigatório.">			    	
 			    </p:inputNumber>
 			    
-			    <p:outputLabel value="Potência" for="potencia"/>
-	    		 <p:inputNumber id="potencia" value="#{cadastroMaquinaBean.maquina.potencia}" 
-	    		 	symbol=" CV" symbolPosition="s" 
-	    		 	decimalSeparator="," thousandSeparator="."
-	    		 	minValue="0" decimalPlaces="0" 
+			    <p:outputLabel value="Potência" for="potencia"/>			     
+			    <p:inputNumber id="potencia" value="#{cadastroMaquinaBean.maquina.potencia}" 
+			    	symbol=" CV" symbolPosition="s" 
+			    	minValue="0" decimalPlaces="2"	    		 
 	    			required="true" 
 			    	validatorMessage="A potência é obrigatória.">			    	
 			    </p:inputNumber>			    			    	
 			    
 	    		<p:outputLabel value="Vida Útil" for="vida"/>
-	    		 <p:inputNumber id="vida" value="#{cadastroMaquinaBean.maquina.vidaUtil}" 
-	    		 	symbol=" anos" symbolPosition="s"
+	    		 <p:inputNumber id="vida" value="#{cadastroMaquinaBean.maquina.vidaUtil}"
+	    		 	symbol=" ANOS" symbolPosition="s" 
 	    		 	minValue="0" decimalPlaces="0" 
 	    			required="true" 
 			    	validatorMessage="A vida útil é obrigatória.">			    	
