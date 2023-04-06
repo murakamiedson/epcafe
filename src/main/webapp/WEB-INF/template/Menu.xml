@@ -5,13 +5,30 @@
 		<menuitem value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem>		
 	</submenu>
 
-	<submenu label="Cadastros" icon="pi pi-folder-open">
-		<grupo value="GESTORES"></grupo>
-		<menuitem value="Propriedades" outcome="/restricted/unidade/PesquisaUnidade.xhtml"></menuitem>
-		<menuitem value="Fabricantes" outcome="/restricted/fabricante/PesquisaFabricante.xhtml"></menuitem>
-		<menuitem value="Máquinas" outcome="/restricted/maquina/PesquisaMaquina.xhtml"></menuitem>		
-		<menuitem value="Usuários" outcome="/restricted/usuario/PesquisaUsuario.xhtml"></menuitem>
-		<submenu2 label="Relatórios">
+	<submenu label="Propriedade" icon="pi pi-folder-open">
+		<grupo value="GESTORES"></grupo>				
+		<menuitem value="Usuário" outcome="/restricted/propriedade/PesquisaUsuario.xhtml"></menuitem>
+		<menuitem value="Unidade" outcome="/restricted/propriedade/PesquisaUnidade.xhtml"></menuitem>
+		<menuitem value="Instalação" outcome=""></menuitem>
+		<menuitem value="Talhão" outcome=""></menuitem>
+		<submenu2 label="Relatório">
+			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
+		</submenu2>
+	</submenu>
+	<submenu label="Insumo" icon="pi pi-folder-open">
+		<grupo value="GESTORES"></grupo>		
+		<menuitem value="Fabricante" outcome="/restricted/insumo/PesquisaFabricante.xhtml"></menuitem>
+		<menuitem value="Máquina" outcome="/restricted/insumo/PesquisaMaquina.xhtml"></menuitem>
+		<menuitem value="Insumo" outcome=""></menuitem>		
+		<submenu2 label="Relatório">
+			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
+		</submenu2>
+	</submenu>
+	<submenu label="Serviço" icon="pi pi-folder-open">
+		<grupo value="GESTORES"></grupo>		
+		<menuitem value="Serviço" outcome=""></menuitem>
+		<menuitem value="Colaborador" outcome=""></menuitem>
+		<submenu2 label="Relatório">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>
 	</submenu>
