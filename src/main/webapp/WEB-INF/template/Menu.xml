@@ -10,7 +10,7 @@
 		<menuitem value="Usuário" outcome="/restricted/propriedade/PesquisaUsuario.xhtml"></menuitem>
 		<menuitem value="Unidade" outcome="/restricted/propriedade/PesquisaUnidade.xhtml"></menuitem>
 		<menuitem value="Instalação" outcome=""></menuitem>
-		<menuitem value="Talhão" outcome=""></menuitem>
+		<menuitem value="Talhão" outcome="/restricted/propriedade/PesquisaTalhao.xhtml"></menuitem>
 		<submenu2 label="Relatório">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>
