@@ -44,7 +44,7 @@ public class Tenant implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@NotBlank(message="O nome do tenant/municipio é obrigatório.")
+	@NotBlank(message="O nome do tenant/produtor é obrigatório.")
 	private String tenant;	
 
 	@Enumerated(EnumType.STRING)
