@@ -48,8 +48,10 @@ public class MaquinaDAO implements Serializable {
 	public void excluir(Maquina maquina) throws NegocioException {
 			
 		try {
-			manager.merge(maquina);
-		} catch (PersistenceException e) {			e.printStackTrace();
+			manager.remove(maquina);
+			manager.flush();
+		} catch (PersistenceException e) {			
+			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
 		} catch (RuntimeException e) {
 			e.printStackTrace();

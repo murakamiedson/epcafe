@@ -34,7 +34,7 @@ public class PesquisaMaquinaBean implements Serializable {
 	private Maquina maquinaSelecionada;
 	
 	@Inject
-	MaquinaService maquinaService;
+	private MaquinaService maquinaService;
 	@Inject
 	private LoginBean loginBean;
 
