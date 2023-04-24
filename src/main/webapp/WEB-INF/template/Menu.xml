@@ -19,7 +19,7 @@
 		<grupo value="GESTORES"></grupo>		
 		<menuitem value="Fabricante" outcome="/restricted/insumo/PesquisaFabricante.xhtml"></menuitem>
 		<menuitem value="Máquina" outcome="/restricted/insumo/PesquisaMaquina.xhtml"></menuitem>
-		<menuitem value="Insumo" outcome=""></menuitem>		
+		<menuitem value="Insumo" outcome="/restricted/insumo/PesquisaInsumo.xhtml"></menuitem>		
 		<submenu2 label="Relatório">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>
