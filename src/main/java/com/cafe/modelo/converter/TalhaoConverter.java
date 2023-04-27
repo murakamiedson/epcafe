@@ -5,9 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.cafe.dao.MaquinaDAO;
 import com.cafe.dao.TalhaoDAO;
-import com.cafe.modelo.Maquina;
 import com.cafe.modelo.Talhao;
 import com.cafe.util.cdi.CDIServiceLocator;
 

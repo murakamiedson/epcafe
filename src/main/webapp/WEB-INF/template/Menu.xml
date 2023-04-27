@@ -6,16 +6,8 @@
 	</submenu>
 
 	<submenu label="Propriedade" icon="pi pi-folder-open">
-<<<<<<< HEAD
 		<grupo value="GESTORES"></grupo>		
 		<menuitem value="Unidades de Produção" outcome="/restricted/propriedade/PesquisaUnidade.xhtml"></menuitem>		
-=======
-		<grupo value="GESTORES"></grupo>				
-		<menuitem value="Usuário" outcome="/restricted/propriedade/PesquisaUsuario.xhtml"></menuitem>
-		<menuitem value="Unidade" outcome="/restricted/propriedade/PesquisaUnidade.xhtml"></menuitem>
-		<menuitem value="Instalação" outcome="/restricted/propriedade/PesquisaInstalacao.xhtml"></menuitem>
-		<menuitem value="Talhão" outcome="/restricted/propriedade/PesquisaTalhao.xhtml"></menuitem>
->>>>>>> isabella
 		<submenu2 label="Relatório">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>
