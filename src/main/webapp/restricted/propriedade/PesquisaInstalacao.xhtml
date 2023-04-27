@@ -34,17 +34,18 @@
 	    			<h:outputText value="#{instalacao.id}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Instalacao" sortBy="#{instalacao.nome}" style="width: 80px; text-align: left">
+	    		<p:column headerText="Instalação" sortBy="#{instalacao.nome}" style="width: 80px; text-align: left">
 	    			<h:outputText value="#{instalacao.nome}" />
 	    		</p:column>	
 	    		
 	    		<p:column headerText="Valor" style="width: 30px; text-align: center">
-	    			<h:outputText value="R$ #{instalacao.valor}">
+	    			<h:outputText value="#{instalacao.valor}">
+	    				<f:convertNumber type="currency" />
 	    			</h:outputText>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Vida Útil" style="width: 30px; text-align: center">
-	    			<h:outputText value="#{instalacao.vidaUtil} anos">
+	    		<p:column headerText="Vida Útil (ANOS)" style="width: 30px; text-align: center">
+	    			<h:outputText value="#{instalacao.vidaUtil}">
 	    			</h:outputText>
 	    		</p:column>
 	    		

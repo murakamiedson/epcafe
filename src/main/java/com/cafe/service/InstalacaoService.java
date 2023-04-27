@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import com.cafe.dao.InstalacaoDAO;
 import com.cafe.dao.UnidadeDAO;
@@ -55,16 +54,5 @@ private static final long serialVersionUID = 1L;
 		return unidadeDAO.buscarTodos(tenantId);
 	}
 	
-	/* testes */
-	
-	public InstalacaoDAO getInstalacaoDAO() {
-		return instalacaoDAO;
-	}
 
-	public void setManager(EntityManager manager) {
-
-		instalacaoDAO = new InstalacaoDAO();
-		instalacaoDAO.setEntityManager(manager);
-		
-	}
 }

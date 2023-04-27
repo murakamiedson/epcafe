@@ -48,12 +48,17 @@
 	    		
 	    		<p:outputLabel value="Valor" for="valor"/>
 	    		 <p:inputNumber id="valor" value="#{cadastroInstalacaoBean.instalacao.valor}" 
+	    			symbol="R$ " symbolPosition="p" 
+                    decimalSeparator="," thousandSeparator="."
+                    minValue="0" decimalPlaces="2"
 	    			required="true" 
 			    	validatorMessage="O valor é obrigatório.">			    	
 			    </p:inputNumber>
 			    
 			    <p:outputLabel value="Vida Útil" for="vidaUtil"/>
-	    		 <p:inputNumber id="vidaUtil" value="#{cadastroInstalacaoBean.instalacao.vidaUtil}" 
+	    		 <p:inputNumber id="vidaUtil" value="#{cadastroInstalacaoBean.instalacao.vidaUtil}"
+	    		 	symbol=" ANOS" symbolPosition="s" 
+	    		 	minValue="0" decimalPlaces="0"  
 	    			required="true" 
 			    	validatorMessage="A vida útil é obrigatória.">			    	
 			    </p:inputNumber>

@@ -34,12 +34,13 @@
 	    			<h:outputText value="#{talhao.id}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Talhao" sortBy="#{talhao.nome}" style="width: 80px; text-align: left">
+	    		<p:column headerText="Talhão" sortBy="#{talhao.nome}" style="width: 80px; text-align: left">
 	    			<h:outputText value="#{talhao.nome}" />
 	    		</p:column>	
 	    		
-	    		<p:column headerText="Area" style="width: 30px; text-align: center">
-	    			<h:outputText value="#{talhao.area} m²">
+	    		<p:column headerText="Área (m²)" style="width: 30px; text-align: center">
+	    			<h:outputText value="#{talhao.area}">
+	    				<f:convertNumber pattern="#0.00" />
 	    			</h:outputText>
 	    		</p:column>
 	    		

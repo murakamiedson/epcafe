@@ -1,6 +1,5 @@
 package com.cafe.modelo;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
@@ -13,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -36,12 +35,14 @@ public class Talhao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank
 	private Long tenant_id;
 		
 	@NotBlank
 	@Column(nullable = false)
 	private String nome;
-
+	
+	@PositiveOrZero
 	private float area;
 
 	@NotNull
