@@ -6,14 +6,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">Talhão</ui:define>
+    <ui:define name="titulo">Instalação</ui:define>
     
     <ui:define name="corpo">
     	<f:metadata>
-			<o:viewParam name="talhao" value="#{cadastroTalhaoBean.talhao}" />
+			<o:viewParam name="instalacao" value="#{cadastroInstalacaoBean.instalacao}" />
 		</f:metadata>
     
-    	<h2>Cadastro de Talhões</h2>
+    	<h2>Cadastro de Instalações</h2>
     
     	<h:form id="frmCadastro">
     	
@@ -26,11 +26,11 @@
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
 	    			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
-	    				action="#{cadastroTalhaoBean.salvar}" update="frmCadastro"/>
+	    				action="#{cadastroInstalacaoBean.salvar}" update="frmCadastro"/>
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/propriedade/PesquisaTalhao.xhtml"/>
+					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/propriedade/PesquisaInstalacao.xhtml"/>
 				</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
@@ -38,29 +38,38 @@
 	    			columnClasses="rotulo, campo">
 	    		<p:outputLabel value="Id" for="id"/>
 	    		<p:outputLabel id="id" size="20" maxlength="20" 
-	    			value="#{cadastroTalhaoBean.talhao.id}"/>		    		
+	    			value="#{cadastroInstalacaoBean.instalacao.id}"/>		    		
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 
-	    			value="#{cadastroTalhaoBean.talhao.nome}"
+	    			value="#{cadastroInstalacaoBean.instalacao.nome}"
 	    			required="true" 
 			    	validatorMessage="O nome é obrigatório."/>	 	    		
 	    		
-	    		<p:outputLabel value="Área" for="area"/>
-	    		 <p:inputNumber id="area" value="#{cadastroTalhaoBean.talhao.area}" 
-	    		 	symbol=" m²" symbolPosition="s" 
+	    		<p:outputLabel value="Valor" for="valor"/>
+	    		 <p:inputNumber id="valor" value="#{cadastroInstalacaoBean.instalacao.valor}" 
+	    			symbol="R$ " symbolPosition="p" 
                     decimalSeparator="," thousandSeparator="."
                     minValue="0" decimalPlaces="2"
 	    			required="true" 
-			    	validatorMessage="A área é obrigatória.">			    	
+			    	validatorMessage="O valor é obrigatório.">			    	
 			    </p:inputNumber>
+			    
+			    <p:outputLabel value="Vida Útil" for="vidaUtil"/>
+	    		 <p:inputNumber id="vidaUtil" value="#{cadastroInstalacaoBean.instalacao.vidaUtil}"
+	    		 	symbol=" ANOS" symbolPosition="s" 
+	    		 	minValue="0" decimalPlaces="0"  
+	    			required="true" 
+			    	validatorMessage="A vida útil é obrigatória.">			    	
+			    </p:inputNumber>
+			    
 	    		
 	    		<p:outputLabel value="Unidade" for="uni"/>
-	    		<p:selectOneMenu id="uni" value="#{cadastroTalhaoBean.talhao.unidade}"
+	    		<p:selectOneMenu id="uni" value="#{cadastroInstalacaoBean.instalacao.unidade}"
 	    			required="true" 
 			    	validatorMessage="A unidade é obrigatória.">
 	    			<f:selectItem itemLabel="Selecione a unidade" />
-	    			<f:selectItems value="#{cadastroTalhaoBean.unidades}" var="uni"
+	    			<f:selectItems value="#{cadastroInstalacaoBean.unidades}" var="uni"
 						itemLabel="#{uni.nome}" itemValue="#{uni}"/>
 	    		</p:selectOneMenu>
 	    		
