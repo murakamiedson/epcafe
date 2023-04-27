@@ -31,15 +31,17 @@
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
 					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/insumo/PesquisaFabricante.xhtml"/>
+					<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+					<p:commandButton icon="pi pi-chevron-left" value="Cadastro Máquina" id="botaoMaquina" 
+	    				action="/restricted/insumo/CadastroMaquina.xhtml"
+	    				process="@this"/>	
 				</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
 	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
-	    			columnClasses="rotulo, campo">
-	    		<p:outputLabel value="Código" for="codigo"/>
-	    		<p:outputLabel id="codigo" size="20" maxlength="20" 
-	    			value="#{cadastroFabricanteBean.fabricante.id}"/>		    		
-	    		
+	    			columnClasses="rotulo, campo">	    		
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 

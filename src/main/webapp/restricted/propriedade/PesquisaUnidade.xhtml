@@ -10,7 +10,7 @@
     
     <ui:define name="corpo">
    	
-   		<h2>Pesquisa de Propriedades</h2>
+   		<h2>Pesquisa de Unidade</h2>
    		
     	<h:form id="frmPesquisa">
     	
@@ -20,8 +20,20 @@
     		
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
-	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" 
+	    			<p:commandButton icon="pi pi-plus" value="Nova Unidade" id="botaoNovo" 
 	    				action="/restricted/propriedade/CadastroUnidade.xhtml"/>
+    				<span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+					<p:commandButton icon="pi pi-chevron-right" value="Usuários" id="botaoUsuario" 
+	    				action="/restricted/propriedade/PesquisaUsuario.xhtml"
+	    				process="@this"/>
+	    			<span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+					<p:commandButton icon="pi pi-chevron-right" value="Talhões" id="botaoTalhao" 
+	    				action="/restricted/propriedade/PesquisaTalhao.xhtml"
+	    				process="@this"/>	    			
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    		    	
