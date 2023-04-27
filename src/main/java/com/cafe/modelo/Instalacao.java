@@ -40,7 +40,7 @@ public class Instalacao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotBlank
+	@NotNull
 	private Long tenant_id;
 		
 	@NotBlank
