@@ -21,7 +21,7 @@
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
 	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" 
-	    				action="/restricted/insumo/CadastroMaquina.xhtml"/>
+	    				action="/restricted/insumo/CadastroMaquina.xhtml"/>	    				
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    		    	
@@ -34,7 +34,7 @@
 	    			<h:outputText value="#{maquina.id}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Maquina" sortBy="#{maquina.nome}" style="width: 80px; text-align: left">
+	    		<p:column headerText="Máquina" sortBy="#{maquina.nome}" style="width: 80px; text-align: left">
 	    			<h:outputText value="#{maquina.nome}" />
 	    		</p:column>	
 	    		
@@ -48,13 +48,13 @@
 	    			</h:outputText>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Potência" style="width: 15px; text-align: center">
+	    		<p:column headerText="Potência (CV)" style="width: 15px; text-align: center">
 	    			<h:outputText value="#{maquina.potencia}">
 	    				<f:convertNumber pattern="#0.00" />
 	    			</h:outputText>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Vida Útil" style="width: 15px; text-align: center">
+	    		<p:column headerText="Vida Útil (ANOS)" style="width: 15px; text-align: center">
 	    			<h:outputText value="#{maquina.vidaUtil}">
 	    			</h:outputText>
 	    		</p:column>
@@ -72,7 +72,7 @@
 	    		
 	    		<p:column style="width: 25px; text-align: center" headerText="Operações">
 		    		<p:button outcome="CadastroMaquina" icon="pi pi-pencil" title="Editar">
-		    			<f:param name="maquina" value="#{maquina.id}"/>
+		    			<f:param name="máquina" value="#{maquina.id}"/>
 		    		</p:button>
 		    		<p:commandButton icon="pi pi-trash" title="Excluir"		    				
 		    			onclick="PF('confirmacaoExclusao').show();"
@@ -84,7 +84,7 @@
 		   	<p:confirmDialog id="confirmacaoExclusaoDialog" 
 		   			widgetVar="confirmacaoExclusao"
 	        		message="Tem certeza que deseja excluir a maquina #{pesquisaMaquinaBean.maquinaSelecionada.nome}?"  
-	                header="Exclusão de maquina" severity="alert">
+	                header="Exclusão de máquina" severity="alert">
 	        	<p:button icon="pi pi-thumbs-down" value="Não" 
 	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
 	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 

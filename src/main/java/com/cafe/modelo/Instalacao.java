@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,15 +21,20 @@ import org.hibernate.annotations.UpdateTimestamp;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @author isabella
+ *
+ */
+
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Talhao.buscarTalhoes", query="select u from Talhao u where u.tenant_id = :tenantId"),
-	@NamedQuery(name="Talhao.buscarPorUnidade", query="select u from Talhao u where u.unidade = :unidade "
+	@NamedQuery(name="Instalacao.buscarInstalacoes", query="select u from Instalacao u where u.tenant_id = :tenantId"),
+	@NamedQuery(name="Instalacao.buscarPorUnidade", query="select u from Instalacao u where u.unidade = :unidade "
 			+ "and u.tenant_id = :tenantId")
 })
-public class Talhao {
+public class Instalacao {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -43,7 +48,9 @@ public class Talhao {
 	private String nome;
 	
 	@PositiveOrZero
-	private float area;
+	private float valor;
+	@PositiveOrZero
+	private int vidaUtil;
 
 	@NotNull
 	@ManyToOne
