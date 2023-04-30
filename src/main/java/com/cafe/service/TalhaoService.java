@@ -46,6 +46,11 @@ private static final long serialVersionUID = 1L;
 		log.info("Primeiro acesso a banco... buscar talhões");					
 		return this.talhaoDAO.buscarTalhoes(tenantId);
 	}
+	
+	public List<Talhao> buscarTalhoesPorUnidade(Unidade unidade, Long tenantId) {
+					
+		return this.talhaoDAO.buscarTalhoesPorUnidade(unidade, tenantId);
+	}
 
 	/* Unidades */
 	

@@ -74,8 +74,4 @@ public class CadastroInstalacaoBean implements Serializable {
 		this.instalacao = new Instalacao();
 		this.instalacao.setTenant_id(tenantId);
 	}	 
-	
-	public void carregarInstalacoes() {		
-		instalacoes = instalacaoService.buscarInstalacoes(usuarioLogado.getTenantId());	
-	}
 }

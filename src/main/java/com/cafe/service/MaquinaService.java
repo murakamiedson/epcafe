@@ -50,8 +50,8 @@ public class MaquinaService implements Serializable {
 
 	/* Fabricantes */
 	
-	public List<Fabricante> buscarFabricantes(Long tenantId) {		
-		return fabricanteDAO.buscarFabricantes(tenantId);
+	public List<Fabricante> buscarFabricantesDeMaquinas(Long tenantId) {		
+		return fabricanteDAO.buscarFabricantesDeMaquinas(tenantId);
 	}
 	
 	/* testes */

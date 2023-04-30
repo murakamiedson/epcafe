@@ -6,8 +6,11 @@
 	</submenu>
 
 	<submenu label="Propriedade" icon="pi pi-folder-open">
-		<grupo value="GESTORES"></grupo>		
-		<menuitem value="Unidades de Produção" outcome="/restricted/propriedade/PesquisaUnidade.xhtml"></menuitem>		
+		<grupo value="GESTORES"></grupo>
+		<menuitem value="Usuário" outcome="/restricted/propriedade/PesquisaUsuario.xhtml"></menuitem>		
+		<menuitem value="Unidades de Produção" outcome="/restricted/propriedade/PesquisaUnidade.xhtml"></menuitem>
+		<menuitem value="Instalação" outcome="/restricted/propriedade/PesquisaInstalacao.xhtml"></menuitem>
+		<menuitem value="Talhão" outcome="/restricted/propriedade/PesquisaTalhao.xhtml"></menuitem>	
 		<submenu2 label="Relatório">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>
@@ -15,7 +18,8 @@
 	<submenu label="Insumo" icon="pi pi-folder-open">
 		<grupo value="GESTORES"></grupo>		
 		<menuitem value="Máquinas e Implementos" outcome="/restricted/insumo/PesquisaMaquina.xhtml"></menuitem>
-		<menuitem value="Fertilizantes e Defensivos" outcome=""></menuitem>		
+		<menuitem value="Fabricante" outcome="/restricted/insumo/PesquisaFabricante.xhtml"></menuitem>
+		<menuitem value="Fertilizantes e Defensivos" outcome="/restricted/insumo/PesquisaInsumo.xhtml"></menuitem>		
 		<submenu2 label="Relatório">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>

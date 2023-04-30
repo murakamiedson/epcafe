@@ -47,6 +47,11 @@ private static final long serialVersionUID = 1L;
 		log.info("Primeiro acesso a banco... buscar instalacões");					
 		return this.instalacaoDAO.buscarInstalacoes(tenantId);
 	}
+	
+	public List<Instalacao> buscarInstalacoesPorUnidade(Unidade unidade, Long tenantId) {
+		
+		return this.instalacaoDAO.buscarInstalacoesPorUnidade(unidade, tenantId);
+	}
 
 	/* Unidades */
 	

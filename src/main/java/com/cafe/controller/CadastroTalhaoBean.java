@@ -74,8 +74,4 @@ public class CadastroTalhaoBean implements Serializable {
 		this.talhao = new Talhao();
 		this.talhao.setTenant_id(tenantId);
 	}	 
-	
-	public void carregarTalhoes() {		
-		talhoes = talhaoService.buscarTalhoes(usuarioLogado.getTenantId());	
-	}
 }

@@ -42,7 +42,11 @@
 	    		
 	    		<p:column headerText="Fabricante" sortBy="#{fabricante.nome}" style="width: 90px; text-align: left">
 	    			<h:outputText value="#{fabricante.nome}" />
-	    		</p:column>	    		
+	    		</p:column>
+	    		
+	    		<p:column headerText="Tipo" sortBy="#{fabricante.tipoFabricante}" style="width: 80px; text-align: left">
+	    			<h:outputText value="#{fabricante.tipoFabricante}" />
+	    		</p:column>    		
 	    		
 	    		<p:column headerText="Endereço" style="width: 100px; text-align: left">
 	    			<h:outputText value="#{fabricante.endereco.endereco}, #{fabricante.endereco.numero}" />

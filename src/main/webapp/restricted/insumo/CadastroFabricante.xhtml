@@ -47,7 +47,16 @@
 	    		<p:inputText id="nome" size="60" maxlength="80" 
 	    			value="#{cadastroFabricanteBean.fabricante.nome}"
 	    			required="true" 
-			    	validatorMessage="O nome é obrigatório."/>	 	    		
+			    	validatorMessage="O nome é obrigatório."/>
+			    
+			    <p:outputLabel value="Tipo" for="tipo"/>
+	    			<p:selectOneMenu id="tipo" value="#{cadastroFabricanteBean.fabricante.tipoFabricante}"
+	    				required="true" 
+			    		validatorMessage="O tipo é obrigatório.">
+	    				<f:selectItem itemLabel="Selecione o tipo" />
+	    				<f:selectItems value="#{cadastroFabricanteBean.tiposFabricante}" var="tipo" 
+							itemLabel="#{tipo}" itemValue="#{tipo}"/>
+	    			</p:selectOneMenu> 	    		
 			   
 			   <p:outputLabel value="Telefone" for="phone"/>
 	    		<p:inputText id="phone" size="20" maxlength="20"
