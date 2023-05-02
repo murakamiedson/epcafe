@@ -25,8 +25,14 @@
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:commandButton icon="pi pi-chevron-left" value="Cadastro Máquina" id="botaoMaquina" 
+					<p:commandButton icon="pi pi-chevron-left" value="Voltar Máquinas/Implementos" id="botaoMaquina" 
 	    				action="/restricted/insumo/CadastroMaquina.xhtml"
+	    				process="@this"/>
+	    			<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+					<p:commandButton icon="pi pi-chevron-left" value="Voltar Fertilizantes/Defensivos" id="botaoFertil" 
+	    				action="/restricted/insumo/CadastroInsumo.xhtml"
 	    				process="@this"/>	
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
