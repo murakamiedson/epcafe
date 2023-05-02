@@ -8,9 +8,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.cafe.modelo.Talhao;
+import com.cafe.modelo.Instalacao;
 import com.cafe.modelo.Unidade;
-import com.cafe.service.TalhaoService;
+import com.cafe.service.InstalacaoService;
 import com.cafe.service.UnidadeService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
@@ -20,7 +20,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
- * @author joao
+ * @author isabella
  *
  */
 @Log4j
@@ -28,17 +28,17 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Named
 @ViewScoped
-public class CadastroTalhaoBean implements Serializable {
+public class CadastroInstalacaoBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Talhao talhao;	
+	private Instalacao instalacao;	
 	
-	private List<Talhao> talhoes;
+	private List<Instalacao> instalacoes;
 	private List<Unidade> unidades;
 	
 	@Inject
-	private TalhaoService talhaoService;
+	private InstalacaoService instalacaoService;
 	
 	@Inject
 	private UnidadeService unidadeService;	
@@ -61,8 +61,8 @@ public class CadastroTalhaoBean implements Serializable {
 	
 	public void salvar() {
 		try {			
-			this.talhaoService.salvar(talhao);
-			MessageUtil.sucesso("Talhao salvo com sucesso!");
+			this.instalacaoService.salvar(instalacao);
+			MessageUtil.sucesso("Instalacao salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
@@ -71,7 +71,7 @@ public class CadastroTalhaoBean implements Serializable {
 	}
 	
 	public void limpar() {
-		this.talhao = new Talhao();
-		this.talhao.setTenant_id(tenantId);
+		this.instalacao = new Instalacao();
+		this.instalacao.setTenant_id(tenantId);
 	}	 
 }

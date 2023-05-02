@@ -52,7 +52,7 @@ public class CadastroMaquinaBean implements Serializable {
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());		
 		this.limpar();
 		this.tipos = Arrays.asList(Tipo.values());
-		this.fabricantes = maquinaService.buscarFabricantes(tenantId);
+		this.fabricantes = maquinaService.buscarFabricantesDeMaquinas(tenantId);
 	}
 		
 	

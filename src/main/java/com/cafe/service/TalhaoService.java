@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import com.cafe.dao.TalhaoDAO;
 import com.cafe.dao.UnidadeDAO;
@@ -44,26 +43,20 @@ private static final long serialVersionUID = 1L;
 	
 	public List<Talhao> buscarTalhoes(Long tenantId) {
 		
-		log.info("Primeiro acesso a banco... buscar maquinas");					
+		log.info("Primeiro acesso a banco... buscar talhões");					
 		return this.talhaoDAO.buscarTalhoes(tenantId);
 	}
+	
+	public List<Talhao> buscarTalhoesPorUnidade(Unidade unidade, Long tenantId) {
+					
+		return this.talhaoDAO.buscarTalhoesPorUnidade(unidade, tenantId);
+	}
 
-	/* Fabricantes */
+	/* Unidades */
 	
 	public List<Unidade> buscarUnidades(Long tenantId) {		
 		return unidadeDAO.buscarTodos(tenantId);
 	}
-	
-	/* testes */
-	
-	public TalhaoDAO getMaquinaDAO() {
-		return talhaoDAO;
-	}
 
-	public void setManager(EntityManager manager) {
-
-		talhaoDAO = new TalhaoDAO();
-		talhaoDAO.setEntityManager(manager);
-		
-	}
+	
 }

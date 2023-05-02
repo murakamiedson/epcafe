@@ -7,32 +7,30 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import com.cafe.modelo.Fabricante;
+import com.cafe.modelo.Instalacao;
+import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
-import lombok.extern.log4j.Log4j;
-
 /**
- * @author murakamiadmin
+ * @author isabella
  *
  */
-@Log4j
-public class FabricanteDAO implements Serializable {
+
+public class InstalacaoDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private EntityManager manager;	
+	private EntityManager manager;
 	
 	@Transactional
-	public void salvar(Fabricante fabricante) throws NegocioException {
-		log.info("DAO : tenant = " + fabricante.getTenant_id());
+	public void salvar(Instalacao instalacao) throws PersistenceException, NegocioException {
 		try {
-			manager.merge(fabricante);
+			manager.merge(instalacao);	
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw e;
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
@@ -46,10 +44,11 @@ public class FabricanteDAO implements Serializable {
 	}
 	
 	@Transactional
-	public void excluir(Fabricante fabricante) throws NegocioException {
-		fabricante = buscarPeloCodigo(fabricante.getId());
+	public void excluir(Instalacao instalacao) throws NegocioException {
+			
+		instalacao = buscarPeloCodigo(instalacao.getId());
 		try {
-			manager.remove(fabricante);
+			manager.remove(instalacao);
 			manager.flush();
 		} catch (PersistenceException e) {
 			e.printStackTrace();
@@ -66,32 +65,24 @@ public class FabricanteDAO implements Serializable {
 		}
 	}
 	
-	
-	
 	/*
 	 * Buscas
 	 */
 	
-	
-	public Fabricante buscarPeloCodigo(Long codigo) {
-		return manager.find(Fabricante.class, codigo);
-	}
+	public Instalacao buscarPeloCodigo(Long id) {
+		return manager.find(Instalacao.class, id);
+	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<Fabricante> buscarFabricantes(Long tenantId) {
-		return manager.createNamedQuery("Fabricante.buscarFabricantes")
+	public List<Instalacao> buscarInstalacoes(Long tenantId) {
+		return manager.createNamedQuery("Instalacao.buscarInstalacoes")
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
 	
-	public List<Fabricante> buscarFabricantesDeInsumos(Long tenantId) {
-		return manager.createQuery("select u from Fabricante u where u.tenant_id = :tenantId and u.tipoFabricante = 'INSUMO'", Fabricante.class)
-				.setParameter("tenantId", tenantId)
-				.getResultList();
-	}
-	
-	public List<Fabricante> buscarFabricantesDeMaquinas(Long tenantId) {
-		return manager.createQuery("select u from Fabricante u where u.tenant_id = :tenantId and u.tipoFabricante = 'MAQUINA'", Fabricante.class)
+	public List<Instalacao> buscarInstalacoesPorUnidade(Unidade unidade, Long tenantId) {
+		return manager.createNamedQuery("Instalacao.buscarPorUnidade", Instalacao.class)				
+				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
@@ -100,6 +91,4 @@ public class FabricanteDAO implements Serializable {
 	public void setEntityManager(EntityManager manager) {
 		this.manager = manager;
 	}
-
-	
 }

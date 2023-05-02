@@ -22,6 +22,12 @@
 	    		<p:toolbarGroup>
 	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" 
 	    				action="/restricted/insumo/CadastroFabricante.xhtml"/>
+	    			<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+					<p:commandButton icon="pi pi-chevron-left" value="Cadastro Máquina" id="botaoMaquina" 
+	    				action="/restricted/insumo/CadastroMaquina.xhtml"
+	    				process="@this"/>	
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    		    	
@@ -36,7 +42,11 @@
 	    		
 	    		<p:column headerText="Fabricante" sortBy="#{fabricante.nome}" style="width: 90px; text-align: left">
 	    			<h:outputText value="#{fabricante.nome}" />
-	    		</p:column>	    		
+	    		</p:column>
+	    		
+	    		<p:column headerText="Tipo" sortBy="#{fabricante.tipoFabricante}" style="width: 80px; text-align: left">
+	    			<h:outputText value="#{fabricante.tipoFabricante}" />
+	    		</p:column>    		
 	    		
 	    		<p:column headerText="Endereço" style="width: 100px; text-align: left">
 	    			<h:outputText value="#{fabricante.endereco.endereco}, #{fabricante.endereco.numero}" />

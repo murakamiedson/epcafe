@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import com.cafe.modelo.Endereco;
 import com.cafe.modelo.Fabricante;
+import com.cafe.modelo.enums.TipoFabricante;
 import com.cafe.modelo.enums.TipoPropriedade;
 import com.cafe.modelo.enums.Uf;
 import com.cafe.modelo.to.EnderecoTO;
@@ -38,6 +39,8 @@ public class CadastroFabricanteBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Fabricante fabricante;
+	private List<TipoFabricante> tiposFabricante;
+	
 	private List<Uf> ufs;
 	private String cep = null;
 	private EnderecoTO enderecoTO;	
@@ -59,6 +62,8 @@ public class CadastroFabricanteBean implements Serializable {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());		
 		this.limpar();
+		
+		this.tiposFabricante = Arrays.asList(TipoFabricante.values());
 		this.tipos = Arrays.asList(TipoPropriedade.values());
 		this.ufs = Arrays.asList(Uf.values());
 	}

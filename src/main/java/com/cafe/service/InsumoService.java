@@ -54,8 +54,8 @@ public class InsumoService implements Serializable{
 
 	/* Fabricantes */
 	
-	public List<Fabricante> buscarFabricantes(Long tenantId) {	
+	public List<Fabricante> buscarFabricantesDeInsumos(Long tenantId) {	
 		
-		return fabricanteDAO.buscarFabricantes(tenantId);
+		return fabricanteDAO.buscarFabricantesDeInsumos(tenantId);
 	}
 }

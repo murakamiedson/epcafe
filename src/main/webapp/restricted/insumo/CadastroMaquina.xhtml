@@ -6,14 +6,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">Maquina</ui:define>
+    <ui:define name="titulo">Máquina</ui:define>
     
     <ui:define name="corpo">
     	<f:metadata>
 			<o:viewParam name="maquina" value="#{cadastroMaquinaBean.maquina}" />
 		</f:metadata>
     
-    	<h2>Cadastro de Maquinas</h2>
+    	<h2>Cadastro de Máquinas</h2>
     
     	<h:form id="frmCadastro">
     	
@@ -31,15 +31,26 @@
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
 					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/insumo/PesquisaMaquina.xhtml"/>
+					<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+					<p:commandButton icon="pi pi-chevron-right" value="Cadastro Fabricante" id="botaoFabricante" 
+	    				action="/restricted/insumo/CadastroFabricante.xhtml"
+	    				process="@this"/>
 				</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
 	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
 	    			columnClasses="rotulo, campo">
-	    		<p:outputLabel value="Código" for="codigo"/>
-	    		<p:outputLabel id="codigo" size="20" maxlength="20" 
-	    			value="#{cadastroMaquinaBean.maquina.id}"/>		    		
-	    		
+	    			
+	    		<p:outputLabel value="Fabricante" for="fabricante"/>
+	    		<p:selectOneMenu id="fabricante" value="#{cadastroMaquinaBean.maquina.fabricante}"
+	    			required="true" 
+			    	validatorMessage="O fabricante é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o fabricante" />
+	    			<f:selectItems value="#{cadastroMaquinaBean.fabricantes}" var="fab"
+						itemLabel="#{fab.nome}" itemValue="#{fab}"/>
+	    		</p:selectOneMenu>
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 
@@ -86,15 +97,6 @@
 	    			<f:selectItem itemLabel="Selecione o tipo" />
 	    			<f:selectItems value="#{cadastroMaquinaBean.tipos}" var="tipo" 
 						itemLabel="#{tipo}" itemValue="#{tipo}"/>
-	    		</p:selectOneMenu>
-	    		
-	    		<p:outputLabel value="Fabricante" for="fabricante"/>
-	    		<p:selectOneMenu id="fabricante" value="#{cadastroMaquinaBean.maquina.fabricante}"
-	    			required="true" 
-			    	validatorMessage="O fabricante é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o fabricante" />
-	    			<f:selectItems value="#{cadastroMaquinaBean.fabricantes}" var="fab"
-						itemLabel="#{fab.nome}" itemValue="#{fab}"/>
 	    		</p:selectOneMenu>
 	    		
 	    	</p:panelGrid>

@@ -9,8 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.cafe.modelo.Talhao;
-import com.cafe.service.TalhaoService;
+import com.cafe.modelo.Instalacao;
+import com.cafe.service.InstalacaoService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -18,36 +18,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* @joao
+* @author isabella
 *
 */
 @Getter
 @Setter
 @Named
 @ViewScoped
-public class PesquisaTalhaoBean implements Serializable {
+public class PesquisaInstalacaoBean implements Serializable {
 	
 private static final long serialVersionUID = 1L;
 	
-	private List<Talhao> talhoes = new ArrayList<>();
-	private Talhao talhaoSelecionado;
+	private List<Instalacao> instalacoes = new ArrayList<>();
+	private Instalacao instalacaoSelecionado;
 	
 	@Inject
-	TalhaoService talhaoService;
+	InstalacaoService instalacaoService;
 	@Inject
 	private LoginBean loginBean;
 
 		
 	@PostConstruct
 	public void inicializar() {
-		talhoes = talhaoService.buscarTalhoesPorUnidade(loginBean.getUsuario().getUnidade(), loginBean.getTenantId());
+		instalacoes = instalacaoService.buscarInstalacoesPorUnidade(loginBean.getUsuario().getUnidade() ,loginBean.getTenantId());
 	}
 	
 	public void excluir() {
 		try {
-			talhaoService.excluir(talhaoSelecionado);			
-			this.talhoes.remove(talhaoSelecionado);
-			MessageUtil.sucesso("Talhão " + talhaoSelecionado.getNome() + " excluído com sucesso.");
+			instalacaoService.excluir(instalacaoSelecionado);			
+			this.instalacoes.remove(instalacaoSelecionado);
+			MessageUtil.sucesso("Instalação " + instalacaoSelecionado.getNome() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());

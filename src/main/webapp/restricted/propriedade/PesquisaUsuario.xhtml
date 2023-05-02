@@ -20,8 +20,14 @@
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
-					<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo"
+					<p:commandButton icon="pi pi-plus" value="Novo usuário" id="botaoNovo"
 						action="/restricted/propriedade/CadastroUsuario.xhtml" />
+					<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+					<p:commandButton icon="pi pi-chevron-left" value="Voltar" id="botaoVoltar" 
+	    				action="/restricted/propriedade/PesquisaUnidade.xhtml"
+	    				process="@this"/>
 				</p:toolbarGroup>
 			</p:toolbar>
 

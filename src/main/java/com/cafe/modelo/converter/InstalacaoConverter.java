@@ -5,31 +5,31 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.cafe.dao.TalhaoDAO;
-import com.cafe.modelo.Talhao;
+import com.cafe.dao.InstalacaoDAO;
+import com.cafe.modelo.Instalacao;
 import com.cafe.util.cdi.CDIServiceLocator;
 
 
 
 /**
- * @author joao
+ * @author isabella
  *
  */
-@FacesConverter(forClass=Talhao.class)
-public class TalhaoConverter implements Converter<Object> {
+@FacesConverter(forClass=Instalacao.class)
+public class InstalacaoConverter implements Converter<Object> {
 
-	private TalhaoDAO talhaoDAO;
+	private InstalacaoDAO instalacaoDAO;
 	
-	public TalhaoConverter() {
-		this.talhaoDAO = CDIServiceLocator.getBean(TalhaoDAO.class);
+	public InstalacaoConverter() {
+		this.instalacaoDAO = CDIServiceLocator.getBean(InstalacaoDAO.class);
 	}
 	
 	@Override    //converte tipo String para objeto - necessário mapear do modelo relacional para obj
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Talhao retorno = null;
+		Instalacao retorno = null;
 
 		if (value != null && !value.isEmpty()) {
-			retorno = this.talhaoDAO.buscarPeloCodigo(Long.valueOf(value));
+			retorno = this.instalacaoDAO.buscarPeloCodigo(Long.valueOf(value));
 		}
 
 		return retorno;
@@ -38,7 +38,7 @@ public class TalhaoConverter implements Converter<Object> {
 	@Override  //converte de objeto para codigo - necessário mapear do modelo obj para relacional
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Long codigo = ((Talhao) value).getId();
+			Long codigo = ((Instalacao) value).getId();
 			String retorno = (codigo == null ? null : codigo.toString());
 			
 			return retorno;

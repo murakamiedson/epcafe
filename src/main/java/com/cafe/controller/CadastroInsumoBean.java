@@ -62,7 +62,7 @@ public class CadastroInsumoBean implements Serializable {
 		this.tiposInsumo = Arrays.asList(TipoInsumo.values());
 		this.medidas = Arrays.asList(Medida.values());
 		
-		this.fabricantes = insumoService.buscarFabricantes(tenantId);
+		this.fabricantes = insumoService.buscarFabricantesDeInsumos(tenantId);
 	}
 	
 	public void salvar() {
