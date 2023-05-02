@@ -61,7 +61,7 @@ public class UnidadeService implements Serializable {
 		log.info("plano qde unidades = " + qde);
 		if(plano == TipoPlano.FREE) {			
 			if (qde > 1) {
-				throw new NegocioException("A quantidade de unidades do Plano Free é limitado a una unidade. Faça o upgrade para o Plano Profissional.");
+				throw new NegocioException("A quantidade de unidades do Plano Free é limitado a uma unidade. Faça o upgrade para o Plano Profissional.");
 			}
 		} 
 		else {

@@ -54,14 +54,6 @@
 			    	validatorMessage="A área é obrigatória.">			    	
 			    </p:inputNumber>
 	    		
-	    		<p:outputLabel value="Unidade" for="uni"/>
-	    		<p:selectOneMenu id="uni" value="#{cadastroTalhaoBean.talhao.unidade}"
-	    			required="true" 
-			    	validatorMessage="A unidade é obrigatória.">
-	    			<f:selectItem itemLabel="Selecione a unidade" />
-	    			<f:selectItems value="#{cadastroTalhaoBean.unidades}" var="uni"
-						itemLabel="#{uni.nome}" itemValue="#{uni}"/>
-	    		</p:selectOneMenu>
 	    		
 	    	</p:panelGrid>
     	</h:form>

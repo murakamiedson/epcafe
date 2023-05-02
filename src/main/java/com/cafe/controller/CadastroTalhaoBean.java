@@ -52,8 +52,7 @@ public class CadastroTalhaoBean implements Serializable {
 		
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());	
-		
-		this.unidades = unidadeService.buscarUnidades(tenantId);
+		//this.unidades = unidadeService.buscarUnidades(tenantId);
 		
 		this.limpar();
 	}
@@ -72,6 +71,7 @@ public class CadastroTalhaoBean implements Serializable {
 	
 	public void limpar() {
 		this.talhao = new Talhao();
+		this.talhao.setUnidade(usuarioLogado.getUsuario().getUnidade());
 		this.talhao.setTenant_id(tenantId);
 	}	 
 }

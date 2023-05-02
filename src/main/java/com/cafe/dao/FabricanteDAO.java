@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.Fabricante;
+import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -85,14 +86,18 @@ public class FabricanteDAO implements Serializable {
 	}
 	
 	public List<Fabricante> buscarFabricantesDeInsumos(Long tenantId) {
-		return manager.createQuery("select u from Fabricante u where u.tenant_id = :tenantId and u.tipoFabricante = 'INSUMO'", Fabricante.class)
+		return manager.createQuery("select u from Fabricante u where u.tenant_id = :tenantId "
+				+ "and u.tipoFabricante = :insumo", Fabricante.class)
 				.setParameter("tenantId", tenantId)
+				.setParameter("insumo", TipoInsumo.INSUMO)
 				.getResultList();
 	}
 	
 	public List<Fabricante> buscarFabricantesDeMaquinas(Long tenantId) {
-		return manager.createQuery("select u from Fabricante u where u.tenant_id = :tenantId and u.tipoFabricante = 'MAQUINA'", Fabricante.class)
+		return manager.createQuery("select u from Fabricante u where u.tenant_id = :tenantId "
+				+ "and u.tipoFabricante = :insumo", Fabricante.class)
 				.setParameter("tenantId", tenantId)
+				.setParameter("insumo", TipoInsumo.MAQUINA)
 				.getResultList();
 	}
 	

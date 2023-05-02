@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.TipoFabricante;
+import com.cafe.modelo.enums.TipoInsumo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -46,7 +46,7 @@ public class Fabricante {
 	private String nome;
 	
 	@Enumerated(EnumType.STRING)
-	private TipoFabricante tipoFabricante;
+	private TipoInsumo tipoFabricante;
 	
 	@NotNull
 	@OneToOne(cascade=CascadeType.ALL)

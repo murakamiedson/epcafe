@@ -10,7 +10,7 @@
     
     <ui:define name="corpo">
    	
-   		<h2>Pesquisa de Máquinas</h2>
+   		<h2>Máquinas e Implementos</h2>
    		
     	<h:form id="frmPesquisa">
     	
@@ -72,7 +72,7 @@
 	    		
 	    		<p:column style="width: 25px; text-align: center" headerText="Operações">
 		    		<p:button outcome="CadastroMaquina" icon="pi pi-pencil" title="Editar">
-		    			<f:param name="máquina" value="#{maquina.id}"/>
+		    			<f:param name="maquina" value="#{maquina.id}"/>
 		    		</p:button>
 		    		<p:commandButton icon="pi pi-trash" title="Excluir"		    				
 		    			onclick="PF('confirmacaoExclusao').show();"
