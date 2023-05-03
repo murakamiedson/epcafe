@@ -9,8 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.cafe.modelo.Insumo;
-import com.cafe.service.InsumoService;
+import com.cafe.modelo.Fertilizante;
+import com.cafe.service.FertilizanteService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -25,30 +25,30 @@ import lombok.Setter;
 @Setter
 @Named
 @ViewScoped
-public class PesquisaInsumoBean implements Serializable {
+public class PesquisaFertilizanteBean implements Serializable {
 
 private static final long serialVersionUID = 1L;
 	
-	private List<Insumo> insumos = new ArrayList<>();
-	private Insumo insumoSelecionado;
+	private List<Fertilizante> fertilizantes = new ArrayList<>();
+	private Fertilizante insumoSelecionado;
 	
 	@Inject
-	private InsumoService insumoService;
+	private FertilizanteService fertilizanteService;
 	@Inject
 	private LoginBean loginBean;
 	
 	@PostConstruct
 	public void inicializar() {
 		
-		insumos = insumoService.buscarInsumos(loginBean.getTenantId());
+		fertilizantes = fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
 	}
 	
 	public void excluir() {
 		
 		try {
 			
-			this.insumoService.excluir(insumoSelecionado);
-			this.insumos.remove(insumoSelecionado);
+			this.fertilizanteService.excluir(insumoSelecionado);
+			this.fertilizantes.remove(insumoSelecionado);
 			
 			MessageUtil.sucesso("Insumo " + insumoSelecionado.getNome() + " excluído com sucesso.");
 			

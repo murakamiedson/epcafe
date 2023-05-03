@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.Fabricante;
-import com.cafe.modelo.Insumo;
+import com.cafe.modelo.Fertilizante;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -16,7 +16,7 @@ import com.cafe.util.jpa.Transactional;
  * @author joao
  *
  */
-public class InsumoDAO implements Serializable {
+public class FertilizanteDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,9 +24,9 @@ public class InsumoDAO implements Serializable {
 	private EntityManager manager;
 	
 	@Transactional
-	public void salvar(Insumo insumo) throws PersistenceException, NegocioException {
+	public void salvar(Fertilizante fertilizante) throws PersistenceException, NegocioException {
 		try {
-			manager.merge(insumo);	
+			manager.merge(fertilizante);	
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;
@@ -43,10 +43,10 @@ public class InsumoDAO implements Serializable {
 	}
 	
 	@Transactional
-	public void excluir(Insumo insumo) throws NegocioException {
+	public void excluir(Fertilizante fertilizante) throws NegocioException {
 			
 		try {
-			manager.remove(insumo);
+			manager.remove(fertilizante);
 			manager.flush();
 		} catch (PersistenceException e) {			
 			e.printStackTrace();
@@ -67,19 +67,19 @@ public class InsumoDAO implements Serializable {
 	 * Buscas
 	 */
 	
-	public Insumo buscarPeloCodigo(Long id) {
-		return manager.find(Insumo.class, id);
+	public Fertilizante buscarPeloCodigo(Long id) {
+		return manager.find(Fertilizante.class, id);
 	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<Insumo> buscarInsumos(Long tenantId) {
-		return manager.createNamedQuery("Insumo.buscarInsumos")
+	public List<Fertilizante> buscarFertilizantes(Long tenantId) {
+		return manager.createNamedQuery("Fertilizante.buscarFertilizantes")
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
 	
-	public List<Insumo> buscarInsumosPorFabricante(Fabricante fabricante, Long tenantId) {
-		return manager.createNamedQuery("Insumo.buscarPorFabricante", Insumo.class)				
+	public List<Fertilizante> buscarFertilizantesPorFabricante(Fabricante fabricante, Long tenantId) {
+		return manager.createNamedQuery("Fertilizante.buscarPorFabricante", Fertilizante.class)				
 				.setParameter("fabricante", fabricante)
 				.setParameter("tenantId", tenantId)
 				.getResultList();

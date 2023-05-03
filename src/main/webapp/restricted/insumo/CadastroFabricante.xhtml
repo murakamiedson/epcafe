@@ -30,13 +30,8 @@
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/insumo/PesquisaFabricante.xhtml"/>
-					<span class="ui-separator">
-			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-			        </span>
-					<p:commandButton icon="pi pi-chevron-left" value="Cadastro Máquina" id="botaoMaquina" 
-	    				action="/restricted/insumo/CadastroMaquina.xhtml"
-	    				process="@this"/>	
+					<p:button icon="pi pi-chevron-left" value="Voltar" outcome="/restricted/insumo/PesquisaFabricante.xhtml"/>
+					
 				</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
@@ -49,7 +44,7 @@
 	    			required="true" 
 			    	validatorMessage="O nome é obrigatório."/>
 			    
-			    <p:outputLabel value="Tipo" for="tipo"/>
+			    <p:outputLabel value="Tipo Insumo" for="tipo"/>
 	    			<p:selectOneMenu id="tipo" value="#{cadastroFabricanteBean.fabricante.tipoFabricante}"
 	    				required="true" 
 			    		validatorMessage="O tipo é obrigatório.">

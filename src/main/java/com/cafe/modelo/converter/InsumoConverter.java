@@ -5,32 +5,32 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.cafe.dao.InsumoDAO;
-import com.cafe.modelo.Insumo;
+import com.cafe.dao.FertilizanteDAO;
+import com.cafe.modelo.Fertilizante;
 import com.cafe.util.cdi.CDIServiceLocator;
 
 /**
  * @author joao
  *
  */
-@FacesConverter(forClass = Insumo.class)
+@FacesConverter(forClass = Fertilizante.class)
 public class InsumoConverter implements Converter<Object> {
 	
-private InsumoDAO insumoDAO;
+private FertilizanteDAO fertilizanteDAO;
 	
 	public InsumoConverter() {
 		
-		this.insumoDAO = CDIServiceLocator.getBean(InsumoDAO.class);
+		this.fertilizanteDAO = CDIServiceLocator.getBean(FertilizanteDAO.class);
 	}
 	
 	@Override    //converte tipo String para objeto - necessário mapear do modelo relacional para obj
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		
-		Insumo retorno = null;
+		Fertilizante retorno = null;
 
 		if (value != null && !value.isEmpty()) {
 			
-			retorno = this.insumoDAO.buscarPeloCodigo(Long.valueOf(value));
+			retorno = this.fertilizanteDAO.buscarPeloCodigo(Long.valueOf(value));
 		}
 
 		return retorno;
@@ -40,7 +40,7 @@ private InsumoDAO insumoDAO;
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		
 		if (value != null) {
-			Long codigo = ((Insumo) value).getId();
+			Long codigo = ((Fertilizante) value).getId();
 			String retorno = (codigo == null ? null : codigo.toString());
 			
 			return retorno;

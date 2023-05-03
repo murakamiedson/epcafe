@@ -15,7 +15,7 @@
 	<submenu label="Insumo" icon="pi pi-folder-open">
 		<grupo value="GESTORES"></grupo>		
 		<menuitem value="Máquinas e Implementos" outcome="/restricted/insumo/PesquisaMaquina.xhtml"></menuitem>
-		<menuitem value="Fertilizantes e Defensivos" outcome="/restricted/insumo/PesquisaInsumo.xhtml"></menuitem>		
+		<menuitem value="Fertilizantes e Defensivos" outcome="/restricted/insumo/PesquisaFertilizante.xhtml"></menuitem>		
 		<submenu2 label="Relatório">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>

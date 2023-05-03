@@ -63,7 +63,7 @@ public class CadastroFabricanteBean implements Serializable {
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());		
 		this.limpar();
 		
-		this.tiposFabricante = Arrays.asList(TipoInsumo.INSUMO, TipoInsumo.MAQUINA);
+		this.tiposFabricante = Arrays.asList(TipoInsumo.IMPLEMENTO, TipoInsumo.MAQUINA);
 		this.tipos = Arrays.asList(TipoPropriedade.values());
 		this.ufs = Arrays.asList(Uf.values());
 	}

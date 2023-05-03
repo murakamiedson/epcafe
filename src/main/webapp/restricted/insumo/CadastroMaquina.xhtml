@@ -30,7 +30,7 @@
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/insumo/PesquisaMaquina.xhtml"/>
+					<p:button icon="pi pi-chevron-left" value="Voltar" outcome="/restricted/insumo/PesquisaMaquina.xhtml"/>
 					<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
@@ -50,6 +50,16 @@
 	    			<f:selectItem itemLabel="Selecione o fabricante" />
 	    			<f:selectItems value="#{cadastroMaquinaBean.fabricantes}" var="fab"
 						itemLabel="#{fab.nome}" itemValue="#{fab}"/>
+	    		</p:selectOneMenu>
+	    		
+	    		
+	    		<p:outputLabel value="Tipo" for="tipo"/>
+	    		<p:selectOneMenu id="tipo" value="#{cadastroMaquinaBean.maquina.tipo}"
+	    			required="true" 
+			    	validatorMessage="O tipo é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o tipo" />
+	    			<f:selectItems value="#{cadastroMaquinaBean.tipos}" var="tipo" 
+						itemLabel="#{tipo}" itemValue="#{tipo}"/>
 	    		</p:selectOneMenu>
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
@@ -88,16 +98,7 @@
 	    		 	minValue="0" decimalPlaces="0" 
 	    			required="true" 
 			    	validatorMessage="A vida útil é obrigatória.">			    	
-			    </p:inputNumber>	
-	    		
-	    		<p:outputLabel value="Tipo" for="tipo"/>
-	    		<p:selectOneMenu id="tipo" value="#{cadastroMaquinaBean.maquina.tipo}"
-	    			required="true" 
-			    	validatorMessage="O tipo é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o tipo" />
-	    			<f:selectItems value="#{cadastroMaquinaBean.tipos}" var="tipo" 
-						itemLabel="#{tipo}" itemValue="#{tipo}"/>
-	    		</p:selectOneMenu>
+			    </p:inputNumber>		    		
 	    		
 	    	</p:panelGrid>
     	</h:form>

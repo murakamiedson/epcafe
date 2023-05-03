@@ -21,7 +21,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cafe.modelo.enums.Medida;
-import com.cafe.modelo.enums.TipoInsumo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,11 +29,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Insumo.buscarInsumos", query="select u from Insumo u where u.tenant_id = :tenantId"),
-	@NamedQuery(name="Insumo.buscarPorFabricante", query="select u from Insumo u where u.fabricante = :fabricante "
+	@NamedQuery(name="Fertilizante.buscarFertilizantes", query="select u from Fertilizante u where u.tenant_id = :tenantId"),
+	@NamedQuery(name="Fertilizante.buscarPorFabricante", query="select u from Fertilizante u where u.fabricante = :fabricante "
 			+ "and u.tenant_id = :tenantId")
 })
-public class Insumo {
+public class Fertilizante {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -50,10 +49,7 @@ public class Insumo {
 	@NotNull
 	@PositiveOrZero
 	private float valor;
-	
-	@Enumerated(EnumType.STRING)
-	private TipoInsumo tipoInsumo;
-	
+		
 	@Enumerated(EnumType.STRING)
 	private Medida medida;
 	

@@ -25,14 +25,14 @@
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:commandButton icon="pi pi-chevron-left" value="Voltar Máquinas/Implementos" id="botaoMaquina" 
-	    				action="/restricted/insumo/CadastroMaquina.xhtml"
+					<p:commandButton icon="pi pi-chevron-left" value="Voltar para Máquinas/Implementos" id="botaoMaquina" 
+	    				action="/restricted/insumo/PesquisaMaquina.xhtml"
 	    				process="@this"/>
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:commandButton icon="pi pi-chevron-left" value="Voltar Fertilizantes/Defensivos" id="botaoFertil" 
-	    				action="/restricted/insumo/CadastroInsumo.xhtml"
+					<p:commandButton icon="pi pi-chevron-left" value="Voltar para Fertilizantes/Defensivos" id="botaoFertil" 
+	    				action="/restricted/insumo/PesquisaFertilizante.xhtml"
 	    				process="@this"/>	
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
@@ -50,7 +50,7 @@
 	    			<h:outputText value="#{fabricante.nome}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Tipo" sortBy="#{fabricante.tipoFabricante}" style="width: 80px; text-align: left">
+	    		<p:column headerText="Tipo insumo" sortBy="#{fabricante.tipoFabricante}" style="width: 80px; text-align: left">
 	    			<h:outputText value="#{fabricante.tipoFabricante}" />
 	    		</p:column>    		
 	    		

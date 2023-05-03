@@ -11,10 +11,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.cafe.modelo.Fabricante;
-import com.cafe.modelo.Insumo;
+import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.enums.Medida;
 import com.cafe.modelo.enums.TipoInsumo;
-import com.cafe.service.InsumoService;
+import com.cafe.service.FertilizanteService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -31,22 +31,22 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Named
 @ViewScoped
-public class CadastroInsumoBean implements Serializable {
+public class CadastroFertilizanteBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Insumo insumo;
+	private Fertilizante fertilizante;
 	
 	private List<TipoInsumo> tiposInsumo;
 	private List<Medida> medidas;
 	
-	private List<Insumo> insumos = new ArrayList<>();
+	private List<Fertilizante> fertilizantes = new ArrayList<>();
 	private List<Fabricante> fabricantes = new ArrayList<>();
 	
 	private Long tenantId;
 	
 	@Inject
-	private InsumoService insumoService;
+	private FertilizanteService fertilizanteService;
 	
 	@Inject
 	private LoginBean usuarioLogado;
@@ -62,14 +62,14 @@ public class CadastroInsumoBean implements Serializable {
 		this.tiposInsumo = Arrays.asList(TipoInsumo.DEFENSIVO, TipoInsumo.FERTILIZANTE);
 		this.medidas = Arrays.asList(Medida.values());
 		
-		this.fabricantes = insumoService.buscarFabricantesDeInsumos(tenantId);
+		this.fabricantes = fertilizanteService.buscarFabricantesDeFertilizantes(tenantId);
 	}
 	
 	public void salvar() {
 		
 		try {		
 			
-			this.insumoService.salvar(insumo);
+			this.fertilizanteService.salvar(fertilizante);
 			MessageUtil.sucesso("Insumo salvo com sucesso!");
 			
 		} catch (NegocioException e) {
@@ -83,12 +83,12 @@ public class CadastroInsumoBean implements Serializable {
 	
 	public void limpar() {
 		
-		this.insumo = new Insumo();
-		this.insumo.setTenant_id(this.tenantId);
+		this.fertilizante = new Fertilizante();
+		this.fertilizante.setTenant_id(this.tenantId);
 	}	 
 	
 	public void carregarInsumos() {
 		
-		insumos = insumoService.buscarInsumos(usuarioLogado.getTenantId());	
+		fertilizantes = fertilizanteService.buscarFertilizantes(usuarioLogado.getTenantId());	
 	}
 }

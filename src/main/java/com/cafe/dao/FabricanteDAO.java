@@ -85,19 +85,21 @@ public class FabricanteDAO implements Serializable {
 				.getResultList();
 	}
 	
-	public List<Fabricante> buscarFabricantesDeInsumos(Long tenantId) {
+	public List<Fabricante> buscarFabricantesDeFertilizantes(Long tenantId) {
 		return manager.createQuery("select u from Fabricante u where u.tenant_id = :tenantId "
-				+ "and u.tipoFabricante = :insumo", Fabricante.class)
+				+ "and (u.tipoFabricante = :fert or u.tipoFabricante = :def) ", Fabricante.class)
 				.setParameter("tenantId", tenantId)
-				.setParameter("insumo", TipoInsumo.INSUMO)
+				.setParameter("fert", TipoInsumo.FERTILIZANTE)
+				.setParameter("def", TipoInsumo.DEFENSIVO)
 				.getResultList();
 	}
 	
 	public List<Fabricante> buscarFabricantesDeMaquinas(Long tenantId) {
 		return manager.createQuery("select u from Fabricante u where u.tenant_id = :tenantId "
-				+ "and u.tipoFabricante = :insumo", Fabricante.class)
+				+ "and (u.tipoFabricante = :maq or u.tipoFabricante = :imp)", Fabricante.class)
 				.setParameter("tenantId", tenantId)
-				.setParameter("insumo", TipoInsumo.MAQUINA)
+				.setParameter("maq", TipoInsumo.MAQUINA)
+				.setParameter("imp", TipoInsumo.IMPLEMENTO)
 				.getResultList();
 	}
 	
