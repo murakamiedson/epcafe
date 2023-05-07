@@ -6,9 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.cafe.dao.FabricanteDAO;
 import com.cafe.dao.MaquinaDAO;
-import com.cafe.modelo.Fabricante;
 import com.cafe.modelo.Maquina;
 import com.cafe.util.NegocioException;
 
@@ -25,8 +23,6 @@ public class MaquinaService implements Serializable {
 	
 	@Inject
 	private MaquinaDAO maquinaDAO;
-	@Inject
-	private FabricanteDAO fabricanteDAO;
 
 	public void salvar(Maquina maquina) throws NegocioException {
 		
@@ -48,11 +44,6 @@ public class MaquinaService implements Serializable {
 		return maquinaDAO.buscarMaquinas(tenantId);
 	}
 
-	/* Fabricantes */
-	
-	public List<Fabricante> buscarFabricantesDeMaquinas(Long tenantId) {		
-		return fabricanteDAO.buscarFabricantesDeMaquinas(tenantId);
-	}
 	
 	/* testes */
 	

@@ -10,7 +10,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.cafe.modelo.Fabricante;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.enums.Medida;
 import com.cafe.modelo.enums.TipoInsumo;
@@ -41,7 +40,6 @@ public class CadastroFertilizanteBean implements Serializable {
 	private List<Medida> medidas;
 	
 	private List<Fertilizante> fertilizantes = new ArrayList<>();
-	private List<Fabricante> fabricantes = new ArrayList<>();
 	
 	private Long tenantId;
 	
@@ -59,10 +57,10 @@ public class CadastroFertilizanteBean implements Serializable {
 		
 		this.limpar();
 		
-		this.tiposInsumo = Arrays.asList(TipoInsumo.DEFENSIVO, TipoInsumo.FERTILIZANTE);
+		//this.tiposInsumo = Arrays.asList(TipoInsumo.DEFENSIVO, TipoInsumo.FERTILIZANTE);
 		this.medidas = Arrays.asList(Medida.values());
+		this.tiposInsumo = Arrays.asList(TipoInsumo.values());
 		
-		this.fabricantes = fertilizanteService.buscarFabricantesDeFertilizantes(tenantId);
 	}
 	
 	public void salvar() {
@@ -70,7 +68,7 @@ public class CadastroFertilizanteBean implements Serializable {
 		try {		
 			
 			this.fertilizanteService.salvar(fertilizante);
-			MessageUtil.sucesso("Insumo salvo com sucesso!");
+			MessageUtil.sucesso("Fertilizante salvo com sucesso!");
 			
 		} catch (NegocioException e) {
 			

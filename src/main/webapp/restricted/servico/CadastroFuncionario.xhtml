@@ -6,14 +6,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">Insumo</ui:define>
+    <ui:define name="titulo">Funcionário</ui:define>
     
     <ui:define name="corpo">
     	<f:metadata>
-			<o:viewParam name="fertilizante" value="#{cadastroFertilizanteBean.fertilizante}" />
+			<o:viewParam name="funcionario" value="#{cadastroFuncionarioBean.funcionario}" />
 		</f:metadata>
     
-    	<h2>Fertilizantes e Defensivos</h2>
+    	<h2>Funcionário</h2>
     
     	<h:form id="frmCadastro">
     	
@@ -26,12 +26,12 @@
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
 	    			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
-	    				action="#{cadastroFertilizanteBean.salvar}" update="frmCadastro"/>
+	    				action="#{cadastroFuncionarioBean.salvar}" update="frmCadastro"/>
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
 					<p:button icon="pi pi-chevron-left" value="Voltar" 
-						outcome="/restricted/insumo/PesquisaFertilizante.xhtml"/>
+						outcome="/restricted/servico/PesquisaFuncionario.xhtml"/>
 					<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
@@ -44,35 +44,17 @@
 	    			
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    			<p:inputText id="nome" size="60" maxlength="80" 
-	    				value="#{cadastroFertilizanteBean.fertilizante.nome}"
+	    				value="#{cadastroFuncionarioBean.funcionario.nome}"
 	 					required="true" 
-			    		validatorMessage="O nome é obrigatório."/>			    		
+			    		validatorMessage="O nome é obrigatório."/>			    			    			
 	    			
-	    		<p:outputLabel value="Tipo Insumo" for="tipoInsumo"/>
-	    		<p:selectOneMenu id="tipoInsumo" value="#{cadastroFertilizanteBean.fertilizante.tipoInsumo}"
-	    			required="true" 
-			    	validatorMessage="O tipo de fertilizante é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o tipo" />
-	    			<f:selectItems value="#{cadastroFertilizanteBean.tiposInsumo}" var="tipoInsumo" 
-						itemLabel="#{tipo}" itemValue="#{tipoInsumo}"/>
-	    		</p:selectOneMenu>
-	    		
-	    		<p:outputLabel value="Medida" for="medida"/>
-	    			<p:selectOneMenu id="medida" value="#{cadastroFertilizanteBean.fertilizante.medida}"
-	    				required="true" 
-			    		validatorMessage="A medida é obrigatória.">
-	    				<f:selectItem itemLabel="Selecione a medida" />
-	    				<f:selectItems value="#{cadastroFertilizanteBean.medidas}" var="medida" 
-							itemLabel="#{medida}" itemValue="#{medida}"/>
-	    			</p:selectOneMenu>
-	    			
-	    		<p:outputLabel value="Valor" for="valor"/>
-	    			<p:inputNumber id="valor" value="#{cadastroFertilizanteBean.fertilizante.valor}" 
+	    		<p:outputLabel value="Salário" for="salario"/>
+	    			<p:inputNumber id="salario" value="#{cadastroFuncionarioBean.funcionario.salario}" 
 	    				symbol="R$ " symbolPosition="p" 
                     	decimalSeparator="," thousandSeparator="."
                     	minValue="0" decimalPlaces="2" 
 	    				required="true" 
-			    		validatorMessage="O valor é obrigatório.">			    	
+			    		validatorMessage="O salário é obrigatório.">			    	
 			    	</p:inputNumber>	
 	    		
 	    	</p:panelGrid>

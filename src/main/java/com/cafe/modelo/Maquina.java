@@ -1,6 +1,7 @@
 package com.cafe.modelo;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
@@ -10,8 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
@@ -22,6 +21,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cafe.modelo.enums.Tipo;
+import com.cafe.modelo.enums.TipoMaquina;
+
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,8 +32,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Maquina.buscarMaquinas", query="select u from Maquina u where u.tenant_id = :tenantId"),
-	@NamedQuery(name="Maquina.buscarPorFabricante", query="select u from Maquina u where u.fabricante = :fabricante "
-			+ "and u.tenant_id = :tenantId")
 })
 public class Maquina {
 
@@ -59,14 +58,14 @@ public class Maquina {
 	@PositiveOrZero
 	private Integer vidaUtil;
 	
+	@NotNull
+	private LocalDate dataCompra;
+	
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
-
-	@NotNull
-	@ManyToOne
-	@JoinColumn(nullable = false, name="codigo_fabricante")
-	private Fabricante fabricante;
-
+	
+	@Enumerated(EnumType.STRING)
+	private TipoMaquina tipoMaquina;
 
 	/*
 	 * Datas de Criação e Modificação

@@ -6,13 +6,13 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">Insumo</ui:define>
+    <ui:define name="titulo">Funcionário</ui:define>
     
     <ui:define name="corpo">
 
-   		<h2>Fertilizantes e Defensivos</h2>
+   		<h2>Funcionários</h2>
    		
-    	<h:form id="frmPesquisa">
+    	 <h:form id="frmPesquisa">
     	
     		<p:messages id="messages" showDetail="false" closable="true">
         		<p:autoUpdate />
@@ -21,63 +21,56 @@
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
 	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" 
-	    				action="/restricted/insumo/CadastroFertilizante.xhtml"/>
+	    				action="/restricted/servico/CadastroFuncionario.xhtml"/>
 	    			
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    		    	
-	    	<p:dataTable id="insumosTable" value="#{pesquisaFertilizanteBean.fertilizantes}" var="insumo"
-		    	style="margin-top: 20px" emptyMessage="Nenhum insumo encontrado." rows="10"
+	    	<p:dataTable id="funcionariosTable" value="#{pesquisaFuncionarioBean.funcionarios}" var="funcionario"
+		    	style="margin-top: 20px" emptyMessage="Nenhum funcionario encontrado." rows="10"
 		    	paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
 		   		rowsPerPageTemplate="5,10,15">
 		    		
 	    		<p:column headerText="Código" style="width: 10px; text-align: center">
-	    			<h:outputText value="#{insumo.id}" />
+	    			<h:outputText value="#{funcionario.id}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Insumo" sortBy="#{insumo.nome}" style="width: 80px; text-align: left">
-	    			<h:outputText value="#{insumo.nome}" />
+	    		<p:column headerText="Funcionário" sortBy="#{funcionario.nome}" style="width: 80px; text-align: left">
+	    			<h:outputText value="#{funcionario.nome}" />
 	    		</p:column>	    		
 	    		
-	    		<p:column headerText="Tipo" sortBy="#{insumo.tipoInsumo}" style="width: 80px; text-align: left">
-	    			<h:outputText value="#{insumo.tipoInsumo}" />
-	    		</p:column>
-	    		
-	    		<p:column headerText="Valor" style="width: 30px; text-align: center">
-	    			<h:outputText value="#{insumo.valor}">
+	    		<p:column headerText="Salário" style="width: 30px; text-align: center">
+	    			<h:outputText value="#{funcionario.salario}">
 	    				<f:convertNumber type="currency" />
 	    			</h:outputText>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Medida" sortBy="#{insumo.medida}" style="width: 80px; text-align: left">
-	    			<h:outputText value="#{insumo.medida}" />
-	    		</p:column>
 
 	    		<p:column style="width: 25px; text-align: center" headerText="Operações">
 	    		
-		    		<p:button outcome="CadastroFertilizante" icon="pi pi-pencil" title="Editar">
-		    			<f:param name="fertilizante" value="#{insumo.id}"/>
+		    		<p:button outcome="CadastroFuncionario" icon="pi pi-pencil" title="Editar">
+		    			<f:param name="funcionario" value="#{funcionario.id}"/>
 		    		</p:button>
 		    		
 		    		<p:commandButton icon="pi pi-trash" title="Excluir"		    				
 		    			onclick="PF('confirmacaoExclusao').show();"
 						process="@this">
-						<f:setPropertyActionListener target="#{pesquisaFertilizanteBean.insumoSelecionado}" value="#{insumo}" />
+						<f:setPropertyActionListener target="#{pesquisaFuncionarioBean.funcionarioSelecionado}" value="#{funcionario}" />
 					</p:commandButton>
 		    	</p:column>
 		   	</p:dataTable>
 		   	
 		   	<p:confirmDialog id="confirmacaoExclusaoDialog" 
 		   		widgetVar="confirmacaoExclusao"
-	        	message="Tem certeza que deseja excluir o insumo #{pesquisaFertilizanteBean.insumoSelecionado.nome}?"  
-	               header="Exclusão de insumo" severity="alert">
+	        	message="Tem certeza que deseja excluir o funcionário #{pesquisaFuncionarioBean.funcionarioSelecionado.nome}?"  
+	               header="Exclusão de funcionário" severity="alert">
 	               
 	        	<p:button icon="pi pi-thumbs-down" value="Não" 
 	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
 	        		
 	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
-	        		update=":frmPesquisa:insumosTable"
-	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaFertilizanteBean.excluir}" />
+	        		update=":frmPesquisa:funcionariosTable"
+	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaFuncionarioBean.excluir}" />
 	    	</p:confirmDialog>
     	</h:form>
     </ui:define>

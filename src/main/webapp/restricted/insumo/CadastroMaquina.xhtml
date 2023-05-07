@@ -34,24 +34,11 @@
 					<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:commandButton icon="pi pi-chevron-right" value="Cadastro Fabricante" id="botaoFabricante" 
-	    				action="/restricted/insumo/CadastroFabricante.xhtml"
-	    				process="@this"/>
 				</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
 	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
 	    			columnClasses="rotulo, campo">
-	    			
-	    		<p:outputLabel value="Fabricante" for="fabricante"/>
-	    		<p:selectOneMenu id="fabricante" value="#{cadastroMaquinaBean.maquina.fabricante}"
-	    			required="true" 
-			    	validatorMessage="O fabricante é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o fabricante" />
-	    			<f:selectItems value="#{cadastroMaquinaBean.fabricantes}" var="fab"
-						itemLabel="#{fab.nome}" itemValue="#{fab}"/>
-	    		</p:selectOneMenu>
-	    		
 	    		
 	    		<p:outputLabel value="Tipo" for="tipo"/>
 	    		<p:selectOneMenu id="tipo" value="#{cadastroMaquinaBean.maquina.tipo}"
@@ -60,6 +47,15 @@
 	    			<f:selectItem itemLabel="Selecione o tipo" />
 	    			<f:selectItems value="#{cadastroMaquinaBean.tipos}" var="tipo" 
 						itemLabel="#{tipo}" itemValue="#{tipo}"/>
+	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Tipo Maquina" for="tipoMaquina"/>
+	    		<p:selectOneMenu id="tipoMaquina" value="#{cadastroMaquinaBean.maquina.tipoMaquina}"
+	    			required="true" 
+			    	validatorMessage="O tipo de máquina é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o tipo" />
+	    			<f:selectItems value="#{cadastroMaquinaBean.tiposMaquina}" var="tipoMaquina" 
+						itemLabel="#{tipoMaquina}" itemValue="#{tipoMaquina}"/>
 	    		</p:selectOneMenu>
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
@@ -92,6 +88,15 @@
 			    	validatorMessage="A potência é obrigatória.">			    	
 			    </p:inputNumber>			    			    	
 			    
+			    <p:outputLabel value="Data de Compra" for="compra"/>
+	    		 <p:datePicker id="compra" value="#{cadastroMaquinaBean.maquina.dataCompra}"
+	    			required="true"
+	    			pattern="dd/MM/yyyy"
+	    			type="localDate"
+	    			locale="pt_BR"
+			    	validatorMessage="A data de compra é obrigatória.">			    	
+			    </p:datePicker>
+
 	    		<p:outputLabel value="Vida Útil" for="vida"/>
 	    		 <p:inputNumber id="vida" value="#{cadastroMaquinaBean.maquina.vidaUtil}"
 	    		 	symbol=" ANOS" symbolPosition="s" 
