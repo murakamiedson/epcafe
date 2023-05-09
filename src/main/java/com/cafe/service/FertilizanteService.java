@@ -5,9 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.cafe.dao.FabricanteDAO;
 import com.cafe.dao.FertilizanteDAO;
-import com.cafe.modelo.Fabricante;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.util.NegocioException;
 
@@ -25,8 +23,6 @@ public class FertilizanteService implements Serializable{
 	@Inject
 	private FertilizanteDAO fertilizanteDAO;
 	
-	@Inject
-	private FabricanteDAO fabricanteDAO;
 	
 	public void salvar(Fertilizante fertilizante) throws NegocioException {
 		
@@ -47,15 +43,9 @@ public class FertilizanteService implements Serializable{
 	
 	public List<Fertilizante> buscarFertilizantes(Long tenantId) {
 		
-		log.info("Primeiro acesso a banco... buscar insumos");	
+		log.info("Primeiro acesso a banco... buscar fertilizantes");	
 		
 		return fertilizanteDAO.buscarFertilizantes(tenantId);
 	}
 
-	/* Fabricantes */
-	
-	public List<Fabricante> buscarFabricantesDeFertilizantes(Long tenantId) {	
-		
-		return fabricanteDAO.buscarFabricantesDeFertilizantes(tenantId);
-	}
 }

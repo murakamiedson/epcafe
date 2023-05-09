@@ -7,9 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import com.cafe.modelo.Fabricante;
 import com.cafe.modelo.Maquina;
-import com.cafe.modelo.enums.Status;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -48,7 +46,8 @@ public class MaquinaDAO implements Serializable {
 	public void excluir(Maquina maquina) throws NegocioException {
 			
 		try {
-			manager.remove(maquina);
+			Maquina m = this.buscarPeloCodigo(maquina.getId());
+			manager.remove(m);
 			manager.flush();
 		} catch (PersistenceException e) {			
 			e.printStackTrace();
@@ -81,14 +80,7 @@ public class MaquinaDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
-	
-	public List<Maquina> buscarMaquinasPorFabricante(Fabricante fabricante, Long tenantId) {
-		return manager.createNamedQuery("Maquina.buscarPorFabricante", Maquina.class)				
-				.setParameter("fabricante", fabricante)
-				.setParameter("tenantId", tenantId)
-				.setParameter("status", Status.ATIVO)
-				.getResultList();
-	}
+
 	
 	
 	

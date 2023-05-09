@@ -1,43 +1,42 @@
 package com.cafe.modelo;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.TipoInsumo;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+/**
+ * @author isabella
+ *
+ */
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Fabricante.buscarFabricantes", query="select u from Fabricante u where u.tenant_id = :tenantId"),	
+	@NamedQuery(name="Funcionario.buscarFuncionarios", query="select u from Funcionario u where u.tenant_id = :tenantId"),
 })
-public class Fabricante {
-
-
+public class Funcionario {
+	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	
 	private Long tenant_id;
 	
@@ -45,15 +44,11 @@ public class Fabricante {
 	@Column(nullable = false)
 	private String nome;
 	
-	@Enumerated(EnumType.STRING)
-	private TipoInsumo tipoFabricante;
+	@PositiveOrZero
+	private BigDecimal salario;
 	
-	@NotNull
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="codigo_endereco")
-	private Endereco endereco;
+	//certificações e diplomas
 	
-
 	/*
 	 * Datas de Criação e Modificação
 	 */
@@ -65,4 +60,5 @@ public class Fabricante {
 	@UpdateTimestamp
 	@Column(columnDefinition = "datetime")
 	private OffsetDateTime dataModificacao;
+
 }

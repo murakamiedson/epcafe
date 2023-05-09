@@ -4,6 +4,5 @@ public enum TipoInsumo {
 	
 	FERTILIZANTE,
 	DEFENSIVO,
-	MAQUINA,
-	IMPLEMENTO
+
 }

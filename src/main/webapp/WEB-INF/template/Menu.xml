@@ -23,7 +23,7 @@
 	<submenu label="Serviço" icon="pi pi-folder-open">
 		<grupo value="GESTORES"></grupo>		
 		<menuitem value="Serviço" outcome=""></menuitem>
-		<menuitem value="Colaborador" outcome=""></menuitem>
+		<menuitem value="Colaborador" outcome="/restricted/servico/PesquisaFuncionario.xhtml"></menuitem>
 		<submenu2 label="Relatório">
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>

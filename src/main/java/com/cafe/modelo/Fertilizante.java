@@ -9,8 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
@@ -21,6 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cafe.modelo.enums.Medida;
+import com.cafe.modelo.enums.TipoInsumo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,8 +29,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Fertilizante.buscarFertilizantes", query="select u from Fertilizante u where u.tenant_id = :tenantId"),
-	@NamedQuery(name="Fertilizante.buscarPorFabricante", query="select u from Fertilizante u where u.fabricante = :fabricante "
-			+ "and u.tenant_id = :tenantId")
+	
 })
 public class Fertilizante {
 
@@ -53,10 +51,8 @@ public class Fertilizante {
 	@Enumerated(EnumType.STRING)
 	private Medida medida;
 	
-	@NotNull
-	@ManyToOne
-	@JoinColumn(nullable = false, name="codigo_fabricante")
-	private Fabricante fabricante;
+	@Enumerated(EnumType.STRING)
+	private TipoInsumo tipoInsumo;
 	
 	/*
 	 * Datas de Criação e Modificação

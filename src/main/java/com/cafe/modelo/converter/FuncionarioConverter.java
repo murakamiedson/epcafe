@@ -5,31 +5,29 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.cafe.dao.FabricanteDAO;
-import com.cafe.modelo.Fabricante;
+import com.cafe.dao.FuncionarioDAO;
+import com.cafe.modelo.Funcionario;
 import com.cafe.util.cdi.CDIServiceLocator;
 
-
-
 /**
- * @author murakamiadmin
+ * @author isabella
  *
  */
-@FacesConverter(forClass=Fabricante.class)
-public class FabricanteConverter implements Converter<Object> {
-
-	private FabricanteDAO fabricanteDAO;
+@FacesConverter(forClass=Funcionario.class)
+public class FuncionarioConverter implements Converter<Object>{
 	
-	public FabricanteConverter() {
-		this.fabricanteDAO = CDIServiceLocator.getBean(FabricanteDAO.class);
+	private FuncionarioDAO funcionarioDAO;
+	
+	public FuncionarioConverter() {
+		this.funcionarioDAO = CDIServiceLocator.getBean(FuncionarioDAO.class);
 	}
 	
 	@Override    //converte tipo String para objeto - necessário mapear do modelo relacional para obj
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Fabricante retorno = null;
+		Funcionario retorno = null;
 
 		if (value != null && !value.isEmpty()) {
-			retorno = this.fabricanteDAO.buscarPeloCodigo(Long.valueOf(value));
+			retorno = this.funcionarioDAO.buscarPeloCodigo(Long.valueOf(value));
 		}
 
 		return retorno;
@@ -38,7 +36,7 @@ public class FabricanteConverter implements Converter<Object> {
 	@Override  //converte de objeto para codigo - necessário mapear do modelo obj para relacional
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Long codigo = ((Fabricante) value).getId();
+			Long codigo = ((Funcionario) value).getId();
 			String retorno = (codigo == null ? null : codigo.toString());
 			
 			return retorno;

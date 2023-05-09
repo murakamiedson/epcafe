@@ -55,7 +55,13 @@
 	    			</h:outputText>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Vida Útil (ANOS)" style="width: 15px; text-align: center">
+	    		<p:column headerText="Data de Compra" style="width: 17px; text-align: center">
+	    			<h:outputText value="#{maquina.dataCompra}">
+	    				<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />	
+	    			</h:outputText>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Vida Útil (ANOS)" style="width: 13px; text-align: center">
 	    			<h:outputText value="#{maquina.vidaUtil}">
 	    			</h:outputText>
 	    		</p:column>
@@ -64,9 +70,9 @@
 	    			<h:outputText value="#{maquina.tipo}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Fabricante" sortBy="#{maquina.fabricante}" style="width: 50px; text-align: left">
-	    			<h:outputText value="#{maquina.fabricante.nome}" />
-	    		</p:column>	
+	    		<p:column headerText="Tipo de Máquina" sortBy="#{maquina.tipoMaquina}" style="width: 40px; text-align: left">
+	    			<h:outputText value="#{maquina.tipoMaquina}" />
+	    		</p:column>
 	    		
 	    		
 	    				

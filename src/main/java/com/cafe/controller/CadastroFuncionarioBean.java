@@ -2,7 +2,6 @@ package com.cafe.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,10 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.cafe.modelo.Maquina;
-import com.cafe.modelo.enums.Tipo;
-import com.cafe.modelo.enums.TipoMaquina;
-import com.cafe.service.MaquinaService;
+import com.cafe.modelo.Funcionario;
+import com.cafe.service.FuncionarioService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -22,7 +19,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
- * @author murakamiadmin
+ * @author isabella
  *
  */
 @Log4j
@@ -30,18 +27,16 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Named
 @ViewScoped
-public class CadastroMaquinaBean implements Serializable {
+public class CadastroFuncionarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Maquina maquina;	
-	private List<Tipo> tipos;
-	private List<TipoMaquina> tiposMaquina;
-	private List<Maquina> maquinas = new ArrayList<>();
+	private Funcionario funcionario;	
+	private List<Funcionario> funcionarios = new ArrayList<>();
 	private Long tenantId;	
 	
 	@Inject
-	private MaquinaService maquinaService;
+	private FuncionarioService funcionarioService;
 	
 	@Inject
 	private LoginBean usuarioLogado;	
@@ -51,15 +46,13 @@ public class CadastroMaquinaBean implements Serializable {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());		
 		this.limpar();
-		this.tipos = Arrays.asList(Tipo.values());
-		this.tiposMaquina = Arrays.asList(TipoMaquina.values());
 	}
 		
 	
 	public void salvar() {
 		try {			
-			this.maquinaService.salvar(maquina);
-			MessageUtil.sucesso("Maquina salva com sucesso!");
+			this.funcionarioService.salvar(funcionario);
+			MessageUtil.sucesso("Funcionario salvo com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
@@ -68,11 +61,11 @@ public class CadastroMaquinaBean implements Serializable {
 	}
 	
 	public void limpar() {
-		this.maquina = new Maquina();
-		this.maquina.setTenant_id(tenantId);
+		this.funcionario = new Funcionario();
+		this.funcionario.setTenant_id(tenantId);
 	}	 
 	
-	public void carregarMaquinas() {		
-		maquinas = maquinaService.buscarMaquinas(usuarioLogado.getTenantId());	
+	public void carregarFuncionarios() {		
+		funcionarios = funcionarioService.buscarFuncionarios(usuarioLogado.getTenantId());	
 	}
 }
