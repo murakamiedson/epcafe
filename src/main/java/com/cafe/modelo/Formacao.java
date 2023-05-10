@@ -1,5 +1,6 @@
 package com.cafe.modelo;
 
+import java.sql.Blob;
 import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
@@ -9,18 +10,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.Medida;
-import com.cafe.modelo.enums.TipoAuxiliarInsumos;
-import com.cafe.modelo.enums.TipoInsumo;
+import com.cafe.modelo.enums.NivelEscolaridade;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,34 +28,26 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Fertilizante.buscarFertilizantes", query="select u from Fertilizante u where u.tenant_id = :tenantId"),
-	
+	@NamedQuery(name="Formacao.buscarFormacoes", query="select u from Formacao u where u.tenant_id = :tenantId"),
 })
-public class Fertilizante {
-
+public class Formacao {
+	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull
 	private Long tenant_id;
 	
 	@NotBlank
-	@Column(nullable = false)
-	private String nome;
+	private String descricao;
 	
-	@NotNull
-	@PositiveOrZero
-	private float valor;
-		
-	@Enumerated(EnumType.STRING)
-	private Medida medida;
+	@Lob
+	private Blob comprovacao;
 	
 	@Enumerated(EnumType.STRING)
-	private TipoInsumo tipoInsumo;
-	
-	@Enumerated(EnumType.STRING)
-	private TipoAuxiliarInsumos tipo;
+	private NivelEscolaridade nivelEscolaridade;
 	
 	/*
 	 * Datas de Criação e Modificação
@@ -69,4 +60,5 @@ public class Fertilizante {
 	@UpdateTimestamp
 	@Column(columnDefinition = "datetime")
 	private OffsetDateTime dataModificacao;
+
 }

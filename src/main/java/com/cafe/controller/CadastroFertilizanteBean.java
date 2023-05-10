@@ -11,7 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.cafe.modelo.Fertilizante;
+import com.cafe.modelo.enums.EnumUtil;
 import com.cafe.modelo.enums.Medida;
+import com.cafe.modelo.enums.TipoAuxiliarInsumos;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.FertilizanteService;
 import com.cafe.util.MessageUtil;
@@ -37,6 +39,7 @@ public class CadastroFertilizanteBean implements Serializable {
 	private Fertilizante fertilizante;
 	
 	private List<TipoInsumo> tiposInsumo;
+	private List<TipoAuxiliarInsumos> tiposFertilizante;
 	private List<Medida> medidas;
 	
 	private List<Fertilizante> fertilizantes = new ArrayList<>();
@@ -57,11 +60,21 @@ public class CadastroFertilizanteBean implements Serializable {
 		
 		this.limpar();
 		
-		//this.tiposInsumo = Arrays.asList(TipoInsumo.DEFENSIVO, TipoInsumo.FERTILIZANTE);
+		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.DEFENSIVO);
+		
 		this.medidas = Arrays.asList(Medida.values());
-		this.tiposInsumo = Arrays.asList(TipoInsumo.values());
 		
 	}
+	
+	public void carregarTipos() {
+		
+		if(fertilizante.getTipoInsumo() == TipoInsumo.FERTILIZANTE) {
+			this.tiposFertilizante = EnumUtil.getTiposFertilizantes();
+		}else {
+			this.tiposFertilizante = EnumUtil.getTiposDefensivos();
+		}	
+	}
+	
 	
 	public void salvar() {
 		
