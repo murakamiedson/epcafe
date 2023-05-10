@@ -13,7 +13,7 @@
 			<o:viewParam name="maquina" value="#{cadastroMaquinaBean.maquina}" />
 		</f:metadata>
     
-    	<h2>Cadastro de Máquinas</h2>
+    	<h2>Máquinas e Implementos</h2>
     
     	<h:form id="frmCadastro">
     	
@@ -30,27 +30,37 @@
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/insumo/PesquisaMaquina.xhtml"/>
+					<p:button icon="pi pi-chevron-left" value="Voltar" outcome="/restricted/insumo/PesquisaMaquina.xhtml"/>
 					<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:commandButton icon="pi pi-chevron-right" value="Cadastro Fabricante" id="botaoFabricante" 
-	    				action="/restricted/insumo/CadastroFabricante.xhtml"
-	    				process="@this"/>
 				</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
 	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
 	    			columnClasses="rotulo, campo">
-	    			
-	    		<p:outputLabel value="Fabricante" for="fabricante"/>
-	    		<p:selectOneMenu id="fabricante" value="#{cadastroMaquinaBean.maquina.fabricante}"
+	    		
+	    		<p:outputLabel value="Tipo de Insumo" for="tipoInsumo"/>
+	    		<p:selectOneMenu id="tipoInsumo" value="#{cadastroMaquinaBean.maquina.tipoInsumo}"
 	    			required="true" 
-			    	validatorMessage="O fabricante é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o fabricante" />
-	    			<f:selectItems value="#{cadastroMaquinaBean.fabricantes}" var="fab"
-						itemLabel="#{fab.nome}" itemValue="#{fab}"/>
+			    	validatorMessage="O tipo de insumo é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o tipo" />
+	    			<f:selectItems value="#{cadastroMaquinaBean.tiposInsumo}" var="tipoInsumo" 
+						itemLabel="#{tipoInsumo}" itemValue="#{tipoInsumo}"/>
+						
+					<p:ajax listener="#{cadastroMaquinaBean.carregarTipos}"
+						update="tipo" process="tipoInsumo"/>
 	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Tipo de Maquina/Implemento" for="tipo"/>
+	    		<p:selectOneMenu id="tipo" 
+	    			value="#{cadastroMaquinaBean.maquina.tipo}"
+			    	validatorMessage="O tipo de máquina é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o tipo" />
+	    			<f:selectItems value="#{cadastroMaquinaBean.tiposMaquina}" var="tipo" 
+						itemLabel="#{tipo}" itemValue="#{tipo}"/>
+	    		</p:selectOneMenu>
+	    		
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 
@@ -82,22 +92,22 @@
 			    	validatorMessage="A potência é obrigatória.">			    	
 			    </p:inputNumber>			    			    	
 			    
+			    <p:outputLabel value="Data de Compra" for="compra"/>
+	    		 <p:datePicker id="compra" value="#{cadastroMaquinaBean.maquina.dataCompra}"
+	    			required="true"
+	    			pattern="dd/MM/yyyy"
+	    			type="localDate"
+	    			locale="pt_BR"
+			    	validatorMessage="A data de compra é obrigatória.">			    	
+			    </p:datePicker>
+
 	    		<p:outputLabel value="Vida Útil" for="vida"/>
 	    		 <p:inputNumber id="vida" value="#{cadastroMaquinaBean.maquina.vidaUtil}"
 	    		 	symbol=" ANOS" symbolPosition="s" 
 	    		 	minValue="0" decimalPlaces="0" 
 	    			required="true" 
 			    	validatorMessage="A vida útil é obrigatória.">			    	
-			    </p:inputNumber>	
-	    		
-	    		<p:outputLabel value="Tipo" for="tipo"/>
-	    		<p:selectOneMenu id="tipo" value="#{cadastroMaquinaBean.maquina.tipo}"
-	    			required="true" 
-			    	validatorMessage="O tipo é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o tipo" />
-	    			<f:selectItems value="#{cadastroMaquinaBean.tipos}" var="tipo" 
-						itemLabel="#{tipo}" itemValue="#{tipo}"/>
-	    		</p:selectOneMenu>
+			    </p:inputNumber>		    		
 	    		
 	    	</p:panelGrid>
     	</h:form>

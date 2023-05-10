@@ -1,13 +1,10 @@
 package com.cafe.modelo;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,52 +17,48 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.TipoAuxiliarInsumos;
-import com.cafe.modelo.enums.TipoInsumo;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+/**
+ * @author isabella
+ *
+ */
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Maquina.buscarMaquinas", query="select u from Maquina u where u.tenant_id = :tenantId"),
+	@NamedQuery(name="Funcionario.buscarFuncionarios", query="select u from Funcionario u where u.tenant_id = :tenantId"),
 })
-public class Maquina {
-
+public class Funcionario {
+	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull
 	private Long tenant_id;
 	
 	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 	
-	@NotBlank
-	private String modelo;
-	
 	@PositiveOrZero
-	private BigDecimal valor;
-	
-	@PositiveOrZero
-	private BigDecimal potencia;
-	
-	@PositiveOrZero
-	private Integer vidaUtil;
+	private float salario;
 	
 	@NotNull
-	private LocalDate dataCompra;
+	private LocalDate dataNascimento;
 	
-	@Enumerated(EnumType.STRING)
-	private TipoInsumo tipoInsumo;
+	/*
+	@NotNull
+	@OneToMany
+	@JoinColumn(nullable = false, name = "codigo_formacao")
+	private List<Formacao> formacao;*/
 	
-	@Enumerated(EnumType.STRING)
-	private TipoAuxiliarInsumos tipo;
-
+	
+	
 	/*
 	 * Datas de Criação e Modificação
 	 */
@@ -77,4 +70,27 @@ public class Maquina {
 	@UpdateTimestamp
 	@Column(columnDefinition = "datetime")
 	private OffsetDateTime dataModificacao;
+	
+	/*
+	@Transient
+	public int getIdade() {
+		
+		int idade=0;
+		
+		if(this.getDataNascimento() != null) {
+			
+			idade = Calendar.getInstance().get(Calendar.YEAR) - this.getDataNascimento().getYear();
+			
+			if(Calendar.getInstance().get(Calendar.MONTH) < this.dataNascimento.getMonthValue()) {
+				idade--;
+			}else if(Calendar.getInstance().get(Calendar.MONTH) == this.getDataNascimento().getMonthValue()
+						&& Calendar.getInstance().get(Calendar.DAY_OF_MONTH) < this.getDataNascimento().getDayOfMonth()){
+				idade--;
+				
+			}
+		}
+		//log.info("Idade do funcionário é: " + idade);
+		return idade;
+	}*/
+
 }

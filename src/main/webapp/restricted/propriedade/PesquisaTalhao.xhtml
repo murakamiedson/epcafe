@@ -46,7 +46,7 @@
 	    		
 	    		<p:column headerText="Área (m²)" style="width: 30px; text-align: center">
 	    			<h:outputText value="#{talhao.area}">
-	    				<f:convertNumber pattern="#0.00" />
+	    				<f:convertNumber minFractionDigits = "2" />
 	    			</h:outputText>
 	    		</p:column>
 	    		

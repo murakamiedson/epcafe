@@ -9,8 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.cafe.modelo.Fabricante;
-import com.cafe.service.FabricanteService;
+import com.cafe.modelo.Funcionario;
+import com.cafe.service.FuncionarioService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -19,36 +19,36 @@ import lombok.Setter;
 
 
 /**
- * @author murakamiadmin
+ * @author isabella
  *
  */
 @Getter
 @Setter
 @Named
 @ViewScoped
-public class PesquisaFabricanteBean implements Serializable {
+public class PesquisaFuncionarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Fabricante> fabricantes = new ArrayList<>();
-	private Fabricante fabricanteSelecionado;
+	private List<Funcionario> funcionarios = new ArrayList<>();
+	private Funcionario funcionarioSelecionado;
 	
 	@Inject
-	FabricanteService fabricanteService;
+	private FuncionarioService funcionarioService;
 	@Inject
 	private LoginBean loginBean;
 
 		
 	@PostConstruct
 	public void inicializar() {
-		fabricantes = fabricanteService.buscarFabricantes(loginBean.getTenantId());
+		funcionarios = funcionarioService.buscarFuncionarios(loginBean.getTenantId());
 	}
 	
 	public void excluir() {
 		try {
-			fabricanteService.excluir(fabricanteSelecionado);			
-			this.fabricantes.remove(fabricanteSelecionado);
-			MessageUtil.sucesso("Fabricante " + fabricanteSelecionado.getNome() + " excluído com sucesso.");
+			funcionarioService.excluir(funcionarioSelecionado);			
+			this.funcionarios.remove(funcionarioSelecionado);
+			MessageUtil.sucesso("Funcionário " + funcionarioSelecionado.getNome() + " excluído com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());

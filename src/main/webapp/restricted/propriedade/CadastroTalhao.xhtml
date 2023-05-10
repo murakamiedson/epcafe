@@ -30,7 +30,7 @@
 	    			<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
-					<p:button icon="pi pi-search" value="Pesquisar" outcome="/restricted/propriedade/PesquisaTalhao.xhtml"/>
+					<p:button icon="pi pi-chevron-left" value="Voltar" outcome="/restricted/propriedade/PesquisaTalhao.xhtml"/>
 				</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
@@ -48,21 +48,12 @@
 	    		
 	    		<p:outputLabel value="Área" for="area"/>
 	    		 <p:inputNumber id="area" value="#{cadastroTalhaoBean.talhao.area}" 
-	    		 	symbol=" m²" symbolPosition="s" 
                     decimalSeparator="," thousandSeparator="."
                     minValue="0" decimalPlaces="2"
 	    			required="true" 
 			    	validatorMessage="A área é obrigatória.">			    	
 			    </p:inputNumber>
 	    		
-	    		<p:outputLabel value="Unidade" for="uni"/>
-	    		<p:selectOneMenu id="uni" value="#{cadastroTalhaoBean.talhao.unidade}"
-	    			required="true" 
-			    	validatorMessage="A unidade é obrigatória.">
-	    			<f:selectItem itemLabel="Selecione a unidade" />
-	    			<f:selectItems value="#{cadastroTalhaoBean.unidades}" var="uni"
-						itemLabel="#{uni.nome}" itemValue="#{uni}"/>
-	    		</p:selectOneMenu>
 	    		
 	    	</p:panelGrid>
     	</h:form>

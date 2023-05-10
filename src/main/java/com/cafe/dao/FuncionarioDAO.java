@@ -7,26 +7,27 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import com.cafe.modelo.Maquina;
+import com.cafe.modelo.Funcionario;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
 /**
- * @author murakamiadmin
+ * @author isabella
  *
  */
-public class MaquinaDAO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+public class FuncionarioDAO implements Serializable{
+	
+private static final long serialVersionUID = 1L;
 	
 	@Inject
 	private EntityManager manager;
 	
 	
 	@Transactional
-	public void salvar(Maquina maquina) throws PersistenceException, NegocioException {
+	public void salvar(Funcionario funcionario) throws PersistenceException, NegocioException {
 		try {
-			manager.merge(maquina);	
+			manager.merge(funcionario);	
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;
@@ -43,11 +44,11 @@ public class MaquinaDAO implements Serializable {
 	}	
 		
 	@Transactional
-	public void excluir(Maquina maquina) throws NegocioException {
+	public void excluir(Funcionario funcionario) throws NegocioException {
 			
 		try {
-			Maquina m = this.buscarPeloCodigo(maquina.getId());
-			manager.remove(m);
+			Funcionario f = this.buscarPeloCodigo(funcionario.getId());
+			manager.remove(f);
 			manager.flush();
 		} catch (PersistenceException e) {			
 			e.printStackTrace();
@@ -70,22 +71,21 @@ public class MaquinaDAO implements Serializable {
 	 * Buscas
 	 */
 	
-	public Maquina buscarPeloCodigo(Long id) {
-		return manager.find(Maquina.class, id);
+	public Funcionario buscarPeloCodigo(Long id) {
+		return manager.find(Funcionario.class, id);
 	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<Maquina> buscarMaquinas(Long tenantId) {
-		return manager.createNamedQuery("Maquina.buscarMaquinas")
+	public List<Funcionario> buscarFuncionarios(Long tenantId) {
+		return manager.createNamedQuery("Funcionario.buscarFuncionarios")
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
-
-	
 	
 	
 	// criado para realização de testes unitários com JIntegrity
 	public void setEntityManager(EntityManager manager) {
 		this.manager = manager;
 	}
+
 }

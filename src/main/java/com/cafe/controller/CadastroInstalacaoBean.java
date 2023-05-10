@@ -53,7 +53,7 @@ public class CadastroInstalacaoBean implements Serializable {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());	
 		
-		this.unidades = unidadeService.buscarUnidades(tenantId);
+		//this.unidades = unidadeService.buscarUnidades(tenantId);
 		
 		this.limpar();
 	}
@@ -72,10 +72,7 @@ public class CadastroInstalacaoBean implements Serializable {
 	
 	public void limpar() {
 		this.instalacao = new Instalacao();
+		this.instalacao.setUnidade(usuarioLogado.getUsuario().getUnidade());
 		this.instalacao.setTenant_id(tenantId);
 	}	 
-	
-	public void carregarInstalacoes() {		
-		instalacoes = instalacaoService.buscarInstalacoes(usuarioLogado.getTenantId());	
-	}
 }

@@ -9,8 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.cafe.modelo.Talhao;
-import com.cafe.service.TalhaoService;
+import com.cafe.modelo.Fertilizante;
+import com.cafe.service.FertilizanteService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -18,37 +18,42 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
-* @joao
-*
-*/
+ * @author joao
+ *
+ */
 @Getter
 @Setter
 @Named
 @ViewScoped
-public class PesquisaTalhaoBean implements Serializable {
-	
+public class PesquisaFertilizanteBean implements Serializable {
+
 private static final long serialVersionUID = 1L;
 	
-	private List<Talhao> talhoes = new ArrayList<>();
-	private Talhao talhaoSelecionado;
+	private List<Fertilizante> fertilizantes = new ArrayList<>();
+	private Fertilizante insumoSelecionado;
 	
 	@Inject
-	TalhaoService talhaoService;
+	private FertilizanteService fertilizanteService;
 	@Inject
 	private LoginBean loginBean;
-
-		
+	
 	@PostConstruct
 	public void inicializar() {
-		talhoes = talhaoService.buscarTalhoesPorUnidade(loginBean.getUsuario().getUnidade(), loginBean.getTenantId());
+		
+		fertilizantes = fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
 	}
 	
 	public void excluir() {
+		
 		try {
-			talhaoService.excluir(talhaoSelecionado);			
-			this.talhoes.remove(talhaoSelecionado);
-			MessageUtil.sucesso("Talhão " + talhaoSelecionado.getNome() + " excluído com sucesso.");
+			
+			this.fertilizanteService.excluir(insumoSelecionado);
+			this.fertilizantes.remove(insumoSelecionado);
+			
+			MessageUtil.sucesso("Insumo " + insumoSelecionado.getNome() + " excluído com sucesso.");
+			
 		} catch (NegocioException e) {
+			
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
 		}

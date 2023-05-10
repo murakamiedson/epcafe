@@ -10,7 +10,7 @@
     
     <ui:define name="corpo">
    	
-   		<h2>Pesquisa de Máquinas</h2>
+   		<h2>Máquinas e Implementos</h2>
    		
     	<h:form id="frmPesquisa">
     	
@@ -21,7 +21,8 @@
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
 	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" 
-	    				action="/restricted/insumo/CadastroMaquina.xhtml"/>	    				
+	    				action="/restricted/insumo/CadastroMaquina.xhtml"/>	
+	    			  				
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    		    	
@@ -54,25 +55,31 @@
 	    			</h:outputText>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Vida Útil (ANOS)" style="width: 15px; text-align: center">
+	    		<p:column headerText="Data de Compra" style="width: 17px; text-align: center">
+	    			<h:outputText value="#{maquina.dataCompra}">
+	    				<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />	
+	    			</h:outputText>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Vida Útil (ANOS)" style="width: 13px; text-align: center">
 	    			<h:outputText value="#{maquina.vidaUtil}">
 	    			</h:outputText>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Tipo" sortBy="#{maquina.tipo}" style="width: 80px; text-align: left">
-	    			<h:outputText value="#{maquina.tipo}" />
+	    		<p:column headerText="Tipo" sortBy="#{maquina.tipo}" style="width: 30px; text-align: left">
+	    			<h:outputText value="#{maquina.tipoInsumo}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Fabricante" sortBy="#{maquina.fabricante}" style="width: 50px; text-align: left">
-	    			<h:outputText value="#{maquina.fabricante.nome}" />
-	    		</p:column>	
+	    		<p:column headerText="Tipo de Máquina/Implemento" sortBy="#{maquina.tipo}" style="width: 80px; text-align: left">
+	    			<h:outputText value="#{maquina.tipo}" />
+	    		</p:column>
 	    		
 	    		
 	    				
 	    		
 	    		<p:column style="width: 25px; text-align: center" headerText="Operações">
 		    		<p:button outcome="CadastroMaquina" icon="pi pi-pencil" title="Editar">
-		    			<f:param name="máquina" value="#{maquina.id}"/>
+		    			<f:param name="maquina" value="#{maquina.id}"/>
 		    		</p:button>
 		    		<p:commandButton icon="pi pi-trash" title="Excluir"		    				
 		    			onclick="PF('confirmacaoExclusao').show();"

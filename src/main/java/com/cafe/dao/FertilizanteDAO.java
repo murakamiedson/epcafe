@@ -7,32 +7,32 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import com.cafe.modelo.Fabricante;
+import com.cafe.modelo.Fertilizante;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
 import lombok.extern.log4j.Log4j;
 
 /**
- * @author murakamiadmin
+ * @author joao
  *
  */
+
 @Log4j
-public class FabricanteDAO implements Serializable {
+public class FertilizanteDAO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private EntityManager manager;	
+	private EntityManager manager;
 	
 	@Transactional
-	public void salvar(Fabricante fabricante) throws NegocioException {
-		log.info("DAO : tenant = " + fabricante.getTenant_id());
+	public void salvar(Fertilizante fertilizante) throws PersistenceException, NegocioException {
 		try {
-			manager.merge(fabricante);
+			manager.merge(fertilizante);	
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw e;
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
@@ -46,12 +46,16 @@ public class FabricanteDAO implements Serializable {
 	}
 	
 	@Transactional
-	public void excluir(Fabricante fabricante) throws NegocioException {
-		fabricante = buscarPeloCodigo(fabricante.getId());
+	public void excluir(Fertilizante fertilizante) throws NegocioException {
+		
+		
+		log.info("id = " + fertilizante.getId());
 		try {
-			manager.remove(fabricante);
+			Fertilizante f = this.buscarPeloCodigo(fertilizante.getId());
+			manager.remove(f);
+			
 			manager.flush();
-		} catch (PersistenceException e) {
+		} catch (PersistenceException e) {			
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
 		} catch (RuntimeException e) {
@@ -65,30 +69,21 @@ public class FabricanteDAO implements Serializable {
 			throw new NegocioException("Não foi possível executar a operação.");
 		}
 	}
-	
-	
 	
 	/*
 	 * Buscas
 	 */
 	
-	
-	public Fabricante buscarPeloCodigo(Long codigo) {
-		return manager.find(Fabricante.class, codigo);
-	}
+	public Fertilizante buscarPeloCodigo(Long id) {
+		return manager.find(Fertilizante.class, id);
+	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<Fabricante> buscarFabricantes(Long tenantId) {
-		return manager.createNamedQuery("Fabricante.buscarFabricantes")
+	public List<Fertilizante> buscarFertilizantes(Long tenantId) {
+		return manager.createNamedQuery("Fertilizante.buscarFertilizantes")
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
 	
-	
-	// criado para realização de testes unitários com JIntegrity
-	public void setEntityManager(EntityManager manager) {
-		this.manager = manager;
-	}
 
-	
 }

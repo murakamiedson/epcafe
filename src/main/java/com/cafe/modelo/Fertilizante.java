@@ -1,7 +1,5 @@
 package com.cafe.modelo;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
@@ -20,6 +18,7 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.cafe.modelo.enums.Medida;
 import com.cafe.modelo.enums.TipoAuxiliarInsumos;
 import com.cafe.modelo.enums.TipoInsumo;
 
@@ -30,9 +29,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Maquina.buscarMaquinas", query="select u from Maquina u where u.tenant_id = :tenantId"),
+	@NamedQuery(name="Fertilizante.buscarFertilizantes", query="select u from Fertilizante u where u.tenant_id = :tenantId"),
+	
 })
-public class Maquina {
+public class Fertilizante {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -45,27 +45,19 @@ public class Maquina {
 	@Column(nullable = false)
 	private String nome;
 	
-	@NotBlank
-	private String modelo;
-	
-	@PositiveOrZero
-	private BigDecimal valor;
-	
-	@PositiveOrZero
-	private BigDecimal potencia;
-	
-	@PositiveOrZero
-	private Integer vidaUtil;
-	
 	@NotNull
-	private LocalDate dataCompra;
+	@PositiveOrZero
+	private float valor;
+		
+	@Enumerated(EnumType.STRING)
+	private Medida medida;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoInsumo tipoInsumo;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoAuxiliarInsumos tipo;
-
+	
 	/*
 	 * Datas de Criação e Modificação
 	 */
