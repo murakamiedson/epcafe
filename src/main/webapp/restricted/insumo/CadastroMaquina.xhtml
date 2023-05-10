@@ -40,23 +40,27 @@
 	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
 	    			columnClasses="rotulo, campo">
 	    		
-	    		<p:outputLabel value="Tipo" for="tipo"/>
-	    		<p:selectOneMenu id="tipo" value="#{cadastroMaquinaBean.maquina.tipo}"
+	    		<p:outputLabel value="Tipo de Insumo" for="tipoInsumo"/>
+	    		<p:selectOneMenu id="tipoInsumo" value="#{cadastroMaquinaBean.maquina.tipoInsumo}"
 	    			required="true" 
-			    	validatorMessage="O tipo é obrigatório.">
+			    	validatorMessage="O tipo de insumo é obrigatório.">
 	    			<f:selectItem itemLabel="Selecione o tipo" />
-	    			<f:selectItems value="#{cadastroMaquinaBean.tipos}" var="tipo" 
+	    			<f:selectItems value="#{cadastroMaquinaBean.tiposInsumo}" var="tipoInsumo" 
+						itemLabel="#{tipoInsumo}" itemValue="#{tipoInsumo}"/>
+						
+					<p:ajax listener="#{cadastroMaquinaBean.carregarTipos}"
+						update="tipo" process="tipoInsumo"/>
+	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Tipo de Maquina/Implemento" for="tipo"/>
+	    		<p:selectOneMenu id="tipo" 
+	    			value="#{cadastroMaquinaBean.maquina.tipo}"
+			    	validatorMessage="O tipo de máquina é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o tipo" />
+	    			<f:selectItems value="#{cadastroMaquinaBean.tiposMaquina}" var="tipo" 
 						itemLabel="#{tipo}" itemValue="#{tipo}"/>
 	    		</p:selectOneMenu>
 	    		
-	    		<p:outputLabel value="Tipo Maquina" for="tipoMaquina"/>
-	    		<p:selectOneMenu id="tipoMaquina" value="#{cadastroMaquinaBean.maquina.tipoMaquina}"
-	    			required="true" 
-			    	validatorMessage="O tipo de máquina é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o tipo" />
-	    			<f:selectItems value="#{cadastroMaquinaBean.tiposMaquina}" var="tipoMaquina" 
-						itemLabel="#{tipoMaquina}" itemValue="#{tipoMaquina}"/>
-	    		</p:selectOneMenu>
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 

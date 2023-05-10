@@ -45,7 +45,18 @@
 	    			</h:outputText>
 	    		</p:column>
 	    		
-
+	    		<p:column headerText="Data de Nascimento" style="width: 17px; text-align: center">
+	    			<h:outputText value="#{funcionario.dataNascimento}">
+	    				<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />	
+	    			</h:outputText>
+	    		</p:column>
+	    		<!-- 
+	    		<p:column headerText="Idade" style="width: 17px; text-align: center">
+	    			<h:outputText value="#{funcionario.idade}">
+	    				<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />	
+	    			</h:outputText>
+	    		</p:column> -->
+	
 	    		<p:column style="width: 25px; text-align: center" headerText="Operações">
 	    		
 		    		<p:button outcome="CadastroFuncionario" icon="pi pi-pencil" title="Editar">

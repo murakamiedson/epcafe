@@ -42,11 +42,6 @@
 	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
 	    			columnClasses="rotulo, campo">
 	    			
-	    		<p:outputLabel value="Nome" for="nome"/>
-	    			<p:inputText id="nome" size="60" maxlength="80" 
-	    				value="#{cadastroFertilizanteBean.fertilizante.nome}"
-	 					required="true" 
-			    		validatorMessage="O nome é obrigatório."/>			    		
 	    			
 	    		<p:outputLabel value="Tipo Insumo" for="tipoInsumo"/>
 	    		<p:selectOneMenu id="tipoInsumo" value="#{cadastroFertilizanteBean.fertilizante.tipoInsumo}"
@@ -54,9 +49,27 @@
 			    	validatorMessage="O tipo de fertilizante é obrigatório.">
 	    			<f:selectItem itemLabel="Selecione o tipo" />
 	    			<f:selectItems value="#{cadastroFertilizanteBean.tiposInsumo}" var="tipoInsumo" 
-						itemLabel="#{tipo}" itemValue="#{tipoInsumo}"/>
+						itemLabel="#{tipoInsumo}" itemValue="#{tipoInsumo}"/>
+						
+					<p:ajax listener="#{cadastroFertilizanteBean.carregarTipos}"
+						update="tipo" process="tipoInsumo"/>
 	    		</p:selectOneMenu>
 	    		
+	    		<p:outputLabel value="Tipo de Fertilizante/Defensivo" for="tipo"/>
+	    		<p:selectOneMenu id="tipo" 
+	    			value="#{cadastroFertilizanteBean.fertilizante.tipo}"
+			    	validatorMessage="O tipo de fertilizante é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o tipo" />
+	    			<f:selectItems value="#{cadastroFertilizanteBean.tiposFertilizante}" var="tipo" 
+						itemLabel="#{tipo}" itemValue="#{tipo}"/>
+	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    			<p:inputText id="nome" size="60" maxlength="80" 
+	    				value="#{cadastroFertilizanteBean.fertilizante.nome}"
+	 					required="true" 
+			    		validatorMessage="O nome é obrigatório."/>
+			    					    		
 	    		<p:outputLabel value="Medida" for="medida"/>
 	    			<p:selectOneMenu id="medida" value="#{cadastroFertilizanteBean.fertilizante.medida}"
 	    				required="true" 

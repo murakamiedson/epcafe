@@ -20,9 +20,8 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.Tipo;
-import com.cafe.modelo.enums.TipoMaquina;
-
+import com.cafe.modelo.enums.TipoAuxiliarInsumos;
+import com.cafe.modelo.enums.TipoInsumo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -62,10 +61,10 @@ public class Maquina {
 	private LocalDate dataCompra;
 	
 	@Enumerated(EnumType.STRING)
-	private Tipo tipo;
+	private TipoInsumo tipoInsumo;
 	
 	@Enumerated(EnumType.STRING)
-	private TipoMaquina tipoMaquina;
+	private TipoAuxiliarInsumos tipo;
 
 	/*
 	 * Datas de Criação e Modificação

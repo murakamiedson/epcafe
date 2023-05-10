@@ -11,8 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.cafe.modelo.Maquina;
-import com.cafe.modelo.enums.Tipo;
-import com.cafe.modelo.enums.TipoMaquina;
+import com.cafe.modelo.enums.EnumUtil;
+import com.cafe.modelo.enums.TipoAuxiliarInsumos;
+import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.MaquinaService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
@@ -35,8 +36,8 @@ public class CadastroMaquinaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Maquina maquina;	
-	private List<Tipo> tipos;
-	private List<TipoMaquina> tiposMaquina;
+	private List<TipoInsumo> tiposInsumo;
+	private List<TipoAuxiliarInsumos> tiposMaquina;
 	private List<Maquina> maquinas = new ArrayList<>();
 	private Long tenantId;	
 	
@@ -51,10 +52,26 @@ public class CadastroMaquinaBean implements Serializable {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());		
 		this.limpar();
-		this.tipos = Arrays.asList(Tipo.values());
-		this.tiposMaquina = Arrays.asList(TipoMaquina.values());
-	}
+
+		this.tiposInsumo = Arrays.asList(TipoInsumo.MAQUINA, TipoInsumo.IMPLEMENTO);
 		
+		
+		
+		//this.tiposMaquina = Arrays.asList(EnumUtil.getTiposMaquinas(), EnumUtil.getTiposImplementos());
+	}
+	
+	
+	public void carregarTipos() {
+		
+		if(maquina.getTipoInsumo() == TipoInsumo.MAQUINA) {
+			this.tiposMaquina = EnumUtil.getTiposMaquinas();
+
+		}else {
+			this.tiposMaquina = EnumUtil.getTiposImplementos();
+
+		}
+
+	}	
 	
 	public void salvar() {
 		try {			
