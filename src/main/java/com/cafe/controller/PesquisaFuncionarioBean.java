@@ -41,7 +41,7 @@ public class PesquisaFuncionarioBean implements Serializable {
 		
 	@PostConstruct
 	public void inicializar() {
-		funcionarios = funcionarioService.buscarFuncionarios(loginBean.getTenantId());
+		funcionarios = funcionarioService.buscarFuncionariosPorUnidade(loginBean.getUsuario().getUnidade() ,loginBean.getTenantId());
 	}
 	
 	public void excluir() {

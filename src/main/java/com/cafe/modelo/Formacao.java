@@ -1,8 +1,8 @@
 package com.cafe.modelo;
 
-import java.sql.Blob;
 import java.time.OffsetDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,7 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
@@ -29,6 +30,8 @@ import lombok.EqualsAndHashCode;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Formacao.buscarFormacoes", query="select u from Formacao u where u.tenant_id = :tenantId"),
+	@NamedQuery(name="Formacao.buscarPorFuncionario", query="select u from Formacao u where u.funcionario = :funcionario "
+			+ "and u.tenant_id = :tenantId")
 })
 public class Formacao {
 	
@@ -43,11 +46,16 @@ public class Formacao {
 	@NotBlank
 	private String descricao;
 	
-	@Lob
-	private Blob comprovacao;
+	//url do documento que comprava a formação
+	//private String comprovacao;
 	
 	@Enumerated(EnumType.STRING)
 	private NivelEscolaridade nivelEscolaridade;
+	
+	@ManyToOne(cascade=CascadeType.MERGE)
+	@JoinColumn(name="codigo_funcionario")
+	private Funcionario funcionario;
+	
 	
 	/*
 	 * Datas de Criação e Modificação
