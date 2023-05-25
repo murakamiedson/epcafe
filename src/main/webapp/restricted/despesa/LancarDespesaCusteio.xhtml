@@ -1,0 +1,125 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Despesas com Máquinas e Implementos</ui:define>
+    
+    <ui:define name="corpo">
+   	
+   		<h2>Despesas com Máquinas e Implementos</h2>
+   		
+    	<h:form id="form">
+    	
+    		<p:growl id="messages" showDetail="true" />
+    		
+	    	<p:toolbar id="toolbar" style="margin-top: 20px">
+	    		<f:facet name="left">
+	    		<p:toolbarGroup>				
+								
+					<p:commandButton value="Nova despesa" icon="pi pi-plus" 
+						actionListener="#{lancarDespesaCusteioBean.openNew}" 
+	                    update=":dialogs:manage-despesa-content" 
+	                    oncomplete="PF('despesaDialog').show()">
+	                    <p:resetInput target=":dialogs:manage-despesa-content" />
+	                </p:commandButton>	                
+	            </p:toolbarGroup>
+	            </f:facet>
+	    	</p:toolbar>
+	    	
+	    	
+	    	<p:dataTable id="custeioTable" widgetVar="dtDespesa" var="despesa" 
+	    		style="margin-top: 10px" 
+	    		value="#{lancarDespesaCusteioBean.despesas}" reflow="true"
+	            selection="#{lancarDespesaCusteioBean.despesaSelecionada}"
+	            selectionMode="single"
+	            rowKey="#{custeio.id}" paginator="true" rows="10" rowSelectMode="add" 
+	            paginatorPosition="bottom">	           
+	
+	            <p:ajax event="rowSelect" />
+	            <p:ajax event="rowUnselect" />
+	            	                     
+	    		
+	    		<p:column headerText="Máquina" style="width: 80px; text-align: left">
+	    			<h:outputText value="#{despesa.id}"/>
+	    		</p:column>	
+	    		
+	    		<p:column headerText="Tipo" style="width: 80px; text-align: left">
+	    			<h:outputText value="#{despesa.id}"/>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Combustível" style="width: 80px; text-align: center">
+	    			<h:outputText value="#{despesa.id}"/>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Valor" style="width: 80px; text-align: center">
+	    			<h:outputText value="#{despesa.id}"/>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Horas Trabalhadas" style="width: 80px; text-align: center">
+	    			<h:outputText value="#{despesa.id}"/>
+	    		</p:column>
+	    		
+	    		<p:column exportable="false">
+	                <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-despesa-content"
+	                    oncomplete="PF('despesaDialog').show()"
+	                    process="@this">
+	                    <f:setPropertyActionListener value="#{despesa}" 
+	                    	target="#{lancarDespesaCusteioBean.despesaSelecionada}" />
+	                    <p:resetInput target=":dialogs:manage-despesa-content" />
+	                </p:commandButton>
+	                <p:commandButton icon="pi pi-trash"
+	                                 process="@this"
+	                                 oncomplete="PF('deleteDespesaDialog').show()">
+	                    <f:setPropertyActionListener value="#{despesa}" 
+	                    	target="#{lancarDespesaCusteioBean.despesaSelecionada}" />
+	                </p:commandButton>
+	            </p:column>
+	    			    		
+		   	</p:dataTable>
+		   
+    	</h:form>
+    	
+    	<h:form id="dialogs">
+	        <p:dialog header="Despesas de custeio" showEffect="fade" modal="true" 
+	        	widgetVar="despesaDialog"
+	            responsive="true">
+	            <p:outputPanel id="manage-despesa-content">
+	            
+	            // colocar as informações - teste
+	            	               
+	            </p:outputPanel>
+	
+	            <f:facet name="footer">
+	                <p:commandButton value="Salvar" icon="pi pi-check" 
+	                	actionListener="#{lancarDespesaCusteioBean.saveDespesa}"
+	                    update="manage-despesa-content" 
+	                    process="manage-despesa-content @this" />
+	                <p:commandButton value="Cancelar" icon="pi pi-times" 
+	                	onclick="PF('despesaDialog').hide()"
+	                    class="ui-button-secondary" type="button" />
+	            </f:facet>
+	        </p:dialog>
+	
+	        <p:confirmDialog 
+	        	widgetVar="deleteDespesaDialog" showEffect="fade" width="300"
+	            message="Excluir a despesa de custeio?" header="Confirmação">
+	            <p:commandButton value="Sim" icon="pi pi-check" 
+	            	actionListener="#{lancarDespesaCusteioBean.deleteDespesa}"
+	                process="@this" 
+	                oncomplete="PF('deleteDespesaDialog').hide()" />
+	            <p:commandButton value="Não" type="button" icon="pi pi-times"
+	                onclick="PF('deleteDespesaDialog').hide()" />
+	        </p:confirmDialog>
+	
+	        <p:confirmDialog global="true" showEffect="fade" width="300">
+	            <p:commandButton value="Sim" type="button" icon="pi pi-check" />
+	            <p:commandButton value="Não" type="button" icon="pi pi-times" />
+	        </p:confirmDialog>
+	    </h:form>
+    
+    </ui:define>
+</ui:composition>
