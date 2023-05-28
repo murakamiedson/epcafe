@@ -4,7 +4,7 @@ public enum Medida {
 	
 	SACO,
 	LITRO,
-	METRO,
+	METRO_CUBICO,
 	QUILO,
 	TONELADA,
 	UNIDADE

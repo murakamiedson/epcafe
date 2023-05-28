@@ -1,5 +1,6 @@
 package com.cafe.modelo;
 
+import java.sql.Blob;
 import java.time.OffsetDateTime;
 
 import javax.persistence.CascadeType;
@@ -11,10 +12,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,8 +49,10 @@ public class Formacao {
 	@NotBlank
 	private String descricao;
 	
-	//url do documento que comprava a formação
-	//private String comprovacao;
+	/*
+	@NotEmpty
+	@Lob
+	private Blob comprovacao;*/
 	
 	@Enumerated(EnumType.STRING)
 	private NivelEscolaridade nivelEscolaridade;

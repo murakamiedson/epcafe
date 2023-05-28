@@ -64,45 +64,7 @@
 		    			type="localDate"
 				    	validatorMessage="A data de nascimento é obrigatória.">			    	
 				    </p:calendar>
-			    
-			    <p:outputLabel value="Formações"/>
-			    	<p:commandButton value="Formação" icon="pi pi-plus" onclick="PF('cadastroFormacao').show()"/>
-			    		<p:dialog header="Cadastro de Formação" widgetVar="cadastroFormacao" 
-			    			minHeight="40" width="350" >
-			    			
-			    			<p:panelGrid columns="2" id="painelFormacao" style="width: 100%; margin-top: 20px"
-	    						columnClasses="rotulo, campo">
-	    						
-	    						<p:outputLabel value="Descrição" for="descricao"/>
-	    							<p:inputText id="descricao" value="#{cadastroFormacaoBean.formacao.descricao}"
-	    								required="true"
-	    								validatorMessage="A descrição é obrigatória"/>
-	    						
-	    						<p:outputLabel value="Nível de Escolaridade" for="nivelEscolaridade"/>	
-	    						<p:selectOneMenu id="nivelEscolaridade" 
-	    							value="#{cadastroFormacaoBean.formacao.nivelEscolaridade}"
-	    							required="true" 
-			    					validatorMessage="O nível de escolaridade é obrigatório.">
-					    			<f:selectItem itemLabel="Selecione o nível" />
-					    			<f:selectItems value="#{cadastroFormacaoBean.niveisEscolaridade}" 
-					    				var="nivelEscolaridade" 
-										itemLabel="#{nivelEscolaridade}" 
-										itemValue="#{nivelEscolaridade}"/>
-					    		</p:selectOneMenu>
-					    		
-					    		<p:outputLabel value="Comprovação"/>
-					    		
-					    	
-					    		<f:facet name="footer">
-							        <p:commandButton value="Salvar" icon="pi pi-save" 
-							        	id="botaoSalvarFormacao"
-							        	action="#{cadastroFormacaoBean.salvar}"
-							        	update="painel"/>
-							    </f:facet>
-			    			
-			    			</p:panelGrid>
-			    		</p:dialog>
 	    	</p:panelGrid>
-    	</h:form>
+	    </h:form>
     </ui:define>
 </ui:composition>
