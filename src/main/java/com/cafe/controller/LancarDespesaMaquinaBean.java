@@ -26,7 +26,7 @@ import lombok.Setter;
 @Setter
 @Named
 @ViewScoped
-public class LancarDespesaCusteioBean implements Serializable {
+public class LancarDespesaMaquinaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,6 +53,7 @@ public class LancarDespesaCusteioBean implements Serializable {
 	public void saveDespesa() {
         if (this.despesaSelecionada.getId() == null) {            
             this.despesas.add(this.despesaSelecionada);
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Despesa adicionada"));
         }
         else {
