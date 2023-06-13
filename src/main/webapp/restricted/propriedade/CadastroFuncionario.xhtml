@@ -58,14 +58,13 @@
 			    	</p:inputNumber>
 			    	
 			     <p:outputLabel value="Data de Nascimento" for="dataNascimento"/>
-	    		 <p:calendar id="dataNascimento" value="#{cadastroFuncionarioBean.funcionario.dataNascimento}"
-	    			required="true"
-	    			pattern="dd/MM/yyyy"
-	    			type="localDate"
-			    	validatorMessage="A data de nascimento é obrigatória.">			    	
-			    </p:calendar>	
-	    		
+		    		 <p:calendar id="dataNascimento" value="#{cadastroFuncionarioBean.funcionario.dataNascimento}"
+		    			required="true"
+		    			pattern="dd/MM/yyyy"
+		    			type="localDate"
+				    	validatorMessage="A data de nascimento é obrigatória.">			    	
+				    </p:calendar>
 	    	</p:panelGrid>
-    	</h:form>
+	    </h:form>
     </ui:define>
 </ui:composition>
