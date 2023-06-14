@@ -21,7 +21,7 @@
 	    		<p:toolbarGroup>				
 								
 					<p:commandButton value="Nova despesa" icon="pi pi-plus" 
-						actionListener="#{lancarDespesaCusteioBean.openNew}" 
+						actionListener="#{lancarDespesaMaquinaBean.openNew}" 
 	                    update=":dialogs:manage-despesa-content" 
 	                    oncomplete="PF('despesaDialog').show()">
 	                    <p:resetInput target=":dialogs:manage-despesa-content" />
@@ -33,9 +33,9 @@
 	    	
 	    	<p:dataTable id="custeioTable" widgetVar="dtDespesa" var="despesa" 
 	    		style="margin-top: 10px" 
-	    		value="#{lancarDespesaCusteioBean.despesas}" reflow="true"
-	            selection="#{lancarDespesaCusteioBean.despesaSelecionada}"
-	            selectionMode="single"
+	    		value="#{lancarDespesaMaquinaBean.despesas}" reflow="true"
+	            selection="#{lancarDespesaMaquinaBean.despesaSelecionada}"
+	            selectionMode="single" lazy="true"
 	            rowKey="#{custeio.id}" paginator="true" rows="10" rowSelectMode="add" 
 	            paginatorPosition="bottom">	           
 	
@@ -44,11 +44,11 @@
 	            	                     
 	    		
 	    		<p:column headerText="Máquina" style="width: 80px; text-align: left">
-	    			<h:outputText value="#{despesa.id}"/>
+	    			<h:outputText value="#{despesa.maquina.id}"/>
 	    		</p:column>	
 	    		
 	    		<p:column headerText="Tipo" style="width: 80px; text-align: left">
-	    			<h:outputText value="#{despesa.id}"/>
+	    			<h:outputText value="#{despesa.maquina.tipo}"/>
 	    		</p:column>
 	    		
 	    		<p:column headerText="Combustível" style="width: 80px; text-align: center">
@@ -56,11 +56,11 @@
 	    		</p:column>
 	    		
 	    		<p:column headerText="Valor" style="width: 80px; text-align: center">
-	    			<h:outputText value="#{despesa.id}"/>
+	    			<h:outputText value="#{despesa.valor}"/>
 	    		</p:column>
 	    		
 	    		<p:column headerText="Horas Trabalhadas" style="width: 80px; text-align: center">
-	    			<h:outputText value="#{despesa.id}"/>
+	    			<h:outputText value="#{despesa.horas}"/>
 	    		</p:column>
 	    		
 	    		<p:column exportable="false">
@@ -68,14 +68,14 @@
 	                    oncomplete="PF('despesaDialog').show()"
 	                    process="@this">
 	                    <f:setPropertyActionListener value="#{despesa}" 
-	                    	target="#{lancarDespesaCusteioBean.despesaSelecionada}" />
+	                    	target="#{lancarDespesaMaquinaBean.despesaSelecionada}" />
 	                    <p:resetInput target=":dialogs:manage-despesa-content" />
 	                </p:commandButton>
 	                <p:commandButton icon="pi pi-trash"
 	                                 process="@this"
 	                                 oncomplete="PF('deleteDespesaDialog').show()">
 	                    <f:setPropertyActionListener value="#{despesa}" 
-	                    	target="#{lancarDespesaCusteioBean.despesaSelecionada}" />
+	                    	target="#{lancarDespesaMaquinaBean.despesaSelecionada}" />
 	                </p:commandButton>
 	            </p:column>
 	    			    		
@@ -86,16 +86,51 @@
     	<h:form id="dialogs">
 	        <p:dialog header="Despesas de custeio" showEffect="fade" modal="true" 
 	        	widgetVar="despesaDialog"
-	            responsive="true">
+	            responsive="true"
+	            minHeight="40" width="350">
+					
 	            <p:outputPanel id="manage-despesa-content">
+	            <p:panelGrid columns="2" id="painelCadastroDespesa"
+					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
 	            
-	            // colocar as informações - teste
+	            <p:outputLabel value="Ano" for="ano" />
+	            <p:inputNumber id="ano" value="#{lancarDespesaMaquinaBean.despesaSelecionada.ano}"  
+	    			required="true" 
+			    	validatorMessage="O ano é obrigatório.">			    	
+			    </p:inputNumber>
+			    
+			    <p:outputLabel value="Mês" for="mes" />
+			    <p:inputText id="mes" value="#{lancarDespesaMaquinaBean.despesaSelecionada.mes}"
+			    	required="true"
+			    	validatorMessage="O mês é obrigatório.">
+			    </p:inputText>
+			    
+			    <p:outputLabel value="Valor" for="valor"/>
+			    <p:inputNumber id="valor" value="#{lancarDespesaMaquinaBean.despesaSelecionada.valor}" 
+	    		 	symbol="R$ " symbolPosition="p" 
+                    decimalSeparator="," thousandSeparator="."
+                    minValue="0" decimalPlaces="2" 
+	    			required="true" 
+			    	validatorMessage="O valor é obrigatório.">			    	
+			    </p:inputNumber>
+			    
+			    <p:outputLabel value="Horas" for="horas"/>
+			    <p:inputNumber id="horas" value="#{lancarDespesaMaquinaBean.despesaSelecionada.horas}"
+			    	required="true"
+			    	validatorMessage="As horas são obrigatórias.">
+			    </p:inputNumber>
+			    
+			    <p:outputLabel value="Descrição" for="descricao"/>
+				<p:inputText id="descricao"
+						value="#{lancarDespesaMaquina.despesaSelecionada.descricao}" required="true"
+						validatorMessage="A descrição é obrigatória" />
 	            	               
+	            </p:panelGrid>
 	            </p:outputPanel>
 	
 	            <f:facet name="footer">
 	                <p:commandButton value="Salvar" icon="pi pi-check" 
-	                	actionListener="#{lancarDespesaCusteioBean.saveDespesa}"
+	                	actionListener="#{lancarDespesaMaquinaBean.saveDespesa}"
 	                    update="manage-despesa-content" 
 	                    process="manage-despesa-content @this" />
 	                <p:commandButton value="Cancelar" icon="pi pi-times" 
@@ -108,7 +143,7 @@
 	        	widgetVar="deleteDespesaDialog" showEffect="fade" width="300"
 	            message="Excluir a despesa de custeio?" header="Confirmação">
 	            <p:commandButton value="Sim" icon="pi pi-check" 
-	            	actionListener="#{lancarDespesaCusteioBean.deleteDespesa}"
+	            	actionListener="#{lancarDespesaMaquinaBean.deleteDespesa}"
 	                process="@this" 
 	                oncomplete="PF('deleteDespesaDialog').hide()" />
 	            <p:commandButton value="Não" type="button" icon="pi pi-times"

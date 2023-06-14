@@ -13,7 +13,7 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
-import com.cafe.modelo.DespesaCusteio;
+import com.cafe.modelo.DespesaMaquina;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +29,14 @@ import lombok.Setter;
 public class LancarDespesaMaquinaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	/*
 	private List<DespesaCusteio> despesas = new ArrayList<>();
 	private List<DespesaCusteio> despesasSelecionadas = new ArrayList<>();
-	private DespesaCusteio despesaSelecionada;
+	private DespesaCusteio despesaSelecionada;*/
+	
+	private List<DespesaMaquina> despesas = new ArrayList<>();
+	private List<DespesaMaquina> despesasSelecionadas = new ArrayList<>();
+	private DespesaMaquina despesaSelecionada;
 
 	@Inject
 	private LoginBean loginBean;
@@ -47,7 +51,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	}
 	
 	public void openNew() {
-        this.despesaSelecionada = new DespesaCusteio();
+        this.despesaSelecionada = new DespesaMaquina();
     }
 	
 	public void saveDespesa() {

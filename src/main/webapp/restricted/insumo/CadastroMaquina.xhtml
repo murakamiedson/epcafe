@@ -25,11 +25,7 @@
 	    	
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
-	    			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
-	    				action="#{cadastroMaquinaBean.salvar}" update="frmCadastro"/>
-	    			<span class="ui-separator">
-			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-			        </span>
+	    			
 					<p:button icon="pi pi-chevron-left" value="Voltar" outcome="/restricted/insumo/PesquisaMaquina.xhtml"/>
 					<span class="ui-separator">
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -110,6 +106,9 @@
 			    </p:inputNumber>		    		
 	    		
 	    	</p:panelGrid>
+	    	<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+	    				action="#{cadastroMaquinaBean.salvar}" update="frmCadastro"
+	    				style="margin-top: 10px; margin-bottom: 10px"/>
     	</h:form>
     </ui:define>
 </ui:composition>
