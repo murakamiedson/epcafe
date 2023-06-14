@@ -21,7 +21,8 @@
     		<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo"
-						action="/restricted/propriedade/CadastroFuncionario.xhtml" />
+						action="/restricted/propriedade/CadastroFuncionario.xhtml" 
+						process="@this" />
 					<span class="ui-separator"> <span
 						class="ui-icon ui-icon-grip-dotted-vertical" />
 					</span>
@@ -59,7 +60,7 @@
 				<p:column headerText="Data de Nascimento"
 					style="width: 17px; text-align: center">
 					<h:outputText value="#{funcionario.dataNascimento}">
-						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />	
 					</h:outputText>
 				</p:column>
 
@@ -74,7 +75,7 @@
 						<f:setPropertyActionListener target="#{cadastroFormacaoBean.funcionarioSelecionado}" value="#{funcionario}" />
 					</p:commandButton>
 				</p:column>
-				0
+				
 				<p:column style="width: 25px; text-align: center" headerText="Operações">
 		    		<p:button outcome="CadastroFuncionario" icon="pi pi-pencil" title="Editar">
 		    			<f:param name="funcionario" value="#{funcionario.id}"/>
@@ -116,7 +117,6 @@
 						for="nivelEscolaridade" />
 					<p:selectOneMenu id="nivelEscolaridade"
 						value="#{cadastroFormacaoBean.formacao.nivelEscolaridade}"
-						required="true"
 						validatorMessage="O nível de escolaridade é obrigatório.">
 						<f:selectItem itemLabel="Selecione o nível" />
 						<f:selectItems value="#{cadastroFormacaoBean.niveisEscolaridade}"

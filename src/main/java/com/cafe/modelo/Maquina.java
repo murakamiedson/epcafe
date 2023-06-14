@@ -21,6 +21,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cafe.modelo.enums.TipoAuxiliarInsumos;
+import com.cafe.modelo.enums.TipoCombustivel;
 import com.cafe.modelo.enums.TipoInsumo;
 
 import lombok.Data;
@@ -62,6 +63,9 @@ public class Maquina {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoInsumo tipoInsumo;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoCombustivel tipoCombustivel;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoAuxiliarInsumos tipo;

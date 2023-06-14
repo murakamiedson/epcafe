@@ -1,6 +1,5 @@
 package com.cafe.modelo;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import javax.persistence.CascadeType;
@@ -37,19 +36,23 @@ public class DespesaMaquina {
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private Long tenant_id;
-	
+	private Long id;	
+	private Long tenant_id;	
 	private int ano;
+
+	private float horas1 = 0;
+	private float horas2 = 0;
+	private float horas3 = 0;
+	private float horas4 = 0;
+	private float horas5 = 0;
+	private float horas6 = 0;
+	private float horas7 = 0;
+	private float horas8 = 0;
+	private float horas9 = 0;
+	private float horas10 = 0;
+	private float horas11 = 0;
+	private float horas12 = 0;
 	
-	private int mes;
-	
-	private BigDecimal valor;
-	
-	private float horas;
-	
-	private String descricao;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Unidade unidade;

@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -103,7 +102,6 @@ public class CadastroFormacaoBean implements Serializable {
 	public void gravarPdf(FileUploadEvent evento) {
 		UploadedFile uploadedFile = evento.getFile();
         String fileName = uploadedFile.getFileName();
-        String contentType = uploadedFile.getContentType();
 
         // Diretório onde o arquivo será armazenado
         String directory = "/webapp/restricted/files";
