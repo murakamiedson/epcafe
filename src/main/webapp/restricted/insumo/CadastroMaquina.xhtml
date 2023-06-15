@@ -75,13 +75,6 @@
 	    			<f:selectItems value="#{cadastroMaquinaBean.tiposCombustivel}" var="tipo"
 						itemLabel="#{tipo}" itemValue="#{tipo}"/>
 	    		</p:selectOneMenu>
-	    		
-	    		<p:outputLabel value="Consumo Médio" for="consumo"/>
-	    		<p:inputNumber id="consumo" size="10" maxlength="10" 
-	    			value="#{cadastroMaquinaBean.maquina.consumoMedio}"
-	    			minValue="0" decimalPlaces="2"
-	    			required="true" 
-			    	validatorMessage="O consumo médio é obrigatório."/>	 	
 	    			    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 

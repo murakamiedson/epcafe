@@ -53,11 +53,8 @@ public class Maquina {
 	private BigDecimal valor; // valor do bem
 	
 	@PositiveOrZero
-	private BigDecimal potencia; // CV
-	
-	@PositiveOrZero
-	private BigDecimal consumoMedio; // por unidade litro, kwh,etc
-	
+	private BigDecimal potencia; // CV	
+		
 	@PositiveOrZero
 	private Integer vidaUtil;
 	
