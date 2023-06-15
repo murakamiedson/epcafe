@@ -62,7 +62,7 @@
 					</p:commandButton>
 				</h:panelGroup>
 	    		
-	    		<p:outputLabel value="Intensidade" for="intensidade"/>
+	    		<p:outputLabel value="Fator de Potência" for="intensidade"/>
 	    		<p:selectOneMenu id="intensidade" 
 	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.intensidade}" 
 	    			required="true" 
@@ -129,6 +129,9 @@
 	    		</p:column>
     		</p:dataTable>	        
 	        	
+	        <div class="containerImgPartnerships">
+				<h:graphicImage width="400" height="200" library="imagens" name="intensidade.jpg" title="Intensidade"/>
+	    	</div>
     			
 	    </h:form>
     
