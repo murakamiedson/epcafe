@@ -62,14 +62,14 @@
 					</p:commandButton>
 				</h:panelGroup>
 	    		
-	    		<p:outputLabel value="Fator de Potência" for="intensidade"/>
-	    		<p:selectOneMenu id="intensidade" 
-	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.intensidade}" 
+	    		<p:outputLabel value="Fator de Potência" for="fator"/>
+	    		<p:selectOneMenu id="fator" 
+	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}" 
 	    			required="true" 
-			    	validatorMessage="A intensidade é obrigatória.">
-	    			<f:selectItem itemLabel="Selecione a intensidade de trabalho da máquina" />
-	    			<f:selectItems value="#{lancarDespesaMaquinaBean.intensidades}" var="intensidade" 
-						itemLabel="#{intensidade}" itemValue="#{intensidade}"/>
+			    	validatorMessage="O fator é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o fator potência máquina" />
+	    			<f:selectItems value="#{lancarDespesaMaquinaBean.fatorPotencias}" var="fatorPotencia" 
+						itemLabel="#{fatorPotencia}" itemValue="#{fatorPotencia}"/>
 	    		</p:selectOneMenu>
 	    		
 	    		<p:outputLabel value="Horas Trabalhadas" for="ht"/>
@@ -103,7 +103,7 @@
     				</h:outputText>
 	    		</p:column>	    		
 	    		
-	    		<p:column headerText="Maquina" sortBy="#{despesa.maquina.nome}" 
+	    		<p:column headerText="Máquina" sortBy="#{despesa.maquina.nome}" 
 	    			style="width: 30px; text-align: left">
 	    			<h:outputText value="#{despesa.maquina.nome}" />
 	    		</p:column>
@@ -116,8 +116,8 @@
 	    			<h:outputText value="22,22" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Intensidade" style="width: 30px; text-align: left">
-	    			<h:outputText value="#{despesa.intensidade}"/>
+	    		<p:column headerText="Fator Potência" style="width: 30px; text-align: left">
+	    			<h:outputText value="#{despesa.fatorPotencia}"/>
 	    		</p:column>
 	    		
 	    		<p:column headerText="Valor Total" style="width: 30px; text-align: center">

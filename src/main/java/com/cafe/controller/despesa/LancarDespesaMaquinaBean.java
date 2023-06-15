@@ -16,7 +16,7 @@ import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.PrecoCombustivel;
-import com.cafe.modelo.enums.Intensidade;
+import com.cafe.modelo.enums.FatorPotencia;
 import com.cafe.service.MaquinaService;
 
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	private LocalDate mesAno;
 	private List<Maquina> maquinas;
 	private DespesaMaquina despesaMaquina;
-	private List<Intensidade> intensidades;
+	private List<FatorPotencia> fatorPotencias;
 	private List<DespesaMaquina> despesas = new ArrayList<>();
 	private PrecoCombustivel precoCombustivel;
 	
@@ -54,7 +54,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		
 		mesAno = LocalDate.now();
 		maquinas = maquinaService.buscarMaquinas(loginBean.getTenantId());
-		intensidades = Arrays.asList(Intensidade.values());
+		fatorPotencias = Arrays.asList(FatorPotencia.values());
 		limpar();
 	}
 	

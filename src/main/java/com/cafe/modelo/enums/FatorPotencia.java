@@ -4,7 +4,7 @@ package com.cafe.modelo.enums;
  * @author murakamiadmin
  *
  */
-public enum Intensidade {
+public enum FatorPotencia {
 	A_100(100),
 	A_90(90),
 	A_80(80),
@@ -21,7 +21,7 @@ public enum Intensidade {
 	
 	private final int valor;
 	 
-    private Intensidade(int valor) {
+    private FatorPotencia(int valor) {
         this.valor = valor;
     }
 

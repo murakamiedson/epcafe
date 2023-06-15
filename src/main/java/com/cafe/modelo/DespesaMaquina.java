@@ -21,7 +21,7 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.Intensidade;
+import com.cafe.modelo.enums.FatorPotencia;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -54,7 +54,7 @@ public class DespesaMaquina {
 	private BigDecimal horasTrabalhadas = new BigDecimal(0);
 	
 	@Enumerated(EnumType.STRING)
-	private Intensidade intensidade;
+	private FatorPotencia fatorPotencia;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Unidade unidade;
