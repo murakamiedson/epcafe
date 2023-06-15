@@ -58,6 +58,14 @@
 						itemLabel="#{tipoMaquina}" itemValue="#{tipoMaquina}"/>
 	    		</p:selectOneMenu>
 	    		
+		    	<p:outputLabel value="Potência" for="potencia"/>			     
+			    <p:inputNumber id="potencia" value="#{cadastroMaquinaBean.maquina.potencia}" 
+			    	symbol=" CV" symbolPosition="s" 
+			    	minValue="0" decimalPlaces="2"	    		 
+	    			required="true" 
+			    	validatorMessage="A potência é obrigatória.">			    	
+			    </p:inputNumber>  
+	    		
 	    		<p:outputLabel value="Tipo de Combustível" for="tipoc"/>
 	    		<p:selectOneMenu id="tipoc" 
 	    			value="#{cadastroMaquinaBean.maquina.tipoCombustivel}"
@@ -68,7 +76,13 @@
 						itemLabel="#{tipo}" itemValue="#{tipo}"/>
 	    		</p:selectOneMenu>
 	    		
-	    		
+	    		<p:outputLabel value="Consumo Médio" for="consumo"/>
+	    		<p:inputNumber id="consumo" size="10" maxlength="10" 
+	    			value="#{cadastroMaquinaBean.maquina.consumoMedio}"
+	    			minValue="0" decimalPlaces="2"
+	    			required="true" 
+			    	validatorMessage="O consumo médio é obrigatório."/>	 	
+	    			    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 
 	    			value="#{cadastroMaquinaBean.maquina.nome}"
@@ -82,22 +96,15 @@
 	    			value="#{cadastroMaquinaBean.maquina.modelo}"/>
 			   
 	    		
-	    		<p:outputLabel value="Valor" for="valor"/>
+	    		<p:outputLabel value="Valor do bem" for="valor"/>
 	    		 <p:inputNumber id="valor" value="#{cadastroMaquinaBean.maquina.valor}" 
 	    		 	symbol="R$ " symbolPosition="p" 
                     decimalSeparator="," thousandSeparator="."
                     minValue="0" decimalPlaces="2" 
 	    			required="true" 
 			    	validatorMessage="O valor é obrigatório.">			    	
-			    </p:inputNumber>
-			    
-			    <p:outputLabel value="Potência" for="potencia"/>			     
-			    <p:inputNumber id="potencia" value="#{cadastroMaquinaBean.maquina.potencia}" 
-			    	symbol=" CV" symbolPosition="s" 
-			    	minValue="0" decimalPlaces="2"	    		 
-	    			required="true" 
-			    	validatorMessage="A potência é obrigatória.">			    	
-			    </p:inputNumber>			    			    	
+			    </p:inputNumber>	    
+			    			    			    	
 			    
 			    <p:outputLabel value="Data de Compra" for="compra"/>
 	    		 <p:datePicker id="compra" value="#{cadastroMaquinaBean.maquina.dataCompra}"

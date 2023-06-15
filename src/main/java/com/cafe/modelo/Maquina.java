@@ -50,10 +50,13 @@ public class Maquina {
 	private String modelo;
 	
 	@PositiveOrZero
-	private BigDecimal valor;
+	private BigDecimal valor; // valor do bem
 	
 	@PositiveOrZero
-	private BigDecimal potencia;
+	private BigDecimal potencia; // CV
+	
+	@PositiveOrZero
+	private BigDecimal consumoMedio; // por unidade litro, kwh,etc
 	
 	@PositiveOrZero
 	private Integer vidaUtil;
