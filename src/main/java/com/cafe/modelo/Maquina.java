@@ -53,7 +53,7 @@ public class Maquina {
 	private BigDecimal valor; // valor do bem
 	
 	@PositiveOrZero
-	private BigDecimal potencia; // CV	
+	private BigDecimal potencia = new BigDecimal(0.0); // CV	
 		
 	@PositiveOrZero
 	private Integer vidaUtil;
