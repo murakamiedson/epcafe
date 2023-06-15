@@ -98,10 +98,13 @@
 		    		rowsPerPageTemplate="5,10,15">
 		    		
 	    		<p:column headerText="Mês/Ano" style="width: 10px; text-align: center">
-	    			<h:outputText value="11/2023" />
+	    			<h:outputText value="#{despesa.mesAno}">
+	    				<f:convertDateTime type="localDate" pattern="MM/yyyy" />
+    				</h:outputText>
 	    		</p:column>	    		
 	    		
-	    		<p:column headerText="Maquina" sortBy="#{despesa.maquina.nome}" style="width: 30px; text-align: left">
+	    		<p:column headerText="Maquina" sortBy="#{despesa.maquina.nome}" 
+	    			style="width: 30px; text-align: left">
 	    			<h:outputText value="#{despesa.maquina.nome}" />
 	    		</p:column>
 	    		
@@ -109,16 +112,20 @@
 	    			<h:outputText value="#{despesa.maquina.tipoCombustivel}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Preço" style="width: 30px; text-align: left">
+	    		<p:column headerText="Preço Unitário" style="width: 30px; text-align: center">
 	    			<h:outputText value="22,22" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Intensidade" style="width: 30px; text-align: left">
-	    			<h:outputText value="#{despesa.intensidade}" />
+	    			<h:outputText value="#{despesa.intensidade}"/>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Valor Total" style="width: 30px; text-align: left">
+	    		<p:column headerText="Valor Total" style="width: 30px; text-align: center">
 	    			<h:outputText value="999,99" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Operações" style="width: 30px; text-align: center">
+
 	    		</p:column>
     		</p:dataTable>	        
 	        	

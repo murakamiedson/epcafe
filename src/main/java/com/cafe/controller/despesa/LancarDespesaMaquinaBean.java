@@ -61,6 +61,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
     public void salvar() {
     	log.info("salvar ..." + despesaMaquina);
     	
+    	despesaMaquina.setMesAno(mesAno);
     	despesas.add(despesaMaquina);
     	
     	limpar();
@@ -68,6 +69,8 @@ public class LancarDespesaMaquinaBean implements Serializable {
     
     public void buscarPrecoCombustivel() {
     	log.info("buscar preço ..." + despesaMaquina.getMaquina().getId());
+    	
+    	//buscar no cadastro
     	precoCombustivel.setValor(new BigDecimal(5.54));
     }
 
