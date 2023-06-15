@@ -1,19 +1,27 @@
 package com.cafe.modelo;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.cafe.modelo.enums.Intensidade;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,21 +46,15 @@ public class DespesaMaquina {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
 	private Long tenant_id;	
-	private int ano;
-
-	private float horas1 = 0;
-	private float horas2 = 0;
-	private float horas3 = 0;
-	private float horas4 = 0;
-	private float horas5 = 0;
-	private float horas6 = 0;
-	private float horas7 = 0;
-	private float horas8 = 0;
-	private float horas9 = 0;
-	private float horas10 = 0;
-	private float horas11 = 0;
-	private float horas12 = 0;
 	
+	@NotNull
+	private LocalDate mesAno;
+
+	@PositiveOrZero
+	private BigDecimal horasTrabalhadas = new BigDecimal(0);
+	
+	@Enumerated(EnumType.STRING)
+	private Intensidade intensidade;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Unidade unidade;

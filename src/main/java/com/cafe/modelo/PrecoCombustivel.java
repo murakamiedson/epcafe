@@ -33,9 +33,7 @@ public class PrecoCombustivel {
 	private Long tenant_id;
 	
 	@PositiveOrZero
-	private BigDecimal valor1 = new BigDecimal(0);
-	@PositiveOrZero
-	private BigDecimal valor2 = new BigDecimal(0);
+	private BigDecimal valor = new BigDecimal(0);
 	
 	@Enumerated(EnumType.STRING)
 	private TipoCombustivel tipoCombustivel;

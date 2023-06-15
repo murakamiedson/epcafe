@@ -15,165 +15,114 @@
     	<h:form id="form">
     	
     		<p:growl id="msgs" showDetail="true" /> 
-    		
-    		<!--  trocar por selectOneMenu -->
-    		
-    		<p:outputLabel value="Ano" for="ano"/>
-	    	<p:inputText id="ano" size="10" maxlength="4" 
-	    			value="#{lancarDespesaMaquinaBean.ano}"
-	    			required="true" 
-			    	validatorMessage="O ano é obrigatório."/>	 	
-	    		    		
-    		<!-- COMBUSTIVEL VALORES -->
-    		
-    		
-    		<p:dataTable id="combustiveisTable" widgetVar="dtConbustiveis" style="margin-top: 10px" 
-	    		var="preco" value="#{lancarDespesaMaquinaBean.precosCombustiveis}" 
-	    		selectionMode="single" 
-	    		selection="#{lancarDespesaMaquinaBean.precoSelecionado}" rowKey="#{preco.id}"
-	    		editable="true">	
-	    		
-	    		<f:facet name="header">
-	                <div class="grid mt-3">
-			            <div class="col-12">
-			                <p:commandButton value="Adicionar Preço" 
-			                	process="@this" 
-			                	update=":form:msgs :form:combustiveisTable"
-			                    action="#{lancarDespesaMaquinaBean.onAddNewCombustivel()}"/>
-			           
-				            <p:commandButton value="Excluir Preço" 
-				            	actionListener="#{lancarDespesaMaquinaBean.onDeleteCombustivel}"
-				            	update=":form:msgs :form:combustiveisTable">
-			                </p:commandButton>
-                		</div>
-			        </div>
-	            </f:facet>            
-
-	            <p:ajax event="rowEdit" listener="#{lancarDespesaMaquinaBean.onRowEditCombustivel}" update=":form:msgs"/>
-	            <p:ajax event="rowEditCancel" listener="#{lancarDespesaMaquinaBean.onRowCancelCombustivel}" update=":form:msgs"/>
-				<p:ajax event="rowSelectCheckbox" update="combustiveisTable"/>
-	            <p:ajax event="rowUnselectCheckbox" update="combustiveisTable"/>
-		
-	            <p:column headerText="Combustível" style="width: 80px; text-align: left">
-	            	<h:outputText value="combustivel #{preco.id}"/>
-	            </p:column>
-	
-	            <p:column headerText="Janeiro" style="width: 20px; text-align: center">
-	                <p:cellEditor>
-	                    <f:facet name="output">
-	                    	<h:outputText value="#{preco.valor1}"/>
-	                    </f:facet>
-	                    <f:facet name="input">
-	                    	<p:inputText value="#{preco.valor1}" style="width:100%" 
-	                    		label="Valor"/>
-	                    	</f:facet>
-	                </p:cellEditor>
-	            </p:column>
-	            <p:column headerText="Fevereiro" style="width: 20px; text-align: center">
-	                <p:cellEditor>
-	                    <f:facet name="output">
-	                    	<h:outputText value="#{preco.valor2}"/>
-	                    </f:facet>
-	                    <f:facet name="input">
-	                    	<p:inputText value="#{preco.valor2}" style="width:100%" 
-	                    		label="Valor"/>
-	                    	</f:facet>
-	                </p:cellEditor>
-	            </p:column>
-	
-	            <p:column headerText="Operações" style="width:8rem">
-	                <p:rowEditor/>
-	            </p:column>
-	            
-	             <p:column headerText="Total" style="width: 20px; text-align: center">
-	                <h:outputLabel value="totais" />
-	            </p:column>
-	            
-	            <f:facet name="footer">
-	                <div class="grid mt-3">
-			            <div class="col-12">
-			                <h:outputLabel value="totais"/>
-                		</div>
-			        </div>
-	            </f:facet>  
-	        </p:dataTable>
-			
-			
-			<!-- DESPESAS -->
-			
+      		
+	    	<div class="field col-12 md:col-4">
+                <p:outputLabel for="month" value="Mês/Ano"/>
+                <p:datePicker id="month" view="month" 
+                	value="#{lancarDespesaMaquinaBean.mesAno}" 
+                	pattern="MM/yyyy" yearNavigator="true" yearRange="2000:2030"/>
+            </div>	
 	    	
-	    	<p:dataTable id="despesasTable" widgetVar="dtDespesa" style="margin-top: 10px" 
-	    		var="despesa" value="#{lancarDespesaMaquinaBean.despesas}"
-	    		selectionMode="single" 
-	    		selection="#{lancarDespesaMaquinaBean.despesaSelecionada}" rowKey="#{despesa.id}"
-	    		editable="true">   	
+	    	
+	    	<p:panelGrid id="gridDespesa" columns="4" style="width: 100%; margin-top: 20px"
+	    		columnClasses="rotulo, campo">
 
-	            <f:facet name="header">
-	                <div class="grid mt-3">
-			            <div class="col-12">
-			                <p:commandButton value="Adicionar Despesa" 
-			                	process="@this" 
-			                	update=":form:msgs :form:despesasTable"
-			                    action="#{lancarDespesaMaquinaBean.onAddNew()}"/>
-			           
-				            <p:commandButton value="Excluir Despesa" 
-				            	actionListener="#{lancarDespesaMaquinaBean.onDelete}"
-				            	update=":form:msgs :form:despesasTable">
-			                </p:commandButton>
-                		</div>
-			        </div>
-	            </f:facet>
-	
-	            <p:ajax event="rowEdit" listener="#{lancarDespesaMaquinaBean.onRowEdit}" update=":form:msgs"/>
-	            <p:ajax event="rowEditCancel" listener="#{lancarDespesaMaquinaBean.onRowCancel}" update=":form:msgs"/>
-				<p:ajax event="rowSelectCheckbox" update="despesasTable"/>
-	            <p:ajax event="rowUnselectCheckbox" update="despesasTable"/>
-		
-		
-	            <p:column headerText="Máquina" style="width: 80px; text-align: left">
-	            	<h:outputText value="maquina #{despesa.id}"/>
-	            </p:column>	
-	            
-	            <p:column headerText="Janeiro" style="width: 20px; text-align: center">
-	                <p:cellEditor>
-	                    <f:facet name="output">
-	                    	<h:outputText value="#{despesa.horas1}"/>
-	                    </f:facet>
-	                    <f:facet name="input">
-	                    	<p:inputText value="#{despesa.horas1}" style="width:100%" 
-	                    		label="Horas"/>
-	                    	</f:facet>
-	                </p:cellEditor>
-	            </p:column>
-	            <p:column headerText="Fevereiro" style="width: 20px; text-align: center">
-	                <p:cellEditor>
-	                    <f:facet name="output">
-	                    	<h:outputText value="#{despesa.horas2}"/>
-	                    </f:facet>
-	                    <f:facet name="input">
-	                    	<p:inputText value="#{despesa.horas2}" style="width:100%" 
-	                    		label="Horas"/>
-	                    	</f:facet>
-	                </p:cellEditor>
-	            </p:column>	
-	            
-	            <p:column headerText="Operações" style="width:8rem">
-	                <p:rowEditor/>
-	            </p:column>
-	            
-	            <p:column headerText="Total" style="width: 20px; text-align: center">
-	                <h:outputLabel value="totais" />
-	            </p:column>
-	            
-	            <f:facet name="footer">
-	                <div class="grid mt-3">
-			            <div class="col-12">
-			                <h:outputLabel value="totais"/>
-                		</div>
-			        </div>
-	            </f:facet>  
-	        </p:dataTable>	    		
+				<p:outputLabel value="Máquina" for="maquina"/>
+	    		<p:selectOneMenu id="maquina" 
+	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina}" 
+	    			required="true" 
+			    	validatorMessage="A máquina é obrigatória.">
+	    			<f:selectItem itemLabel="Selecione a máquina" />
+	    			<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}" var="maquina" 
+						itemLabel="#{maquina.nome}" itemValue="#{maquina}"/>
+						
+					<p:ajax listener="#{lancarDespesaMaquinaBean.buscarPrecoCombustivel}"
+						update="tipo comb preco" process="maquina"/>
+	    		</p:selectOneMenu>
 	    		
+	    		<p:outputLabel value="Tipo"/>
+	    		<p:outputLabel id="tipo" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo}"/>
+		
+		        <p:outputLabel value="Combustível"/>
+	    		<p:outputLabel id="comb" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel}"/>	 
+		
+				<p:outputLabel value="Preço (l/kwh)"/>
+				<h:panelGroup>
+		    		<p:inputNumber id="preco" 
+			    		symbol="R$ " symbolPosition="p" 
+	                    decimalSeparator="," thousandSeparator="."
+	                    minValue="0" decimalPlaces="2" 
+		    			value="#{lancarDespesaMaquinaBean.precoCombustivel.valor}"
+		    			readonly="true">
+		    		</p:inputNumber>
+		    		
+		    		<p:spacer width="10px" />			
+		    		
+					<p:commandButton value="Cadastrar Preço" title="Cadastrar Preço"> 	    			
+					</p:commandButton>
+				</h:panelGroup>
+	    		
+	    		<p:outputLabel value="Intensidade" for="intensidade"/>
+	    		<p:selectOneMenu id="intensidade" 
+	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.intensidade}" 
+	    			required="true" 
+			    	validatorMessage="A intensidade é obrigatória.">
+	    			<f:selectItem itemLabel="Selecione a intensidade de trabalho da máquina" />
+	    			<f:selectItems value="#{lancarDespesaMaquinaBean.intensidades}" var="intensidade" 
+						itemLabel="#{intensidade}" itemValue="#{intensidade}"/>
+	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Horas Trabalhadas" for="ht"/>
+	    		<p:inputNumber id="ht" value="#{lancarDespesaMaquinaBean.despesaMaquina.horasTrabalhadas}" 
+	                decimalSeparator="," thousandSeparator="."
+                    minValue="0" decimalPlaces="2" 
+	    			required="true" 
+			    	validatorMessage="A quantidade de horas trabalhadas é obrigatória.">			    	
+			    </p:inputNumber>
+		        
+	        </p:panelGrid>
+	        
+	        <p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+	    				action="#{lancarDespesaMaquinaBean.salvar}" update="despesasTable"
+	    				style="margin-top: 10px; margin-bottom: 10px"/>
+	    				
+	    	<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-save"
+	    				action="#{lancarDespesaMaquinaBean.limpar}" update="gridDespesa"
+	    				style="margin-top: 10px; margin-bottom: 10px"/> 	
+	    			 
+	        
+	        <p:dataTable id="despesasTable" value="#{lancarDespesaMaquinaBean.despesas}" 
+	        		var="despesa"
+		    		style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada." rows="10"
+		    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
+		    		rowsPerPageTemplate="5,10,15">
+		    		
+	    		<p:column headerText="Mês/Ano" style="width: 10px; text-align: center">
+	    			<h:outputText value="11/2023" />
+	    		</p:column>	    		
+	    		
+	    		<p:column headerText="Maquina" sortBy="#{despesa.maquina.nome}" style="width: 30px; text-align: left">
+	    			<h:outputText value="#{despesa.maquina.nome}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Combustível" style="width: 30px; text-align: left">
+	    			<h:outputText value="#{despesa.maquina.tipoCombustivel}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Preço" style="width: 30px; text-align: left">
+	    			<h:outputText value="22,22" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Intensidade" style="width: 30px; text-align: left">
+	    			<h:outputText value="#{despesa.intensidade}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Valor Total" style="width: 30px; text-align: left">
+	    			<h:outputText value="999,99" />
+	    		</p:column>
+    		</p:dataTable>	        
+	        	
+    			
 	    </h:form>
     
     </ui:define>

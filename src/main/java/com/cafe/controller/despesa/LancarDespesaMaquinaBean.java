@@ -1,31 +1,33 @@
 package com.cafe.controller.despesa;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.RowEditEvent;
-
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaMaquina;
+import com.cafe.modelo.Maquina;
 import com.cafe.modelo.PrecoCombustivel;
+import com.cafe.modelo.enums.Intensidade;
+import com.cafe.service.MaquinaService;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
 
 /**
  * @author murakamiadmin
  *
  */
-@Log
+@Log4j
 @Getter
 @Setter
 @Named
@@ -33,92 +35,50 @@ import lombok.extern.java.Log;
 public class LancarDespesaMaquinaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-		
+
+	private LocalDate mesAno;
+	private List<Maquina> maquinas;
+	private DespesaMaquina despesaMaquina;
+	private List<Intensidade> intensidades;
 	private List<DespesaMaquina> despesas = new ArrayList<>();
-	private List<PrecoCombustivel> precosCombustiveis = new ArrayList<>();
-	private static long idTeste = 1;
-	private DespesaMaquina despesaSelecionada;
-	private PrecoCombustivel precoSelecionado;
-	private int ano;
+	private PrecoCombustivel precoCombustivel;
 	
 	@Inject
 	private LoginBean loginBean;
+	
+	@Inject
+	private MaquinaService maquinaService;
 
 	@PostConstruct
 	public void inicializar() {
-		ano = 2023;
-	}	
-
-    public void onAddNew() {
-    	log.info("add");
-    
-    	DespesaMaquina novaDespesa = new DespesaMaquina();
-    	novaDespesa.setId(idTeste++);
-    	
-        despesas.add(novaDespesa);
-
-        FacesMessage msg = new FacesMessage("Despesa added", String.valueOf(novaDespesa.getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }  
-    public void onDelete() {
-    	log.info("delete");   
-    	
-        despesas.remove(despesaSelecionada);
-
-        FacesMessage msg = new FacesMessage("Despesa deleted", String.valueOf(despesaSelecionada.getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    } 
+		
+		mesAno = LocalDate.now();
+		maquinas = maquinaService.buscarMaquinas(loginBean.getTenantId());
+		intensidades = Arrays.asList(Intensidade.values());
+		limpar();
+	}
 	
-	public void onRowEdit(RowEditEvent<DespesaMaquina> event) {		
-		log.info("edit");
+    public void salvar() {
+    	log.info("salvar ..." + despesaMaquina);
+    	
+    	despesas.add(despesaMaquina);
+    	
+    	limpar();
+    }
+    
+    public void buscarPrecoCombustivel() {
+    	log.info("buscar preço ..." + despesaMaquina.getMaquina().getId());
+    	precoCombustivel.setValor(new BigDecimal(5.54));
+    }
+
+	public void limpar() {
+		despesaMaquina = new DespesaMaquina();
+		despesaMaquina.setMesAno(mesAno);
+		despesaMaquina.setUnidade(loginBean.getUsuario().getUnidade());
 		
-        FacesMessage msg = new FacesMessage("Despesa Edited", String.valueOf(event.getObject().getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
+		precoCombustivel = new PrecoCombustivel();
+	}
 
-    public void onRowCancel(RowEditEvent<DespesaMaquina> event) {    	
-    	log.info("cancel");
-    	
-        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-    
-    
-    /* COMBUSTIVEIS */
-    
-    public void onAddNewCombustivel() {
-    	log.info("add");
-    
-    	PrecoCombustivel precoCombustivel = new PrecoCombustivel();
-    	precoCombustivel.setId(idTeste++);
-    	
-    	precosCombustiveis.add(precoCombustivel);
-
-        FacesMessage msg = new FacesMessage("Preço added", String.valueOf(precoCombustivel.getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    } 
-    
-    public void onDeleteCombustivel() {
-    	log.info("delete");   
-    	
-    	precosCombustiveis.remove(precoSelecionado);
-
-        FacesMessage msg = new FacesMessage("Despesa deleted", String.valueOf(precoSelecionado.getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-    
-    public void onRowEditCombustivel(RowEditEvent<PrecoCombustivel> event) {		
-		log.info("edit");
-		
-        FacesMessage msg = new FacesMessage("Preço Edited", String.valueOf(event.getObject().getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void onRowCancelCombustivel(RowEditEvent<PrecoCombustivel> event) {    	
-    	log.info("cancel");
-    	
-        FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getId()));
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
+	
+	
 }
