@@ -51,14 +51,15 @@
 		    		<p:inputNumber id="preco" 
 			    		symbol="R$ " symbolPosition="p" 
 	                    decimalSeparator="," thousandSeparator="."
-	                    minValue="0" decimalPlaces="2" 
-		    			value="#{lancarDespesaMaquinaBean.precoCombustivel.valor}"
-		    			readonly="true">
+	                    minValue="0" decimalPlaces="2"
+	                    value="#{lancarDespesaMaquinaBean.precoCombustivel.valor}">
 		    		</p:inputNumber>
 		    		
 		    		<p:spacer width="10px" />			
 		    		
-					<p:commandButton value="Cadastrar Preço" title="Cadastrar Preço"> 	    			
+					<p:commandButton value="Cadastrar Preço" title="Cadastrar Preço" 
+						>
+						 	    			
 					</p:commandButton>
 				</h:panelGroup>
 	    		
@@ -113,7 +114,7 @@
 	    		</p:column>
 	    		
 	    		<p:column headerText="Preço Unitário" style="width: 30px; text-align: center">
-	    			<h:outputText value="22,22" />
+	    			<h:outputText value="MUDAR" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Fator Potência" style="width: 30px; text-align: left">
@@ -121,7 +122,11 @@
 	    		</p:column>
 	    		
 	    		<p:column headerText="Valor Total" style="width: 30px; text-align: center">
-	    			<h:outputText value="999,99" />
+	    			<h:outputText value="MUDAR" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Preço Combustível" style="width: 30px; text-align: center">
+	    			<h:outputText value="#{lancarDespesaMaquinaBean.precoCombustivel.valor}" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Operações" style="width: 30px; text-align: center">

@@ -17,7 +17,10 @@ import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.PrecoCombustivel;
 import com.cafe.modelo.enums.FatorPotencia;
+import com.cafe.service.DespesaMaquinaService;
 import com.cafe.service.MaquinaService;
+import com.cafe.util.MessageUtil;
+import com.cafe.util.NegocioException;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,16 +45,19 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	private List<FatorPotencia> fatorPotencias;
 	private List<DespesaMaquina> despesas = new ArrayList<>();
 	private PrecoCombustivel precoCombustivel;
+
 	
 	@Inject
 	private LoginBean loginBean;
 	
 	@Inject
 	private MaquinaService maquinaService;
+	
+	@Inject
+	private DespesaMaquinaService despesaService;
 
 	@PostConstruct
 	public void inicializar() {
-		
 		mesAno = LocalDate.now();
 		maquinas = maquinaService.buscarMaquinas(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
@@ -59,26 +65,36 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	}
 	
     public void salvar() {
-    	log.info("salvar ..." + despesaMaquina);
+    	//log.info("salvar ..." + despesaMaquina);
     	
-    	despesaMaquina.setMesAno(mesAno);
-    	despesas.add(despesaMaquina);
+		despesaMaquina.setMesAno(mesAno);
+
+    	try {
+			this.despesaService.salvar(despesaMaquina);
+			despesas.add(despesaMaquina);
+			MessageUtil.sucesso("Despesa salva com sucesso!");
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			MessageUtil.erro(e.getMessage());
+		}		
+		this.limpar();
+    	//this.despesaService.salvar(despesaMaquina);
     	
-    	limpar();
+    	
     }
     
     public void buscarPrecoCombustivel() {
     	log.info("buscar preço ..." + despesaMaquina.getMaquina().getId());
     	
     	//buscar no cadastro
-    	precoCombustivel.setValor(new BigDecimal(5.54));
+    	//precoCombustivel.setValor(new BigDecimal(5.54));
     }
 
 	public void limpar() {
 		despesaMaquina = new DespesaMaquina();
 		despesaMaquina.setMesAno(mesAno);
 		despesaMaquina.setUnidade(loginBean.getUsuario().getUnidade());
-		
+		despesaMaquina.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 		precoCombustivel = new PrecoCombustivel();
 	}
 
