@@ -65,8 +65,7 @@ public class DespesaMaquinaDAO implements Serializable{
 		}
 	}
 	
-	
-	
+		
 	/*
 	 * Buscas
 	 */
@@ -81,6 +80,8 @@ public class DespesaMaquinaDAO implements Serializable{
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
+
+
 
 
 }

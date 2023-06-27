@@ -1,12 +1,10 @@
 package com.cafe.modelo.enums;
 
-import java.math.BigDecimal;
-
 /**
  * @author murakamiadmin
  *
  */
-public enum FatorPotencia {
+public enum Intensidade {
 	A_100(100),
 	A_90(90),
 	A_80(80),
@@ -23,12 +21,11 @@ public enum FatorPotencia {
 	
 	private final int valor;
 	 
-    private FatorPotencia(int valor) {
+    private Intensidade(int valor) {
         this.valor = valor;
     }
 
-    public BigDecimal getValor() {
-    	//BigDecimal valorFinal = 
-        return BigDecimal.valueOf(this.valor/100);
+    public int getValor() {
+        return this.valor;
     }
 }

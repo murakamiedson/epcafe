@@ -36,8 +36,7 @@
 	    			<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}" var="maquina" 
 						itemLabel="#{maquina.nome}" itemValue="#{maquina}"/>
 						
-					<p:ajax listener="#{lancarDespesaMaquinaBean.buscarPrecoCombustivel}"
-						update="tipo comb preco" process="maquina"/>
+					<p:ajax update="tipo comb preco" process="maquina"/>
 	    		</p:selectOneMenu>
 	    		
 	    		<p:outputLabel value="Tipo"/>
@@ -52,15 +51,12 @@
 			    		symbol="R$ " symbolPosition="p" 
 	                    decimalSeparator="," thousandSeparator="."
 	                    minValue="0" decimalPlaces="2"
-	                    value="#{lancarDespesaMaquinaBean.precoCombustivel.valor}">
+	                    value="#{lancarDespesaMaquinaBean.despesaMaquina.precoUnitarioCombustivel}">
 		    		</p:inputNumber>
 		    		
 		    		<p:spacer width="10px" />			
 		    		
-					<p:commandButton value="Cadastrar Preço" title="Cadastrar Preço" 
-						>
-						 	    			
-					</p:commandButton>
+					
 				</h:panelGroup>
 	    		
 	    		<p:outputLabel value="Fator de Potência" for="fator"/>
@@ -113,26 +109,44 @@
 	    			<h:outputText value="#{despesa.maquina.tipoCombustivel}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Preço Unitário" style="width: 30px; text-align: center">
-	    			<h:outputText value="MUDAR" />
-	    		</p:column>
-	    		
 	    		<p:column headerText="Fator Potência" style="width: 30px; text-align: left">
 	    			<h:outputText value="#{despesa.fatorPotencia}"/>
 	    		</p:column>
 	    		
-	    		<p:column headerText="Valor Total" style="width: 30px; text-align: center">
-	    			<h:outputText value="MUDAR" />
+	    		<p:column headerText="Valor Total (R$)" style="width: 30px; text-align: center">
+	    			<h:outputText value="#{despesa.valorTotal}" >
+	    				<f:convertNumber pattern="#0.00" />
+	    			</h:outputText>
 	    		</p:column>
 	    		
 	    		<p:column headerText="Preço Combustível" style="width: 30px; text-align: center">
-	    			<h:outputText value="#{lancarDespesaMaquinaBean.precoCombustivel.valor}" />
+	    			<h:outputText value="#{despesa.precoUnitarioCombustivel}" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Operações" style="width: 30px; text-align: center">
-
+	    		<p:button outcome="LancarDespesaMaquina" icon="pi pi-pencil" title="Editar">
+		    			<f:param name="despesa" value="#{despesa.id}"/>
+		    			<!-- <p:ajax update="form:gridDespesa" process="despesa"/>-->
+		    		</p:button>
+					<p:commandButton icon="pi pi-trash" title="Excluir"		    				
+		    			onclick="PF('confirmacaoExclusao').show();"
+						process="@this form:confirmacaoExclusaoDialog"
+						imediate="true">
+						<f:setPropertyActionListener target="#{lancarDespesaMaquinaBean.despesaMaquina}" 
+							value="#{despesa}" />
+					</p:commandButton>
 	    		</p:column>
-    		</p:dataTable>	        
+    		</p:dataTable>
+    		<p:confirmDialog id="confirmacaoExclusaoDialog" 
+		   			widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir a maquina #{lancarDespesaMaquinaBean.despesaMaquina}?"  
+	                header="Exclusão de máquina" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
+	        		update=":form:despesasTable"
+	        		onclick="PF('confirmacaoExclusao').hide();" action="#{lancarDespesaMaquinaBean.excluir}" />
+	    	</p:confirmDialog>	        
 	        	
 	        <div class="containerImgPartnerships">
 				<h:graphicImage width="400" height="200" library="imagens" name="intensidade.jpg" title="Intensidade"/>

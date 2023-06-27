@@ -62,6 +62,12 @@ public class DespesaMaquina {
 	@OneToOne(cascade = CascadeType.ALL)	
 	private Maquina maquina;
 	
+	private BigDecimal precoUnitarioCombustivel;
+	
+	private BigDecimal valorTotal;
+	
+	
+	
 	/*
 	 * Datas de Criação e Modificação
 	 */
