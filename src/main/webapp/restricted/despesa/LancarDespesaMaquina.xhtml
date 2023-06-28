@@ -24,26 +24,26 @@
             </div>	
 	    	
 	    	
-	    	<p:panelGrid id="gridDespesa" columns="4" style="width: 100%; margin-top: 20px"
+	    	<p:panelGrid id="gridDespesa" columns="2" style="width: 100%; margin-top: 20px"
 	    		columnClasses="rotulo, campo">
 
 				<p:outputLabel value="Máquina" for="maquina"/>
-	    		<p:selectOneMenu id="maquina" 
-	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina}" 
-	    			required="true" 
-			    	validatorMessage="A máquina é obrigatória.">
-	    			<f:selectItem itemLabel="Selecione a máquina" />
-	    			<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}" var="maquina" 
-						itemLabel="#{maquina.nome}" itemValue="#{maquina}"/>
-						
-					<p:ajax update="tipo comb preco" process="maquina"/>
-	    		</p:selectOneMenu>
-	    		
-	    		<p:outputLabel value="Tipo"/>
-	    		<p:outputLabel id="tipo" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo}"/>
-		
-		        <p:outputLabel value="Combustível"/>
-	    		<p:outputLabel id="comb" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel}"/>	 
+				<h:panelGroup>
+		    		<p:selectOneMenu id="maquina" 
+		    			value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina}" 
+		    			required="true" 
+				    	validatorMessage="A máquina é obrigatória.">
+		    			<f:selectItem itemLabel="Selecione a máquina" />
+		    			<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}" var="maquina" 
+							itemLabel="#{maquina.nome}" itemValue="#{maquina}"/>
+							
+						<p:ajax update="tipo comb preco" process="maquina"/>
+		    		</p:selectOneMenu>
+		    		<p:spacer width="10px" />
+		    		<p:outputLabel id="tipo" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo}"/>
+		    		<p:spacer width="20px" />
+		    		<p:outputLabel id="comb" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel}"/>
+		   		</h:panelGroup>
 		
 				<p:outputLabel value="Preço (l/kwh)"/>
 				<h:panelGroup>
@@ -52,19 +52,16 @@
 	                    decimalSeparator="," thousandSeparator="."
 	                    minValue="0" decimalPlaces="2"
 	                    value="#{lancarDespesaMaquinaBean.despesaMaquina.precoUnitarioCombustivel}">
-		    		</p:inputNumber>
-		    		
-		    		<p:spacer width="10px" />			
-		    		
-					
+		    		</p:inputNumber>		    		
+		    		<p:spacer width="10px" />					
 				</h:panelGroup>
-	    		
-	    		<p:outputLabel value="Fator de Potência" for="fator"/>
+				
+				<p:outputLabel value="Fator de Potência" for="fator"/>
 	    		<p:selectOneMenu id="fator" 
 	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}" 
 	    			required="true" 
 			    	validatorMessage="O fator é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o fator potência máquina" />
+	    			<f:selectItem itemLabel="Selecione o fator correspondente a intensidade de uso" />
 	    			<f:selectItems value="#{lancarDespesaMaquinaBean.fatorPotencias}" var="fatorPotencia" 
 						itemLabel="#{fatorPotencia}" itemValue="#{fatorPotencia}"/>
 	    		</p:selectOneMenu>
@@ -148,9 +145,7 @@
 	        		onclick="PF('confirmacaoExclusao').hide();" action="#{lancarDespesaMaquinaBean.excluir}" />
 	    	</p:confirmDialog>	        
 	        	
-	        <div class="containerImgPartnerships">
-				<h:graphicImage width="400" height="200" library="imagens" name="intensidade.jpg" title="Intensidade"/>
-	    	</div>
+			<h:graphicImage width="400" height="200" library="imagens" name="intensidade.jpg" title="Intensidade"/>
     			
 	    </h:form>
     

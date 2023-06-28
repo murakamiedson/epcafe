@@ -25,9 +25,9 @@ public class DespesaMaquinaDAO implements Serializable{
 	private EntityManager manager;
 	
 	@Transactional
-	public void salvar(DespesaMaquina despesaMaquina) throws PersistenceException, NegocioException {
+	public DespesaMaquina salvar(DespesaMaquina despesaMaquina) throws PersistenceException, NegocioException {
 		try {
-			manager.merge(despesaMaquina);	
+			return manager.merge(despesaMaquina);	
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;

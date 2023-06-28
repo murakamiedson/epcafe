@@ -69,13 +69,12 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	}
 	
     public void salvar() {
-    	//log.info("salvar ..." + despesaMaquina);
+    	log.info("salvar ..." + despesaMaquina);
     	
-		despesaMaquina.setMesAno(mesAno);
-		despesaMaquina.setValorTotal(despesaService.calcularValorTotal(despesaMaquina));
+		despesaMaquina.setMesAno(mesAno);		
 
     	try {
-			this.despesaService.salvar(despesaMaquina);
+    		despesaMaquina = this.despesaService.salvar(despesaMaquina);
 			despesas.add(despesaMaquina);
 			MessageUtil.sucesso("Despesa salva com sucesso!");
 		} catch (NegocioException e) {
@@ -83,10 +82,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 			MessageUtil.erro(e.getMessage());
 		}
 		this.limpar();
-    	//this.despesaService.salvar(despesaMaquina);
-
-    	
-    	
+ 	
     }
     
     public void excluir() {
@@ -102,12 +98,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
     
     
     public void buscarPrecoCombustivel() {
-    	log.info("buscar preço ..." + despesaMaquina.getMaquina().getId());
-    	
-    	//buscar no cadastro
-    	//precoCombustivel.setValor(new BigDecimal(5.54));
-    	//BigDecimal ultimoValor = despesaService
-    	//		.buscarUltimoPrecoCombustivel(loginBean.getUsuario().getTenant().getCodigo()).getValor();
+    	log.info("buscar preço ..." + despesaMaquina.getMaquina().getId());   	
     	
     }
 

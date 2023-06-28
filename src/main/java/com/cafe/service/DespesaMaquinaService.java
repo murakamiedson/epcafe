@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import com.cafe.dao.DespesaMaquinaDAO;
 import com.cafe.modelo.DespesaMaquina;
+import com.cafe.modelo.enums.TipoCombustivel;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -27,10 +28,12 @@ private static final long serialVersionUID = 1L;
 	private DespesaMaquinaDAO despesaMaquinaDAO;
 	
 	
-	public void salvar(DespesaMaquina despesaMaquina) throws NegocioException {
+	public DespesaMaquina salvar(DespesaMaquina despesaMaquina) throws NegocioException {
 		
-		log.info("Service : tenant = " + despesaMaquina.getTenant_id());		
-		this.despesaMaquinaDAO.salvar(despesaMaquina);
+		log.info("salvando despesa...");
+		despesaMaquina.setValorTotal(calcularValorTotal(despesaMaquina));
+		log.info("valor total = " + despesaMaquina.getValorTotal());
+		return this.despesaMaquinaDAO.salvar(despesaMaquina);
 	}
 	
 	public void excluir(DespesaMaquina despesaMaquina) throws NegocioException {
@@ -50,27 +53,27 @@ private static final long serialVersionUID = 1L;
 	
 	
 	public BigDecimal calcularValorTotal(DespesaMaquina despesaMaquina) {
-		BigDecimal valorTotal;
-		//switch()
-		if(despesaMaquina.getMaquina().getTipoCombustivel().toString() == "GASOLINA") {
-			valorTotal = new BigDecimal(0);
-		}
-		else if(despesaMaquina.getMaquina().getTipoCombustivel().toString() == "DIESEL"){
-			valorTotal = despesaMaquina.getMaquina().getPotencia();
-			valorTotal = valorTotal.multiply(new BigDecimal(0.15));
-			valorTotal = valorTotal.multiply(despesaMaquina.getFatorPotencia().getValor());
-			
-		}else if(despesaMaquina.getMaquina().getTipoCombustivel().toString() == "ENERGIA_ELETRICA") {
-			valorTotal = despesaMaquina.getMaquina().getPotencia();
-			valorTotal = valorTotal.multiply(new BigDecimal(0.735));
-			
-		}else if(despesaMaquina.getMaquina().getTipoCombustivel().toString() == "ETANOL") {
-			valorTotal = new BigDecimal(0);
-			
-		}else {
-			valorTotal = new BigDecimal(0);
+		/*
+	    Diesel 15%
+	    Valor = Potencia (CV) x Fator de Potência x Consumo médio do combustível 
+		Ex.:  134 * 0,55  * 0,15 = 11,055 l/h * preco combustivel
+
+		Energia eletrica 73,5%
+		Valor = Potencia * 0,735
+		Ex.: 134 * 0,75 = 98,49 kwh * preco combustivel
+	 */
+		BigDecimal valor = new BigDecimal(0);
+		if(despesaMaquina.getMaquina().getTipoCombustivel() == TipoCombustivel.DIESEL) {
+			valor = despesaMaquina.getMaquina().getPotencia()
+					.multiply(despesaMaquina.getFatorPotencia().getValor())
+					.multiply(new BigDecimal(0.15))
+					.multiply(despesaMaquina.getPrecoUnitarioCombustivel());
+		} else if(despesaMaquina.getMaquina().getTipoCombustivel() == TipoCombustivel.ENERGIA_ELETRICA) {
+			valor = despesaMaquina.getMaquina().getPotencia()
+						.multiply(new BigDecimal(0.735))
+						.multiply(despesaMaquina.getPrecoUnitarioCombustivel());
 		}
 		
-		return valorTotal;
+		return valor;
 	}
 }
