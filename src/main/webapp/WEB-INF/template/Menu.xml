@@ -20,4 +20,14 @@
 			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
 		</submenu2>
 	</submenu>
+	
+	<submenu label="Despesa" icon="pi pi-folder-open">
+		<grupo value="GESTORES"></grupo>		
+		<menuitem value="Despesas Máquinas e Implementos" outcome="/restricted/despesa/LancarDespesaMaquina.xhtml"></menuitem>
+		<menuitem value="Despesas Fetilizantes e Defensivos" ></menuitem>		
+		<menuitem value="Despesas Outros Insumos e Serviços" ></menuitem>		
+		<submenu2 label="Relatório">
+			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
+		</submenu2>
+	</submenu>
 </menu>

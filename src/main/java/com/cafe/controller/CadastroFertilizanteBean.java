@@ -60,7 +60,8 @@ public class CadastroFertilizanteBean implements Serializable {
 		
 		this.limpar();
 		
-		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.DEFENSIVO);
+		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.FUNGICIDA, TipoInsumo.HERBICIDA,
+				TipoInsumo.INSETICIDA, TipoInsumo.ADJUVANTE);
 		
 		this.medidas = Arrays.asList(Medida.values());
 		
@@ -68,10 +69,29 @@ public class CadastroFertilizanteBean implements Serializable {
 	
 	public void carregarTipos() {
 		
-		if(fertilizante.getTipoInsumo() == TipoInsumo.FERTILIZANTE) {
-			this.tiposFertilizante = EnumUtil.getTiposFertilizantes();
-		}else {
-			this.tiposFertilizante = EnumUtil.getTiposDefensivos();
+		switch(fertilizante.getTipoInsumo()){
+			
+			case FERTILIZANTE: 
+				this.tiposFertilizante = EnumUtil.getTiposFertilizantes();
+				break;
+			
+			case FUNGICIDA:
+				this.tiposFertilizante = EnumUtil.getTiposFungicidas();
+				break;
+				
+			case HERBICIDA:
+				this.tiposFertilizante = EnumUtil.getTiposHerbicidas();
+				break;
+				
+			case INSETICIDA:
+				this.tiposFertilizante = EnumUtil.getTiposInseticidas();
+				break;
+				
+			case ADJUVANTE:
+				this.tiposFertilizante = EnumUtil.getTiposAdjuvantes();
+				break;
+				
+			default:
 		}	
 	}
 	

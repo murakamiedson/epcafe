@@ -25,11 +25,7 @@
 	    	
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
-	    			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
-	    				action="#{cadastroFuncionarioBean.salvar}" update="frmCadastro"/>
-	    			<span class="ui-separator">
-			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-			        </span>
+	    			
 					<p:button icon="pi pi-chevron-left" value="Voltar" 
 						outcome="/restricted/propriedade/PesquisaFuncionario.xhtml"/>
 					<span class="ui-separator">
@@ -58,14 +54,16 @@
 			    	</p:inputNumber>
 			    	
 			     <p:outputLabel value="Data de Nascimento" for="dataNascimento"/>
-	    		 <p:calendar id="dataNascimento" value="#{cadastroFuncionarioBean.funcionario.dataNascimento}"
-	    			required="true"
-	    			pattern="dd/MM/yyyy"
-	    			type="localDate"
-			    	validatorMessage="A data de nascimento é obrigatória.">			    	
-			    </p:calendar>	
-	    		
+		    		 <p:calendar id="dataNascimento" value="#{cadastroFuncionarioBean.funcionario.dataNascimento}"
+		    			required="true"
+		    			pattern="dd/MM/yyyy"
+		    			type="localDate"
+				    	validatorMessage="A data de nascimento é obrigatória.">			    	
+				    </p:calendar>
 	    	</p:panelGrid>
-    	</h:form>
+	    	<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+	    				action="#{cadastroFuncionarioBean.salvar}" update="frmCadastro"
+	    				style="margin-top: 10px; margin-bottom: 10px"/>
+	    </h:form>
     </ui:define>
 </ui:composition>

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,63 +14,60 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.TipoAuxiliarInsumos;
-import com.cafe.modelo.enums.TipoCombustivel;
-import com.cafe.modelo.enums.TipoInsumo;
+import com.cafe.modelo.enums.FatorPotencia;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+/**
+ * @author isabella
+ *
+ */
+
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Maquina.buscarMaquinas", query="select u from Maquina u where u.tenant_id = :tenantId"),
+	@NamedQuery(name="DespesaMaquina.buscarDespesasMaquinas", 
+			query="select u from DespesaMaquina u where u.tenant_id = :tenantId"),
 })
-public class Maquina {
-
+public class DespesaMaquina {
+	
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private Long tenant_id;
-	
-	@NotBlank
-	@Column(nullable = false)
-	private String nome;
-	
-	@NotBlank
-	private String modelo;
-	
-	@PositiveOrZero
-	private BigDecimal valor; // valor do bem
-	
-	@PositiveOrZero
-	private BigDecimal potencia = new BigDecimal(0.0); // CV	
-		
-	@PositiveOrZero
-	private Integer vidaUtil;
+	private Long id;	
+	private Long tenant_id;	
 	
 	@NotNull
-	private LocalDate dataCompra;
-	
-	@Enumerated(EnumType.STRING)
-	private TipoInsumo tipoInsumo;
-	
-	@Enumerated(EnumType.STRING)
-	private TipoCombustivel tipoCombustivel;
-	
-	@Enumerated(EnumType.STRING)
-	private TipoAuxiliarInsumos tipo;
+	private LocalDate mesAno;
 
+	@PositiveOrZero
+	private BigDecimal horasTrabalhadas = new BigDecimal(0);
+	
+	@Enumerated(EnumType.STRING)
+	private FatorPotencia fatorPotencia;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Unidade unidade;
+	
+	@OneToOne(cascade = CascadeType.ALL)	
+	private Maquina maquina;
+	
+	private BigDecimal precoUnitarioCombustivel;
+	
+	private BigDecimal valorTotal;
+	
+	
+	
 	/*
 	 * Datas de Criação e Modificação
 	 */

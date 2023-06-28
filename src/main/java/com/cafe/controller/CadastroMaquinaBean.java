@@ -13,6 +13,7 @@ import javax.inject.Named;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.enums.EnumUtil;
 import com.cafe.modelo.enums.TipoAuxiliarInsumos;
+import com.cafe.modelo.enums.TipoCombustivel;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.MaquinaService;
 import com.cafe.util.MessageUtil;
@@ -37,6 +38,7 @@ public class CadastroMaquinaBean implements Serializable {
 
 	private Maquina maquina;	
 	private List<TipoInsumo> tiposInsumo;
+	private List<TipoCombustivel> tiposCombustivel;
 	private List<TipoAuxiliarInsumos> tiposMaquina;
 	private List<Maquina> maquinas = new ArrayList<>();
 	private Long tenantId;	
@@ -54,10 +56,11 @@ public class CadastroMaquinaBean implements Serializable {
 		this.limpar();
 
 		this.tiposInsumo = Arrays.asList(TipoInsumo.MAQUINA, TipoInsumo.IMPLEMENTO);
+		this.tiposCombustivel = Arrays.asList(TipoCombustivel.values());
 		
 		
 		
-		//this.tiposMaquina = Arrays.asList(EnumUtil.getTiposMaquinas(), EnumUtil.getTiposImplementos());
+		this.tiposMaquina = Arrays.asList(TipoAuxiliarInsumos.values());
 	}
 	
 	

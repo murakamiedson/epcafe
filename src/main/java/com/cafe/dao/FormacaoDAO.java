@@ -7,8 +7,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
+import com.cafe.modelo.Formacao;
 import com.cafe.modelo.Funcionario;
-import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -17,7 +17,7 @@ import com.cafe.util.jpa.Transactional;
  *
  */
 
-public class FuncionarioDAO implements Serializable{
+public class FormacaoDAO implements Serializable{
 	
 private static final long serialVersionUID = 1L;
 	
@@ -26,9 +26,9 @@ private static final long serialVersionUID = 1L;
 	
 	
 	@Transactional
-	public void salvar(Funcionario funcionario) throws PersistenceException, NegocioException {
+	public void salvar(Formacao formacao) throws PersistenceException, NegocioException {
 		try {
-			manager.merge(funcionario);	
+			manager.merge(formacao);	
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;
@@ -45,10 +45,10 @@ private static final long serialVersionUID = 1L;
 	}	
 		
 	@Transactional
-	public void excluir(Funcionario funcionario) throws NegocioException {
+	public void excluir(Formacao formacao) throws NegocioException {
 			
 		try {
-			Funcionario f = this.buscarPeloCodigo(funcionario.getId());
+			Formacao f = this.buscarPeloCodigo(formacao.getId());
 			manager.remove(f);
 			manager.flush();
 		} catch (PersistenceException e) {			
@@ -72,20 +72,20 @@ private static final long serialVersionUID = 1L;
 	 * Buscas
 	 */
 	
-	public Funcionario buscarPeloCodigo(Long id) {
-		return manager.find(Funcionario.class, id);
+	public Formacao buscarPeloCodigo(Long id) {
+		return manager.find(Formacao.class, id);
 	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<Funcionario> buscarFuncionarios(Long tenantId) {
-		return manager.createNamedQuery("Funcionario.buscarFuncionarios")
+	public List<Formacao> buscarFormacoes(Long tenantId) {
+		return manager.createNamedQuery("Formacao.buscarFormacoes")
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
 	
-	public List<Funcionario> buscarFuncionariosPorUnidade(Unidade unidade, Long tenantId) {
-		return manager.createNamedQuery("Funcionario.buscarPorUnidade", Funcionario.class)				
-				.setParameter("unidade", unidade)
+	public List<Formacao> buscarFormacoesPorFuncionario(Funcionario funcionario, Long tenantId) {
+		return manager.createNamedQuery("Formacao.buscarPorFuncionario", Formacao.class)				
+				.setParameter("funcionario", funcionario)
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}

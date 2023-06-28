@@ -33,21 +33,27 @@
 		    		
 	    		<p:column headerText="Código" style="width: 10px; text-align: center">
 	    			<h:outputText value="#{maquina.id}" />
+	    		</p:column>	    		
+	    		
+	    		<p:column headerText="Tipo" sortBy="#{maquina.tipo}" style="width: 30px; text-align: left">
+	    			<h:outputText value="#{maquina.tipoInsumo}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Máquina" sortBy="#{maquina.nome}" style="width: 80px; text-align: left">
+	    		<p:column headerText="Tipo de Máquina/Implemento" style="width: 80px; text-align: left"
+	    			sortBy="#{maquina.tipo}" >
+	    			<h:outputText value="#{maquina.tipo}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Máquina" style="width: 80px; text-align: left"
+	    			sortBy="#{maquina.nome}" >
 	    			<h:outputText value="#{maquina.nome}" />
 	    		</p:column>	
-	    		
-	    		<p:column headerText="Modelo" sortBy="#{maquina.modelo}" style="width: 60px; text-align: left">
-	    			<h:outputText value="#{maquina.modelo}" />
-	    		</p:column>
-	    		
-	    		<p:column headerText="Valor" style="width: 30px; text-align: center">
-	    			<h:outputText value="#{maquina.valor}">
-	    				<f:convertNumber type="currency" />
+	    			    		
+	    		<p:column headerText="Combustível" style="width: 50px; text-align: center"
+	    			sortBy="#{maquina.tipoCombustivel}">
+	    			<h:outputText value="#{maquina.tipoCombustivel}">
 	    			</h:outputText>
-	    		</p:column>
+	    		</p:column>	    		
 	    		
 	    		<p:column headerText="Potência (CV)" style="width: 15px; text-align: center">
 	    			<h:outputText value="#{maquina.potencia}">
@@ -59,23 +65,7 @@
 	    			<h:outputText value="#{maquina.dataCompra}">
 	    				<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />	
 	    			</h:outputText>
-	    		</p:column>
-	    		
-	    		<p:column headerText="Vida Útil (ANOS)" style="width: 13px; text-align: center">
-	    			<h:outputText value="#{maquina.vidaUtil}">
-	    			</h:outputText>
-	    		</p:column>
-	    		
-	    		<p:column headerText="Tipo" sortBy="#{maquina.tipo}" style="width: 30px; text-align: left">
-	    			<h:outputText value="#{maquina.tipoInsumo}" />
-	    		</p:column>
-	    		
-	    		<p:column headerText="Tipo de Máquina/Implemento" sortBy="#{maquina.tipo}" style="width: 80px; text-align: left">
-	    			<h:outputText value="#{maquina.tipo}" />
-	    		</p:column>
-	    		
-	    		
-	    				
+	    		</p:column>	
 	    		
 	    		<p:column style="width: 25px; text-align: center" headerText="Operações">
 		    		<p:button outcome="CadastroMaquina" icon="pi pi-pencil" title="Editar">

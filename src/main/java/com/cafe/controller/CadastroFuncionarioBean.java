@@ -1,7 +1,6 @@
 package com.cafe.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,7 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.cafe.modelo.Funcionario;
+import com.cafe.modelo.Unidade;
 import com.cafe.service.FuncionarioService;
+import com.cafe.service.UnidadeService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -31,12 +32,18 @@ public class CadastroFuncionarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Funcionario funcionario;	
-	private List<Funcionario> funcionarios = new ArrayList<>();
+	private Funcionario funcionario;
+	
+	private List<Funcionario> funcionarios;
+	private List<Unidade> unidades;
+	
 	private Long tenantId;	
 	
 	@Inject
 	private FuncionarioService funcionarioService;
+	
+	@Inject
+	private UnidadeService unidadeService;
 	
 	@Inject
 	private LoginBean usuarioLogado;	
@@ -62,10 +69,8 @@ public class CadastroFuncionarioBean implements Serializable {
 	
 	public void limpar() {
 		this.funcionario = new Funcionario();
+		this.funcionario.setUnidade(usuarioLogado.getUsuario().getUnidade());
 		this.funcionario.setTenant_id(tenantId);
 	}	 
 	
-	public void carregarFuncionarios() {		
-		funcionarios = funcionarioService.buscarFuncionarios(usuarioLogado.getTenantId());	
-	}
 }
