@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -56,10 +55,10 @@ public class DespesaMaquina {
 	@Enumerated(EnumType.STRING)
 	private FatorPotencia fatorPotencia;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private Unidade unidade;
 	
-	@OneToOne(cascade = CascadeType.ALL)	
+	@OneToOne	
 	private Maquina maquina;
 	
 	private BigDecimal precoUnitarioCombustivel;

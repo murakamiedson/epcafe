@@ -11,12 +11,14 @@ import com.cafe.modelo.DespesaMaquina;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
+import lombok.extern.log4j.Log4j;
+
 /**
  * @author isabella
  *
  */
 
-
+@Log4j
 public class DespesaMaquinaDAO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -47,6 +49,7 @@ public class DespesaMaquinaDAO implements Serializable{
 	public void excluir(DespesaMaquina despesaMaquina) throws NegocioException {
 			
 		try {
+			log.info("excluir dao");
 			DespesaMaquina m = this.buscarPeloCodigo(despesaMaquina.getId());
 			manager.remove(m);
 			manager.flush();

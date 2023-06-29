@@ -40,6 +40,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	private LocalDate mesAno;
 	private List<Maquina> maquinas;
 	private DespesaMaquina despesaMaquina;
+	private DespesaMaquina despesaMaquinaSelecionada;
 	private List<FatorPotencia> fatorPotencias;
 	private List<DespesaMaquina> despesas = new ArrayList<>();
 	//private List<BigDecimal> valorTotal;
@@ -58,6 +59,8 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 		//tenantId = loginBean.getUsuario().getTenant().getCodigo();
+		
+		log.info("inicializar login = " + loginBean.getUsuario());
 		mesAno = LocalDate.now();
 		maquinas = maquinaService.buscarMaquinas(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
@@ -75,7 +78,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 
     	try {
     		despesaMaquina = this.despesaService.salvar(despesaMaquina);
-			despesas.add(despesaMaquina);
+    		this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());
 			MessageUtil.sucesso("Despesa salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -85,11 +88,12 @@ public class LancarDespesaMaquinaBean implements Serializable {
  	
     }
     
-    public void excluir() {
+    public void excluirDespesa() {
     	try {
-			despesaService.excluir(despesaMaquina);			
-			this.despesas.remove(despesaMaquina);
-			MessageUtil.sucesso("Despesa " + despesaMaquina.getId() + " excluída com sucesso.");
+    		log.info("excluindo...");
+			despesaService.excluir(despesaMaquinaSelecionada);			
+			this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());
+			MessageUtil.sucesso("Despesa " + despesaMaquinaSelecionada.getId() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
@@ -103,6 +107,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
     }
 
 	public void limpar() {
+		log.info("limpar");
 		despesaMaquina = new DespesaMaquina();
 
 		despesaMaquina.setMesAno(mesAno);
@@ -110,7 +115,9 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		despesaMaquina.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 	}
 	
-	
+	public void setDespesaMaquinaSeleciona() {
+		log.info("set despesa selecionada");
+	}
 
 	
 	

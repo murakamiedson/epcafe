@@ -89,8 +89,8 @@
 	        		var="despesa"
 		    		style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada." rows="10"
 		    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
-		    		rowsPerPageTemplate="5,10,15">
-		    		
+		    		rowsPerPageTemplate="5,10,15"> 
+	    		
 	    		<p:column headerText="Mês/Ano" style="width: 10px; text-align: center">
 	    			<h:outputText value="#{despesa.mesAno}">
 	    				<f:convertDateTime type="localDate" pattern="MM/yyyy" />
@@ -120,29 +120,36 @@
 	    			<h:outputText value="#{despesa.precoUnitarioCombustivel}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Operações" style="width: 30px; text-align: center">
-	    		<p:button outcome="LancarDespesaMaquina" icon="pi pi-pencil" title="Editar">
-		    			<f:param name="despesa" value="#{despesa.id}"/>
-		    			<!-- <p:ajax update="form:gridDespesa" process="despesa"/>-->
-		    		</p:button>
-					<p:commandButton icon="pi pi-trash" title="Excluir"		    				
-		    			onclick="PF('confirmacaoExclusao').show();"
-						process="@this form:confirmacaoExclusaoDialog"
-						imediate="true">
+	    		<p:column headerText="Operações" style="width: 30px; text-align: center">	
+	    		
+	    		<p:commandButton icon="pi pi-pencil" title="Editar"			    			
+		    			update="form:gridDespesa" 
+		            	process="@this">
 						<f:setPropertyActionListener target="#{lancarDespesaMaquinaBean.despesaMaquina}" 
 							value="#{despesa}" />
 					</p:commandButton>
+					    				    		
+		    		<p:commandButton icon="pi pi-trash" title="Excluir"		    				
+		    			onclick="PF('confirmacaoExclusao').show();"
+						process="@this"
+						imediate="true">
+						<f:setPropertyActionListener target="#{lancarDespesaMaquinaBean.despesaMaquinaSelecionada}" 
+							value="#{despesa}" />
+					</p:commandButton>					
 	    		</p:column>
     		</p:dataTable>
+    		
     		<p:confirmDialog id="confirmacaoExclusaoDialog" 
 		   			widgetVar="confirmacaoExclusao"
-	        		message="Tem certeza que deseja excluir a maquina #{lancarDespesaMaquinaBean.despesaMaquina}?"  
+	        		message="Tem certeza que deseja excluir a despesa #{lancarDespesaMaquinaBean.despesaMaquinaSelecionada.id}?"  
 	                header="Exclusão de máquina" severity="alert">
 	        	<p:button icon="pi pi-thumbs-down" value="Não" 
 	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
-	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim"
+	        		process="@this" 
 	        		update=":form:despesasTable"
-	        		onclick="PF('confirmacaoExclusao').hide();" action="#{lancarDespesaMaquinaBean.excluir}" />
+	        		onclick="PF('confirmacaoExclusao').hide();" 
+	        		action="#{lancarDespesaMaquinaBean.excluirDespesa}"/>
 	    	</p:confirmDialog>	        
 	        	
 			<h:graphicImage width="400" height="200" library="imagens" name="intensidade.jpg" title="Intensidade"/>

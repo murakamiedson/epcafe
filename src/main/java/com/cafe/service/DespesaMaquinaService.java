@@ -52,7 +52,7 @@ private static final long serialVersionUID = 1L;
 	
 	
 	
-	public BigDecimal calcularValorTotal(DespesaMaquina despesaMaquina) {
+	private BigDecimal calcularValorTotal(DespesaMaquina despesaMaquina) {
 		/*
 	    Diesel 15%
 	    Valor = Potencia (CV) x Fator de Potência x Consumo médio do combustível 
@@ -67,11 +67,13 @@ private static final long serialVersionUID = 1L;
 			valor = despesaMaquina.getMaquina().getPotencia()
 					.multiply(despesaMaquina.getFatorPotencia().getValor())
 					.multiply(new BigDecimal(0.15))
-					.multiply(despesaMaquina.getPrecoUnitarioCombustivel());
+					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
+					.multiply(despesaMaquina.getHorasTrabalhadas());
 		} else if(despesaMaquina.getMaquina().getTipoCombustivel() == TipoCombustivel.ENERGIA_ELETRICA) {
 			valor = despesaMaquina.getMaquina().getPotencia()
 						.multiply(new BigDecimal(0.735))
-						.multiply(despesaMaquina.getPrecoUnitarioCombustivel());
+						.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
+						.multiply(despesaMaquina.getHorasTrabalhadas());
 		}
 		
 		return valor;
