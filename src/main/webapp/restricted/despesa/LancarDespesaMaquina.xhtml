@@ -30,7 +30,7 @@
 				<p:outputLabel value="Máquina" for="maquina"/>
 				<h:panelGroup>
 		    		<p:selectOneMenu id="maquina" 
-		    			value="#{lancarDespesaMaquinaBean.maquinasDistintas}" 
+		    			value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina}" 
 		    			required="true" 
 				    	validatorMessage="A máquina é obrigatória.">
 		    			<f:selectItem itemLabel="Selecione a máquina" />
@@ -78,10 +78,12 @@
 	        
 	        <p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
 	    				action="#{lancarDespesaMaquinaBean.salvar}" update="despesasTable"
+	    				process="@this gridDespesa"
 	    				style="margin-top: 10px; margin-bottom: 10px"/>
 	    				
 	    	<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-save"
 	    				action="#{lancarDespesaMaquinaBean.limpar}" update="gridDespesa"
+	    				process="@this"
 	    				style="margin-top: 10px; margin-bottom: 10px"/> 	
 	    			 
 	        

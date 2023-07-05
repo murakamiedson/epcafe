@@ -3,6 +3,7 @@ package com.cafe.service;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,6 +12,7 @@ import com.cafe.dao.DespesaMaquinaDAO;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.enums.TipoCombustivel;
 import com.cafe.modelo.to.DespesaDTO;
+import com.cafe.modelo.to.DespesaTO;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -52,12 +54,6 @@ private static final long serialVersionUID = 1L;
 		return despesaMaquinaDAO.buscarDespesasMaquinas(tenantId);
 	}
 	
-	public List<DespesaDTO> buscarDespesasTO(LocalDate dataInicio, LocalDate dataFim){
-		return despesaMaquinaDAO.buscarDespesasTO(dataInicio, dataFim);
-	}
-	
-	
-	
 	private BigDecimal calcularValorTotal(DespesaMaquina despesaMaquina) {
 		/*
 	    Diesel 15%
@@ -84,4 +80,42 @@ private static final long serialVersionUID = 1L;
 		
 		return valor;
 	}
+	
+	
+
+	/* 
+	 * RelatorioDespesaMaquina
+	 */
+	
+	
+	public List<DespesaTO> buscarDespesasTO(LocalDate mesAno, Long tenantId){		
+		
+		log.info("montando TO...");
+		List<DespesaDTO> despesasDTO = despesaMaquinaDAO.buscarDespesasDTO(mesAno, tenantId);
+		List<DespesaTO> despesasTO = new ArrayList<>();
+		
+		//TODO criar a logica para criar os TOs a partir dos DTOs
+		// usado só para teste
+		
+		BigDecimal totalMaquina = new BigDecimal(0);		
+		BigDecimal totalDespesa = new BigDecimal(0);
+
+		DespesaDTO dto = despesasDTO.get(0);
+		totalDespesa = totalDespesa.add(dto.getValorTotal());
+		
+		DespesaTO to = new DespesaTO();
+		to.setMaquinaId(dto.getMaquinaId());
+		to.setMaquinaNome(dto.getMaquinaNome());
+		totalMaquina = totalMaquina.add(totalDespesa);		
+		//TODO tem que identificar o mes para atribuir
+		to.setValorTotalJan(totalDespesa);
+		
+		despesasTO.add(to);
+
+		
+		log.info("qde TO..." + despesasTO.size());
+		
+		return despesasTO;
+	}
+	
 }

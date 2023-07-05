@@ -15,93 +15,71 @@
     	<h:form id="frmDespesas">
     		<p:growl id="msgs" showDetail="true" />
     		
-    		<p:dataTable id="despesasTable" value="#{despesaTO}" 
-	        		var="despesa"
-		    		style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada." rows="10"
-		    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
-		    		rowsPerPageTemplate="5,10,15">
+    		<p:dataTable id="despesasTable"  var="to"
+    			value="#{relatorioDespesaMaquinaBean.despesasTO}"         		
+	    		style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada." rows="10"
+	    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
+	    		rowsPerPageTemplate="5,10,15">
 		    		
-		    <p:column headerText="Máquinas" style="width: 10px; text-align: center">
-	    			<h:outputText value="#{despesaTO.maquina}">
-	    				
-    				</h:outputText>
-	    	</p:column>
-		    		
-		    <p:column headerText="Janeiro" style="width: 10px; text-align: center">
-	    			<h:outputText value="despesa">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Fevereiro" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Março" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Abril" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Maio" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Junho" style="width: 10px; text-align: center">
-	    			<h:outputText value="#{despesa.valorTotal}">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Julho" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Agosto" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Setembro" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Outubro" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Novembro" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	<p:column headerText="Dezembro" style="width: 10px; text-align: center">
-	    			<h:outputText value="teste">
-	    				
-    				</h:outputText>
-	    	</p:column>
-	    	
-	    	</p:dataTable>	
-    		
-    		
+			    <p:column headerText="Id" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.maquinaId}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Máquina" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.maquinaNome}"/>
+		    	</p:column>
+			    		
+			    <p:column headerText="Janeiro" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	
+		    	
+		    	<p:column headerText="Fevereiro" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Março" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Abril" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Maio" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Junho" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Julho" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Agosto" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Setembro" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Outubro" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Novembro" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+		    	<p:column headerText="Dezembro" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.valorTotalJan}"/>
+		    	</p:column>
+		    	
+	    	</p:dataTable>	   		
     		
     	</h:form>
     </ui:define>

@@ -86,7 +86,13 @@ public class DespesaMaquinaDAO implements Serializable{
 				.getResultList();
 	}
 	
-	public List<DespesaDTO> buscarDespesasTO(LocalDate dataInicio, LocalDate dataFim){
+	
+	/*
+	 * Para Relatorio Despesas Máquina
+	 */
+	public List<DespesaDTO> buscarDespesasDTO(LocalDate mesAno, Long tenantId){
+		
+		log.info("consultando DTO...");
 		
 		/*
 		select d.mesAno AS data, 
@@ -99,20 +105,24 @@ public class DespesaMaquinaDAO implements Serializable{
         order by m.id;
         */
 				
-		List<DespesaDTO> lista = manager.createQuery("SELECT new com.cafe.modelo.to.DespesaDTO( "
+		List<DespesaDTO> lista = manager.createQuery(
+				"SELECT new com.cafe.modelo.to.DespesaDTO( "
 				+ "d.mesAno, "
 				+ "d.valorTotal, "
 				+ "m.id, "
 				+ "m.nome, "
 				+ "m.tipoCombustivel) "
-				+ "FROM DespesaMaquina d "
-				+ "INNER JOIN d.maquina m "
-				+ "WHERE d.mesAno BETWEEN :dataInicio AND :dataFim "
-				+ "ORDER BY m.id", DespesaDTO.class)
-			.setParameter("dataInicio", dataInicio)
-			.setParameter("dataFim", dataFim)
+			+ "FROM DespesaMaquina d "
+			+ "  INNER JOIN Maquina m on d.maquina = m.id "
+			+ "WHERE "
+			+ "  mesAno <= :mesAno "  //TODO alterar, usado so para teste
+			+ "  and d.tenant_id = :tenantId "
+			+ "ORDER BY m.id", DespesaDTO.class)
+			.setParameter("mesAno", mesAno)
+			.setParameter("tenantId", tenantId)
 			.getResultList();
-				
+			
+		log.info("qde DTO..." + lista.size());
 				
 		return lista;
 	}

@@ -39,7 +39,6 @@ public class LancarDespesaMaquinaBean implements Serializable {
 
 	private LocalDate mesAno;
 	private List<Maquina> maquinas;
-	private List<Integer> maquinasDistintas;
 	private DespesaMaquina despesaMaquina;
 	private DespesaMaquina despesaMaquinaSelecionada;
 	private List<FatorPotencia> fatorPotencias;
@@ -114,11 +113,5 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		despesaMaquina.setUnidade(loginBean.getUsuario().getUnidade());
 		despesaMaquina.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 	}
-	
-	public void setDespesaMaquinaSeleciona() {
-		log.info("set despesa selecionada");
-	}
-
-	
 	
 }
