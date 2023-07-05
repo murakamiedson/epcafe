@@ -58,16 +58,16 @@ private static final long serialVersionUID = 1L;
 		/*
 	    Diesel 15%
 	    Valor = Potencia (CV) x Fator de Potência x Consumo médio do combustível 
-		Ex.:  134 * 0,55  * 0,15 = 11,055 l/h * preco combustivel
+		Ex.:  134 * 0,55  * 0,15 * 5,00 * 10 = 11,055 l/h * preco combustivel
 
 		Energia eletrica 73,5%
 		Valor = Potencia * 0,735
-		Ex.: 134 * 0,75 = 98,49 kwh * preco combustivel
+		Ex.: 134 * 0,735 * 0,35 * 10 = 98,49 kwh * preco combustivel
 	 */
 		BigDecimal valor = new BigDecimal(0);
 		if(despesaMaquina.getMaquina().getTipoCombustivel() == TipoCombustivel.DIESEL) {
 			valor = despesaMaquina.getMaquina().getPotencia()
-					.multiply(despesaMaquina.getFatorPotencia().getValor())
+					.multiply(despesaMaquina.getFatorPotencia().getValor().multiply(new BigDecimal(0.01)))
 					.multiply(new BigDecimal(0.15))
 					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
 					.multiply(despesaMaquina.getHorasTrabalhadas());
