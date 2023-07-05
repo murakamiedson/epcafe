@@ -1,6 +1,7 @@
 package com.cafe.dao;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.DespesaMaquina;
+import com.cafe.modelo.to.DespesaDTO;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -83,7 +85,37 @@ public class DespesaMaquinaDAO implements Serializable{
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
-
+	
+	public List<DespesaDTO> buscarDespesasTO(LocalDate dataInicio, LocalDate dataFim){
+		
+		/*
+		select d.mesAno AS data, 
+		d.valorTotal AS total,
+        m.id as idMaquina,
+        m.nome as nomeMaquina,
+        m.tipoCombustivel as combustivel
+        from despesaMaquina d inner join maquina m on (d.maquina_id=m.id)
+        where mesAno between "2023-06-01" and "2023-07-01"
+        order by m.id;
+        */
+				
+		List<DespesaDTO> lista = manager.createQuery("SELECT new com.cafe.modelo.to.DespesaDTO( "
+				+ "d.mesAno, "
+				+ "d.valorTotal, "
+				+ "m.id, "
+				+ "m.nome, "
+				+ "m.tipoCombustivel) "
+				+ "FROM DespesaMaquina d "
+				+ "INNER JOIN d.maquina m "
+				+ "WHERE d.mesAno BETWEEN :dataInicio AND :dataFim "
+				+ "ORDER BY m.id", DespesaDTO.class)
+			.setParameter("dataInicio", dataInicio)
+			.setParameter("dataFim", dataFim)
+			.getResultList();
+				
+				
+		return lista;
+	}
 
 
 

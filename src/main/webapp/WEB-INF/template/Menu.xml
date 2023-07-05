@@ -9,7 +9,7 @@
 		<grupo value="GESTORES"></grupo>
 		<menuitem value="Unidades de Produção" outcome="/restricted/propriedade/PesquisaUnidade.xhtml"></menuitem>		
 		<submenu2 label="Relatório">
-			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
+			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>									
 		</submenu2>
 	</submenu>
 	<submenu label="Insumo" icon="pi pi-folder-open">
@@ -27,7 +27,8 @@
 		<menuitem value="Despesas Fetilizantes e Defensivos" ></menuitem>		
 		<menuitem value="Despesas Outros Insumos e Serviços" ></menuitem>		
 		<submenu2 label="Relatório">
-			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
+			<menuitem2 value="Despesas de Máquinas" 
+				outcome="/restricted/despesa/RelatorioDespesaMaquina.xhtml"></menuitem2>
 		</submenu2>
 	</submenu>
 </menu>

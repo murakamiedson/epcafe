@@ -37,6 +37,10 @@ import lombok.EqualsAndHashCode;
 @NamedQueries({
 	@NamedQuery(name="DespesaMaquina.buscarDespesasMaquinas", 
 			query="select u from DespesaMaquina u where u.tenant_id = :tenantId"),
+	@NamedQuery(name="DespesaMaquina.buscarMaquinasDistintas", 
+			query="SELECT DISTINCT d.maquina FROM DespesaMaquina d where d.tenant_id = :tenantId" ),
+	//@NamedQuery(name="DespesaMaquina.buscarValorTotalMensal", query="select ")
+	
 })
 public class DespesaMaquina {
 	

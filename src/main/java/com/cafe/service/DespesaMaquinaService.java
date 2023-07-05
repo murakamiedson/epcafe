@@ -2,6 +2,7 @@ package com.cafe.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,6 +10,7 @@ import javax.inject.Inject;
 import com.cafe.dao.DespesaMaquinaDAO;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.enums.TipoCombustivel;
+import com.cafe.modelo.to.DespesaDTO;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -48,6 +50,10 @@ private static final long serialVersionUID = 1L;
 		
 		log.info("Primeiro acesso a banco... buscar maquinas");					
 		return despesaMaquinaDAO.buscarDespesasMaquinas(tenantId);
+	}
+	
+	public List<DespesaDTO> buscarDespesasTO(LocalDate dataInicio, LocalDate dataFim){
+		return despesaMaquinaDAO.buscarDespesasTO(dataInicio, dataFim);
 	}
 	
 	

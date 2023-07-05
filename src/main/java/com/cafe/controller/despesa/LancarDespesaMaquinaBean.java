@@ -39,6 +39,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 
 	private LocalDate mesAno;
 	private List<Maquina> maquinas;
+	private List<Integer> maquinasDistintas;
 	private DespesaMaquina despesaMaquina;
 	private DespesaMaquina despesaMaquinaSelecionada;
 	private List<FatorPotencia> fatorPotencias;
@@ -64,8 +65,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		mesAno = LocalDate.now();
 		maquinas = maquinaService.buscarMaquinas(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
-		despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());
-		
+		despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());		
 
 		
 		limpar();
