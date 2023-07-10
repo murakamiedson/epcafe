@@ -71,9 +71,11 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	}
 	
     public void salvar() {
+    	
+    	despesaMaquina.setMesAno(mesAno);		
+    	
     	log.info("salvar ..." + despesaMaquina);
     	
-		despesaMaquina.setMesAno(mesAno);		
 
     	try {
     		despesaMaquina = this.despesaService.salvar(despesaMaquina);

@@ -123,6 +123,7 @@ public class DespesaMaquinaDAO implements Serializable{
 			.getResultList();
 			
 		log.info("qde DTO..." + lista.size());
+		
 				
 		return lista;
 	}
