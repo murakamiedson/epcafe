@@ -121,6 +121,8 @@ private static final long serialVersionUID = 1L;
 				
 				verificaMesAno(dto.getMesAno(), to, dto.getValorTotal());
 				
+				
+				
 				auxiliar.add(to);
 				
 				log.info("IF: maquinaID: "+to.getMaquinaId()+" cont: "+cont+"despesasTOcont: "
@@ -130,6 +132,7 @@ private static final long serialVersionUID = 1L;
 				
 								
 				verificaMesAno(dto.getMesAno(), auxiliar.get(cont), dto.getValorTotal());
+				
 
 				log.info("ELSE: maquinaID: "+to.getMaquinaId()+" cont: "+cont+"despesasTOcont: "+auxiliar.get(cont).getMaquinaId());
 			}
@@ -140,6 +143,10 @@ private static final long serialVersionUID = 1L;
 		}
 		
 		despesasTO = auxiliar;
+		
+		for(int i=0; i<despesasTO.size(); i++) {
+			calcValorAnual(despesasTO.get(i));
+		}
 		
 		return despesasTO;
 	}
@@ -153,7 +160,7 @@ private static final long serialVersionUID = 1L;
 		
 			case 1:
 				
-				if(to.getValorTotalJan()== null) {
+				if(to.getValorTotalJan()== new BigDecimal(0)) {
 					
 					to.setValorTotalJan(valorDespesa);
 				}else {
@@ -166,7 +173,7 @@ private static final long serialVersionUID = 1L;
 			
 			case 2:
 				
-				if(to.getValorTotalFev()== null) {
+				if(to.getValorTotalFev()== new BigDecimal(0)) {
 					
 					to.setValorTotalFev(valorDespesa);
 				}else {
@@ -177,7 +184,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 3:
-				if(to.getValorTotalMar()== null) {
+				if(to.getValorTotalMar()== new BigDecimal(0)) {
 					
 					to.setValorTotalMar(valorDespesa);
 				}else {
@@ -188,7 +195,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 4:
-				if(to.getValorTotalAbr() == null) {
+				if(to.getValorTotalAbr() == new BigDecimal(0)) {
 					to.setValorTotalAbr(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalAbr();
@@ -198,7 +205,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 5:
-				if(to.getValorTotalMai() == null) {
+				if(to.getValorTotalMai() == new BigDecimal(0)) {
 					to.setValorTotalMai(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalMai();
@@ -208,7 +215,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 6:
-				if(to.getValorTotalJun() == null) {
+				if(to.getValorTotalJun() == new BigDecimal(0)) {
 					to.setValorTotalJun(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalJun();
@@ -218,7 +225,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 7:				
-				if(to.getValorTotalJul() == null) {
+				if(to.getValorTotalJul() == new BigDecimal(0)) {
 					to.setValorTotalJul(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalJul();
@@ -228,7 +235,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 8:
-				if(to.getValorTotalAgo() == null) {
+				if(to.getValorTotalAgo() == new BigDecimal(0)) {
 					to.setValorTotalAgo(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalAgo();
@@ -238,7 +245,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 9:
-				if(to.getValorTotalSet() == null) {
+				if(to.getValorTotalSet() == new BigDecimal(0)) {
 					to.setValorTotalSet(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalSet();
@@ -248,7 +255,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 10:
-				if(to.getValorTotalOut() == null) {
+				if(to.getValorTotalOut() == new BigDecimal(0)) {
 					to.setValorTotalOut(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalOut();
@@ -258,7 +265,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 11:
-				if(to.getValorTotalNov() == null) {
+				if(to.getValorTotalNov() == new BigDecimal(0)) {
 					to.setValorTotalNov(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalNov();
@@ -268,7 +275,7 @@ private static final long serialVersionUID = 1L;
 				break;
 				
 			case 12:
-				if(to.getValorTotalDez() == null) {
+				if(to.getValorTotalDez() == new BigDecimal(0)) {
 					to.setValorTotalDez(valorDespesa);
 				}else {
 					BigDecimal totalExistente = to.getValorTotalDez();
@@ -279,4 +286,29 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	
+	public void calcValorAnual(DespesaTO to) {
+		
+		log.info("calcValorAnual...");
+		
+		
+		BigDecimal valor = to.getValorTotalJan()
+				.add(to.getValorTotalFev())
+				.add(to.getValorTotalMar())
+				.add(to.getValorTotalAbr())
+				.add(to.getValorTotalMai())
+				.add(to.getValorTotalJun())
+				.add(to.getValorTotalJul())
+				.add(to.getValorTotalAgo())
+				.add(to.getValorTotalSet())
+				.add(to.getValorTotalOut())
+				.add(to.getValorTotalNov())
+				.add(to.getValorTotalDez());
+				
+				
+		
+		to.setValorTotalAnual(valor);
+		
+		
+	
+	}
 }

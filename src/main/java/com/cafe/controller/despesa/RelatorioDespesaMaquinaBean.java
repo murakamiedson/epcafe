@@ -1,6 +1,7 @@
 package com.cafe.controller.despesa;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,7 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 	private LocalDate mesAno;
 	private DespesaMaquina despesaMaquina;
 	private List<DespesaTO> despesasTO = new ArrayList<>();
-
-	
+		
 	@Inject
 	private LoginBean loginBean;
 	
@@ -48,11 +48,12 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 	
 		log.info("inicializar login = " + loginBean.getUsuario());
 		mesAno = LocalDate.now();		
-		despesasTO = despesaService.buscarDespesasTO(mesAno, loginBean.getTenantId());	
+		despesasTO = despesaService.buscarDespesasTO(mesAno, loginBean.getTenantId());
+		
+		
 		log.info("finalizar...");
 	}
 	
-   
 	
 	
 }

@@ -20,7 +20,8 @@
                 <p:outputLabel for="month" value="Mês/Ano"/>
                 <p:datePicker id="month" view="month" 
                 	value="#{lancarDespesaMaquinaBean.mesAno}" 
-                	pattern="MM/yyyy" yearNavigator="true" yearRange="2000:2030"/>
+                	pattern="MM/yyyy" yearNavigator="true" yearRange="2000:2030"
+                	/>
             </div>	
 	    	
 	    	
@@ -156,8 +157,9 @@
 	        	
     			
 	    </h:form>
+	    
 			<h:graphicImage width="400" height="200" library="imagens" name="intensidade.jpg" title="Intensidade"/>
-			<h:link>https://www.nuntecagro.com.br/calculo-media-de-consumo-de-diesel/</h:link>
+			<h:outputLink>https://www.nuntecagro.com.br/calculo-media-de-consumo-de-diesel/</h:outputLink>
     
     </ui:define>
 </ui:composition>
