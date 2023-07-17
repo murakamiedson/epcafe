@@ -29,6 +29,6 @@ public enum FatorPotencia {
 
     public BigDecimal getValor() {
     	//BigDecimal valorFinal = 
-        return BigDecimal.valueOf(this.valor/100);
+        return BigDecimal.valueOf(this.valor);
     }
 }
