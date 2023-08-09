@@ -14,10 +14,10 @@
    		
     	<h:form id="form">
     	
-    		<p:growl id="msgs" showDetail="true" /> 
+    		<p:messages id="messages" showDetail="true" closable="true">
+	            <p:autoUpdate/>
+	        </p:messages> 
       		
-	    	
-	    	
 	    	
 	    	<p:panelGrid id="gridDespesa" columns="2" style="width: 100%; margin-top: 20px"
 	    		columnClasses="rotulo, campo">
@@ -26,7 +26,8 @@
                 <p:datePicker id="month" view="month" 
                 	value="#{lancarDespesaMaquinaBean.mesAno}" 
                 	pattern="MM/yyyy" type="localDate" yearNavigator="true" yearRange="2000:2030"
-                	>
+                	required="true" 
+                	validatorMessage="A data é obrigatória.">
               	 </p:datePicker>
            		 
 
@@ -49,15 +50,15 @@
 		   		</h:panelGroup>
 		
 				<p:outputLabel value="Preço (l/kwh)"/>
-				<h:panelGroup>
 		    		<p:inputNumber id="preco" 
 			    		symbol="R$ " symbolPosition="p" 
 	                    decimalSeparator="," thousandSeparator="."
 	                    minValue="0" decimalPlaces="2"
-	                    value="#{lancarDespesaMaquinaBean.despesaMaquina.precoUnitarioCombustivel}">
+	                    value="#{lancarDespesaMaquinaBean.despesaMaquina.precoUnitarioCombustivel}"
+	                    required="true" 
+			    		validatorMessage="O preço do combustível é obrigatório.">
 		    		</p:inputNumber>		    		
-		    		<p:spacer width="10px" />					
-				</h:panelGroup>
+		    		
 				
 				<p:outputLabel value="Fator de Potência" for="fator"/>
 	    		<p:selectOneMenu id="fator" 
@@ -74,8 +75,9 @@
 	                decimalSeparator="," thousandSeparator="."
                     minValue="0" decimalPlaces="2" 
 	    			required="true" 
-			    	validatorMessage="A quantidade de horas trabalhadas é obrigatória.">			    	
+			    	>			    	
 			    </p:inputNumber>
+			    
 		        
 	        </p:panelGrid>
 	        
