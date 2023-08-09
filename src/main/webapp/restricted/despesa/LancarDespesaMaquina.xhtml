@@ -41,7 +41,7 @@
 		    			<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}" var="maquina" 
 							itemLabel="#{maquina.nome}" itemValue="#{maquina}"/>
 							
-						<p:ajax update="tipo comb preco" process="maquina"/>
+						<p:ajax update="tipo comb preco fator" process="maquina"/>
 		    		</p:selectOneMenu>
 		    		<p:spacer width="10px" />
 		    		<p:outputLabel id="tipo" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo}"/>
@@ -60,11 +60,13 @@
 		    		</p:inputNumber>		    		
 		    		
 				
-				<p:outputLabel value="Fator de Potência" for="fator"/>
+				<p:outputLabel value="Fator de Potência" for="fator"
+					/>
 	    		<p:selectOneMenu id="fator" 
 	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}" 
-	    			required="true" 
-			    	validatorMessage="O fator é obrigatório.">
+	    			required="true"  
+			    	validatorMessage="O fator é obrigatório."
+			    	disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel eq 'ENERGIA_ELETRICA'}">
 	    			<f:selectItem itemLabel="Selecione o fator correspondente a intensidade de uso" />
 	    			<f:selectItems value="#{lancarDespesaMaquinaBean.fatorPotencias}" var="fatorPotencia" 
 						itemLabel="#{fatorPotencia}" itemValue="#{fatorPotencia}"/>
