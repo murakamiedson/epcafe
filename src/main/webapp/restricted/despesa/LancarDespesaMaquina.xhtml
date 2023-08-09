@@ -16,17 +16,19 @@
     	
     		<p:growl id="msgs" showDetail="true" /> 
       		
-	    	<div class="field col-12 md:col-4">
-                <p:outputLabel for="month" value="Mês/Ano"/>
-                <p:datePicker id="month" view="month" 
-                	value="#{lancarDespesaMaquinaBean.mesAno}" 
-                	pattern="MM/yyyy" yearNavigator="true" yearRange="2000:2030"
-                	/>
-            </div>	
+	    	
 	    	
 	    	
 	    	<p:panelGrid id="gridDespesa" columns="2" style="width: 100%; margin-top: 20px"
 	    		columnClasses="rotulo, campo">
+			
+				<p:outputLabel for="month" value="Mês/Ano"/>
+                <p:datePicker id="month" view="month" 
+                	value="#{lancarDespesaMaquinaBean.mesAno}" 
+                	pattern="MM/yyyy" type="localDate" yearNavigator="true" yearRange="2000:2030"
+                	>
+              	 </p:datePicker>
+           		 
 
 				<p:outputLabel value="Máquina" for="maquina"/>
 				<h:panelGroup>
