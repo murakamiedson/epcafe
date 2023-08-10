@@ -101,11 +101,6 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		}
     }
     
-    
-    public void buscarPrecoCombustivel() {
-    	log.info("buscar preço ..." + despesaMaquina.getMaquina().getId());   	
-    	
-    }
 
 	public void limpar() {
 		log.info("limpar");
