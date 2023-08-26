@@ -38,7 +38,8 @@ public class EnumUtil {
 					TipoAuxiliarInsumos.SOPRADOR,
 					TipoAuxiliarInsumos.TRATOR,
 					TipoAuxiliarInsumos.TRATOR_DE_RODA_PEQUENO_PORTE,
-					TipoAuxiliarInsumos.TRITURADOR
+					TipoAuxiliarInsumos.TRITURADOR,
+					TipoAuxiliarInsumos.OUTROS
 					);
 	
 		TIPOS_IMPLEMENTOS = Arrays.asList(
@@ -140,7 +141,8 @@ public class EnumUtil {
 				TipoAuxiliarInsumos.SULCADOR_CANAVIEIRO,
 				TipoAuxiliarInsumos.SULCADOR_TANDEM_CAFE,
 				TipoAuxiliarInsumos.TRATOR_NORMAL_OU_CAFEEIRO,
-				TipoAuxiliarInsumos.TRITURADOR_CITROS_CAFE
+				TipoAuxiliarInsumos.TRITURADOR_CITROS_CAFE,
+				TipoAuxiliarInsumos.OUTROS
 
 				);
 		
@@ -171,7 +173,8 @@ public class EnumUtil {
 				TipoAuxiliarInsumos.NPK_20_00_20,
 				TipoAuxiliarInsumos.NPK_20_05_20,
 				TipoAuxiliarInsumos.NPK_30_00_10,
-				TipoAuxiliarInsumos.NPK_30_00_20
+				TipoAuxiliarInsumos.NPK_30_00_20,
+				TipoAuxiliarInsumos.OUTROS
 				);
 				
 		TIPOS_HERBICIDAS = Arrays.asList(
@@ -185,7 +188,8 @@ public class EnumUtil {
 				TipoAuxiliarInsumos.ACCURATE_600_WG,
 				TipoAuxiliarInsumos.CLORIMURON_MASTER_250_WG,
 				TipoAuxiliarInsumos.AURORA_400_EC,
-				TipoAuxiliarInsumos.GLIFOSATO_NORTOX_480_CONCENTRADO_SOLUVEL_SL
+				TipoAuxiliarInsumos.GLIFOSATO_NORTOX_480_CONCENTRADO_SOLUVEL_SL,
+				TipoAuxiliarInsumos.OUTROS
 
 				);
 		
@@ -220,7 +224,8 @@ public class EnumUtil {
 				TipoAuxiliarInsumos.SIMBOLL_125_SC,
 				TipoAuxiliarInsumos.SPHERE_MAX_SC,
 				TipoAuxiliarInsumos.TENAZ_250_SC,
-				TipoAuxiliarInsumos.VERDADERO_600_WG
+				TipoAuxiliarInsumos.VERDADERO_600_WG,
+				TipoAuxiliarInsumos.OUTROS
 
 
 				);
@@ -241,14 +246,16 @@ public class EnumUtil {
 				TipoAuxiliarInsumos.POLYTRIN_EC,
 				TipoAuxiliarInsumos.ASSIST,
 				TipoAuxiliarInsumos.NIMBUS_IHAROL_ASSIST,
-				TipoAuxiliarInsumos.AGRAL_NONIL_FENOXI_POLI_ETANOL
+				TipoAuxiliarInsumos.AGRAL_NONIL_FENOXI_POLI_ETANOL,
+				TipoAuxiliarInsumos.OUTROS
 
 
 				);
 		
 		TIPOS_ADJUVANTES = Arrays.asList(
 				
-				TipoAuxiliarInsumos.ADJUVANTES
+				TipoAuxiliarInsumos.ADJUVANTES,
+				TipoAuxiliarInsumos.OUTROS
 				);
 	}
 	

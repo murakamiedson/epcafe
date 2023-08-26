@@ -3,14 +3,18 @@ package com.cafe.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -31,7 +35,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="DespesaFertilizante.buscarDespesasFertilizantes", 
-			query="select u from DespesaFertilizante u where u.tenant_id = :tenantId"),
+			query="select u from DespesaFertilizante u where u.tenant_id = :tenantId")
 })
 public class DespesaFertilizante {
 	@EqualsAndHashCode.Include
@@ -39,9 +43,6 @@ public class DespesaFertilizante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
 	private Long tenant_id;
-	
-	@OneToOne
-	private Unidade unidade;
 	
 	@OneToOne
 	private Fertilizante fertilizante;
@@ -54,6 +55,9 @@ public class DespesaFertilizante {
 	
 	@Positive
 	private BigDecimal quantidade;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="despesaFertilizante", fetch = FetchType.EAGER)
+	private List<QuantidadeTalhaoDespesa> quantidadeTalhaoDespesa;
 	
 	/*
 	 * Datas de Criação e Modificação

@@ -54,7 +54,7 @@ public class DespesaMaquina {
 	private LocalDate mesAno;
 
 	@PositiveOrZero
-	private BigDecimal horasTrabalhadas = new BigDecimal(0);
+	private BigDecimal horasTrabalhadas;
 	
 	@Enumerated(EnumType.STRING)
 	private FatorPotencia fatorPotencia;

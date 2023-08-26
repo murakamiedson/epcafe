@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.DespesaFertilizante;
+import com.cafe.modelo.QuantidadeTalhaoDespesa;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -19,17 +20,62 @@ import lombok.extern.log4j.Log4j;
  */
 
 @Log4j
-public class DespesaFertilizanteDAO implements Serializable{
-	
+public class DespesaFertilizanteDAO implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private EntityManager manager;
-	
+
 	@Transactional
-	public DespesaFertilizante salvar(DespesaFertilizante despesaFertilizante) throws PersistenceException, NegocioException {
+	public DespesaFertilizante salvar(DespesaFertilizante despesaFertilizante)
+			throws PersistenceException, NegocioException {
 		try {
-			return manager.merge(despesaFertilizante);	
+			return manager.merge(despesaFertilizante);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}
+	}
+
+
+	@Transactional
+	public void excluir(DespesaFertilizante despesaFertilizante) throws NegocioException {
+
+		try {
+			log.info("excluir dao");
+			DespesaFertilizante m = this.buscarPeloCodigo(despesaFertilizante.getId());
+			manager.remove(m);
+			manager.flush();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}
+	}
+
+	@Transactional
+	public QuantidadeTalhaoDespesa salvarQuantidadeTalhao(QuantidadeTalhaoDespesa quantidadeTalhaoDespesa)
+			throws PersistenceException, NegocioException {
+		try {
+			return manager.merge(quantidadeTalhaoDespesa);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;
@@ -46,14 +92,14 @@ public class DespesaFertilizanteDAO implements Serializable{
 	}
 	
 	@Transactional
-	public void excluir(DespesaFertilizante despesaFertilizante) throws NegocioException {
-			
+	public void excluirQuantidadeTalhao(QuantidadeTalhaoDespesa quantidadeTalhaoDespesa) throws NegocioException {
+
 		try {
-			log.info("excluir dao");
-			DespesaFertilizante m = this.buscarPeloCodigo(despesaFertilizante.getId());
+			log.info("excluir quantidade talhao");
+			DespesaFertilizante m = this.buscarPeloCodigo(quantidadeTalhaoDespesa.getId());
 			manager.remove(m);
 			manager.flush();
-		} catch (PersistenceException e) {			
+		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
 		} catch (RuntimeException e) {
@@ -71,15 +117,15 @@ public class DespesaFertilizanteDAO implements Serializable{
 	/*
 	 * Buscas
 	 */
-	
+
 	public DespesaFertilizante buscarPeloCodigo(Long id) {
 		return manager.find(DespesaFertilizante.class, id);
-	}	
-	
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<DespesaFertilizante> buscarDespesasFertilizantes(Long tenantId) {
 		return manager.createNamedQuery("DespesaFertilizante.buscarDespesasFertilizantes")
-				.setParameter("tenantId", tenantId)
-				.getResultList();
+				.setParameter("tenantId", tenantId).getResultList();
 	}
+
 }

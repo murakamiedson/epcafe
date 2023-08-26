@@ -164,6 +164,7 @@ public enum TipoAuxiliarInsumos {
 	NPK_20_05_20,
 	NPK_30_00_10,
 	NPK_30_00_20,
+	OUTROS,
 	
 	/* ---------------------------------*/
 	/* tipos de fungicidas   */
