@@ -12,10 +12,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -44,7 +44,7 @@ public class DespesaFertilizante {
 	private Long id;	
 	private Long tenant_id;
 	
-	@OneToOne
+	@ManyToOne
 	private Fertilizante fertilizante;
 	
 	@NotNull
@@ -57,7 +57,7 @@ public class DespesaFertilizante {
 	private BigDecimal quantidade;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="despesaFertilizante", fetch = FetchType.EAGER)
-	private List<QuantidadeTalhaoDespesa> quantidadeTalhaoDespesa;
+	private List<QuantidadeTalhao> qdesTalhoes;
 	
 	/*
 	 * Datas de Criação e Modificação

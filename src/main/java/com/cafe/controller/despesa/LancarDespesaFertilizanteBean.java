@@ -13,7 +13,7 @@ import javax.inject.Named;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Fertilizante;
-import com.cafe.modelo.QuantidadeTalhaoDespesa;
+import com.cafe.modelo.QuantidadeTalhao;
 import com.cafe.modelo.Talhao;
 import com.cafe.service.DespesaFertilizanteService;
 import com.cafe.service.FertilizanteService;
@@ -42,11 +42,10 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private LocalDate mesAno;
 	private List<Fertilizante> fertilizantes;
 	private DespesaFertilizante despesaFertilizante;
-	private DespesaFertilizante despesaFertilizanteSelecionado;
 	private List<DespesaFertilizante> despesas = new ArrayList<>();
 
 	private List<Talhao> talhoesUnidade;
-	private QuantidadeTalhaoDespesa quantidadeTalhaoDespesa;
+	private QuantidadeTalhao quantidadeTalhao;
 
 	@Inject
 	private TalhaoService talhaoService;
@@ -72,6 +71,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		this.talhoesUnidade = talhaoService.buscarTalhoesPorUnidade(loginBean.getUsuario().getUnidade(),
 				loginBean.getTenantId());
 
+		log.info("qde talhoes " + talhoesUnidade.size());
 		limpar();
 	}
 
@@ -96,9 +96,9 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void excluirDespesa() {
 		try {
 			log.info("excluindo...");
-			despesaService.excluir(despesaFertilizanteSelecionado);
+			despesaService.excluir(despesaFertilizante);
 			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
-			MessageUtil.sucesso("Despesa " + despesaFertilizanteSelecionado.getId() + " excluído com sucesso.");
+			MessageUtil.sucesso("Despesa " + despesaFertilizante.getId() + " excluído com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
@@ -108,7 +108,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void salvarQuantidadeTalhao() {
 		
 		try {
-			quantidadeTalhaoDespesa = this.despesaService.salvarQuantidadeTalhao(quantidadeTalhaoDespesa);
+			quantidadeTalhao = this.despesaService.salvarQuantidadeTalhao(quantidadeTalhao);
 			MessageUtil.sucesso("Quantidades de talhões salvas com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -120,9 +120,9 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void excluirQuantidadeTalhao() {
 		try {
 			log.info("excluindo quantidades de talhoes...");
-			despesaService.excluirQuantidadeTalhao(quantidadeTalhaoDespesa);
+			despesaService.excluirQuantidadeTalhao(quantidadeTalhao);
 			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
-			MessageUtil.sucesso("Quantidade " + quantidadeTalhaoDespesa.getId() + " excluída com sucesso.");
+			MessageUtil.sucesso("Quantidade " + quantidadeTalhao.getId() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
@@ -137,13 +137,22 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	}
 
 	public void calcTalhao() {
-		log.info("calcTalhao");
-		quantidadeTalhaoDespesa = new QuantidadeTalhaoDespesa();
-		quantidadeTalhaoDespesa.setTenant_id(loginBean.getTenantId());
-		quantidadeTalhaoDespesa.setDespesaFertilizante(despesaFertilizanteSelecionado);
-		quantidadeTalhaoDespesa.setTalhao(this.talhoesUnidade.get(0));
+		log.info("calcTalhao qde = " + despesaFertilizante.getQdesTalhoes().size());
 		
-		
+		// se não existir distribuicao buscar os talhoes e criar uma qdeTalhao para cada
+		if(despesaFertilizante.getQdesTalhoes().size() == 0 && talhoesUnidade.size() > 0) {
+			
+			despesaFertilizante.setQdesTalhoes(new ArrayList<QuantidadeTalhao>());
+			
+			for(Talhao t : talhoesUnidade) {
+				quantidadeTalhao = new QuantidadeTalhao();
+				quantidadeTalhao.setDespesaFertilizante(despesaFertilizante);
+				quantidadeTalhao.setTalhao(t);
+				despesaFertilizante.getQdesTalhoes().add(quantidadeTalhao);
+				log.info("quantidadeTalhao adicionado");
+			}
+		}
+		log.info("despesas qde = " + despesaFertilizante.getQdesTalhoes().size());
 
 	}
 }

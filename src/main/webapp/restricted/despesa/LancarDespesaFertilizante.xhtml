@@ -43,22 +43,20 @@
 					<p:spacer width="10px" />
 					<p:outputLabel id="medida"
 						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.medida}" />
-					<p:spacer width="20px" />
-					<p:outputLabel id="nome"
-						value="#{lancarFertilizanteBean.despesaFertilizante.fertilizante.nome}" />
+					
 				</h:panelGroup>
 
 				<p:outputLabel value="Quantidade" for="qtd" />
 				<p:inputNumber id="qtd" decimalSeparator="," thousandSeparator="."
 					minValue="0" decimalPlaces="2"
 					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.quantidade}"
-					required="true" validatorMessage="A quantidade é obrigatória.">
+					required="true" 
+					validatorMessage="A quantidade é obrigatória.">
 				</p:inputNumber>
 
 				<p:outputLabel value="Nota Fiscal" for="notaFiscal" />
 				<p:inputText id="notaFiscal"
-					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.notaFiscal}"
-					required="true">
+					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.notaFiscal}">
 				</p:inputText>
 
 			</p:panelGrid>
@@ -72,6 +70,7 @@
 				action="#{lancarDespesaFertilizanteBean.limpar}"
 				update="gridDespesa" process="@this"
 				style="margin-top: 10px; margin-bottom: 10px" />
+
 
 			<p:dataTable id="despesasTable"
 				value="#{lancarDespesaFertilizanteBean.despesas}" var="despesa"
@@ -95,17 +94,15 @@
 				<p:column headerText="Quantidades por Talhão"
 					style="width: 10px; text-align: center">
 					<p:commandButton value="Distribuir quantidades" id="talhoes"
-						onclick="PF('divisaoTalhoes').show();" process="@this"
-						imediate="true"
-						action="#{lancarDespesaFertilizanteBean.calcTalhao}">
+						onclick="PF('divisaoTalhoes').show();" 
+						process="@this"
+						update=":form:talhoesTable"
+						action="#{lancarDespesaFertilizanteBean.calcTalhao}"> 
 						<f:setPropertyActionListener
-							target="#{lancarDespesaFertilizanteBean.despesaFertilizanteSelecionado}"
+							target="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
 							value="#{despesa}" />
 					</p:commandButton>
 				</p:column>
-
-
-
 
 
 				<p:column headerText="Operações"
@@ -122,7 +119,7 @@
 						onclick="PF('confirmacaoExclusao').show();" process="@this"
 						imediate="true">
 						<f:setPropertyActionListener
-							target="#{lancarDespesaFertilizanteBean.despesaFertilizanteSelecionado}"
+							target="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
 							value="#{despesa}" />
 					</p:commandButton>
 				</p:column>
@@ -132,7 +129,7 @@
 			<p:confirmDialog id="confirmacaoExclusaoDialog"
 				widgetVar="confirmacaoExclusao"
 				message="Tem certeza que deseja excluir a despesa 
-	        			#{lancarDespesaFertilizanteBean.despesaFertilizanteSelecionado.id}?"
+	        			#{lancarDespesaFertilizanteBean.despesaFertilizante.id}?"
 				header="Exclusão de máquina" severity="alert">
 
 				<p:button icon="pi pi-thumbs-down" value="Não"
@@ -143,55 +140,23 @@
 					action="#{lancarDespesaFertilizanteBean.excluirDespesa}" />
 			</p:confirmDialog>
 
+
 			<p:dialog id="divisaoTalhoesDialog" widgetVar="divisaoTalhoes"
-				header="Divisão de Talhões">
+				header="Distribuição de quantidades por talhão">
 
-				<h:form>
-					<p:messages>
-						<p:autoUpdate />
-					</p:messages>
+				<p:dataTable id="talhoesTable"
+					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.qdesTalhoes}" 
+					var="qde"
+					style="margin-top: 20px" emptyMessage="Nenhum talhão encontrado.">
 
-
-
-
-					<p:panelGrid id="gridTalhoes" columns="2"
-						style="width: 100%; margin-top: 20px"
-						value="#{lancarDespesaFertilizanteBean.talhoesUnidade}" var="talhoes"
-						columnClasses="rotulo, campo">
-
-
-						
-							<p:outputLabel value="#{lancarDespesaFertilizanteBean.quantidadeTalhaoDespesa.talhao.nome}" />
-							<p:inputNumber decimalSeparator="," thousandSeparator="."
-								minValue="0" decimalPlaces="2" required="true"
-								value="#{lancarDespesaFertilizanteBean.quantidadeTalhaoDespesa.quantidade}"
-								validatorMessage="A quantidade é obrigatória." />
-							
-						<!-- 
-						<ui:repeat value="#{lancarDespesaFertilizanteBean.talhoesUnidade}"
-							var="talhao">
-							<p:outputLabel value="#{talhao.nome}" />
-							<p:inputNumber decimalSeparator="," thousandSeparator="."
-								minValue="0" decimalPlaces="2" required="true"
-								value="#{lancarDespesaFertilizanteBean.quantidade"
-								validatorMessage="A quantidade é obrigatória." />
-							
-
-						</ui:repeat> -->
-
-
-
-
-					</p:panelGrid>
-						<p:commandButton value="Salvar" id="botaoSalvarQuantidade"
-							icon="pi pi-save"
-							action="#{lancarDespesaFertilizanteBean.salvarQuantidadeTalhao}"
-							update=":form:despesasTable" process="@this gridTalhoes"
-							style="margin-top: 10px; margin-bottom: 10px" />
-				</h:form>
-
+					<p:column headerText="Talhao"
+						style="width: 10px; text-align: center">
+						<h:outputText value="#{qde.talhao.nome}">
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
 			</p:dialog>
-
+			
 		</h:form>
 	</ui:define>
 </ui:composition>

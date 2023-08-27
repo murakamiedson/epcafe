@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,7 +28,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 
-public class QuantidadeTalhaoDespesa {
+public class QuantidadeTalhao {
 	
 	@EqualsAndHashCode.Include
 	@Id
@@ -37,17 +36,16 @@ public class QuantidadeTalhaoDespesa {
 	private Long id;
 	
 	@NotNull
-	private Long tenant_id;
-	
-	@NotNull
 	private BigDecimal quantidade;
+	
+	@ManyToOne
+	private Talhao talhao;
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="codigo_despesa_fertilizante")
 	private DespesaFertilizante despesaFertilizante;
 	
-	@OneToOne
-	private Talhao talhao;
+	
 	
 	
 	

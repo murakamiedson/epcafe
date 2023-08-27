@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.DespesaFertilizante;
-import com.cafe.modelo.QuantidadeTalhaoDespesa;
+import com.cafe.modelo.QuantidadeTalhao;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -72,10 +72,10 @@ public class DespesaFertilizanteDAO implements Serializable {
 	}
 
 	@Transactional
-	public QuantidadeTalhaoDespesa salvarQuantidadeTalhao(QuantidadeTalhaoDespesa quantidadeTalhaoDespesa)
+	public QuantidadeTalhao salvarQuantidadeTalhao(QuantidadeTalhao quantidadeTalhao)
 			throws PersistenceException, NegocioException {
 		try {
-			return manager.merge(quantidadeTalhaoDespesa);
+			return manager.merge(quantidadeTalhao);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;
@@ -92,11 +92,11 @@ public class DespesaFertilizanteDAO implements Serializable {
 	}
 	
 	@Transactional
-	public void excluirQuantidadeTalhao(QuantidadeTalhaoDespesa quantidadeTalhaoDespesa) throws NegocioException {
+	public void excluirQuantidadeTalhao(QuantidadeTalhao quantidadeTalhao) throws NegocioException {
 
 		try {
 			log.info("excluir quantidade talhao");
-			DespesaFertilizante m = this.buscarPeloCodigo(quantidadeTalhaoDespesa.getId());
+			DespesaFertilizante m = this.buscarPeloCodigo(quantidadeTalhao.getId());
 			manager.remove(m);
 			manager.flush();
 		} catch (PersistenceException e) {

@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import com.cafe.dao.DespesaFertilizanteDAO;
 import com.cafe.modelo.DespesaFertilizante;
-import com.cafe.modelo.QuantidadeTalhaoDespesa;
+import com.cafe.modelo.QuantidadeTalhao;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -35,13 +35,13 @@ public class DespesaFertilizanteService implements Serializable {
 		despesaFertilizanteDAO.excluir(despesaFertilizante);
 	}
 
-	public QuantidadeTalhaoDespesa salvarQuantidadeTalhao(QuantidadeTalhaoDespesa quantidadeTahaoDespesa)
+	public QuantidadeTalhao salvarQuantidadeTalhao(QuantidadeTalhao quantidadeTahaoDespesa)
 			throws NegocioException {
 		return this.despesaFertilizanteDAO.salvarQuantidadeTalhao(quantidadeTahaoDespesa);
 	}
 
-	public void excluirQuantidadeTalhao(QuantidadeTalhaoDespesa quantidadeTalhaoDespesa) throws NegocioException {
-		despesaFertilizanteDAO.excluirQuantidadeTalhao(quantidadeTalhaoDespesa);
+	public void excluirQuantidadeTalhao(QuantidadeTalhao quantidadeTalhao) throws NegocioException {
+		despesaFertilizanteDAO.excluirQuantidadeTalhao(quantidadeTalhao);
 	}
 
 	public DespesaFertilizante buscarPeloCodigo(long codigo) {
