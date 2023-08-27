@@ -50,7 +50,7 @@ private static final long serialVersionUID = 1L;
 			this.fertilizanteService.excluir(insumoSelecionado);
 			this.fertilizantes.remove(insumoSelecionado);
 			
-			MessageUtil.sucesso("Insumo " + insumoSelecionado.getNome() + " excluído com sucesso.");
+			MessageUtil.sucesso("Insumo " + insumoSelecionado.getId() + " excluído com sucesso.");
 			
 		} catch (NegocioException e) {
 			

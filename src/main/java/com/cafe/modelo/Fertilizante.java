@@ -11,9 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -41,13 +38,6 @@ public class Fertilizante {
 	
 	private Long tenant_id;
 	
-	@NotBlank
-	@Column(nullable = false)
-	private String nome;
-	
-	@NotNull
-	@PositiveOrZero
-	private float valor;
 		
 	@Enumerated(EnumType.STRING)
 	private Medida medida;

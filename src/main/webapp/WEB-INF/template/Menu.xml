@@ -18,6 +18,7 @@
 	<submenu label="Despesa" icon="pi pi-folder-open">
 		<grupo value="GESTORES"></grupo>		
 		<menuitem value="Despesas Máquinas e Implementos" outcome="/restricted/despesa/LancarDespesaMaquina.xhtml"></menuitem>
+		<menuitem value="Despesas Fertilizantes e Defensivos" outcome="/restricted/despesa/LancarDespesaFertilizante.xhtml"></menuitem>
 		<submenu2 label="Relatório">
 			<menuitem2 value="Despesas de Máquinas" 
 				outcome="/restricted/despesa/RelatorioDespesaMaquina.xhtml"></menuitem2>

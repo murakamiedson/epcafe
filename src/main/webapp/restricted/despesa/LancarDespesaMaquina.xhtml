@@ -14,19 +14,22 @@
    		
     	<h:form id="form">
     	
-    		<p:growl id="msgs" showDetail="true" /> 
+    		<p:messages id="messages" showDetail="true" closable="true">
+	            <p:autoUpdate/>
+	        </p:messages> 
       		
-	    	<div class="field col-12 md:col-4">
-                <p:outputLabel for="month" value="Mês/Ano"/>
-                <p:datePicker id="month" view="month" 
-                	value="#{lancarDespesaMaquinaBean.mesAno}" 
-                	pattern="MM/yyyy" yearNavigator="true" yearRange="2000:2030"
-                	/>
-            </div>	
-	    	
 	    	
 	    	<p:panelGrid id="gridDespesa" columns="2" style="width: 100%; margin-top: 20px"
 	    		columnClasses="rotulo, campo">
+			
+				<p:outputLabel for="month" value="Mês/Ano"/>
+                <p:datePicker id="month" view="month" 
+                	value="#{lancarDespesaMaquinaBean.mesAno}" 
+                	pattern="MM/yyyy" type="localDate" yearNavigator="true" yearRange="2000:2030"
+                	required="true" 
+                	validatorMessage="A data é obrigatória.">
+              	 </p:datePicker>
+           		 
 
 				<p:outputLabel value="Máquina" for="maquina"/>
 				<h:panelGroup>
@@ -38,7 +41,7 @@
 		    			<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}" var="maquina" 
 							itemLabel="#{maquina.nome}" itemValue="#{maquina}"/>
 							
-						<p:ajax update="tipo comb preco" process="maquina"/>
+						<p:ajax update="tipo comb preco fator" process="maquina"/>
 		    		</p:selectOneMenu>
 		    		<p:spacer width="10px" />
 		    		<p:outputLabel id="tipo" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo}"/>
@@ -47,21 +50,23 @@
 		   		</h:panelGroup>
 		
 				<p:outputLabel value="Preço (l/kwh)"/>
-				<h:panelGroup>
 		    		<p:inputNumber id="preco" 
 			    		symbol="R$ " symbolPosition="p" 
 	                    decimalSeparator="," thousandSeparator="."
 	                    minValue="0" decimalPlaces="2"
-	                    value="#{lancarDespesaMaquinaBean.despesaMaquina.precoUnitarioCombustivel}">
+	                    value="#{lancarDespesaMaquinaBean.despesaMaquina.precoUnitarioCombustivel}"
+	                    required="true" 
+			    		validatorMessage="O preço do combustível é obrigatório.">
 		    		</p:inputNumber>		    		
-		    		<p:spacer width="10px" />					
-				</h:panelGroup>
+		    		
 				
-				<p:outputLabel value="Fator de Potência" for="fator"/>
+				<p:outputLabel value="Fator de Potência" for="fator"
+					/>
 	    		<p:selectOneMenu id="fator" 
 	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}" 
-	    			required="true" 
-			    	validatorMessage="O fator é obrigatório.">
+	    			required="true"  
+			    	validatorMessage="O fator é obrigatório."
+			    	disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel eq 'ENERGIA_ELETRICA'}">
 	    			<f:selectItem itemLabel="Selecione o fator correspondente a intensidade de uso" />
 	    			<f:selectItems value="#{lancarDespesaMaquinaBean.fatorPotencias}" var="fatorPotencia" 
 						itemLabel="#{fatorPotencia}" itemValue="#{fatorPotencia}"/>
@@ -72,8 +77,9 @@
 	                decimalSeparator="," thousandSeparator="."
                     minValue="0" decimalPlaces="2" 
 	    			required="true" 
-			    	validatorMessage="A quantidade de horas trabalhadas é obrigatória.">			    	
+			    	>			    	
 			    </p:inputNumber>
+			    
 		        
 	        </p:panelGrid>
 	        
@@ -159,7 +165,7 @@
 	    </h:form>
 	    
 			<h:graphicImage width="400" height="200" library="imagens" name="intensidade.jpg" title="Intensidade"/>
-			<h:outputLink>https://www.nuntecagro.com.br/calculo-media-de-consumo-de-diesel/</h:outputLink>
+			<h:outputLink value="https://www.nuntecagro.com.br/calculo-media-de-consumo-de-diesel/">https://www.nuntecagro.com.br/calculo-media-de-consumo-de-diesel/</h:outputLink>
     
     </ui:define>
 </ui:composition>

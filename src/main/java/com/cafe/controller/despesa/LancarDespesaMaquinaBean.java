@@ -61,7 +61,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		//tenantId = loginBean.getUsuario().getTenant().getCodigo();
 		
 		log.info("inicializar login = " + loginBean.getUsuario());
-		mesAno = LocalDate.now();
+		//mesAno = LocalDate.now();
 		maquinas = maquinaService.buscarMaquinas(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
 		despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());		
@@ -72,8 +72,8 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	
     public void salvar() {
     	
-    	despesaMaquina.setMesAno(mesAno);		
-    	
+    	despesaMaquina.setMesAno(mesAno);
+    	log.info("mesAno: " + mesAno);
     	log.info("salvar ..." + despesaMaquina);
     	
 
@@ -101,11 +101,6 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		}
     }
     
-    
-    public void buscarPrecoCombustivel() {
-    	log.info("buscar preço ..." + despesaMaquina.getMaquina().getId());   	
-    	
-    }
 
 	public void limpar() {
 		log.info("limpar");

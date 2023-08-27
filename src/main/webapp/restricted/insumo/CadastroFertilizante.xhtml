@@ -61,11 +61,7 @@
 						itemLabel="#{tipo}" itemValue="#{tipo}"/>
 	    		</p:selectOneMenu>
 	    		
-	    		<p:outputLabel value="Nome" for="nome"/>
-	    			<p:inputText id="nome" size="60" maxlength="80" 
-	    				value="#{cadastroFertilizanteBean.fertilizante.nome}"
-	 					required="true" 
-			    		validatorMessage="O nome é obrigatório."/>
+	    		
 			    					    		
 	    		<p:outputLabel value="Medida" for="medida"/>
 	    			<p:selectOneMenu id="medida" value="#{cadastroFertilizanteBean.fertilizante.medida}"
@@ -76,14 +72,6 @@
 							itemLabel="#{medida}" itemValue="#{medida}"/>
 	    			</p:selectOneMenu>
 	    			
-	    		<p:outputLabel value="Valor" for="valor"/>
-	    			<p:inputNumber id="valor" value="#{cadastroFertilizanteBean.fertilizante.valor}" 
-	    				symbol="R$ " symbolPosition="p" 
-                    	decimalSeparator="," thousandSeparator="."
-                    	minValue="0" decimalPlaces="2" 
-	    				required="true" 
-			    		validatorMessage="O valor é obrigatório.">			    	
-			    	</p:inputNumber>	
 	    		
 	    	</p:panelGrid>
 	    	
