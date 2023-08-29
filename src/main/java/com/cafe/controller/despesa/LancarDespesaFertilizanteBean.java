@@ -10,14 +10,15 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
+
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.QuantidadeTalhao;
-import com.cafe.modelo.Talhao;
 import com.cafe.service.DespesaFertilizanteService;
 import com.cafe.service.FertilizanteService;
-import com.cafe.service.TalhaoService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -43,12 +44,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private List<Fertilizante> fertilizantes;
 	private DespesaFertilizante despesaFertilizante;
 	private List<DespesaFertilizante> despesas = new ArrayList<>();
-
-	private List<Talhao> talhoesUnidade;
 	private QuantidadeTalhao quantidadeTalhao;
-
-	@Inject
-	private TalhaoService talhaoService;
 
 	@Inject
 	private LoginBean loginBean;
@@ -68,10 +64,6 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 		despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
 
-		this.talhoesUnidade = talhaoService.buscarTalhoesPorUnidade(loginBean.getUsuario().getUnidade(),
-				loginBean.getTenantId());
-
-		log.info("qde talhoes " + talhoesUnidade.size());
 		limpar();
 	}
 
@@ -80,6 +72,10 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		despesaFertilizante.setMesAno(mesAno);
 		log.info("mesAno: " + mesAno);
 		log.info("salvar ..." + despesaFertilizante);
+		
+		if(despesaFertilizante.getQdesTalhoes() == null) {
+			despesaFertilizante = this.despesaService.criarDistribuicao(despesaFertilizante, loginBean.getUsuario().getUnidade());
+		}
 
 		try {
 			despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
@@ -132,27 +128,41 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void limpar() {
 		log.info("limpar");
 		despesaFertilizante = new DespesaFertilizante();
-
 		despesaFertilizante.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 	}
-
-	public void calcTalhao() {
-		log.info("calcTalhao qde = " + despesaFertilizante.getQdesTalhoes().size());
-		
-		// se não existir distribuicao buscar os talhoes e criar uma qdeTalhao para cada
-		if(despesaFertilizante.getQdesTalhoes().size() == 0 && talhoesUnidade.size() > 0) {
-			
-			despesaFertilizante.setQdesTalhoes(new ArrayList<QuantidadeTalhao>());
-			
-			for(Talhao t : talhoesUnidade) {
-				quantidadeTalhao = new QuantidadeTalhao();
-				quantidadeTalhao.setDespesaFertilizante(despesaFertilizante);
-				quantidadeTalhao.setTalhao(t);
-				despesaFertilizante.getQdesTalhoes().add(quantidadeTalhao);
-				log.info("quantidadeTalhao adicionado");
-			}
+	
+	
+	public void onRowEdit(RowEditEvent<QuantidadeTalhao> event) {
+		log.info("editado");
+		MessageUtil.info("editado");
+		try {
+			despesaFertilizante = this.despesaService.salvar(despesaFertilizante);    			
+			MessageUtil.sucesso("Qde salva com sucesso!");
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			MessageUtil.erro(e.getMessage());
 		}
-		log.info("despesas qde = " + despesaFertilizante.getQdesTalhoes().size());
+    }
 
-	}
+    public void onRowCancel(RowEditEvent<QuantidadeTalhao> event) {
+    	log.info("cancelado");
+    	MessageUtil.info("cancelado");
+    }
+    
+    public void onCellEdit(CellEditEvent<?> event) {
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        if (newValue != null && !newValue.equals(oldValue)) {
+        	log.info("gravado");
+        	try {
+    			despesaFertilizante = this.despesaService.salvar(despesaFertilizante);    			
+    			MessageUtil.sucesso("Qde salva com sucesso!");
+    		} catch (NegocioException e) {
+    			e.printStackTrace();
+    			MessageUtil.erro(e.getMessage());
+    		}
+        }
+    }
+    
 }
