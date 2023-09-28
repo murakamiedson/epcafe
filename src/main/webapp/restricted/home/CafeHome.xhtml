@@ -16,56 +16,6 @@
         <p:growl id="growl" sticky="true" showDetail="true" life="2000" />
         <div style="clear: both" />
       </h:form>
-
-      <h:form target="_blank">
-        <p:dock position="bottom">
-          <p:menuitem
-            value="E-Mail"
-            icon="/resources/imagens/email_t.png"
-            url="mailto:murakami@ifsp.edu.br"
-          />
-          
-          <p:menuitem
-            value="YouTube"
-            icon="/resources/imagens/youtube_t.png"
-            rendered="#{avisosBean.usuarioLogado.grupo == 'TECNICOS'}"
-            url="https://slt.ifsp.edu.br/"
-          />
-          
-          <p:menuitem
-            value="YouTube"
-            icon="/resources/imagens/youtube_t.png"
-            rendered="#{avisosBean.usuarioLogado.grupo == 'GESTORES'}"
-            url="https://slt.ifsp.edu.br/"
-          />
-
-          <p:menuitem
-            value="Facebook"
-            icon="/resources/imagens/facebook_t.png"
-            url="https://slt.ifsp.edu.br/"
-          />
-          <p:menuitem
-            value="Instagran"
-            icon="/resources/imagens/instagran_t.png"
-            url="https://slt.ifsp.edu.br/"
-          />
-          <p:menuitem
-            value="Ifsp"
-            icon="/resources/imagens/whatsapp_t.png"
-            url="https://api.whatsapp.com/send?phone=5511996437954"
-          />
-          <p:menuitem
-            value="ifsp.edu.br"
-            icon="/resources/imagens/if_2.png"
-            url="https://slt.ifsp.edu.br/"
-          />
-           <p:menuitem
-            value="Gaian.com.br"
-            icon="/resources/imagens/gaian_t.png"
-            url="https://gaian.com.br/"
-          />
-        </p:dock>
-      </h:form>
     </div>
   </ui:define>
 </ui:composition>
