@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 @NamedQueries({
 	@NamedQuery(name="Talhao.buscarTalhoes", query="select u from Talhao u where u.tenant_id = :tenantId"),
 	@NamedQuery(name="Talhao.buscarPorUnidade", query="select u from Talhao u where u.unidade = :unidade "
-			+ "and u.tenant_id = :tenantId")
+			+ "and u.tenant_id = :tenantId"),
 })
 public class Talhao {
 

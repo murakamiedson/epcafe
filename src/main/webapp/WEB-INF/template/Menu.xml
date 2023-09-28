@@ -5,29 +5,20 @@
 		<menuitem value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem>		
 	</submenu>
 
-	<submenu label="Propriedade" icon="pi pi-folder-open">
+	<submenu label="Cadastros" icon="pi pi-folder-open">
 		<grupo value="GESTORES"></grupo>
-		<menuitem value="Unidades de Produção" outcome="/restricted/propriedade/PesquisaUnidade.xhtml"></menuitem>		
-		<submenu2 label="Relatório">
-			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
-		</submenu2>
-	</submenu>
-	<submenu label="Insumo" icon="pi pi-folder-open">
-		<grupo value="GESTORES"></grupo>		
-		<menuitem value="Máquinas e Implementos" outcome="/restricted/insumo/PesquisaMaquina.xhtml"></menuitem>
-		<menuitem value="Fertilizantes e Defensivos" outcome="/restricted/insumo/PesquisaFertilizante.xhtml"></menuitem>		
-		<submenu2 label="Relatório">
-			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
-		</submenu2>
+		<menuitem value="Unidades de Produção" outcome="/restricted/cadastros/PesquisaUnidade.xhtml"></menuitem>
+		<menuitem value="Máquinas e Implementos" outcome="/restricted/cadastros/PesquisaMaquina.xhtml"></menuitem>
+		<menuitem value="Fertilizantes e Defensivos" outcome="/restricted/cadastros/PesquisaFertilizante.xhtml"></menuitem>		
 	</submenu>
 	
-	<submenu label="Despesa" icon="pi pi-folder-open">
+	<submenu label="Custos" icon="pi pi-folder-open">
 		<grupo value="GESTORES"></grupo>		
-		<menuitem value="Despesas Máquinas e Implementos" outcome="/restricted/despesa/LancarDespesaMaquina.xhtml"></menuitem>
-		<menuitem value="Despesas Fetilizantes e Defensivos" ></menuitem>		
-		<menuitem value="Despesas Outros Insumos e Serviços" ></menuitem>		
+		<menuitem value="Despesas Máquinas e Implementos" outcome="/restricted/custos/LancarDespesaMaquina.xhtml"></menuitem>
+		<menuitem value="Despesas Fertilizantes e Defensivos" outcome="/restricted/custos/LancarDespesaFertilizante.xhtml"></menuitem>
 		<submenu2 label="Relatório">
-			<menuitem2 value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem2>			
+			<menuitem2 value="Despesas de Máquinas" 
+				outcome="/restricted/custos/RelatorioDespesaMaquina.xhtml"></menuitem2>
 		</submenu2>
 	</submenu>
 </menu>

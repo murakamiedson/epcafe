@@ -1,0 +1,184 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Despesas com Fertilizantes e Defensivos</ui:define>
+
+	<ui:define name="corpo">
+
+		<h2>Despesas com Fertilizantes e Defensivos</h2>
+
+		<h:form id="form">
+
+			<p:messages id="messages" showDetail="false" closable="true" >
+				<p:autoUpdate />
+			</p:messages>
+
+			<p:panelGrid id="gridDespesa" columns="2"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel for="month" value="Mês/Ano" />
+				<p:datePicker id="month" view="month"
+					value="#{lancarDespesaFertilizanteBean.mesAno}" pattern="MM/yyyy"
+					type="localDate" yearNavigator="true" yearRange="2000:2030"
+					required="true" validatorMessage="A data é obrigatória.">
+				</p:datePicker>
+
+				<p:outputLabel value="Fertilizante" for="fertilizante" />
+				<h:panelGroup>
+					<p:selectOneMenu id="fertilizante"
+						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante}"
+						required="true" validatorMessage="O fertilizante é obrigatório.">
+						<f:selectItem itemLabel="Selecione o fertilizante" />
+						<f:selectItems
+							value="#{lancarDespesaFertilizanteBean.fertilizantes}"
+							var="fertilizante" itemLabel="#{fertilizante.tipo}"
+							itemValue="#{fertilizante}" />
+
+						<p:ajax update="medida" process="fertilizante" />
+					</p:selectOneMenu>
+					<p:spacer width="10px" />
+					<p:outputLabel id="medida"
+						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.medida}" />
+					
+				</h:panelGroup>
+
+				<p:outputLabel value="Quantidade" for="qtd" />
+				<p:inputNumber id="qtd" decimalSeparator="," thousandSeparator="."
+					minValue="0" decimalPlaces="2"
+					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.quantidade}"
+					required="true" 
+					validatorMessage="A quantidade é obrigatória.">
+				</p:inputNumber>
+
+				<p:outputLabel value="Nota Fiscal" for="notaFiscal" />
+				<p:inputText id="notaFiscal"
+					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.notaFiscal}">
+				</p:inputText>
+
+			</p:panelGrid>
+
+			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+				action="#{lancarDespesaFertilizanteBean.salvar}"
+				update="despesasTable" process="@this gridDespesa"
+				style="margin-top: 10px; margin-bottom: 10px" />
+
+			<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-save"
+				action="#{lancarDespesaFertilizanteBean.limpar}"
+				update="gridDespesa" process="@this"
+				style="margin-top: 10px; margin-bottom: 10px" />
+
+
+			<p:dataTable id="despesasTable"
+				value="#{lancarDespesaFertilizanteBean.despesas}" var="despesa"
+				style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada."
+				rows="10" paginator="true" paginatorAlwaysVisible="true"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
+
+				<p:column headerText="Mês/Ano"
+					style="width: 10px; text-align: center">
+					<h:outputText value="#{despesa.mesAno}">
+						<f:convertDateTime type="localDate" pattern="MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Nota Fiscal"
+					style="width: 10px; text-align: center">
+					<h:outputText value="#{despesa.notaFiscal}">
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Quantidades por Talhão"
+					style="width: 10px; text-align: center">
+					<p:commandButton value="Distribuir quantidades" id="talhoes"
+						onclick="PF('divisaoTalhoes').show();" 
+						process="@this"
+						update=":form:talhoesTable"> 
+						<f:setPropertyActionListener
+							target="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
+							value="#{despesa}" />
+					</p:commandButton>
+				</p:column>
+
+
+				<p:column headerText="Operações"
+					style="width: 30px; text-align: center">
+
+					<p:commandButton icon="pi pi-pencil" title="Editar"
+						update="form:gridDespesa" process="@this">
+						<f:setPropertyActionListener
+							target="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
+							value="#{despesa}" />
+					</p:commandButton>
+
+					<p:commandButton icon="pi pi-trash" title="Excluir"
+						onclick="PF('confirmacaoExclusao').show();" process="@this"
+						imediate="true">
+						<f:setPropertyActionListener
+							target="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
+							value="#{despesa}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog id="confirmacaoExclusaoDialog"
+				widgetVar="confirmacaoExclusao"
+				message="Tem certeza que deseja excluir a despesa 
+	        			#{lancarDespesaFertilizanteBean.despesaFertilizante.id}?"
+				header="Exclusão de máquina" severity="alert">
+
+				<p:button icon="pi pi-thumbs-down" value="Não"
+					onclick="PF('confirmacaoExclusao').hide(); return false;" />
+				<p:commandButton icon="pi pi-thumbs-up" value="Sim" process="@this"
+					update=":form:despesasTable"
+					onclick="PF('confirmacaoExclusao').hide();"
+					action="#{lancarDespesaFertilizanteBean.excluirDespesa}" />
+			</p:confirmDialog>
+
+
+			<p:dialog id="divisaoTalhoesDialog" widgetVar="divisaoTalhoes"
+				minHeight="200" width="400"
+				header="Distribuição de quantidades por talhão">
+
+				<div class="card">
+				<p:dataTable id="talhoesTable" editable="true" editMode="cell"
+					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.qdesTalhoes}" 
+					var="qde"
+					style="margin-top: 20px" emptyMessage="Nenhum talhão encontrado.">
+							            
+		            <p:ajax event="cellEdit" listener="#{lancarDespesaFertilizanteBean.onCellEdit}"/>		
+            
+		            <p:column headerText="Talhão">
+		                <p:cellEditor>
+		                    <f:facet name="output">
+		                        <h:outputText value="#{qde.talhao.nome}"/>
+		                    </f:facet>
+		                    <f:facet name="input">
+		                    	<p:inputNumber rendered="false" value="#{qde.quantidade}" style="width:100%"/>		                        
+		                    </f:facet>		                    
+		                </p:cellEditor>
+		            </p:column>		
+		
+		            <p:column headerText="Qde" style="width:6rem">
+		                <p:cellEditor>
+		                    <f:facet name="output">
+		                        <h:outputText value="#{qde.quantidade}"/>	
+		                    </f:facet>
+		                    <f:facet name="input">
+		                    	<p:inputNumber value="#{qde.quantidade}" style="width:100%"/>		                        
+		                    </f:facet>
+		                </p:cellEditor>
+		            </p:column>
+		
+		        </p:dataTable>
+		    </div>
+  
+			</p:dialog>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,171 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Despesas com Máquinas e Implementos</ui:define>
+    
+    <ui:define name="corpo">
+   	
+   		<h2>Despesas com Máquinas</h2>
+   		
+    	<h:form id="form">
+    	
+    		<p:messages id="messages" showDetail="true" closable="true">
+	            <p:autoUpdate/>
+	        </p:messages> 
+      		
+	    	
+	    	<p:panelGrid id="gridDespesa" columns="2" style="width: 100%; margin-top: 20px"
+	    		columnClasses="rotulo, campo">
+			
+				<p:outputLabel for="month" value="Mês/Ano"/>
+                <p:datePicker id="month" view="month" 
+                	value="#{lancarDespesaMaquinaBean.mesAno}" 
+                	pattern="MM/yyyy" type="localDate" yearNavigator="true" yearRange="2000:2030"
+                	required="true" 
+                	validatorMessage="A data é obrigatória.">
+              	 </p:datePicker>
+           		 
+
+				<p:outputLabel value="Máquina" for="maquina"/>
+				<h:panelGroup>
+		    		<p:selectOneMenu id="maquina" 
+		    			value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina}" 
+		    			required="true" 
+				    	validatorMessage="A máquina é obrigatória.">
+		    			<f:selectItem itemLabel="Selecione a máquina" />
+		    			<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}" var="maquina" 
+							itemLabel="#{maquina.nome}" itemValue="#{maquina}"/>
+							
+						<p:ajax update="tipo comb preco fator" process="maquina"/>
+		    		</p:selectOneMenu>
+		    		<p:spacer width="10px" />
+		    		<p:outputLabel id="tipo" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo}"/>
+		    		<p:spacer width="20px" />
+		    		<p:outputLabel id="comb" value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel}"/>
+		   		</h:panelGroup>
+		
+				<p:outputLabel value="Preço (l/kwh)"/>
+		    		<p:inputNumber id="preco" 
+			    		symbol="R$ " symbolPosition="p" 
+	                    decimalSeparator="," thousandSeparator="."
+	                    minValue="0" decimalPlaces="2"
+	                    value="#{lancarDespesaMaquinaBean.despesaMaquina.precoUnitarioCombustivel}"
+	                    required="true" 
+			    		validatorMessage="O preço do combustível é obrigatório.">
+		    		</p:inputNumber>		    		
+		    		
+				
+				<p:outputLabel value="Fator de Potência" for="fator"
+					/>
+	    		<p:selectOneMenu id="fator" 
+	    			value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}" 
+	    			required="true"  
+			    	validatorMessage="O fator é obrigatório."
+			    	disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel eq 'ENERGIA_ELETRICA'}">
+	    			<f:selectItem itemLabel="Selecione o fator correspondente a intensidade de uso" />
+	    			<f:selectItems value="#{lancarDespesaMaquinaBean.fatorPotencias}" var="fatorPotencia" 
+						itemLabel="#{fatorPotencia}" itemValue="#{fatorPotencia}"/>
+	    		</p:selectOneMenu>
+	    		
+	    		<p:outputLabel value="Horas Trabalhadas" for="ht"/>
+	    		<p:inputNumber id="ht" value="#{lancarDespesaMaquinaBean.despesaMaquina.horasTrabalhadas}" 
+	                decimalSeparator="," thousandSeparator="."
+                    minValue="0" decimalPlaces="2" 
+	    			required="true" 
+			    	>			    	
+			    </p:inputNumber>
+			    
+		        
+	        </p:panelGrid>
+	        
+	        <p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+	    				action="#{lancarDespesaMaquinaBean.salvar}" update="despesasTable"
+	    				process="@this gridDespesa"
+	    				style="margin-top: 10px; margin-bottom: 10px"/>
+	    				
+	    	<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-save"
+	    				action="#{lancarDespesaMaquinaBean.limpar}" update="gridDespesa"
+	    				process="@this"
+	    				style="margin-top: 10px; margin-bottom: 10px"/> 	
+	    			 
+	        
+	        <p:dataTable id="despesasTable" value="#{lancarDespesaMaquinaBean.despesas}" 
+	        		var="despesa"
+		    		style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada." rows="10"
+		    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
+		    		rowsPerPageTemplate="5,10,15"> 
+	    		
+	    		<p:column headerText="Mês/Ano" style="width: 10px; text-align: center">
+	    			<h:outputText value="#{despesa.mesAno}">
+	    				<f:convertDateTime type="localDate" pattern="MM/yyyy" />
+    				</h:outputText>
+	    		</p:column>	    		
+	    		
+	    		<p:column headerText="Máquina" sortBy="#{despesa.maquina.nome}" 
+	    			style="width: 30px; text-align: left">
+	    			<h:outputText value="#{despesa.maquina.nome}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Combustível" style="width: 30px; text-align: left">
+	    			<h:outputText value="#{despesa.maquina.tipoCombustivel}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Fator Potência" style="width: 30px; text-align: left">
+	    			<h:outputText value="#{despesa.fatorPotencia}"/>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Valor Total (R$)" style="width: 30px; text-align: center">
+	    			<h:outputText value="#{despesa.valorTotal}" >
+	    				<f:convertNumber pattern="#0.00" />
+	    			</h:outputText>
+	    		</p:column>
+	    		
+	    		<p:column headerText="Preço Combustível" style="width: 30px; text-align: center">
+	    			<h:outputText value="#{despesa.precoUnitarioCombustivel}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Operações" style="width: 30px; text-align: center">	
+	    		
+	    		<p:commandButton icon="pi pi-pencil" title="Editar"			    			
+		    			update="form:gridDespesa" 
+		            	process="@this">
+						<f:setPropertyActionListener target="#{lancarDespesaMaquinaBean.despesaMaquina}" 
+							value="#{despesa}" />
+					</p:commandButton>
+					    				    		
+		    		<p:commandButton icon="pi pi-trash" title="Excluir"		    				
+		    			onclick="PF('confirmacaoExclusao').show();"
+						process="@this"
+						imediate="true">
+						<f:setPropertyActionListener target="#{lancarDespesaMaquinaBean.despesaMaquinaSelecionada}" 
+							value="#{despesa}" />
+					</p:commandButton>					
+	    		</p:column>
+    		</p:dataTable>
+    		
+    		<p:confirmDialog id="confirmacaoExclusaoDialog" 
+		   			widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir a despesa #{lancarDespesaMaquinaBean.despesaMaquinaSelecionada.id}?"  
+	                header="Exclusão de máquina" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim"
+	        		process="@this" 
+	        		update=":form:despesasTable"
+	        		onclick="PF('confirmacaoExclusao').hide();" 
+	        		action="#{lancarDespesaMaquinaBean.excluirDespesa}"/>
+	    	</p:confirmDialog>	        
+	        	
+    			
+	    </h:form>
+	    
+			<h:graphicImage width="400" height="200" library="imagens" name="intensidade.jpg" title="Intensidade"/>
+			<h:outputLink value="https://www.nuntecagro.com.br/calculo-media-de-consumo-de-diesel/">https://www.nuntecagro.com.br/calculo-media-de-consumo-de-diesel/</h:outputLink>
+    
+    </ui:define>
+</ui:composition>

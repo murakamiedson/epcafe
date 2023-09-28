@@ -3,24 +3,24 @@ package com.cafe.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Positive;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.cafe.modelo.enums.FatorPotencia;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,46 +30,34 @@ import lombok.EqualsAndHashCode;
  *
  */
 
-
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="DespesaMaquina.buscarDespesasMaquinas", 
-			query="select u from DespesaMaquina u where u.tenant_id = :tenantId"),
-	@NamedQuery(name="DespesaMaquina.buscarMaquinasDistintas", 
-			query="SELECT DISTINCT d.maquina FROM DespesaMaquina d where d.tenant_id = :tenantId" ),
-	//@NamedQuery(name="DespesaMaquina.buscarValorTotalMensal", query="select ")
-	
+	@NamedQuery(name="DespesaFertilizante.buscarDespesasFertilizantes", 
+			query="select u from DespesaFertilizante u where u.tenant_id = :tenantId")
 })
-public class DespesaMaquina {
-	
+public class DespesaFertilizante {
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
-	private Long tenant_id;	
+	private Long tenant_id;
+	
+	@ManyToOne
+	private Fertilizante fertilizante;
 	
 	@NotNull
 	private LocalDate mesAno;
-
-	@PositiveOrZero
-	private BigDecimal horasTrabalhadas;
 	
-	@Enumerated(EnumType.STRING)
-	private FatorPotencia fatorPotencia;
+	@NotNull
+	private String notaFiscal;
 	
-	@OneToOne
-	private Unidade unidade;
+	@Positive
+	private BigDecimal quantidade;
 	
-	@OneToOne	
-	private Maquina maquina;
-	
-	private BigDecimal precoUnitarioCombustivel;
-	
-	private BigDecimal valorTotal;
-	
-	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="despesaFertilizante", fetch = FetchType.EAGER)
+	private List<QuantidadeTalhao> qdesTalhoes;
 	
 	/*
 	 * Datas de Criação e Modificação
@@ -82,4 +70,5 @@ public class DespesaMaquina {
 	@UpdateTimestamp
 	@Column(columnDefinition = "datetime")
 	private OffsetDateTime dataModificacao;
+	
 }

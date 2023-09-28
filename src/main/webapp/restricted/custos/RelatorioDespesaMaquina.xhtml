@@ -1,0 +1,124 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Relatórios</ui:define>
+
+	<ui:define name="corpo">
+
+		<h2>Relatórios de Despesas com Máquinas</h2>
+
+		<h:form id="frmDespesas">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:dataTable id="despesasTable" var="to"
+				value="#{relatorioDespesaMaquinaBean.despesasTO}"
+				style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada."
+				rows="10" paginator="true" paginatorAlwaysVisible="true"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
+
+				<!-- 	
+			    <p:column headerText="Id" style="width: 10px; text-align: center">
+		    			<h:outputText value="#{to.maquinaId}"/>
+		    	</p:column>
+		    	 -->
+		    	   <f:facet name="header">
+				        Despesas por máquinas
+				   </f:facet>
+				<p:column headerText="Máquina" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.maquinaNome}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Janeiro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalJan}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+
+
+				<p:column headerText="Fevereiro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalFev}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Março" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalMar}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Abril" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalAbr}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Maio" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalMai}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Junho" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalJun}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Julho" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalJul}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Agosto" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalAgo}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Setembro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalSet}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Outubro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalOut}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Novembro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalNov}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Dezembro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalDez}">
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Total" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalAnual}">
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<f:facet name="footer">
+			        <h:outputText value="Total: "/>
+			    </f:facet>
+			</p:dataTable>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
