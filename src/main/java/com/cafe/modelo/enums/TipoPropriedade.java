@@ -6,6 +6,8 @@ package com.cafe.modelo.enums;
  */
 public enum TipoPropriedade {
 
-	FAZENDA
+	FAZENDA,
+	SITIO,
+	CHACARA
 
 }
