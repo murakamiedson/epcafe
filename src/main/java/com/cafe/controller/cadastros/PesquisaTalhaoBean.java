@@ -41,7 +41,7 @@ private static final long serialVersionUID = 1L;
 		
 	@PostConstruct
 	public void inicializar() {
-		talhoes = talhaoService.buscarTalhoesPorUnidade(loginBean.getUsuario().getUnidade(), loginBean.getTenantId());
+		talhoes = talhaoService.buscarTalhoesPorUnidade(loginBean.getUsuario().getPropriedade(), loginBean.getTenantId());
 	}
 	
 	public void excluir() {

@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.Talhao;
-import com.cafe.modelo.Unidade;
+import com.cafe.modelo.Propriedade;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -80,9 +80,9 @@ public class TalhaoDAO implements Serializable {
 				.getResultList();
 	}
 	
-	public List<Talhao> buscarTalhoesPorUnidade(Unidade unidade, Long tenantId) {
+	public List<Talhao> buscarTalhoesPorUnidade(Propriedade propriedade, Long tenantId) {
 		return manager.createNamedQuery("Talhao.buscarPorUnidade", Talhao.class)				
-				.setParameter("unidade", unidade)
+				.setParameter("unidade", propriedade)
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}

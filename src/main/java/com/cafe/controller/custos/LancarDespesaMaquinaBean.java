@@ -107,7 +107,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		despesaMaquina = new DespesaMaquina();
 
 		//despesaMaquina.setMesAno(mesAno);
-		despesaMaquina.setUnidade(loginBean.getUsuario().getUnidade());
+		despesaMaquina.setPropriedade(loginBean.getUsuario().getPropriedade());
 		despesaMaquina.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 	}
 	

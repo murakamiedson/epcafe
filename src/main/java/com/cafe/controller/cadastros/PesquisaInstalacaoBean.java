@@ -41,7 +41,7 @@ private static final long serialVersionUID = 1L;
 		
 	@PostConstruct
 	public void inicializar() {
-		instalacoes = instalacaoService.buscarInstalacoesPorUnidade(loginBean.getUsuario().getUnidade() ,loginBean.getTenantId());
+		instalacoes = instalacaoService.buscarInstalacoesPorUnidade(loginBean.getUsuario().getPropriedade() ,loginBean.getTenantId());
 	}
 	
 	public void excluir() {

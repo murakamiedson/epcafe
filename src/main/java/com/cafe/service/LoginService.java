@@ -89,7 +89,7 @@ public class LoginService implements Serializable {
 		 */
 		DefaultSubMenu subMenuNome = DefaultSubMenu.builder().icon("pi pi-user").build();
 		subMenuNome = addMenuItem(subMenuNome, user.getNome(), null);
-		subMenuNome = addMenuItem(subMenuNome, user.getUnidade().getNome(), null);
+		subMenuNome = addMenuItem(subMenuNome, user.getPropriedade().getNome(), null);
 		subMenuNome = addMenuItem(subMenuNome, user.getTenant().getTenant(), null);
 		subMenuNome = addMenuItem(subMenuNome, "Alterar Perfil", "#{loginBean.trocarPerfil}");
 		subMenuNome = addMenuItem(subMenuNome, "Alterar Senha", "#{loginBean.trocarSenha}");

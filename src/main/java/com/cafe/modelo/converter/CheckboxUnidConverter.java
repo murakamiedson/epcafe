@@ -5,8 +5,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-import com.cafe.dao.UnidadeDAO;
-import com.cafe.modelo.Unidade;
+import com.cafe.dao.PropriedadeDAO;
+import com.cafe.modelo.Propriedade;
 import com.cafe.util.cdi.CDIServiceLocator;
 
 
@@ -18,18 +18,18 @@ import com.cafe.util.cdi.CDIServiceLocator;
 @FacesConverter(value = "checkboxUnidConverter")
 public class CheckboxUnidConverter implements Converter<Object> {
 
-	private UnidadeDAO unidadeDAO;
+	private PropriedadeDAO propriedadeDAO;
 	
 	public CheckboxUnidConverter() {
-		this.unidadeDAO = CDIServiceLocator.getBean(UnidadeDAO.class);
+		this.propriedadeDAO = CDIServiceLocator.getBean(PropriedadeDAO.class);
 	}
 	
 	@Override    //converte tipo String para objeto - necessário mapear do modelo relacional para obj
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		Unidade retorno = null;
+		Propriedade retorno = null;
 
 		if (value != null && !value.isEmpty()) {
-			retorno = this.unidadeDAO.buscarPeloCodigo(Long.valueOf(value));
+			retorno = this.propriedadeDAO.buscarPeloCodigo(Long.valueOf(value));
 		}
 
 		return retorno;
@@ -38,7 +38,7 @@ public class CheckboxUnidConverter implements Converter<Object> {
 	@Override  //converte de objeto para codigo - necessário mapear do modelo obj para relacional
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			Long codigo = ((Unidade) value).getCodigo();
+			Long codigo = ((Propriedade) value).getCodigo();
 			String retorno = (codigo == null ? null : codigo.toString());
 			
 			return retorno;

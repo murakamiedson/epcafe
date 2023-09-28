@@ -6,9 +6,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.cafe.dao.TalhaoDAO;
-import com.cafe.dao.UnidadeDAO;
+import com.cafe.dao.PropriedadeDAO;
 import com.cafe.modelo.Talhao;
-import com.cafe.modelo.Unidade;
+import com.cafe.modelo.Propriedade;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -25,7 +25,7 @@ private static final long serialVersionUID = 1L;
 	@Inject
 	private TalhaoDAO talhaoDAO;
 	@Inject
-	private UnidadeDAO unidadeDAO;
+	private PropriedadeDAO propriedadeDAO;
 
 	public void salvar(Talhao talhao) throws NegocioException {
 		
@@ -47,15 +47,15 @@ private static final long serialVersionUID = 1L;
 		return this.talhaoDAO.buscarTalhoes(tenantId);
 	}
 	
-	public List<Talhao> buscarTalhoesPorUnidade(Unidade unidade, Long tenantId) {
+	public List<Talhao> buscarTalhoesPorUnidade(Propriedade propriedade, Long tenantId) {
 					
-		return this.talhaoDAO.buscarTalhoesPorUnidade(unidade, tenantId);
+		return this.talhaoDAO.buscarTalhoesPorUnidade(propriedade, tenantId);
 	}
 
 	/* Unidades */
 	
-	public List<Unidade> buscarUnidades(Long tenantId) {		
-		return unidadeDAO.buscarTodos(tenantId);
+	public List<Propriedade> buscarUnidades(Long tenantId) {		
+		return propriedadeDAO.buscarTodos(tenantId);
 	}
 
 	

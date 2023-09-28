@@ -74,7 +74,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		log.info("salvar ..." + despesaFertilizante);
 		
 		if(despesaFertilizante.getQdesTalhoes() == null) {
-			despesaFertilizante = this.despesaService.criarDistribuicao(despesaFertilizante, loginBean.getUsuario().getUnidade());
+			despesaFertilizante = this.despesaService.criarDistribuicao(despesaFertilizante, loginBean.getUsuario().getPropriedade());
 		}
 
 		try {
