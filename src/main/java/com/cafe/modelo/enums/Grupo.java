@@ -5,8 +5,7 @@ package com.cafe.modelo.enums;
  *
  */
 public enum Grupo {
-	
-	ADMINISTRATIVOS,
 	TECNICOS,
-	GESTORES
+	GESTORES,
+	ADMINISTRATIVOS
 }

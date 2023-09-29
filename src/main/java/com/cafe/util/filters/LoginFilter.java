@@ -17,14 +17,11 @@ import com.cafe.modelo.Usuario;
 
 @WebFilter(urlPatterns = "/restricted/*", servletNames = "{Faces Servlet}")
 public class LoginFilter extends AbstractFilter implements Filter{
-	
-
 
 	public void init(FilterConfig arg0) throws ServletException {}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
 				
 		HttpServletRequest req = (HttpServletRequest) request;
 		@SuppressWarnings("unused")
@@ -32,8 +29,7 @@ public class LoginFilter extends AbstractFilter implements Filter{
 		HttpSession session = req.getSession();
 		
 		Usuario user = (Usuario) session.getAttribute("usuario");
-		
-		
+				
 		if (session.isNew() || user == null) {
 			doLogin(request, response, req);
 		} else {

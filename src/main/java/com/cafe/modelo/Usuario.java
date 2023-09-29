@@ -67,9 +67,7 @@ import lombok.ToString;
 			+ "where u.propriedade = :unidade "
 			+ "and u.tenant.codigo = :tenantId "
 			+ "and u.status = :status " 
-			+ "and u.role not in ('ADMINISTRATIVO', 'CADASTRADOR') "
-			+ "and u.grupo not in ('ADMINISTRATIVOS') "
-			+ "order by u.nome"),  // *cuidado*	
+			+ "order by u.nome"),
 	@NamedQuery(name="Usuario.buscarTecnicosRole", query="select u from Usuario u "
 			+ "where u.role = :role "
 			+ "and u.propriedade = :unidade "
@@ -85,14 +83,11 @@ import lombok.ToString;
 	/* count ativos */
 	
 	@NamedQuery(name="Usuario.buscarTotalTecnicos", query="select count(u) from Usuario u "
-			+ "where u.role not in ('ADMINISTRATIVO', 'CADASTRADOR') "
-			+ "and u.tenant.codigo = :tenantId "
-			+ "and u.propriedade.tipo not in ('SASC') "
+			+ "where u.tenant.codigo = :tenantId "
 			+ "and u.status = :status"),
 	@NamedQuery(name="Usuario.buscarTotalTecnicosUnid", query="select count(u) from Usuario u "
 			+ "where u.propriedade = :unidade "
 			+ "and u.tenant.codigo = :tenantId " 
-			+ "and u.role not in ('ADMINISTRATIVO', 'CADASTRADOR') "
 			+ "and u.status = :status")
 })
 public class Usuario implements Serializable {

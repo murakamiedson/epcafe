@@ -6,9 +6,8 @@ package com.cafe.modelo.enums;
  */
 public enum Role {
 
-	// administrativos/gestores
-	ADMINISTRATIVO,
 	TECNICO,
-	GESTOR	
+	GESTOR,
+	ADMINISTRADOR
 	
 }

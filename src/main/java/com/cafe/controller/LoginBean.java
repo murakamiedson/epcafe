@@ -142,14 +142,9 @@ public class LoginBean implements Serializable {
 				
 				usuario = isValidUser();	// busca usuario no banco				
 				
-				if(usuario != null) {
-					if(usuario.getTenant() == null){
-						session.setAttribute("usuario", usuario);
-	                    return "/restricted/painel/PainelAdmin.xhtml";
-	                }					
+				if(usuario != null) {									
 					
 					this.setUnidades(this.usuarioService.buscarUnidades(getTenantId()));
-
 
 					log.info("prop ORIGINAL do usuarioLogado (" + usuario.getNome() + ") : " + usuario.getPropriedade().getNome());
 					this.unidadeTemp = usuario.getPropriedade();
@@ -203,14 +198,14 @@ public class LoginBean implements Serializable {
 	public void trocarPerfil() {		
 		try {
 			log.info("Alterar Perfil no loginbean" );
-			getExternalContext().redirect(getExternalContext().getRequestContextPath()+"/restricted/home/TrocarPerfil.xhtml");
+			getExternalContext().redirect(getExternalContext().getRequestContextPath()+"/restricted/cadastros/TrocarPerfil.xhtml");
 		} catch (Exception e) {	
 			e.printStackTrace();
 		}
 	}
 	public void trocarSenha() {			
 		try {
-			getExternalContext().redirect(getExternalContext().getRequestContextPath()+"/restricted/home/TrocarSenha.xhtml");
+			getExternalContext().redirect(getExternalContext().getRequestContextPath()+"/restricted/cadastros/TrocarSenha.xhtml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -245,8 +240,7 @@ public class LoginBean implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public String getUserName() {
-				
+	public String getUserName() {				
 		return usuario.getEmail();
 	}
 	

@@ -59,8 +59,8 @@ public class CadastroUsuarioBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {		
 		
-		this.grupos = Arrays.asList(Grupo.values());
-		this.roles = Arrays.asList(Role.values());
+		this.grupos = Arrays.asList(Grupo.valueOf("TECNICOS"), Grupo.valueOf("GESTORES"));
+		this.roles = Arrays.asList(Role.valueOf("TECNICOS"), Role.valueOf("GESTORES"));
 		this.status = Arrays.asList(Status.values());
 		this.propriedade = loginBean.getUsuario().getPropriedade();
 		this.propriedades = this.propriedadeService.buscarTodos(loginBean.getTenantId());

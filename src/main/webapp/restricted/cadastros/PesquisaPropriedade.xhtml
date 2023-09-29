@@ -67,6 +67,9 @@
 	    		
 	    		<p:column headerText="Propriedade" sortBy="#{propriedade.nome}" style="width: 90px; text-align: left">
 	    			<h:outputText value="#{propriedade.nome}" />
+	    		</p:column>	
+	    		<p:column headerText="Proprietário" style="width: 90px; text-align: left">
+	    			<h:outputText value="#{pesquisaPropriedadeBean.loginBean.usuario.tenant.tenant}" />
 	    		</p:column>	    		
 	    		
 	    		<p:column headerText="Endereço" style="width: 100px; text-align: left">
