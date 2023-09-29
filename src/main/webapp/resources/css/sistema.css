@@ -128,6 +128,11 @@ div.container4 p {
     background-image: none;
     color: #ff0000;
 }
+.ativo {	
+    background-color: #ffffff;
+    background-image: none;
+    color: #0000ff;
+}
 
 .panelGridCenter {
     margin: 0 auto;

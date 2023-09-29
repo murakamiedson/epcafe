@@ -95,11 +95,9 @@ xmlns="http://www.w3.org/1999/xhtml"
 								style="margin: 0 auto;">
 								<h:panelGroup id="panelGroup"
 									rendered="#{loginBean.unidades ne null}">
-									<h:outputLabel for="unid" value="Unidade:" />
-									<p:selectOneMenu id="unid" placeholder="Unidade"
-										value="#{loginBean.unidadeTemp}" autoWidth="false"
-										validatorMessage="A unidade é obrigatória.">
-										<f:selectItem itemLabel="SOMENTE para entrar em outra propriedade" />
+									<h:outputLabel for="unid" value="Propriedade:  " />
+									<p:selectOneMenu id="unid"
+										value="#{loginBean.unidadeTemp}">
 										<f:selectItems value="#{loginBean.unidades}" var="unid"
 											itemLabel="#{unid.nome}" itemValue="#{unid}" />
 									</p:selectOneMenu>

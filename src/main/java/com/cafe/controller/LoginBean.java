@@ -24,7 +24,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.MenuModel;
 
-import com.cafe.modelo.Unidade;
+import com.cafe.modelo.Propriedade;
 import com.cafe.modelo.Usuario;
 import com.cafe.modelo.enums.Status;
 import com.cafe.service.LoginService;
@@ -59,8 +59,8 @@ public class LoginBean implements Serializable {
 	private String senha;
 	private Usuario usuario = null;	
 	private MenuModel modeloMenu = null;
-	private List<Unidade> unidades = null;	
-	private Unidade unidadeTemp = null;
+	private List<Propriedade> propriedades = null;	
+	private Propriedade unidadeTemp = new Propriedade();
 	private boolean autenticado = false;
  	
 	@PostConstruct
@@ -142,17 +142,12 @@ public class LoginBean implements Serializable {
 				
 				usuario = isValidUser();	// busca usuario no banco				
 				
-				if(usuario != null) {
-					if(usuario.getTenant() == null){
-						session.setAttribute("usuario", usuario);
-	                    return "/restricted/painel/PainelAdmin.xhtml";
-	                }					
+				if(usuario != null) {									
 					
 					this.setUnidades(this.usuarioService.buscarUnidades(getTenantId()));
 
-
-					log.info("unidade ORIGINAL do usuarioLogado (" + usuario.getNome() + ") : " + usuario.getUnidade().getNome());
-
+					log.info("prop ORIGINAL do usuarioLogado (" + usuario.getNome() + ") : " + usuario.getPropriedade().getNome());
+					this.unidadeTemp = usuario.getPropriedade();
 					
 					MessageUtil.info("Bem vindo " + usuario.getNome() + "!");
 					loggedIn = true;					
@@ -203,14 +198,14 @@ public class LoginBean implements Serializable {
 	public void trocarPerfil() {		
 		try {
 			log.info("Alterar Perfil no loginbean" );
-			getExternalContext().redirect(getExternalContext().getRequestContextPath()+"/restricted/home/TrocarPerfil.xhtml");
+			getExternalContext().redirect(getExternalContext().getRequestContextPath()+"/restricted/cadastros/TrocarPerfil.xhtml");
 		} catch (Exception e) {	
 			e.printStackTrace();
 		}
 	}
 	public void trocarSenha() {			
 		try {
-			getExternalContext().redirect(getExternalContext().getRequestContextPath()+"/restricted/home/TrocarSenha.xhtml");
+			getExternalContext().redirect(getExternalContext().getRequestContextPath()+"/restricted/cadastros/TrocarSenha.xhtml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -245,8 +240,7 @@ public class LoginBean implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public String getUserName() {
-				
+	public String getUserName() {				
 		return usuario.getEmail();
 	}
 	
@@ -269,20 +263,7 @@ public class LoginBean implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	/*
-	public List<Theme> getThemes() {
-		return themeService.getThemes();
-	}
-
-	public Theme getTheme() {
-		return theme;
-	}
-
-	public void setTheme(Theme theme) {
-		log.info("Mudou o tema..." + theme);
-		this.theme = theme;
-	}	
-	 */
+	
 	public MenuModel getMenu() {
 		return modeloMenu;
 	}
@@ -291,16 +272,16 @@ public class LoginBean implements Serializable {
 		return usuario.getTenant().getCodigo();
 	}	
 
-	public List<Unidade> getUnidades() {
-		return unidades;
+	public List<Propriedade> getUnidades() {
+		return propriedades;
 	}
 
-	public void setUnidades(List<Unidade> unidades) {
-		this.unidades = unidades;
+	public void setUnidades(List<Propriedade> propriedades) {
+		this.propriedades = propriedades;
 	}
 
 	public String registraUnidadeTemp() {
-		// unidade temporaria - logado em unidade diferente da origem
+		// prop temporaria - logado em prop diferente da origem
 		
 		try {
 		
@@ -308,13 +289,13 @@ public class LoginBean implements Serializable {
 			
 			Usuario usuarioSessao = (Usuario)session.getAttribute("usuario");
 			if(usuarioSessao != null) {
-				log.info("unidade do usuarioLogado OBTIDO da sessão : " + usuarioSessao.getUnidade().getNome());
+				log.info("prop do usuarioLogado OBTIDO da sessão : " + usuarioSessao.getPropriedade().getNome());
 				return "/restricted/home/CafeHome.xhtml";
 			}
 			else {
-				// seta a unidade temporária
+				// seta a propriedade temporária
 				if(unidadeTemp != null) {
-					usuario.setUnidade(unidadeTemp);	
+					usuario.setPropriedade(unidadeTemp);	
 				}
 				session.setAttribute("usuario", usuario);
 				
@@ -322,7 +303,7 @@ public class LoginBean implements Serializable {
 				montaMenu();
 				log.debug("Montado. " + LocalDateTime.now());
 				
-				log.info("unidade do usuarioLogado COLOCADO na sessão: " + usuario.getUnidade().getNome());
+				log.info("prop do usuarioLogado COLOCADO na sessão: " + usuario.getPropriedade().getNome());
 			}
 			
 			log.info("TENANT: " + usuario.getTenant().getCodigo() + "----> " + getTenantId());
@@ -336,11 +317,11 @@ public class LoginBean implements Serializable {
 		return "/Home.xhtml";
 	}
 
-	public Unidade getUnidadeTemp() {
+	public Propriedade getUnidadeTemp() {
 		return unidadeTemp;
 	}
-	public void setUnidadeTemp(Unidade unidade) {
-		this.unidadeTemp = unidade;
+	public void setUnidadeTemp(Propriedade propriedade) {
+		this.unidadeTemp = propriedade;
 	}
 	
 	public boolean unidadesCarregadas() {

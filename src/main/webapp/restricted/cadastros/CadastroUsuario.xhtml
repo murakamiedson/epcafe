@@ -67,12 +67,12 @@
 						itemLabel="#{role}" itemValue="#{role}"/>
 	    		</p:selectOneMenu>
 	    		
-	    		<p:outputLabel value="Unidade" for="unid"/>
+	    		<p:outputLabel value="Propriedade" for="unid"/>
 	    		<p:selectOneMenu id="unid" required="true" 
-	    			value="#{cadastroUsuarioBean.usuario.unidade}"
-	    		    validatorMessage="A unidade é obrigatória.">
-	    			<f:selectItem itemLabel="Selecione a unidade" />
-	    			<f:selectItems value="#{cadastroUsuarioBean.unidades}" var="unid" 
+	    			value="#{cadastroUsuarioBean.usuario.propriedade}"
+	    		    validatorMessage="A propriedade é obrigatória.">
+	    			<f:selectItem itemLabel="Selecione a propriedade" />
+	    			<f:selectItems value="#{cadastroUsuarioBean.propriedades}" var="unid" 
 						itemLabel="#{unid.nome}" itemValue="#{unid}"/>
 	    		</p:selectOneMenu>
 	    		

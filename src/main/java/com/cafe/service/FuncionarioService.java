@@ -6,9 +6,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.cafe.dao.FuncionarioDAO;
-import com.cafe.dao.UnidadeDAO;
+import com.cafe.dao.PropriedadeDAO;
 import com.cafe.modelo.Funcionario;
-import com.cafe.modelo.Unidade;
+import com.cafe.modelo.Propriedade;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -26,7 +26,7 @@ public class FuncionarioService implements Serializable{
 	@Inject
 	private FuncionarioDAO funcionarioDAO;
 	@Inject
-	private UnidadeDAO unidadeDAO;
+	private PropriedadeDAO propriedadeDAO;
 
 	public void salvar(Funcionario funcionario) throws NegocioException {
 		
@@ -48,15 +48,15 @@ public class FuncionarioService implements Serializable{
 		return funcionarioDAO.buscarFuncionarios(tenantId);
 	}
 	
-	public List<Funcionario> buscarFuncionariosPorUnidade(Unidade unidade, Long tenantId) {
+	public List<Funcionario> buscarFuncionariosPorUnidade(Propriedade propriedade, Long tenantId) {
 		
-		return this.funcionarioDAO.buscarFuncionariosPorUnidade(unidade, tenantId);
+		return this.funcionarioDAO.buscarFuncionariosPorUnidade(propriedade, tenantId);
 	}
 	
 /* Unidades */
 	
-	public List<Unidade> buscarUnidades(Long tenantId) {		
-		return unidadeDAO.buscarTodos(tenantId);
+	public List<Propriedade> buscarUnidades(Long tenantId) {		
+		return propriedadeDAO.buscarTodos(tenantId);
 	}
 
 }

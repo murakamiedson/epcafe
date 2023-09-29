@@ -11,12 +11,12 @@ import javax.inject.Named;
 import javax.persistence.PersistenceException;
 
 import com.cafe.controller.LoginBean;
-import com.cafe.modelo.Unidade;
+import com.cafe.modelo.Propriedade;
 import com.cafe.modelo.Usuario;
 import com.cafe.modelo.enums.Grupo;
 import com.cafe.modelo.enums.Role;
 import com.cafe.modelo.enums.Status;
-import com.cafe.service.UnidadeService;
+import com.cafe.service.PropriedadeService;
 import com.cafe.service.UsuarioService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
@@ -39,19 +39,19 @@ public class CadastroUsuarioBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Usuario usuario;
-	private Unidade unidade;
+	private Propriedade propriedade;
 	private List<Role> roles;
 	private List<Status> status;
 	
 	
 	private List<Grupo> grupos;
-	private List<Unidade> unidades;
+	private List<Propriedade> propriedades;
 	
 	@Inject
 	private UsuarioService usuarioService;
 	
 	@Inject
-	private UnidadeService unidadeService;	
+	private PropriedadeService propriedadeService;	
 	
 	@Inject
 	private LoginBean loginBean;
@@ -59,11 +59,11 @@ public class CadastroUsuarioBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {		
 		
-		this.grupos = Arrays.asList(Grupo.values());
-		this.roles = Arrays.asList(Role.values());
+		this.grupos = Arrays.asList(Grupo.valueOf("TECNICOS"), Grupo.valueOf("GESTORES"));
+		this.roles = Arrays.asList(Role.valueOf("TECNICOS"), Role.valueOf("GESTORES"));
 		this.status = Arrays.asList(Status.values());
-		this.unidade = loginBean.getUsuario().getUnidade();
-		this.unidades = this.unidadeService.buscarTodos(loginBean.getTenantId());
+		this.propriedade = loginBean.getUsuario().getPropriedade();
+		this.propriedades = this.propriedadeService.buscarTodos(loginBean.getTenantId());
 		
 		this.limpar();
 		
@@ -72,8 +72,8 @@ public class CadastroUsuarioBean implements Serializable {
 	public void salvar() {
 		try {	
 			
-			log.info("unidade usuario" + usuario.getUnidade().getCodigo());
-			log.info("unidade logado" + unidade.getCodigo());							
+			log.info("usuario" + usuario.getPropriedade().getCodigo());
+			log.info("logado" + propriedade.getCodigo());							
 			
 			this.usuarioService.salvar(usuario, loginBean.getTenantId());				
 			
@@ -97,7 +97,7 @@ public class CadastroUsuarioBean implements Serializable {
 	
 	public void limpar() {
 		this.usuario = new Usuario();
-		this.usuario.setUnidade(unidade);
+		this.usuario.setPropriedade(propriedade);
 		this.usuario.setStatus(Status.ATIVO);
 		this.usuario.setTenant(loginBean.getUsuario().getTenant());
 	}

@@ -1,24 +1,29 @@
 <!DOCTYPE xml>
 <menu>
 	<submenu label="Home"  icon="pi pi-home">
-		<grupo value="ADMINISTRATIVOS"></grupo>
+		<grupo value="TECNICOS"></grupo>
 		<menuitem value="Home" outcome="/restricted/home/CafeHome.xhtml"></menuitem>		
 	</submenu>
 
 	<submenu label="Cadastros" icon="pi pi-folder-open">
-		<grupo value="GESTORES"></grupo>
-		<menuitem value="Unidades de Produção" outcome="/restricted/cadastros/PesquisaUnidade.xhtml"></menuitem>
+		<grupo value="TECNICOS"></grupo>
+		<menuitem value="Propriedades" outcome="/restricted/cadastros/PesquisaPropriedade.xhtml"></menuitem>
 		<menuitem value="Máquinas e Implementos" outcome="/restricted/cadastros/PesquisaMaquina.xhtml"></menuitem>
 		<menuitem value="Fertilizantes e Defensivos" outcome="/restricted/cadastros/PesquisaFertilizante.xhtml"></menuitem>		
 	</submenu>
 	
 	<submenu label="Custos" icon="pi pi-folder-open">
-		<grupo value="GESTORES"></grupo>		
+		<grupo value="TECNICOS"></grupo>		
 		<menuitem value="Despesas Máquinas e Implementos" outcome="/restricted/custos/LancarDespesaMaquina.xhtml"></menuitem>
 		<menuitem value="Despesas Fertilizantes e Defensivos" outcome="/restricted/custos/LancarDespesaFertilizante.xhtml"></menuitem>
 		<submenu2 label="Relatório">
 			<menuitem2 value="Despesas de Máquinas" 
 				outcome="/restricted/custos/RelatorioDespesaMaquina.xhtml"></menuitem2>
 		</submenu2>
+	</submenu>
+	
+	<submenu label="Admin"  icon="pi pi-home">
+		<grupo value="ADMINISTRATIVOS"></grupo>
+		<menuitem value="Administração do èpCafé" outcome="/restricted/cadastros/PesquisaTenant.xhtml"></menuitem>		
 	</submenu>
 </menu>

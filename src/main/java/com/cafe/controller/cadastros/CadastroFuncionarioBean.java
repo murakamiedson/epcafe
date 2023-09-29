@@ -10,9 +10,9 @@ import javax.inject.Named;
 
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Funcionario;
-import com.cafe.modelo.Unidade;
+import com.cafe.modelo.Propriedade;
 import com.cafe.service.FuncionarioService;
-import com.cafe.service.UnidadeService;
+import com.cafe.service.PropriedadeService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -36,7 +36,7 @@ public class CadastroFuncionarioBean implements Serializable {
 	private Funcionario funcionario;
 	
 	private List<Funcionario> funcionarios;
-	private List<Unidade> unidades;
+	private List<Propriedade> propriedades;
 	
 	private Long tenantId;	
 	
@@ -44,7 +44,7 @@ public class CadastroFuncionarioBean implements Serializable {
 	private FuncionarioService funcionarioService;
 	
 	@Inject
-	private UnidadeService unidadeService;
+	private PropriedadeService propriedadeService;
 	
 	@Inject
 	private LoginBean usuarioLogado;	
@@ -70,7 +70,7 @@ public class CadastroFuncionarioBean implements Serializable {
 	
 	public void limpar() {
 		this.funcionario = new Funcionario();
-		this.funcionario.setUnidade(usuarioLogado.getUsuario().getUnidade());
+		this.funcionario.setPropriedade(usuarioLogado.getUsuario().getPropriedade());
 		this.funcionario.setTenant_id(tenantId);
 	}	 
 	

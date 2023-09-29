@@ -89,18 +89,23 @@ public class LoginService implements Serializable {
 		 */
 		DefaultSubMenu subMenuNome = DefaultSubMenu.builder().icon("pi pi-user").build();
 		subMenuNome = addMenuItem(subMenuNome, user.getNome(), null);
-		subMenuNome = addMenuItem(subMenuNome, user.getUnidade().getNome(), null);
+		subMenuNome = addMenuItem(subMenuNome, user.getRole().name(), null);
+		subMenuNome = addMenuItem(subMenuNome, user.getPropriedade().getNome(), null);
 		subMenuNome = addMenuItem(subMenuNome, user.getTenant().getTenant(), null);
 		subMenuNome = addMenuItem(subMenuNome, "Alterar Perfil", "#{loginBean.trocarPerfil}");
 		subMenuNome = addMenuItem(subMenuNome, "Alterar Senha", "#{loginBean.trocarSenha}");
 
-		modelo.getElements().add(subMenuNome);
-
+		modelo.getElements().add(subMenuNome);		
+		
 		DefaultMenuItem item = new DefaultMenuItem();
 		item.setCommand("#{loginBean.sair}");
 		item.setValue("Sair");
 		item.setIcon("pi pi-fw pi-power-off");
 		modelo.getElements().add(item);
+		
+		DefaultMenuItem unid = new DefaultMenuItem();
+		unid.setValue("[" + user.getPropriedade().getNome() + "]");
+		modelo.getElements().add(unid);
 
 		return modelo;
 	}
@@ -165,14 +170,14 @@ public class LoginService implements Serializable {
 		for (int j = 0; j < filhos.getLength(); j++) {
 			Element grupoSubmenu = (Element) filhos.item(j);
 
+			log.info("item submenu: "+grupoSubmenu.getAttribute("value"));
+			log.info("grupo usuario: "+grupo.name());
+			
 			if (grupoSubmenu.getAttribute("value").equals(grupo.name())
-					|| (grupoSubmenu.getAttribute("value").equals("ADMINISTRATIVOS") 
-							&& grupo.name().equals("TECNICOS"))
-					|| (grupoSubmenu.getAttribute("value").equals("ADMINISTRATIVOS")
-							&& grupo.name().equals("GESTORES"))					
 					|| (grupoSubmenu.getAttribute("value").equals("TECNICOS")
 							&& grupo.name().equals("GESTORES"))) {
 				temPermissao = true;
+				log.info("permissao: "+temPermissao);
 				break;
 			}
 		}

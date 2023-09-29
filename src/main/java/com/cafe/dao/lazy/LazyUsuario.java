@@ -11,7 +11,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
 import com.cafe.dao.UsuarioDAO;
-import com.cafe.modelo.Unidade;
+import com.cafe.modelo.Propriedade;
 import com.cafe.modelo.Usuario;
 import com.cafe.modelo.enums.TipoPropriedade;
 import com.cafe.service.UsuarioService;
@@ -28,14 +28,14 @@ public class LazyUsuario extends LazyDataModel<Usuario> implements Serializable 
 	
 	List<Usuario> usuarios = new ArrayList<Usuario>();
 	private UsuarioDAO usuarioDAO;
-	private Unidade unidade;
+	private Propriedade propriedade;
 	private Long tenantId;
 	
 	private Logger log = Logger.getLogger(LazyUsuario.class);
 	
 	public LazyUsuario(UsuarioService usuarioService, Usuario usuario, Long tenantId) {
 		this.usuarioDAO = usuarioService.getUsuarioDAO();
-		this.unidade = usuario.getUnidade();
+		this.propriedade = usuario.getPropriedade();
 		this.tenantId = tenantId;
 	}	
 			
@@ -59,7 +59,7 @@ public class LazyUsuario extends LazyDataModel<Usuario> implements Serializable 
 		
 		usuarios = new ArrayList<Usuario>();
 		
-		if (unidade.getTipo() == TipoPropriedade.FAZENDA) {
+		if (propriedade.getTipo() == TipoPropriedade.FAZENDA) {
 			if(nomePessoa != null && !nomePessoa.equals("")) {
 				usuarios = this.usuarioDAO.buscarComPaginacao(first, pageSize, nomePessoa, tenantId);
 				this.setRowCount(this.usuarioDAO.encontrarQuantidadeDeUsuarios(nomePessoa,tenantId).intValue());
@@ -70,12 +70,12 @@ public class LazyUsuario extends LazyDataModel<Usuario> implements Serializable 
 			}
 		}else {
 			if(nomePessoa != null && !nomePessoa.equals("")) {
-				usuarios = this.usuarioDAO.buscarComPaginacao(first, pageSize, unidade, nomePessoa, tenantId);
-				this.setRowCount(this.usuarioDAO.encontrarQuantidadeDeUsuarios(unidade, nomePessoa, tenantId).intValue());
+				usuarios = this.usuarioDAO.buscarComPaginacao(first, pageSize, propriedade, nomePessoa, tenantId);
+				this.setRowCount(this.usuarioDAO.encontrarQuantidadeDeUsuarios(propriedade, nomePessoa, tenantId).intValue());
 			}
 			else {
-				usuarios = this.usuarioDAO.buscarComPaginacao(first, pageSize, unidade, tenantId);
-				this.setRowCount(this.usuarioDAO.encontrarQuantidadeDeUsuarios(unidade, tenantId).intValue());
+				usuarios = this.usuarioDAO.buscarComPaginacao(first, pageSize, propriedade, tenantId);
+				this.setRowCount(this.usuarioDAO.encontrarQuantidadeDeUsuarios(propriedade, tenantId).intValue());
 			}
 		}
 						
@@ -86,11 +86,11 @@ public class LazyUsuario extends LazyDataModel<Usuario> implements Serializable 
 	@Override
 	public int count(Map<String, FilterMeta> filterBy) {
 		
-		if (unidade.getTipo() == TipoPropriedade.FAZENDA) {			
+		if (propriedade.getTipo() == TipoPropriedade.FAZENDA) {			
 			return this.usuarioDAO.encontrarQuantidadeDeUsuarios(tenantId).intValue();
 		} else {
 			log.info("tenant_id: " + tenantId);
-			return this.usuarioDAO.encontrarQuantidadeDeUsuarios(unidade, tenantId).intValue();
+			return this.usuarioDAO.encontrarQuantidadeDeUsuarios(propriedade, tenantId).intValue();
 		}
 		
 		/*

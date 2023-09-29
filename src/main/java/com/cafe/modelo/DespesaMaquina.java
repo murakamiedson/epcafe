@@ -60,7 +60,7 @@ public class DespesaMaquina {
 	private FatorPotencia fatorPotencia;
 	
 	@OneToOne
-	private Unidade unidade;
+	private Propriedade propriedade;
 	
 	@OneToOne	
 	private Maquina maquina;

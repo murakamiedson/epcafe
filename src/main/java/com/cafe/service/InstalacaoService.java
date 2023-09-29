@@ -6,9 +6,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.cafe.dao.InstalacaoDAO;
-import com.cafe.dao.UnidadeDAO;
+import com.cafe.dao.PropriedadeDAO;
 import com.cafe.modelo.Instalacao;
-import com.cafe.modelo.Unidade;
+import com.cafe.modelo.Propriedade;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -26,7 +26,7 @@ private static final long serialVersionUID = 1L;
 	@Inject
 	private InstalacaoDAO instalacaoDAO;
 	@Inject
-	private UnidadeDAO unidadeDAO;
+	private PropriedadeDAO propriedadeDAO;
 
 	public void salvar(Instalacao instalacao) throws NegocioException {
 		
@@ -48,15 +48,15 @@ private static final long serialVersionUID = 1L;
 		return this.instalacaoDAO.buscarInstalacoes(tenantId);
 	}
 	
-	public List<Instalacao> buscarInstalacoesPorUnidade(Unidade unidade, Long tenantId) {
+	public List<Instalacao> buscarInstalacoesPorUnidade(Propriedade propriedade, Long tenantId) {
 		
-		return this.instalacaoDAO.buscarInstalacoesPorUnidade(unidade, tenantId);
+		return this.instalacaoDAO.buscarInstalacoesPorUnidade(propriedade, tenantId);
 	}
 
 	/* Unidades */
 	
-	public List<Unidade> buscarUnidades(Long tenantId) {		
-		return unidadeDAO.buscarTodos(tenantId);
+	public List<Propriedade> buscarUnidades(Long tenantId) {		
+		return propriedadeDAO.buscarTodos(tenantId);
 	}
 	
 
