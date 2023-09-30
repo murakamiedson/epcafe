@@ -88,6 +88,10 @@ public class CadastroMaquinaBean implements Serializable {
 		this.limpar();
 	}
 	
+	public void atualizaNome() {
+		this.maquina.setNome(maquina.getTipo().toString());
+	}
+	
 	public void limpar() {
 		this.maquina = new Maquina();
 		this.maquina.setTenant_id(tenantId);

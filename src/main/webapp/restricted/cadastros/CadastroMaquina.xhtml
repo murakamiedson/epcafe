@@ -5,6 +5,7 @@
  	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
+   
 
     <ui:define name="titulo">Máquina</ui:define>
     
@@ -56,7 +57,11 @@
 	    			<f:selectItem itemLabel="Selecione o tipo de máquina" />
 	    			<f:selectItems value="#{cadastroMaquinaBean.tiposMaquina}" var="tipoMaquina" 
 						itemLabel="#{tipoMaquina}" itemValue="#{tipoMaquina}"/>
+						
+					<p:ajax  listener="#{cadastroMaquinaBean.atualizaNome}" process="tipoMaquina" update="nome"/>
 	    		</p:selectOneMenu>
+	    		
+	    		
 	    		
 		    	<p:outputLabel value="Potência" for="potencia"/>			     
 			    <p:inputNumber id="potencia" value="#{cadastroMaquinaBean.maquina.potencia}" 
@@ -77,7 +82,7 @@
 	    		</p:selectOneMenu>
 	    			    		
 	    		<p:outputLabel value="Nome" for="nome"/>
-	    		<p:inputText id="nome" size="60" maxlength="80" 
+	    		<p:inputText id="nome" size="60" maxlength="80"
 	    			value="#{cadastroMaquinaBean.maquina.nome}"
 	    			required="true" 
 			    	validatorMessage="O nome é obrigatório."/>	 	    		
