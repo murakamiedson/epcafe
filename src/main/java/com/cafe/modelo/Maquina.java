@@ -20,7 +20,7 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.TipoAuxiliarInsumos;
+import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
 import com.cafe.modelo.enums.TipoCombustivel;
 import com.cafe.modelo.enums.TipoInsumo;
 
@@ -68,7 +68,7 @@ public class Maquina {
 	private TipoCombustivel tipoCombustivel;
 	
 	@Enumerated(EnumType.STRING)
-	private TipoAuxiliarInsumos tipo;
+	private TipoAuxiliarMaquinas tipo;
 
 	/*
 	 * Datas de Criação e Modificação

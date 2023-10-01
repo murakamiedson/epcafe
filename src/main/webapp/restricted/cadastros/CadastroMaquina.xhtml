@@ -59,6 +59,7 @@
 						itemLabel="#{tipoMaquina}" itemValue="#{tipoMaquina}"/>
 						
 					<p:ajax  listener="#{cadastroMaquinaBean.atualizaNome}" process="tipoMaquina" update="nome"/>
+					<p:ajax listener="#{cadastroMaquinaBean.carregaVidaUtil}" process="tipoMaquina" update="vida"/>
 	    		</p:selectOneMenu>
 	    		
 	    		

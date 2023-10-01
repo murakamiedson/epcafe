@@ -13,7 +13,7 @@ import javax.inject.Named;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.enums.EnumUtil;
-import com.cafe.modelo.enums.TipoAuxiliarInsumos;
+import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
 import com.cafe.modelo.enums.TipoCombustivel;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.MaquinaService;
@@ -40,7 +40,7 @@ public class CadastroMaquinaBean implements Serializable {
 	private Maquina maquina;	
 	private List<TipoInsumo> tiposInsumo;
 	private List<TipoCombustivel> tiposCombustivel;
-	private List<TipoAuxiliarInsumos> tiposMaquina;
+	private List<TipoAuxiliarMaquinas> tiposMaquina;
 	private List<Maquina> maquinas = new ArrayList<>();
 	private Long tenantId;	
 	
@@ -61,7 +61,7 @@ public class CadastroMaquinaBean implements Serializable {
 		
 		
 		
-		this.tiposMaquina = Arrays.asList(TipoAuxiliarInsumos.values());
+		this.tiposMaquina = Arrays.asList(TipoAuxiliarMaquinas.values());
 	}
 	
 	
@@ -76,6 +76,10 @@ public class CadastroMaquinaBean implements Serializable {
 		}
 
 	}	
+	
+	public void carregaVidaUtil() {
+		this.maquina.setVidaUtil(maquina.getTipo().getValor());
+	}
 	
 	public void salvar() {
 		try {			
