@@ -1,6 +1,7 @@
 package com.cafe.controller.cadastros;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.inject.Named;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Instalacao;
 import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.enums.TipoInstalacao;
 import com.cafe.service.InstalacaoService;
 import com.cafe.service.PropriedadeService;
 import com.cafe.util.MessageUtil;
@@ -37,6 +39,7 @@ public class CadastroInstalacaoBean implements Serializable {
 	
 	private List<Instalacao> instalacoes;
 	private List<Propriedade> propriedades;
+	private List<TipoInstalacao> tiposInstalacao;
 	
 	@Inject
 	private InstalacaoService instalacaoService;
@@ -54,7 +57,8 @@ public class CadastroInstalacaoBean implements Serializable {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());	
 		
-		//this.unidades = unidadeService.buscarUnidades(tenantId);
+		
+		this.tiposInstalacao = Arrays.asList(TipoInstalacao.values());
 		
 		this.limpar();
 	}
@@ -69,6 +73,14 @@ public class CadastroInstalacaoBean implements Serializable {
 			MessageUtil.erro(e.getMessage());
 		}		
 		this.limpar();
+	}
+	
+	public void atualizaNome() {
+		this.instalacao.setNome(instalacao.getTipo().toString());
+	}
+	
+	public void carregaVidaUtil() {
+		this.instalacao.setVidaUtil(instalacao.getTipo().getValor());
 	}
 	
 	public void limpar() {

@@ -4,6 +4,8 @@ import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,8 @@ import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.cafe.modelo.enums.TipoInstalacao;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,7 +46,10 @@ public class Instalacao {
 	private Long id;
 	@NotNull
 	private Long tenant_id;
-		
+	
+	@Enumerated(EnumType.STRING)
+	private TipoInstalacao tipo;
+	
 	@NotBlank
 	@Column(nullable = false)
 	private String nome;
