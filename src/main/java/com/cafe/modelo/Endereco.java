@@ -44,7 +44,6 @@ public class Endereco implements Cloneable, Serializable {
 	@NotBlank(message="O endereco é obrigatório.")
 	private String endereco;
 	
-	@NotNull(message="O número é obrigatório.")
 	private Long numero;
 	private String complemento;
 
