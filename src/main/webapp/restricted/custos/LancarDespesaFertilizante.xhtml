@@ -13,7 +13,7 @@
 
 		<h:form id="form">
 
-			<p:messages id="messages" showDetail="false" closable="true" >
+			<p:messages id="messages" showDetail="false" closable="true">
 				<p:autoUpdate />
 			</p:messages>
 
@@ -24,7 +24,8 @@
 				<p:datePicker id="month" view="month"
 					value="#{lancarDespesaFertilizanteBean.mesAno}" pattern="MM/yyyy"
 					type="localDate" yearNavigator="true" yearRange="2000:2030"
-					required="true" validatorMessage="A data é obrigatória.">
+					showIcon="true" required="true"
+					validatorMessage="A data é obrigatória.">
 				</p:datePicker>
 
 				<p:outputLabel value="Fertilizante" for="fertilizante" />
@@ -43,15 +44,14 @@
 					<p:spacer width="10px" />
 					<p:outputLabel id="medida"
 						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.medida}" />
-					
+
 				</h:panelGroup>
 
 				<p:outputLabel value="Quantidade" for="qtd" />
 				<p:inputNumber id="qtd" decimalSeparator="," thousandSeparator="."
 					minValue="0" decimalPlaces="2"
 					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.quantidade}"
-					required="true" 
-					validatorMessage="A quantidade é obrigatória.">
+					required="true" validatorMessage="A quantidade é obrigatória.">
 				</p:inputNumber>
 
 				<p:outputLabel value="Nota Fiscal" for="notaFiscal" />
@@ -94,9 +94,8 @@
 				<p:column headerText="Quantidades por Talhão"
 					style="width: 10px; text-align: center">
 					<p:commandButton value="Distribuir quantidades" id="talhoes"
-						onclick="PF('divisaoTalhoes').show();" 
-						process="@this"
-						update=":form:talhoesTable"> 
+						onclick="PF('divisaoTalhoes').show();" process="@this"
+						update=":form:talhoesTable">
 						<f:setPropertyActionListener
 							target="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
 							value="#{despesa}" />
@@ -145,40 +144,42 @@
 				header="Distribuição de quantidades por talhão">
 
 				<div class="card">
-				<p:dataTable id="talhoesTable" editable="true" editMode="cell"
-					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.qdesTalhoes}" 
-					var="qde"
-					style="margin-top: 20px" emptyMessage="Nenhum talhão encontrado.">
-							            
-		            <p:ajax event="cellEdit" listener="#{lancarDespesaFertilizanteBean.onCellEdit}"/>		
-            
-		            <p:column headerText="Talhão">
-		                <p:cellEditor>
-		                    <f:facet name="output">
-		                        <h:outputText value="#{qde.talhao.nome}"/>
-		                    </f:facet>
-		                    <f:facet name="input">
-		                    	<p:inputNumber rendered="false" value="#{qde.quantidade}" style="width:100%"/>		                        
-		                    </f:facet>		                    
-		                </p:cellEditor>
-		            </p:column>		
-		
-		            <p:column headerText="Qde" style="width:6rem">
-		                <p:cellEditor>
-		                    <f:facet name="output">
-		                        <h:outputText value="#{qde.quantidade}"/>	
-		                    </f:facet>
-		                    <f:facet name="input">
-		                    	<p:inputNumber value="#{qde.quantidade}" style="width:100%"/>		                        
-		                    </f:facet>
-		                </p:cellEditor>
-		            </p:column>
-		
-		        </p:dataTable>
-		    </div>
-  
+					<p:dataTable id="talhoesTable" editable="true" editMode="cell"
+						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.qdesTalhoes}"
+						var="qde" style="margin-top: 20px"
+						emptyMessage="Nenhum talhão encontrado.">
+
+						<p:ajax event="cellEdit"
+							listener="#{lancarDespesaFertilizanteBean.onCellEdit}" />
+
+						<p:column headerText="Talhão">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{qde.talhao.nome}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputNumber rendered="false" value="#{qde.quantidade}"
+										style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Qde" style="width:6rem">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{qde.quantidade}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputNumber value="#{qde.quantidade}" style="width:100%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+					</p:dataTable>
+				</div>
+
 			</p:dialog>
-			
+
 		</h:form>
 	</ui:define>
 </ui:composition>
