@@ -27,7 +27,17 @@
 					showIcon="true" required="true"
 					validatorMessage="A data é obrigatória.">
 				</p:datePicker>
-
+				
+				<p:outputLabel value="Tipo Insumo" for="tipoInsumo" />
+				<p:selectOneMenu id="tipoInsumo" value="#{lancarDespesaFertilizanteBean.auxiliar}">
+					<f:selectItem itemLabel="Selecione o tipo" />
+					<f:selectItems value="#{lancarDespesaFertilizanteBean.tiposInsumo}" var="tipoInsumo" 
+						itemLabel="#{tipoInsumo}" itemValue="#{tipoInsumo}"/>
+					
+					<p:ajax listener="#{lancarDespesaFertilizanteBean.carregarTipos}"
+						update="fertilizante" process="tipoInsumo"/>
+	    		</p:selectOneMenu>
+					
 				<p:outputLabel value="Fertilizante" for="fertilizante" />
 				<h:panelGroup>
 					<p:selectOneMenu id="fertilizante"
@@ -52,6 +62,14 @@
 					minValue="0" decimalPlaces="2"
 					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.quantidade}"
 					required="true" validatorMessage="A quantidade é obrigatória.">
+				</p:inputNumber>
+
+				<p:outputLabel value="Valor da Despesa" for="valor" />
+				<p:inputNumber id="valor" decimalSeparator="," thousandSeparator="."
+					minValue="0" decimalPlaces="2"
+					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.valorDespesa}"
+					required="true"
+					validatorMessage="O valor da despesa é obrigatório.">
 				</p:inputNumber>
 
 				<p:outputLabel value="Nota Fiscal" for="notaFiscal" />
@@ -79,10 +97,25 @@
 				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
 
 				<p:column headerText="Mês/Ano"
-					style="width: 10px; text-align: center">
+					style="width: 5px; text-align: center">
 					<h:outputText value="#{despesa.mesAno}">
 						<f:convertDateTime type="localDate" pattern="MM/yyyy" />
 					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Fertilizante/Defensivo"
+					style="width: 30px; text-align:left">
+					<h:outputText value="#{despesa.fertilizante.tipo}" />
+				</p:column>
+
+				<p:column headerText="Quantidade"
+					style="width: 10px; text-align:center">
+					<h:outputText value="#{despesa.quantidade} #{despesa.fertilizante.medida}" />
+				</p:column>
+				
+				<p:column headerText="Valor da Despesa"
+					style="width: 10px; text-align:center">
+					<h:outputText value="#{despesa.valorDespesa}" />
 				</p:column>
 
 				<p:column headerText="Nota Fiscal"
@@ -92,7 +125,7 @@
 				</p:column>
 
 				<p:column headerText="Quantidades por Talhão"
-					style="width: 10px; text-align: center">
+					style="width: 30px; text-align: center">
 					<p:commandButton value="Distribuir quantidades" id="talhoes"
 						onclick="PF('divisaoTalhoes').show();" process="@this"
 						update=":form:talhoesTable">
@@ -104,7 +137,7 @@
 
 
 				<p:column headerText="Operações"
-					style="width: 30px; text-align: center">
+					style="width: 10px; text-align: center">
 
 					<p:commandButton icon="pi pi-pencil" title="Editar"
 						update="form:gridDespesa" process="@this">

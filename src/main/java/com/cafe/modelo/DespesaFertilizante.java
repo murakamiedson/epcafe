@@ -56,8 +56,13 @@ public class DespesaFertilizante {
 	@Positive
 	private BigDecimal quantidade;
 	
+	@Positive
+	private BigDecimal valorDespesa;
+	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="despesaFertilizante", fetch = FetchType.EAGER)
 	private List<QuantidadeTalhao> qdesTalhoes;
+	
+	
 	
 	/*
 	 * Datas de Criação e Modificação

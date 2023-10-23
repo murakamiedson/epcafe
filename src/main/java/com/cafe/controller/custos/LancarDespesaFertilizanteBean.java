@@ -3,6 +3,7 @@ package com.cafe.controller.custos;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.QuantidadeTalhao;
+import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.DespesaFertilizanteService;
 import com.cafe.service.FertilizanteService;
 import com.cafe.util.MessageUtil;
@@ -42,6 +44,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 	private LocalDate mesAno;
 	private List<Fertilizante> fertilizantes;
+	private List<TipoInsumo> tiposInsumo;
+	private TipoInsumo auxiliar;
 	private DespesaFertilizante despesaFertilizante;
 	private List<DespesaFertilizante> despesas = new ArrayList<>();
 	private QuantidadeTalhao quantidadeTalhao;
@@ -60,9 +64,13 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 		log.info("inicializar login = " + loginBean.getUsuario());
 		// mesAno = LocalDate.now();
-		fertilizantes = fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
+		// fertilizantes =
+		// fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
 
 		despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
+
+		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.FUNGICIDA, TipoInsumo.HERBICIDA,
+				TipoInsumo.INSETICIDA, TipoInsumo.ADJUVANTE);
 
 		limpar();
 	}
@@ -72,9 +80,10 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		despesaFertilizante.setMesAno(mesAno);
 		log.info("mesAno: " + mesAno);
 		log.info("salvar ..." + despesaFertilizante);
-		
-		if(despesaFertilizante.getQdesTalhoes() == null) {
-			despesaFertilizante = this.despesaService.criarDistribuicao(despesaFertilizante, loginBean.getUsuario().getPropriedade());
+
+		if (despesaFertilizante.getQdesTalhoes() == null) {
+			despesaFertilizante = this.despesaService.criarDistribuicao(despesaFertilizante,
+					loginBean.getUsuario().getPropriedade());
 		}
 
 		try {
@@ -87,6 +96,12 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		}
 		this.limpar();
 
+	}
+
+	public void carregarTipos() {
+
+		this.fertilizantes = this.fertilizanteService.buscarFertilizantePorTipoInsumo(auxiliar,
+				loginBean.getTenantId());
 	}
 
 	public void excluirDespesa() {
@@ -102,7 +117,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	}
 
 	public void salvarQuantidadeTalhao() {
-		
+
 		try {
 			quantidadeTalhao = this.despesaService.salvarQuantidadeTalhao(quantidadeTalhao);
 			MessageUtil.sucesso("Quantidades de talhões salvas com sucesso!");
@@ -112,7 +127,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		}
 		this.limpar();
 	}
-	
+
 	public void excluirQuantidadeTalhao() {
 		try {
 			log.info("excluindo quantidades de talhoes...");
@@ -130,39 +145,38 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		despesaFertilizante = new DespesaFertilizante();
 		despesaFertilizante.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 	}
-	
-	
+
 	public void onRowEdit(RowEditEvent<QuantidadeTalhao> event) {
 		log.info("editado");
 		MessageUtil.info("editado");
 		try {
-			despesaFertilizante = this.despesaService.salvar(despesaFertilizante);    			
+			despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
 			MessageUtil.sucesso("Qde salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
 		}
-    }
+	}
 
-    public void onRowCancel(RowEditEvent<QuantidadeTalhao> event) {
-    	log.info("cancelado");
-    	MessageUtil.info("cancelado");
-    }
-    
-    public void onCellEdit(CellEditEvent<?> event) {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
+	public void onRowCancel(RowEditEvent<QuantidadeTalhao> event) {
+		log.info("cancelado");
+		MessageUtil.info("cancelado");
+	}
 
-        if (newValue != null && !newValue.equals(oldValue)) {
-        	log.info("gravado");
-        	try {
-    			despesaFertilizante = this.despesaService.salvar(despesaFertilizante);    			
-    			MessageUtil.sucesso("Qde salva com sucesso!");
-    		} catch (NegocioException e) {
-    			e.printStackTrace();
-    			MessageUtil.erro(e.getMessage());
-    		}
-        }
-    }
-    
+	public void onCellEdit(CellEditEvent<?> event) {
+		Object oldValue = event.getOldValue();
+		Object newValue = event.getNewValue();
+
+		if (newValue != null && !newValue.equals(oldValue)) {
+			log.info("gravado");
+			try {
+				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
+				MessageUtil.sucesso("Qde salva com sucesso!");
+			} catch (NegocioException e) {
+				e.printStackTrace();
+				MessageUtil.erro(e.getMessage());
+			}
+		}
+	}
+
 }

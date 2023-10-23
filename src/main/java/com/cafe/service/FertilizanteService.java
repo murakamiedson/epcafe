@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import com.cafe.dao.FertilizanteDAO;
 import com.cafe.modelo.Fertilizante;
+import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -46,6 +47,12 @@ public class FertilizanteService implements Serializable{
 		log.info("Primeiro acesso a banco... buscar fertilizantes");	
 		
 		return fertilizanteDAO.buscarFertilizantes(tenantId);
+	}
+	
+	public List<Fertilizante> buscarFertilizantePorTipoInsumo(TipoInsumo tipoInsumo, Long tenantId){
+		log.info("buscar fertilizante por tipo de insumo");
+		
+		return fertilizanteDAO.buscarFertilizantesPorTipoInsumo(tipoInsumo, tenantId);
 	}
 
 }
