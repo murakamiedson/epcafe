@@ -27,17 +27,19 @@
 					showIcon="true" required="true"
 					validatorMessage="A data é obrigatória.">
 				</p:datePicker>
-				
+
 				<p:outputLabel value="Tipo Insumo" for="tipoInsumo" />
-				<p:selectOneMenu id="tipoInsumo" value="#{lancarDespesaFertilizanteBean.auxiliar}">
+				<p:selectOneMenu id="tipoInsumo"
+					value="#{lancarDespesaFertilizanteBean.auxiliar}">
 					<f:selectItem itemLabel="Selecione o tipo" />
-					<f:selectItems value="#{lancarDespesaFertilizanteBean.tiposInsumo}" var="tipoInsumo" 
-						itemLabel="#{tipoInsumo}" itemValue="#{tipoInsumo}"/>
-					
+					<f:selectItems value="#{lancarDespesaFertilizanteBean.tiposInsumo}"
+						var="tipoInsumo" itemLabel="#{tipoInsumo}"
+						itemValue="#{tipoInsumo}" />
+
 					<p:ajax listener="#{lancarDespesaFertilizanteBean.carregarTipos}"
-						update="fertilizante" process="tipoInsumo"/>
-	    		</p:selectOneMenu>
-					
+						update="fertilizante" process="tipoInsumo" />
+				</p:selectOneMenu>
+
 				<p:outputLabel value="Fertilizante" for="fertilizante" />
 				<h:panelGroup>
 					<p:selectOneMenu id="fertilizante"
@@ -73,9 +75,18 @@
 				</p:inputNumber>
 
 				<p:outputLabel value="Nota Fiscal" for="notaFiscal" />
-				<p:inputText id="notaFiscal"
-					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.notaFiscal}">
-				</p:inputText>
+				<h:panelGroup>
+					<p:autoComplete id="notaFiscal" dropdown="true"
+						value="#{lancarDespesaFertilizanteBean.numeroNF}"  
+						completeMethod="#{lancarDespesaFertilizanteBean.completeText}"
+						scrollHeight="250"/>
+					
+					<p:spacer width="10px" />
+					<p:commandButton id="btnNf" value="Nova NF" icon="pi pi-plus"
+						onclick="PF('cadastroNF').show();" process="@this"
+						update=":form:despesasTable">
+					</p:commandButton>
+				</h:panelGroup>
 
 			</p:panelGrid>
 
@@ -110,9 +121,10 @@
 
 				<p:column headerText="Quantidade"
 					style="width: 10px; text-align:center">
-					<h:outputText value="#{despesa.quantidade} #{despesa.fertilizante.medida}" />
+					<h:outputText
+						value="#{despesa.quantidade} #{despesa.fertilizante.medida}" />
 				</p:column>
-				
+
 				<p:column headerText="Valor da Despesa"
 					style="width: 10px; text-align:center">
 					<h:outputText value="#{despesa.valorDespesa}" />
@@ -120,7 +132,7 @@
 
 				<p:column headerText="Nota Fiscal"
 					style="width: 10px; text-align: center">
-					<h:outputText value="#{despesa.notaFiscal}">
+					<h:outputText value="#{despesa.notaFiscal.numero}">
 					</h:outputText>
 				</p:column>
 
@@ -211,6 +223,42 @@
 					</p:dataTable>
 				</div>
 
+			</p:dialog>
+
+			<p:dialog id="cadastroNFDialog" widgetVar="cadastroNF"
+				minHeight="200" width="400"
+				header="Cadastro de Nota Fiscal de fertilizante/defensivo">
+
+				<p:panelGrid id="gridNF" columns="2"
+					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+					<p:outputLabel for="numero" value="Número" />
+					<p:inputText id="numero"
+						value="#{lancarDespesaFertilizanteBean.notaFiscal.numero}"
+						required="true" validatorMessage="O número da nota é obrigatório." />
+
+					<p:outputLabel for="descricao" value="Descrição" />
+					<p:inputTextarea id="descricao"
+						value="#{lancarDespesaFertilizanteBean.notaFiscal.descricao}" />
+
+					<p:outputLabel for="valorTotal" value="Valor Total" />
+					<p:inputNumber id="valorTotal"
+						value="#{lancarDespesaFertilizanteBean.notaFiscal.valorTotal}"
+						decimalSeparator="," thousandSeparator="." minValue="0"
+						decimalPlaces="2" required="true"
+						validatorMessage="O valor total da nota é obrigatório." />
+
+					<p:outputLabel for="imagem" value="Imagem" />
+					<p:fileUpload id="imagem"
+						value="#{lancarDespesaFertilizanteBean.notaFiscal.imagem}"
+						mode="simple" skinSimple="true" />
+
+				</p:panelGrid>
+				<p:commandButton value="Salvar" id="botaoSalvarNF" icon="pi pi-save"
+					action="#{lancarDespesaFertilizanteBean.salvarNotaFiscal}"
+					process="@this gridNF"
+					onclick="PF('cadastroNF').hide();"
+					style="margin-top: 10px; margin-bottom: 10px" />
 			</p:dialog>
 
 		</h:form>

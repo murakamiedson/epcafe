@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -17,6 +18,7 @@ import org.primefaces.event.RowEditEvent;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Fertilizante;
+import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.QuantidadeTalhao;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.DespesaFertilizanteService;
@@ -49,6 +51,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private DespesaFertilizante despesaFertilizante;
 	private List<DespesaFertilizante> despesas = new ArrayList<>();
 	private QuantidadeTalhao quantidadeTalhao;
+	private NotaFiscal notaFiscal;
+	private String numeroNF;
 
 	@Inject
 	private LoginBean loginBean;
@@ -76,7 +80,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	}
 
 	public void salvar() {
-
+		despesaFertilizante
+				.setNotaFiscal(this.despesaService.buscarNotaFiscalPorNumero(numeroNF, loginBean.getTenantId()));
 		despesaFertilizante.setMesAno(mesAno);
 		log.info("mesAno: " + mesAno);
 		log.info("salvar ..." + despesaFertilizante);
@@ -116,6 +121,20 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		}
 	}
 
+	public List<String> completeText(String query) {
+		String queryLowerCase = query.toLowerCase();
+		// List<String> countryList = new ArrayList<>();
+		List<String> notasFiscaisList = new ArrayList<>();
+		// List<Country> countries = countryService.getCountries();
+		List<NotaFiscal> notasFiscais = this.despesaService.buscarNotasFiscais(loginBean.getTenantId());
+		for (NotaFiscal notaFiscal : notasFiscais) {
+			notasFiscaisList.add(notaFiscal.getNumero());
+		}
+
+		return notasFiscaisList.stream().filter(t -> t.toLowerCase().startsWith(queryLowerCase))
+				.collect(Collectors.toList());
+	}
+
 	public void salvarQuantidadeTalhao() {
 
 		try {
@@ -140,10 +159,36 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		}
 	}
 
+	public void salvarNotaFiscal() {
+
+		try {
+			log.info("numero da nf:" + notaFiscal);
+			notaFiscal.setTenant_id(loginBean.getTenantId());
+			notaFiscal = this.despesaService.salvarNotaFiscal(notaFiscal);
+			MessageUtil.sucesso("Nota Fiscal salva com sucesso!");
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			MessageUtil.erro(e.getMessage());
+		}
+		this.limpar();
+	}
+
+	public void excluirNotaFiscal() {
+		try {
+			log.info("excluindo nota fiscal...");
+			despesaService.excluirNotaFiscal(notaFiscal);
+			MessageUtil.sucesso("Nota Fiscal " + notaFiscal.getId() + " excluída com sucesso.");
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			MessageUtil.erro(e.getMessage());
+		}
+	}
+
 	public void limpar() {
 		log.info("limpar");
 		despesaFertilizante = new DespesaFertilizante();
 		despesaFertilizante.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
+		notaFiscal = new NotaFiscal();
 	}
 
 	public void onRowEdit(RowEditEvent<QuantidadeTalhao> event) {
