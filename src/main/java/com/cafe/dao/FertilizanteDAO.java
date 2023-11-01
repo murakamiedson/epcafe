@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.Fertilizante;
+import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -84,6 +85,14 @@ public class FertilizanteDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Fertilizante> buscarFertilizantesPorTipoInsumo(TipoInsumo tipoInsumo, Long tenantId) {
+		return manager.createNamedQuery("Fertilizante.buscarFertilizantePorTipoInsumo")
+				.setParameter("tipoInsumo", tipoInsumo)
+				.setParameter("tenantId", tenantId)
+				.getResultList();
+		}
 	
 
 }
