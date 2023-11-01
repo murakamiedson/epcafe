@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import com.cafe.dao.DespesaMaquinaDAO;
 import com.cafe.modelo.DespesaMaquina;
-import com.cafe.modelo.enums.TipoCombustivel;
+import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
 import com.cafe.modelo.to.DespesaDTO;
 import com.cafe.modelo.to.DespesaTO;
 import com.cafe.util.NegocioException;
@@ -65,18 +65,35 @@ private static final long serialVersionUID = 1L;
 		Ex.: 134 * 0,735 * 0,35 * 10 = 98,49 kwh * preco combustivel
 	 */
 		BigDecimal valor = new BigDecimal(0);
-		if(despesaMaquina.getMaquina().getTipoCombustivel() == TipoCombustivel.DIESEL) {
+		
+		if(despesaMaquina.getMaquina().getTipo() == TipoAuxiliarMaquinas.TRATOR) {
 			valor = despesaMaquina.getMaquina().getPotencia()
 					.multiply(despesaMaquina.getFatorPotencia().getValor().divide(new BigDecimal(100)))
 					.multiply(new BigDecimal(0.15))
 					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
 					.multiply(despesaMaquina.getHorasTrabalhadas());
-		} else if(despesaMaquina.getMaquina().getTipoCombustivel() == TipoCombustivel.ENERGIA_ELETRICA) {
-			valor = despesaMaquina.getMaquina().getPotencia()
-						.multiply(new BigDecimal(0.735))
-						.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-						.multiply(despesaMaquina.getHorasTrabalhadas());
+		}else {
+			
+			switch(despesaMaquina.getMaquina().getTipoCombustivel()) {
+			case DIESEL: valor = despesaMaquina.getMaquina().getPotencia()
+					.multiply(new BigDecimal(0.15))
+					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
+					.multiply(despesaMaquina.getHorasTrabalhadas());
+			break;
+			
+			case ENERGIA_ELETRICA: valor = despesaMaquina.getMaquina().getPotencia()
+					.multiply(new BigDecimal(0.735))
+					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
+					.multiply(despesaMaquina.getHorasTrabalhadas());
+			break;
+			
+			
+			default: 
+				break;
+			}
 		}
+		
+				
 		
 		return valor;
 	}

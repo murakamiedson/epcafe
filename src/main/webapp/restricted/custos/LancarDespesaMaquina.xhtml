@@ -22,9 +22,10 @@
 				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
 
 				<p:outputLabel for="month" value="Mês/Ano" />
-				<p:datePicker id="month" view="month"
-					value="#{lancarDespesaMaquinaBean.mesAno}" pattern="MM/yyyy"
-					type="localDate" yearNavigator="true" yearRange="2000:2030"
+				<p:datePicker id="month"
+					value="#{lancarDespesaMaquinaBean.mesAno}" pattern="dd/MM/yyyy"
+					type="localDate" yearNavigator="true" 
+					monthNavigator="true" yearRange="2000:2030"
 					required="true" showIcon="true"
 					validatorMessage="A data é obrigatória.">
 				</p:datePicker>
@@ -63,7 +64,7 @@
 				<p:selectOneMenu id="fator"
 					value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}"
 					required="true" validatorMessage="O fator é obrigatório."
-					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel eq 'ENERGIA_ELETRICA'}">
+					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR'}">
 					<f:selectItem
 						itemLabel="Selecione o fator correspondente a intensidade de uso" />
 					<f:selectItems value="#{lancarDespesaMaquinaBean.fatorPotencias}"
@@ -100,7 +101,7 @@
 				<p:column headerText="Mês/Ano"
 					style="width: 10px; text-align: center">
 					<h:outputText value="#{despesa.mesAno}">
-						<f:convertDateTime type="localDate" pattern="MM/yyyy" />
+						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 
