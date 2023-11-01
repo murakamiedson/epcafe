@@ -170,14 +170,14 @@ public class LoginService implements Serializable {
 		for (int j = 0; j < filhos.getLength(); j++) {
 			Element grupoSubmenu = (Element) filhos.item(j);
 
-			log.info("item submenu: "+grupoSubmenu.getAttribute("value"));
-			log.info("grupo usuario: "+grupo.name());
+			log.debug("item submenu: "+grupoSubmenu.getAttribute("value"));
+			log.debug("grupo usuario: "+grupo.name());
 			
 			if (grupoSubmenu.getAttribute("value").equals(grupo.name())
 					|| (grupoSubmenu.getAttribute("value").equals("TECNICOS")
 							&& grupo.name().equals("GESTORES"))) {
 				temPermissao = true;
-				log.info("permissao: "+temPermissao);
+				log.debug("permissao: "+temPermissao);
 				break;
 			}
 		}

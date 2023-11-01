@@ -179,6 +179,7 @@ public class DespesaFertilizanteDAO implements Serializable {
 	}
 	
 	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Long tenantId) {
+		log.info(numero);
 		return manager.createNamedQuery("NotaFiscal.buscarNotaFiscalPorNumero", NotaFiscal.class)
 				.setParameter("numero", numero)
 				.setParameter("tenantId", tenantId)

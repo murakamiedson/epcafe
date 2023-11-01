@@ -1,7 +1,6 @@
 package com.cafe.controller.custos;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +43,6 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private LocalDate mesAno;
 	private List<Fertilizante> fertilizantes;
 	private List<TipoInsumo> tiposInsumo;
 	private TipoInsumo auxiliar;
@@ -67,33 +65,37 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void inicializar() {
 
 		log.info("inicializar login = " + loginBean.getUsuario());
-		// mesAno = LocalDate.now();
-		// fertilizantes =
-		// fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
-
+		
 		despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
 
 		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.FUNGICIDA, TipoInsumo.HERBICIDA,
 				TipoInsumo.INSETICIDA, TipoInsumo.ADJUVANTE);
+		
+		this.fertilizantes = this.fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
 
 		limpar();
 	}
 
 	public void salvar() {
-		despesaFertilizante
+		log.info("salvar ...1" + despesaFertilizante);
+		if(numeroNF != null && !numeroNF.isEmpty()) {
+			despesaFertilizante
 				.setNotaFiscal(this.despesaService.buscarNotaFiscalPorNumero(numeroNF, loginBean.getTenantId()));
-		despesaFertilizante.setMesAno(mesAno);
-		log.info("mesAno: " + mesAno);
-		log.info("salvar ..." + despesaFertilizante);
+		}
+
+		log.info("salvar ...2" + despesaFertilizante);
 
 		if (despesaFertilizante.getQdesTalhoes() == null) {
 			despesaFertilizante = this.despesaService.criarDistribuicao(despesaFertilizante,
 					loginBean.getUsuario().getPropriedade());
 		}
 
+		log.info("salvar ...3" + despesaFertilizante);
 		try {
 			despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
+			log.info("salvar ...4" + despesaFertilizante);
 			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
+			log.info("salvar ...5" + despesaFertilizante);
 			MessageUtil.sucesso("Despesa salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -186,6 +188,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 	public void limpar() {
 		log.info("limpar");
+		auxiliar = null;
+		
 		despesaFertilizante = new DespesaFertilizante();
 		despesaFertilizante.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 		notaFiscal = new NotaFiscal();
