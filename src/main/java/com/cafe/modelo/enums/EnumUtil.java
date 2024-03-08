@@ -235,8 +235,8 @@ public class EnumUtil {
 		
 		TIPOS_ADJUVANTES = Arrays.asList(
 				
-				TipoAuxiliarInsumos.ADJUVANTES,
-				TipoAuxiliarInsumos.OUTROS
+				TipoAuxiliarInsumos.MINERAL,
+				TipoAuxiliarInsumos.VEGETAL
 				);
 	}
 	

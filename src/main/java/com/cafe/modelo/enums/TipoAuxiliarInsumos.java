@@ -114,8 +114,9 @@ public enum TipoAuxiliarInsumos {
 	GLIFOSATO_NORTOX_480_CONCENTRADO_SOLUVEL_SL,
 	
 	/* ---------------------------------*/
-	/* tipos de herbicidas   */
+	/* tipos de adjuvantes   */
 	/* ---------------------------------*/
-	ADJUVANTES
+	VEGETAL,
+	MINERAL
 
 }
