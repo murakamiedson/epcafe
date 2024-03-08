@@ -17,6 +17,7 @@ import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
 import com.cafe.modelo.enums.TipoCombustivel;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.MaquinaService;
+import com.cafe.util.CalculoUtil;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -42,18 +43,24 @@ public class CadastroMaquinaBean implements Serializable {
 	private List<TipoCombustivel> tiposCombustivel;
 	private List<TipoAuxiliarMaquinas> tiposMaquina;
 	private List<Maquina> maquinas = new ArrayList<>();
-	private Long tenantId;	
+	private Long tenantId;
+	
+	private String yearRange;
 	
 	@Inject
 	private MaquinaService maquinaService;
 	
 	@Inject
-	private LoginBean usuarioLogado;	
+	private LoginBean usuarioLogado;
+	
+	@Inject
+	private CalculoUtil calcUtil;
 	
 	@PostConstruct
 	public void inicializar() {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
-		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());		
+		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());
+		this.yearRange = this.calcUtil.getAnoCorrente();
 		this.limpar();
 
 		this.tiposInsumo = Arrays.asList(TipoInsumo.MAQUINA, TipoInsumo.IMPLEMENTO);

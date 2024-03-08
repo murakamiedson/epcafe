@@ -59,7 +59,7 @@
 					monthNavigator="true" yearNavigator="true" locale="pt"
 					showIcon="true"
 					validatorMessage="A data de nascimento é obrigatória."
-					yearRange="#{cadastroFuncionarioBean.anoCorrente}">
+					yearRange="#{cadastroFuncionarioBean.yearRange}">
 				</p:datePicker>
 			</p:panelGrid>
 			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
@@ -70,7 +70,6 @@
 			<p:confirmDialog header="Idade inválida" widgetVar="avisoDialog"
 				modal="true" resizable="false" severity="alert"
 				message="A idade do funcionário deve ser maior ou igual a 18 anos.">
-
 
 				<p:commandButton value="OK" onclick="PF('avisoDialog').hide();" />
 

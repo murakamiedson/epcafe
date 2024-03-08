@@ -1,5 +1,6 @@
 package com.cafe.util;
 
+import java.io.Serializable;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +13,9 @@ import lombok.extern.log4j.Log4j;
  */
 
 @Log4j
-public class CalculoUtil {
+public class CalculoUtil implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
 	public static int calcularIdade(Date dataNasc) {
 

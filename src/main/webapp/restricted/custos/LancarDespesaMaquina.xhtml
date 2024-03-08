@@ -25,7 +25,7 @@
 				<p:datePicker id="month"
 					value="#{lancarDespesaMaquinaBean.despesaMaquina.mesAno}" pattern="dd/MM/yyyy"
 					type="localDate" yearNavigator="true" 
-					monthNavigator="true" yearRange="2000:2030"
+					monthNavigator="true" yearRange="#{lancarDespesaMaquinaBean.yearRange}"
 					required="true" showIcon="true"
 					validatorMessage="A data é obrigatória.">
 				</p:datePicker>

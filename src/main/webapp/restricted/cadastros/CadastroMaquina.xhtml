@@ -110,7 +110,8 @@
 					value="#{cadastroMaquinaBean.maquina.dataCompra}" required="true"
 					pattern="dd/MM/yyyy" type="localDate" monthNavigator="true" yearNavigator="true"
 					showIcon="true" locale="pt"
-					validatorMessage="A data de compra é obrigatória.">
+					validatorMessage="A data de compra é obrigatória."
+					yearRange="#{cadastroMaquinaBean.yearRange}">
 				</p:datePicker>
 
 				<p:outputLabel value="Vida Útil" for="vida" />

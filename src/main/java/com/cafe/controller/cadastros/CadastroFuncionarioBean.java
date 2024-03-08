@@ -3,7 +3,6 @@ package com.cafe.controller.cadastros;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.Year;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +15,7 @@ import com.cafe.modelo.Funcionario;
 import com.cafe.modelo.Propriedade;
 import com.cafe.service.FuncionarioService;
 import com.cafe.service.PropriedadeService;
+import com.cafe.util.CalculoUtil;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 import org.primefaces.PrimeFaces;
@@ -44,6 +44,10 @@ public class CadastroFuncionarioBean implements Serializable {
 	private List<Propriedade> propriedades;
 
 	private Long tenantId;
+	private String yearRange;
+	
+	@Inject
+	private CalculoUtil calcUtil;
 
 	@Inject
 	private FuncionarioService funcionarioService;
@@ -57,7 +61,7 @@ public class CadastroFuncionarioBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
-
+		this.yearRange = this.calcUtil.getAnoCorrente();
 		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());
 		this.limpar();
 	}
@@ -80,7 +84,7 @@ public class CadastroFuncionarioBean implements Serializable {
 			this.limpar();
 		}
 	}
-
+	/*
 	public String getAnoCorrente() {
 
 		int anoCorrente = Year.now().getValue();
@@ -89,7 +93,7 @@ public class CadastroFuncionarioBean implements Serializable {
 		String yearRange = dezAnosAntes + ":" + anoCorrente;
 		log.info(yearRange);
 		return yearRange;
-	}
+	}*/
 
 	public void limpar() {
 		this.funcionario = new Funcionario();
