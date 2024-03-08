@@ -1,6 +1,9 @@
 package com.cafe.controller.cadastros;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.Year;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +18,8 @@ import com.cafe.service.FuncionarioService;
 import com.cafe.service.PropriedadeService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
+import org.primefaces.PrimeFaces;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,44 +39,62 @@ public class CadastroFuncionarioBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Funcionario funcionario;
-	
+
 	private List<Funcionario> funcionarios;
 	private List<Propriedade> propriedades;
-	
-	private Long tenantId;	
-	
+
+	private Long tenantId;
+
 	@Inject
 	private FuncionarioService funcionarioService;
-	
+
 	@Inject
 	private PropriedadeService propriedadeService;
-	
+
 	@Inject
-	private LoginBean usuarioLogado;	
-	
+	private LoginBean usuarioLogado;
+
 	@PostConstruct
 	public void inicializar() {
 		tenantId = usuarioLogado.getUsuario().getTenant().getCodigo();
-		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());		
+
+		log.info("Bean : tenant = " + tenantId + "-" + usuarioLogado.getUsuario().getTenant().getTenant());
 		this.limpar();
 	}
-		
-	
+
 	public void salvar() {
-		try {			
-			this.funcionarioService.salvar(funcionario);
-			MessageUtil.sucesso("Funcionario salvo com sucesso!");
-		} catch (NegocioException e) {
-			e.printStackTrace();
-			MessageUtil.erro(e.getMessage());
-		}		
-		this.limpar();
+
+		Period periodo = Period.between(funcionario.getDataNascimento(), LocalDate.now());
+
+		if (periodo.getYears() < 18) {
+			
+			PrimeFaces.current().executeScript("PF('avisoDialog').show();");
+		} else {
+			try {
+				this.funcionarioService.salvar(funcionario);
+				MessageUtil.sucesso("Funcionario salvo com sucesso!");
+			} catch (NegocioException e) {
+				e.printStackTrace();
+				MessageUtil.erro(e.getMessage());
+			}
+			this.limpar();
+		}
 	}
-	
+
+	public String getAnoCorrente() {
+
+		int anoCorrente = Year.now().getValue();
+		int dezAnosAntes = anoCorrente - 100;
+
+		String yearRange = dezAnosAntes + ":" + anoCorrente;
+		log.info(yearRange);
+		return yearRange;
+	}
+
 	public void limpar() {
 		this.funcionario = new Funcionario();
 		this.funcionario.setPropriedade(usuarioLogado.getUsuario().getPropriedade());
 		this.funcionario.setTenant_id(tenantId);
-	}	 
-	
+	}
+
 }

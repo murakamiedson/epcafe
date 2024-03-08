@@ -5,6 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 
+
 	<ui:define name="titulo">Funcionário</ui:define>
 
 	<ui:define name="corpo">
@@ -55,13 +56,25 @@
 				<p:datePicker id="dataNascimento"
 					value="#{cadastroFuncionarioBean.funcionario.dataNascimento}"
 					required="true" pattern="dd/MM/yyyy" type="localDate"
-					monthNavigator="true" yearNavigator="true" locale="pt" showIcon="true"
-					validatorMessage="A data de nascimento é obrigatória.">
+					monthNavigator="true" yearNavigator="true" locale="pt"
+					showIcon="true"
+					validatorMessage="A data de nascimento é obrigatória."
+					yearRange="#{cadastroFuncionarioBean.anoCorrente}">
 				</p:datePicker>
 			</p:panelGrid>
 			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
 				action="#{cadastroFuncionarioBean.salvar}" update="frmCadastro"
 				style="margin-top: 10px; margin-bottom: 10px" />
+
+			<!-- DIALOG CADASTRO MENOR DE 18 ANOS -->
+			<p:confirmDialog header="Idade inválida" widgetVar="avisoDialog"
+				modal="true" resizable="false" severity="alert"
+				message="A idade do funcionário deve ser maior ou igual a 18 anos.">
+
+
+				<p:commandButton value="OK" onclick="PF('avisoDialog').hide();" />
+
+			</p:confirmDialog>
 		</h:form>
 	</ui:define>
 </ui:composition>
