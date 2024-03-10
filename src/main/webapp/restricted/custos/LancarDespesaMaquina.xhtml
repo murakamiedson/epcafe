@@ -40,7 +40,7 @@
 						<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}"
 							var="maquina" itemLabel="#{maquina.nome}" itemValue="#{maquina}" />
 
-						<p:ajax update="tipo comb preco fator" process="maquina" />
+						<p:ajax update="tipo comb calc preco fator ht litros distancia" process="maquina" />
 					</p:selectOneMenu>
 					<p:spacer width="10px" />
 					<p:outputLabel id="tipo"
@@ -48,6 +48,9 @@
 					<p:spacer width="20px" />
 					<p:outputLabel id="comb"
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel}" />
+					<p:spacer width="20px" />
+					<p:outputLabel id="calc"
+						value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo}" />
 				</h:panelGroup>
 
 				<p:outputLabel value="Preço (l/kwh)" />
@@ -64,7 +67,8 @@
 				<p:selectOneMenu id="fator"
 					value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}"
 					required="true" validatorMessage="O fator é obrigatório."
-					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR'}">
+					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR'
+						and lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR_DE_RODA_PEQUENO_PORTE'}">
 					<f:selectItem
 						itemLabel="Selecione o fator correspondente a intensidade de uso" />
 					<f:selectItems value="#{lancarDespesaMaquinaBean.fatorPotencias}"
@@ -76,9 +80,25 @@
 				<p:inputNumber id="ht"
 					value="#{lancarDespesaMaquinaBean.despesaMaquina.horasTrabalhadas}"
 					decimalSeparator="," thousandSeparator="." minValue="0"
-					decimalPlaces="2" required="true">
+					decimalPlaces="2" required="true"
+					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo eq 'QUILOMETRO'}">
 				</p:inputNumber>
-
+				
+				<p:outputLabel value="Litros Consumidos" for="litros" />
+				<p:inputNumber id="litros"
+					value="#{lancarDespesaMaquinaBean.despesaMaquina.litrosConsumidos}"
+					decimalSeparator="," thousandSeparator="." minValue="0"
+					decimalPlaces="2" 
+					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo ne 'TEMPO'}">
+				</p:inputNumber>
+				
+				<p:outputLabel value="Distância Trabalhada" for="distancia" />
+				<p:inputNumber id="distancia"
+					value="#{lancarDespesaMaquinaBean.despesaMaquina.distanciaTrabalhada}"
+					decimalSeparator="," thousandSeparator="." minValue="0"
+					decimalPlaces="2" 
+					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo ne 'QUILOMETRO'}">
+				</p:inputNumber>
 
 			</p:panelGrid>
 

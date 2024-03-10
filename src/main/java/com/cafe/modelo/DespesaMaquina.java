@@ -69,6 +69,10 @@ public class DespesaMaquina {
 	
 	private BigDecimal valorTotal;
 	
+	private BigDecimal litrosConsumidos;
+	
+	private BigDecimal distanciaTrabalhada;
+	
 	
 	
 	/*

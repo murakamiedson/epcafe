@@ -12,7 +12,7 @@
 		<f:metadata>
 			<o:viewParam name="maquina" value="#{cadastroMaquinaBean.maquina}" />
 		</f:metadata>
-		
+
 
 		<h2>Máquinas e Implementos</h2>
 
@@ -66,15 +66,6 @@
 						process="tipoMaquina" update="vida" />
 				</p:selectOneMenu>
 
-
-
-				<p:outputLabel value="Potência" for="potencia" />
-				<p:inputNumber id="potencia"
-					value="#{cadastroMaquinaBean.maquina.potencia}" symbol=" CV"
-					symbolPosition="s" minValue="0" decimalPlaces="2" required="true"
-					validatorMessage="A potência é obrigatória.">
-				</p:inputNumber>
-
 				<p:outputLabel value="Tipo de Combustível" for="tipoc" />
 				<p:selectOneMenu id="tipoc"
 					value="#{cadastroMaquinaBean.maquina.tipoCombustivel}"
@@ -83,7 +74,36 @@
 					<f:selectItem itemLabel="Selecione o tipo de combustível" />
 					<f:selectItems value="#{cadastroMaquinaBean.tiposCombustivel}"
 						var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
+
+					<p:ajax update="consumo" process="tipoc" />
 				</p:selectOneMenu>
+
+				<p:outputLabel value="Potência" for="potencia" />
+				<p:inputNumber id="potencia"
+					value="#{cadastroMaquinaBean.maquina.potencia}" symbol=" CV"
+					symbolPosition="s" minValue="0" decimalPlaces="2" required="true"
+					validatorMessage="A potência é obrigatória.">
+				</p:inputNumber>
+
+				<p:outputLabel value="Tipo de Consumo" for="consumo" />
+				<p:selectOneMenu id="consumo"
+					value="#{cadastroMaquinaBean.maquina.tipoConsumo}"
+					disabled="#{cadastroMaquinaBean.maquina.tipoCombustivel ne 'GASOLINA' 
+						and cadastroMaquinaBean.maquina.tipoCombustivel ne 'ETANOL'}">
+					<f:selectItem itemLabel="Selecione o tipo de consumo" />
+					<f:selectItems value="#{cadastroMaquinaBean.tiposConsumo}"
+						var="tipoConsumo" itemLabel="#{tipoConsumo}"
+						itemValue="#{tipoConsumo}" />
+						
+						<p:ajax update="consumoMedio" process="consumo" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Consumo Médio" for="consumoMedio" />
+				<p:inputNumber id="consumoMedio"
+					value="#{cadastroMaquinaBean.maquina.consumoMedio}" symbol=" Km/L"
+					symbolPosition="s" minValue="0" decimalPlaces="2"
+					disabled="#{cadastroMaquinaBean.maquina.tipoConsumo ne 'QUILOMETRO'}">
+				</p:inputNumber>
 
 				<p:outputLabel value="Nome" for="nome" />
 				<p:inputText id="nome" size="60" maxlength="80"
@@ -108,8 +128,8 @@
 				<p:outputLabel value="Data de Compra" for="compra" />
 				<p:datePicker id="compra"
 					value="#{cadastroMaquinaBean.maquina.dataCompra}" required="true"
-					pattern="dd/MM/yyyy" type="localDate" monthNavigator="true" yearNavigator="true"
-					showIcon="true" locale="pt"
+					pattern="dd/MM/yyyy" type="localDate" monthNavigator="true"
+					yearNavigator="true" showIcon="true" locale="pt"
 					validatorMessage="A data de compra é obrigatória."
 					yearRange="#{cadastroMaquinaBean.yearRange}">
 				</p:datePicker>

@@ -15,6 +15,7 @@ import com.cafe.modelo.Maquina;
 import com.cafe.modelo.enums.EnumUtil;
 import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
 import com.cafe.modelo.enums.TipoCombustivel;
+import com.cafe.modelo.enums.TipoConsumo;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.MaquinaService;
 import com.cafe.util.CalculoUtil;
@@ -42,6 +43,7 @@ public class CadastroMaquinaBean implements Serializable {
 	private List<TipoInsumo> tiposInsumo;
 	private List<TipoCombustivel> tiposCombustivel;
 	private List<TipoAuxiliarMaquinas> tiposMaquina;
+	private List<TipoConsumo> tiposConsumo;
 	private List<Maquina> maquinas = new ArrayList<>();
 	private Long tenantId;
 	
@@ -65,6 +67,8 @@ public class CadastroMaquinaBean implements Serializable {
 
 		this.tiposInsumo = Arrays.asList(TipoInsumo.MAQUINA, TipoInsumo.IMPLEMENTO);
 		this.tiposCombustivel = Arrays.asList(TipoCombustivel.values());
+		this.tiposConsumo = Arrays.asList(TipoConsumo.values());
+		log.info(tiposConsumo);
 		
 		
 		

@@ -22,6 +22,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
 import com.cafe.modelo.enums.TipoCombustivel;
+import com.cafe.modelo.enums.TipoConsumo;
 import com.cafe.modelo.enums.TipoInsumo;
 
 import lombok.Data;
@@ -53,7 +54,10 @@ public class Maquina {
 	private BigDecimal valor; // valor do bem
 	
 	@PositiveOrZero
-	private BigDecimal potencia = new BigDecimal(0.0); // CV	
+	private BigDecimal potencia = new BigDecimal(0.0); // CV
+	
+	@PositiveOrZero
+	private BigDecimal consumoMedio = new BigDecimal(0.0);
 		
 	@PositiveOrZero
 	private Integer vidaUtil;
@@ -69,6 +73,9 @@ public class Maquina {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoAuxiliarMaquinas tipo;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoConsumo tipoConsumo;
 
 	/*
 	 * Datas de Criação e Modificação
