@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -13,6 +14,7 @@ import javax.inject.Named;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Maquina;
+import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.enums.FatorPotencia;
 import com.cafe.service.DespesaMaquinaService;
 import com.cafe.service.MaquinaService;
@@ -37,13 +39,11 @@ public class LancarDespesaMaquinaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	//private LocalDate mesAno;
 	private List<Maquina> maquinas;
 	private DespesaMaquina despesaMaquina;
 	private DespesaMaquina despesaMaquinaSelecionada;
 	private List<FatorPotencia> fatorPotencias;
 	private List<DespesaMaquina> despesas = new ArrayList<>();
-	//private List<BigDecimal> valorTotal;
 	private Long tenantId;
 	
 	private String yearRange;
@@ -62,7 +62,6 @@ public class LancarDespesaMaquinaBean implements Serializable {
 
 	@PostConstruct
 	public void inicializar() {
-		//tenantId = loginBean.getUsuario().getTenant().getCodigo();
 		
 		log.info("inicializar login = " + loginBean.getUsuario());
 		
@@ -77,8 +76,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	
     public void salvar() {
     	
-    	//despesaMaquina.setMesAno(mesAno);
-    	//log.info("mesAno: " + mesAno);
+    	
     	log.info("salvar ..." + despesaMaquina);
     	
 
@@ -111,9 +109,10 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		log.info("limpar");
 		despesaMaquina = new DespesaMaquina();
 
-		//despesaMaquina.setMesAno(mesAno);
 		despesaMaquina.setPropriedade(loginBean.getUsuario().getPropriedade());
 		despesaMaquina.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 	}
+	
+	
 	
 }

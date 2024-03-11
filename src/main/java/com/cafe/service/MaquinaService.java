@@ -43,6 +43,10 @@ public class MaquinaService implements Serializable {
 		log.info("Primeiro acesso a banco... buscar maquinas");					
 		return maquinaDAO.buscarMaquinas(tenantId);
 	}
+	
+	public Maquina buscarPeloNome(String nome, Long tenantId) {
+		return maquinaDAO.buscarPeloNome(nome, tenantId);
+	}
 
 	
 	/* testes */

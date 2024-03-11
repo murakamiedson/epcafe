@@ -74,6 +74,14 @@ public class MaquinaDAO implements Serializable {
 		return manager.find(Maquina.class, id);
 	}	
 	
+	public Maquina buscarPeloNome(String nome, Long tenantId) {
+		return (Maquina) manager.createNamedQuery("Maquina.buscarMaquinaPorNome")
+				.setParameter("nome", nome)
+				.setParameter("tenantId", tenantId)
+				.getSingleResult();
+				
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Maquina> buscarMaquinas(Long tenantId) {
 		return manager.createNamedQuery("Maquina.buscarMaquinas")
