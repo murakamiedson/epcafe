@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import com.cafe.dao.DespesaFertilizanteDAO;
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.NotaFiscal;
-import com.cafe.modelo.QuantidadeTalhao;
+import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.modelo.Talhao;
 import com.cafe.modelo.Propriedade;
 import com.cafe.util.NegocioException;
@@ -45,13 +45,13 @@ public class DespesaFertilizanteService implements Serializable {
 		// se não existir distribuicao buscar os talhoes e criar uma qdeTalhao para cada
 		if(despesaFertilizante.getQdesTalhoes() == null && talhoesUnidade.size() > 0) {
 						
-			despesaFertilizante.setQdesTalhoes(new ArrayList<QuantidadeTalhao>());
+			despesaFertilizante.setQdesTalhoes(new ArrayList<DespesaFerTalhao>());
 			
 			for(Talhao t : talhoesUnidade) {
-				QuantidadeTalhao quantidadeTalhao = new QuantidadeTalhao();
-				quantidadeTalhao.setDespesaFertilizante(despesaFertilizante);
-				quantidadeTalhao.setTalhao(t);
-				despesaFertilizante.getQdesTalhoes().add(quantidadeTalhao);
+				DespesaFerTalhao despesaFerTalhao = new DespesaFerTalhao();
+				despesaFerTalhao.setDespesaFertilizante(despesaFertilizante);
+				despesaFerTalhao.setTalhao(t);
+				despesaFertilizante.getQdesTalhoes().add(despesaFerTalhao);
 				log.info("quantidadeTalhao adicionado");
 			}
 			
@@ -65,13 +65,13 @@ public class DespesaFertilizanteService implements Serializable {
 		despesaFertilizanteDAO.excluir(despesaFertilizante);
 	}
 
-	public QuantidadeTalhao salvarQuantidadeTalhao(QuantidadeTalhao quantidadeTahaoDespesa)
+	public DespesaFerTalhao salvarQuantidadeTalhao(DespesaFerTalhao quantidadeTahaoDespesa)
 			throws NegocioException {
 		return this.despesaFertilizanteDAO.salvarQuantidadeTalhao(quantidadeTahaoDespesa);
 	}
 
-	public void excluirQuantidadeTalhao(QuantidadeTalhao quantidadeTalhao) throws NegocioException {
-		despesaFertilizanteDAO.excluirQuantidadeTalhao(quantidadeTalhao);
+	public void excluirQuantidadeTalhao(DespesaFerTalhao despesaFerTalhao) throws NegocioException {
+		despesaFertilizanteDAO.excluirQuantidadeTalhao(despesaFerTalhao);
 	}
 	
 	public NotaFiscal salvarNotaFiscal(NotaFiscal notaFiscal) throws NegocioException {

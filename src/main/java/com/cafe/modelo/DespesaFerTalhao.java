@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 
-public class QuantidadeTalhao {
+public class DespesaFerTalhao {
 	
 	@EqualsAndHashCode.Include
 	@Id

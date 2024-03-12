@@ -9,7 +9,7 @@ import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.NotaFiscal;
-import com.cafe.modelo.QuantidadeTalhao;
+import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -73,10 +73,10 @@ public class DespesaFertilizanteDAO implements Serializable {
 	}
 
 	@Transactional
-	public QuantidadeTalhao salvarQuantidadeTalhao(QuantidadeTalhao quantidadeTalhao)
+	public DespesaFerTalhao salvarQuantidadeTalhao(DespesaFerTalhao despesaFerTalhao)
 			throws PersistenceException, NegocioException {
 		try {
-			return manager.merge(quantidadeTalhao);
+			return manager.merge(despesaFerTalhao);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;
@@ -93,11 +93,11 @@ public class DespesaFertilizanteDAO implements Serializable {
 	}
 	
 	@Transactional
-	public void excluirQuantidadeTalhao(QuantidadeTalhao quantidadeTalhao) throws NegocioException {
+	public void excluirQuantidadeTalhao(DespesaFerTalhao despesaFerTalhao) throws NegocioException {
 
 		try {
 			log.info("excluir quantidade talhao");
-			DespesaFertilizante m = this.buscarPeloCodigo(quantidadeTalhao.getId());
+			DespesaFertilizante m = this.buscarPeloCodigo(despesaFerTalhao.getId());
 			manager.remove(m);
 			manager.flush();
 		} catch (PersistenceException e) {

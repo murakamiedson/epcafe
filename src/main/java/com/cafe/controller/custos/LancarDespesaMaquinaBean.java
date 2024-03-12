@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -14,7 +13,6 @@ import javax.inject.Named;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Maquina;
-import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.enums.FatorPotencia;
 import com.cafe.service.DespesaMaquinaService;
 import com.cafe.service.MaquinaService;

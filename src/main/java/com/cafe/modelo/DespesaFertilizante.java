@@ -62,7 +62,7 @@ public class DespesaFertilizante {
 	private BigDecimal valorDespesa;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="despesaFertilizante", fetch = FetchType.EAGER)
-	private List<QuantidadeTalhao> qdesTalhoes;
+	private List<DespesaFerTalhao> qdesTalhoes;
 	
 	
 	

@@ -18,7 +18,7 @@ import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.NotaFiscal;
-import com.cafe.modelo.QuantidadeTalhao;
+import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.DespesaFertilizanteService;
 import com.cafe.service.FertilizanteService;
@@ -48,7 +48,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private TipoInsumo auxiliar;
 	private DespesaFertilizante despesaFertilizante;
 	private List<DespesaFertilizante> despesas = new ArrayList<>();
-	private QuantidadeTalhao quantidadeTalhao;
+	private DespesaFerTalhao despesaFerTalhao;
 	private NotaFiscal notaFiscal;
 	private String numeroNF;
 
@@ -140,7 +140,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void salvarQuantidadeTalhao() {
 
 		try {
-			quantidadeTalhao = this.despesaService.salvarQuantidadeTalhao(quantidadeTalhao);
+			despesaFerTalhao = this.despesaService.salvarQuantidadeTalhao(despesaFerTalhao);
 			MessageUtil.sucesso("Quantidades de talhões salvas com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -152,9 +152,9 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void excluirQuantidadeTalhao() {
 		try {
 			log.info("excluindo quantidades de talhoes...");
-			despesaService.excluirQuantidadeTalhao(quantidadeTalhao);
+			despesaService.excluirQuantidadeTalhao(despesaFerTalhao);
 			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
-			MessageUtil.sucesso("Quantidade " + quantidadeTalhao.getId() + " excluída com sucesso.");
+			MessageUtil.sucesso("Quantidade " + despesaFerTalhao.getId() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
@@ -195,7 +195,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		notaFiscal = new NotaFiscal();
 	}
 
-	public void onRowEdit(RowEditEvent<QuantidadeTalhao> event) {
+	public void onRowEdit(RowEditEvent<DespesaFerTalhao> event) {
 		log.info("editado");
 		MessageUtil.info("editado");
 		try {
@@ -207,7 +207,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		}
 	}
 
-	public void onRowCancel(RowEditEvent<QuantidadeTalhao> event) {
+	public void onRowCancel(RowEditEvent<DespesaFerTalhao> event) {
 		log.info("cancelado");
 		MessageUtil.info("cancelado");
 	}
