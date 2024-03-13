@@ -51,10 +51,10 @@ public class DespesaMaquina {
 	private Long tenant_id;	
 	
 	@NotNull
-	private LocalDate mesAno;
+	private LocalDate data;
 
 	@PositiveOrZero
-	private BigDecimal horasTrabalhadas;
+	private BigDecimal minutosTrabalhados;
 	
 	@Enumerated(EnumType.STRING)
 	private FatorPotencia fatorPotencia;

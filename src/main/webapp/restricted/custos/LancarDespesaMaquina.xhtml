@@ -21,9 +21,9 @@
 			<p:panelGrid id="gridDespesa" columns="2"
 				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
 
-				<p:outputLabel for="month" value="Mês/Ano" />
+				<p:outputLabel for="month" value="Data" />
 				<p:datePicker id="month"
-					value="#{lancarDespesaMaquinaBean.despesaMaquina.mesAno}" pattern="dd/MM/yyyy"
+					value="#{lancarDespesaMaquinaBean.despesaMaquina.data}" pattern="dd/MM/yyyy"
 					type="localDate" yearNavigator="true" 
 					monthNavigator="true" yearRange="#{lancarDespesaMaquinaBean.yearRange}"
 					required="true" showIcon="true"
@@ -79,9 +79,9 @@
 						itemValue="#{fatorPotencia}" />
 				</p:selectOneMenu>
 
-				<p:outputLabel value="Horas Trabalhadas" for="ht" />
+				<p:outputLabel value="Minutos Trabalhados" for="ht" />
 				<p:inputNumber id="ht"
-					value="#{lancarDespesaMaquinaBean.despesaMaquina.horasTrabalhadas}"
+					value="#{lancarDespesaMaquinaBean.despesaMaquina.minutosTrabalhados}"
 					decimalSeparator="," thousandSeparator="." minValue="0"
 					decimalPlaces="2" required="true"
 					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo eq 'QUILOMETRO'}">
@@ -99,7 +99,7 @@
 				<p:inputNumber id="distancia"
 					value="#{lancarDespesaMaquinaBean.despesaMaquina.distanciaTrabalhada}"
 					decimalSeparator="," thousandSeparator="." minValue="0"
-					decimalPlaces="2" 
+					decimalPlaces="2" symbol=" Km" symbolPosition="s"
 					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo ne 'QUILOMETRO'}">
 				</p:inputNumber>
 
@@ -121,9 +121,9 @@
 				rows="10" paginator="true" paginatorAlwaysVisible="true"
 				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
 
-				<p:column headerText="Mês/Ano"
+				<p:column headerText="Data"
 					style="width: 10px; text-align: center">
-					<h:outputText value="#{despesa.mesAno}">
+					<h:outputText value="#{despesa.data}">
 						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>

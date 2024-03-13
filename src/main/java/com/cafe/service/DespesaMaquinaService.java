@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import com.cafe.dao.DespesaMaquinaDAO;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
-import com.cafe.modelo.enums.TipoCombustivel;
 import com.cafe.modelo.enums.TipoConsumo;
 import com.cafe.modelo.to.DespesaDTO;
 import com.cafe.modelo.to.DespesaTO;
@@ -74,22 +73,22 @@ public class DespesaMaquinaService implements Serializable {
 				valor = despesaMaquina.getMaquina().getPotencia()
 						.multiply(despesaMaquina.getFatorPotencia().getValor().divide(new BigDecimal(100)))
 						.multiply(new BigDecimal(0.15)).multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-						.multiply(despesaMaquina.getHorasTrabalhadas());
+						.multiply(despesaMaquina.getMinutosTrabalhados().divide(new BigDecimal(60), RoundingMode.DOWN));
 			} else {
 				valor = despesaMaquina.getMaquina().getPotencia().multiply(new BigDecimal(0.15))
 						.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-						.multiply(despesaMaquina.getHorasTrabalhadas());
+						.multiply(despesaMaquina.getMinutosTrabalhados().divide(new BigDecimal(60), RoundingMode.DOWN));
 			}
 			break;
 		case ENERGIA_ELETRICA:
 			valor = despesaMaquina.getMaquina().getPotencia().multiply(new BigDecimal(0.15))
 			.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-			.multiply(despesaMaquina.getHorasTrabalhadas());
+			.multiply(despesaMaquina.getMinutosTrabalhados().divide(new BigDecimal(60), RoundingMode.DOWN));
 			break;
 		case ETANOL:
 		case GASOLINA:
 			if(despesaMaquina.getMaquina().getTipoConsumo() == TipoConsumo.TEMPO) {
-				valor = despesaMaquina.getHorasTrabalhadas()
+				valor = despesaMaquina.getMinutosTrabalhados().divide(new BigDecimal(60), RoundingMode.DOWN)
 						.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
 						.multiply(despesaMaquina.getLitrosConsumidos());
 			}else {
