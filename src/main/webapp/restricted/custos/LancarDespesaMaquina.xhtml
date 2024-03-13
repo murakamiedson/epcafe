@@ -23,16 +23,16 @@
 
 				<p:outputLabel for="month" value="Data" />
 				<p:datePicker id="month"
-					value="#{lancarDespesaMaquinaBean.despesaMaquina.data}" pattern="dd/MM/yyyy"
-					type="localDate" yearNavigator="true" 
-					monthNavigator="true" yearRange="#{lancarDespesaMaquinaBean.yearRange}"
-					required="true" showIcon="true"
-					validatorMessage="A data é obrigatória.">
+					value="#{lancarDespesaMaquinaBean.despesaMaquina.data}"
+					pattern="dd/MM/yyyy" type="localDate" yearNavigator="true"
+					monthNavigator="true"
+					yearRange="#{lancarDespesaMaquinaBean.yearRange}" required="true"
+					showIcon="true" validatorMessage="A data é obrigatória.">
 				</p:datePicker>
 
-				
-			
-				
+
+
+
 				<p:outputLabel value="Máquina" for="maquina" />
 				<h:panelGroup>
 					<p:selectOneMenu id="maquina"
@@ -42,7 +42,9 @@
 						<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}"
 							var="maquina" itemLabel="#{maquina.nome}" itemValue="#{maquina}" />
 
-						<p:ajax update="tipo comb calc preco fator ht litros distancia preco" process="maquina" />
+						<p:ajax
+							update="tipo comb calc preco fator ht litros distancia preco precoLabel"
+							process="maquina" />
 					</p:selectOneMenu>
 					<p:spacer width="10px" />
 					<p:outputLabel id="tipo"
@@ -55,7 +57,9 @@
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo}" />
 				</h:panelGroup>
 
-				<p:outputLabel value="Preço (l/kwh)" />
+				<p:outputLabel id="precoLabel"
+					value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel 
+						eq 'ENERGIA_ELETRICA' ? 'Preço (t/kwh)' : 'Preço (l/kwh)'}" />
 				<p:inputNumber id="preco" symbol="R$ " symbolPosition="p"
 					decimalSeparator="," thousandSeparator="." minValue="0"
 					decimalPlaces="2"
@@ -86,15 +90,15 @@
 					decimalPlaces="2" required="true"
 					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo eq 'QUILOMETRO'}">
 				</p:inputNumber>
-				
+
 				<p:outputLabel value="Litros Consumidos" for="litros" />
 				<p:inputNumber id="litros"
 					value="#{lancarDespesaMaquinaBean.despesaMaquina.litrosConsumidos}"
 					decimalSeparator="," thousandSeparator="." minValue="0"
-					decimalPlaces="2" 
+					decimalPlaces="2" symbol=" L" symbolPosition="s"
 					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo ne 'TEMPO'}">
 				</p:inputNumber>
-				
+
 				<p:outputLabel value="Distância Trabalhada" for="distancia" />
 				<p:inputNumber id="distancia"
 					value="#{lancarDespesaMaquinaBean.despesaMaquina.distanciaTrabalhada}"
@@ -121,8 +125,7 @@
 				rows="10" paginator="true" paginatorAlwaysVisible="true"
 				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
 
-				<p:column headerText="Data"
-					style="width: 10px; text-align: center">
+				<p:column headerText="Data" style="width: 10px; text-align: center">
 					<h:outputText value="#{despesa.data}">
 						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 					</h:outputText>
