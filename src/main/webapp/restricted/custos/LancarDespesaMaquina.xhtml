@@ -42,7 +42,7 @@
 						<f:selectItems value="#{lancarDespesaMaquinaBean.maquinas}"
 							var="maquina" itemLabel="#{maquina.nome}" itemValue="#{maquina}" />
 
-						<p:ajax update="tipo comb calc preco fator ht litros distancia" process="maquina" />
+						<p:ajax update="tipo comb calc preco fator ht litros distancia preco" process="maquina" />
 					</p:selectOneMenu>
 					<p:spacer width="10px" />
 					<p:outputLabel id="tipo"
@@ -61,7 +61,8 @@
 					decimalPlaces="2"
 					value="#{lancarDespesaMaquinaBean.despesaMaquina.precoUnitarioCombustivel}"
 					required="true"
-					validatorMessage="O preço do combustível é obrigatório.">
+					validatorMessage="O preço do combustível é obrigatório."
+					disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel eq 'NENHUM'}">
 				</p:inputNumber>
 
 
