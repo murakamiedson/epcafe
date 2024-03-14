@@ -44,6 +44,8 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	private List<DespesaMaquina> despesas = new ArrayList<>();
 	private Long tenantId;
 	
+	private String nomeMaquina;
+	
 	private String yearRange;
 	
 	@Inject
@@ -64,7 +66,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		log.info("inicializar login = " + loginBean.getUsuario());
 		
 		this.yearRange = this.calcUtil.getAnoCorrente();
-		maquinas = maquinaService.buscarMaquinas(loginBean.getTenantId());
+		maquinas = maquinaService.buscarMaquinasAlfabetico(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
 		despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());		
 
@@ -89,6 +91,8 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		this.limpar();
  	
     }
+    
+    
     
     public void excluirDespesa() {
     	try {
