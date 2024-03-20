@@ -1,17 +1,15 @@
 package com.cafe.service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import com.cafe.dao.DespesaFertilizanteDAO;
-import com.cafe.modelo.DespesaFertilizante;
-import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.DespesaFerTalhao;
-import com.cafe.modelo.Talhao;
+import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Talhao;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -43,7 +41,7 @@ public class DespesaFertilizanteService implements Serializable {
 		List<Talhao> talhoesUnidade = talhaoService.buscarTalhoesPorUnidade(propriedade, propriedade.getTenant_id());
 		
 		// se não existir distribuicao buscar os talhoes e criar uma qdeTalhao para cada
-		if(despesaFertilizante.getQdesTalhoes() == null && talhoesUnidade.size() > 0) {
+		/*if(despesaFertilizante.getQdesTalhoes() == null && talhoesUnidade.size() > 0) {
 						
 			despesaFertilizante.setQdesTalhoes(new ArrayList<DespesaFerTalhao>());
 			
@@ -57,7 +55,7 @@ public class DespesaFertilizanteService implements Serializable {
 			
 			
 			log.info("talhoes adicionados " + despesaFertilizante.getQdesTalhoes().size());
-		}
+		}*/
 		return despesaFertilizante;
 	}
 
@@ -74,13 +72,7 @@ public class DespesaFertilizanteService implements Serializable {
 		despesaFertilizanteDAO.excluirQuantidadeTalhao(despesaFerTalhao);
 	}
 	
-	public NotaFiscal salvarNotaFiscal(NotaFiscal notaFiscal) throws NegocioException {
-		return this.despesaFertilizanteDAO.salvarNotaFiscal(notaFiscal);
-	}
 	
-	public void excluirNotaFiscal(NotaFiscal notaFiscal) throws NegocioException {
-		this.despesaFertilizanteDAO.excluirNotaFiscal(notaFiscal);
-	}
 
 	public DespesaFertilizante buscarPeloCodigo(long codigo) {
 		return despesaFertilizanteDAO.buscarPeloCodigo(codigo);
@@ -92,13 +84,6 @@ public class DespesaFertilizanteService implements Serializable {
 		return despesaFertilizanteDAO.buscarDespesasFertilizantes(tenantId);
 	}
 	
-	public List<NotaFiscal> buscarNotasFiscais(Long tenantId) {
-		
-		return despesaFertilizanteDAO.buscarNotasFiscais(tenantId);
-	}
 	
-	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Long tenantId) {
-		return despesaFertilizanteDAO.buscarNotaFiscalPorNumero(numero, tenantId);
-	}
 
 }

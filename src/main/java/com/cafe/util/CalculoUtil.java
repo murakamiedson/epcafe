@@ -5,14 +5,12 @@ import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 
-import lombok.extern.log4j.Log4j;
-
 /**
  * @author murakamiadmin
  *
  */
 
-@Log4j
+
 public class CalculoUtil implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -43,7 +41,6 @@ public class CalculoUtil implements Serializable{
 		int dezAnosAntes = anoCorrente - 100;
 
 		String yearRange = dezAnosAntes + ":" + anoCorrente;
-		log.info(yearRange);
 		return yearRange;
 	}
 

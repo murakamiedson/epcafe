@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.PositiveOrZero;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,8 +29,13 @@ public class DespesaFerTalhao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private Long tenantId;
 	
-	private BigDecimal quantidade;
+	@PositiveOrZero
+	private int quantidade;
+	
+	@PositiveOrZero
+	private BigDecimal valor;
 	
 	@ManyToOne
 	private Talhao talhao;

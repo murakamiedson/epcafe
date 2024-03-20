@@ -22,6 +22,7 @@ import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.DespesaFertilizanteService;
 import com.cafe.service.FertilizanteService;
+import com.cafe.service.NotaFiscalService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -60,6 +61,9 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 	@Inject
 	private DespesaFertilizanteService despesaService;
+	
+	@Inject
+	private NotaFiscalService notaFiscalService;
 
 	@PostConstruct
 	public void inicializar() {
@@ -80,15 +84,15 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		log.info("salvar ...1" + despesaFertilizante);
 		if(numeroNF != null && !numeroNF.isEmpty()) {
 			despesaFertilizante
-				.setNotaFiscal(this.despesaService.buscarNotaFiscalPorNumero(numeroNF, loginBean.getTenantId()));
+				.setNotaFiscal(this.notaFiscalService.buscarNotaFiscalPorNumero(numeroNF, loginBean.getTenantId()));
 		}
 
 		log.info("salvar ...2" + despesaFertilizante);
-
+/*
 		if (despesaFertilizante.getQdesTalhoes() == null) {
 			despesaFertilizante = this.despesaService.criarDistribuicao(despesaFertilizante,
 					loginBean.getUsuario().getPropriedade());
-		}
+		}*/
 
 		log.info("salvar ...3" + despesaFertilizante);
 		try {
@@ -128,7 +132,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		// List<String> countryList = new ArrayList<>();
 		List<String> notasFiscaisList = new ArrayList<>();
 		// List<Country> countries = countryService.getCountries();
-		List<NotaFiscal> notasFiscais = this.despesaService.buscarNotasFiscais(loginBean.getTenantId());
+		List<NotaFiscal> notasFiscais = this.notaFiscalService.buscarNotasFiscais(loginBean.getTenantId());
 		for (NotaFiscal notaFiscal : notasFiscais) {
 			notasFiscaisList.add(notaFiscal.getNumero());
 		}
@@ -166,7 +170,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		try {
 			log.info("numero da nf:" + notaFiscal);
 			notaFiscal.setTenant_id(loginBean.getTenantId());
-			notaFiscal = this.despesaService.salvarNotaFiscal(notaFiscal);
+			this.notaFiscalService.salvar(notaFiscal);
 			MessageUtil.sucesso("Nota Fiscal salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -178,7 +182,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void excluirNotaFiscal() {
 		try {
 			log.info("excluindo nota fiscal...");
-			despesaService.excluirNotaFiscal(notaFiscal);
+			notaFiscalService.excluir(notaFiscal);
 			MessageUtil.sucesso("Nota Fiscal " + notaFiscal.getId() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();

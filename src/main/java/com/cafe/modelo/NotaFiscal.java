@@ -1,8 +1,10 @@
 package com.cafe.modelo;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -42,12 +44,14 @@ public class NotaFiscal {
 	
 	private String descricao;
 	
-	@Positive
-	private BigDecimal valorTotal;
+	
+	private LocalDate dataEmissao;
 	
 	@Lob
 	private byte[] imagem;
 	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="notaFiscal")
+	private List<Item> itens;
 	/*
 	 * Datas de Criação e Modificação
 	 */
