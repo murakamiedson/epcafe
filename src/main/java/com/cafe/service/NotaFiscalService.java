@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.cafe.dao.FertilizanteDAO;
 import com.cafe.dao.NotaFiscalDAO;
+import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
 
@@ -15,9 +17,14 @@ public class NotaFiscalService implements Serializable {
 
 	@Inject
 	private NotaFiscalDAO notaFiscalDAO;
+	@Inject
+	private FertilizanteDAO fertilizanteDAO;
 
-	public void salvar(NotaFiscal notaFiscal) throws NegocioException {
-		this.notaFiscalDAO.salvar(notaFiscal);
+	public NotaFiscal salvar(NotaFiscal notaFiscal) throws NegocioException {
+		return this.notaFiscalDAO.salvar(notaFiscal);
+	}
+	public void atualizarNota(NotaFiscal notaFiscal) throws NegocioException {
+		this.notaFiscalDAO.atualizarNota(notaFiscal);
 	}
 
 	public void excluir(NotaFiscal notaFiscal) throws NegocioException {
@@ -31,6 +38,11 @@ public class NotaFiscalService implements Serializable {
 
 	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Long tenantId) {
 		return notaFiscalDAO.buscarNotaFiscalPorNumero(numero, tenantId);
+	}
+	
+	public List<Fertilizante> buscarFertilizantes(Long tenantId) {
+
+		return fertilizanteDAO.buscarFertilizantes(tenantId);
 	}
 
 

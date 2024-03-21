@@ -1,7 +1,9 @@
 package com.cafe.modelo;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,11 +22,15 @@ import com.cafe.modelo.enums.Medida;
 import com.cafe.modelo.enums.TipoAuxiliarInsumos;
 import com.cafe.modelo.enums.TipoInsumo;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+@Getter
+@Setter
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "Fertilizante.buscarFertilizantes", 
@@ -34,6 +41,7 @@ import lombok.EqualsAndHashCode;
 })
 public class Fertilizante {
 
+	@ToString.Include
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +57,9 @@ public class Fertilizante {
 
 	@Enumerated(EnumType.STRING)
 	private TipoAuxiliarInsumos tipo;
+	
+	@OneToMany(mappedBy = "fertilizante", cascade = CascadeType.ALL)
+	private List<Item> itens;
 
 	/*
 	 * Datas de Criação e Modificação

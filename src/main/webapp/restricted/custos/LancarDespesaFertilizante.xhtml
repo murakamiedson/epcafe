@@ -22,7 +22,7 @@
 
 				<p:outputLabel for="month" value="Mês/Ano" />
 				<p:datePicker id="month" view="month"
-					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.mesAno}" pattern="MM/yyyy"
+					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.data}" pattern="MM/yyyy"
 					type="localDate" yearNavigator="true" yearRange="2000:2030"
 					showIcon="true" required="true"
 					validatorMessage="A data é obrigatória.">
@@ -109,7 +109,7 @@
 
 				<p:column headerText="Mês/Ano"
 					style="width: 5px; text-align: center">
-					<h:outputText value="#{despesa.mesAno}">
+					<h:outputText value="#{despesa.data}">
 						<f:convertDateTime type="localDate" pattern="MM/yyyy" />
 					</h:outputText>
 				</p:column>

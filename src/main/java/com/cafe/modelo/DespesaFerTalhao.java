@@ -2,7 +2,6 @@ package com.cafe.modelo;
 
 import java.math.BigDecimal;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,15 +31,17 @@ public class DespesaFerTalhao {
 	private Long tenantId;
 	
 	@PositiveOrZero
-	private int quantidade;
+	private int quantidade = 0;
 	
 	@PositiveOrZero
-	private BigDecimal valor;
+	private BigDecimal valor = new BigDecimal(0);
 	
 	@ManyToOne
+	@JoinColumn(name = "codigo_despesa", nullable = false)
+	private DespesaFertilizante despesafertilizante;
+	
+	@ManyToOne
+	@JoinColumn(name = "codigo_talhao", nullable = false)
 	private Talhao talhao;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
-	@JoinColumn(name="codigo_despesa_fertilizante")
-	private DespesaFertilizante despesaFertilizante;	
 }

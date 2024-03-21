@@ -170,7 +170,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		try {
 			log.info("numero da nf:" + notaFiscal);
 			notaFiscal.setTenant_id(loginBean.getTenantId());
-			this.notaFiscalService.salvar(notaFiscal);
+			this.notaFiscalService.salvar(notaFiscal); //TODO
 			MessageUtil.sucesso("Nota Fiscal salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();

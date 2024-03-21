@@ -1,56 +1,48 @@
 package com.cafe.modelo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.PositiveOrZero;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+@Getter
+@Setter
 @Entity
-public class Item {
+public class Item implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	@ToString.Include
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@PositiveOrZero
-	private int quantidade;
+	private int quantidade = 0;
 	
 	@PositiveOrZero
-	private BigDecimal valor;
+	private BigDecimal valor = new BigDecimal(0);
 	
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(name = "codigo_fertilizante", nullable = false)
 	private Fertilizante fertilizante;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
-	@JoinColumn(name="codigo_notafiscal")
+	@ManyToOne
+	@JoinColumn(name= "codigo_nota", nullable = false)
 	private NotaFiscal notaFiscal;
 	
-	/*
-	 * Datas de Criação e Modificação
-	 */
-	
-	@CreationTimestamp	
-	@Column(columnDefinition = "datetime")
-	private OffsetDateTime dataCriacao;
-	
-	@UpdateTimestamp
-	@Column(columnDefinition = "datetime")
-	private OffsetDateTime dataModificacao;
 }

@@ -1,5 +1,6 @@
 package com.cafe.modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -19,11 +20,15 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+@Getter
+@Setter
 @Entity
 @NamedQueries({
 	@NamedQuery(name="NotaFiscal.buscarNotasFiscais", 
@@ -31,27 +36,31 @@ import lombok.EqualsAndHashCode;
 	@NamedQuery(name="NotaFiscal.buscarNotaFiscalPorNumero",
 			query="select u from NotaFiscal u where u.numero = :numero and u.tenant_id = :tenantId")
 })
-public class NotaFiscal {
+public class NotaFiscal implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	
+	@ToString.Include
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
-	private Long tenant_id;
-	
+	private Long tenant_id;	
 	@NotNull
-	private String numero;
-	
-	private String descricao;
-	
-	
-	private LocalDate dataEmissao;
-	
+	private String numero;	
+	private String descricao;	
+	private LocalDate dataEmissao;	
 	@Lob
 	private byte[] imagem;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="notaFiscal")
+	//@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	//@Fetch(value = FetchMode.JOIN)
+    //@JoinTable(name="Item", joinColumns={@JoinColumn(name="codigo_nota")}, 
+    //						inverseJoinColumns={@JoinColumn(name="codigo_fertilizante")})
+	
+	@OneToMany( mappedBy = "notaFiscal", cascade = CascadeType.ALL)
 	private List<Item> itens;
+	
 	/*
 	 * Datas de Criação e Modificação
 	 */
