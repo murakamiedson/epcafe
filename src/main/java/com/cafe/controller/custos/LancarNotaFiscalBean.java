@@ -79,7 +79,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		notaFiscal = new NotaFiscal();
 		notaFiscal.setItens(new ArrayList<Item>());
 		notaFiscal.setTenant_id(loginBean.getTenantId());
-		nfGravada = false;
+		//nfGravada = false;
 	}
 
 	public void limparItem() {
@@ -127,22 +127,7 @@ public class LancarNotaFiscalBean implements Serializable {
 
 		log.info("gravada nf id = " + this.notaFiscal.getId());
 		log.info("nfGravada  = " + nfGravada);
-	}
-	public void atualizarNota() {
-
-		log.info("atualizar nota " + notaFiscal.getId());
-		
-		try {
-			this.notaFiscalService.atualizarNota(notaFiscal);
-			this.notas = buscarNotas();
-			nfGravada = true;
-
-			MessageUtil.sucesso("Nota Fiscal atualizada com sucesso!");
-		} catch (NegocioException e) {
-			e.printStackTrace();
-			MessageUtil.erro(e.getMessage());
-		}
-	}
+	}	
 
 	private List<NotaFiscal> buscarNotas() {
 		return this.notaFiscalService.buscarNotasFiscais(loginBean.getTenantId());

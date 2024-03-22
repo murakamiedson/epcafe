@@ -12,9 +12,6 @@ import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
-import lombok.extern.log4j.Log4j;
-
-@Log4j
 public class NotaFiscalDAO implements Serializable {
 	
 private static final long serialVersionUID = 1L;
@@ -42,36 +39,7 @@ private static final long serialVersionUID = 1L;
 			throw new NegocioException("Não foi possível executar a operação.");
 		}		
 	}
-	@Transactional
-	public void atualizarNota(NotaFiscal notaFiscal) throws PersistenceException, NegocioException {
-		// garatir que uma nf so é gravada se tiver itens
-		salvarItens(notaFiscal, notaFiscal.getItens());	
-	}
-	private void salvarItens(NotaFiscal notaFiscal, List<Item> itens) throws PersistenceException, NegocioException {
-		try {
-			if(!itens.isEmpty() && itens != null) {
-				for(Item item : itens) {
-					log.info("gravando item -> " + item.getFertilizante().getTipo());
-					log.info("gravando item nf id -> " + notaFiscal.getId());
-					item.setNotaFiscal(notaFiscal);
-					manager.merge(item);
-				}
-			}					
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			throw e;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Error e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		}		
-	}	
-		
+	
 	@Transactional
 	public void excluir(NotaFiscal notaFiscal) throws NegocioException {
 			

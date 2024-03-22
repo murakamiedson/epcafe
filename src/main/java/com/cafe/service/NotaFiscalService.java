@@ -22,10 +22,7 @@ public class NotaFiscalService implements Serializable {
 
 	public NotaFiscal salvar(NotaFiscal notaFiscal) throws NegocioException {
 		return this.notaFiscalDAO.salvar(notaFiscal);
-	}
-	public void atualizarNota(NotaFiscal notaFiscal) throws NegocioException {
-		this.notaFiscalDAO.atualizarNota(notaFiscal);
-	}
+	}	
 
 	public void excluir(NotaFiscal notaFiscal) throws NegocioException {
 		this.notaFiscalDAO.excluir(notaFiscal);
