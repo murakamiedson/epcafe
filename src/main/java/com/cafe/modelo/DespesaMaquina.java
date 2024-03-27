@@ -60,6 +60,7 @@ public class DespesaMaquina {
 	@Enumerated(EnumType.STRING)
 	private FatorPotencia fatorPotencia;
 	
+	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_propriedade")
 	private Propriedade propriedade;
 	
