@@ -11,7 +11,7 @@
 
 		<h2>Notas Fiscais</h2>
 
-		<h:form id="form">
+		<h:form enctype="multipart/form-data" id="form">
 			
 			<p:toolbar id="toolbar">
 				<p:toolbarGroup>
@@ -139,6 +139,7 @@
 					<p:outputLabel for="imagem" value="Imagem" />
 					<p:fileUpload id="imagem"
 						value="#{lancarNotaFiscalBean.uploadedFile}" mode="simple" />
+						
 						
 					<p:commandButton value="Salvar" id="botaoSalvarIni" icon="pi pi-save"
 						rendered="#{!lancarNotaFiscalBean.nfGravada}"

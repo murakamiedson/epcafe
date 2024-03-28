@@ -34,7 +34,9 @@ import lombok.ToString;
 	@NamedQuery(name="NotaFiscal.buscarNotasFiscais", 
 			query="select u from NotaFiscal u where u.tenant_id = :tenantId"),
 	@NamedQuery(name="NotaFiscal.buscarNotaFiscalPorNumero",
-			query="select u from NotaFiscal u where u.numero = :numero and u.tenant_id = :tenantId")
+			query="select u from NotaFiscal u where u.numero = :numero and u.tenant_id = :tenantId"),
+	@NamedQuery(name="NotaFiscal.buscarNotaFiscalPorTipoFertilizante",
+			query="select u from NotaFiscal u where u.tenant_id = :tenantId")
 })
 public class NotaFiscal implements Serializable{
 

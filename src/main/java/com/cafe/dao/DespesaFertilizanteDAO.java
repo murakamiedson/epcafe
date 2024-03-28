@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.DespesaFertilizante;
-import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
@@ -47,7 +46,6 @@ public class DespesaFertilizanteDAO implements Serializable {
 			throw new NegocioException("Não foi possível executar a operação.");
 		}
 	}
-
 
 	@Transactional
 	public void excluir(DespesaFertilizante despesaFertilizante) throws NegocioException {
@@ -91,7 +89,7 @@ public class DespesaFertilizanteDAO implements Serializable {
 			throw new NegocioException("Não foi possível executar a operação.");
 		}
 	}
-	
+
 	@Transactional
 	public void excluirQuantidadeTalhao(DespesaFerTalhao despesaFerTalhao) throws NegocioException {
 
@@ -114,49 +112,9 @@ public class DespesaFertilizanteDAO implements Serializable {
 			throw new NegocioException("Não foi possível executar a operação.");
 		}
 	}
+
 	
-	@Transactional
-	public NotaFiscal salvarNotaFiscal(NotaFiscal notaFiscal)
-			throws PersistenceException, NegocioException {
-		try {
-			return manager.merge(notaFiscal);
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			throw e;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Error e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		}
-	}
-	
-	@Transactional
-	public void excluirNotaFiscal(NotaFiscal notaFiscal) throws NegocioException{
-		try {
-			log.info("excluir nota fiscal");
-			DespesaFertilizante m = this.buscarPeloCodigo(notaFiscal.getId());
-			manager.remove(m);
-			manager.flush();
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		} catch (Error e) {
-			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
-		}
-	}
-	
+
 	/*
 	 * Buscas
 	 */
@@ -169,21 +127,6 @@ public class DespesaFertilizanteDAO implements Serializable {
 	public List<DespesaFertilizante> buscarDespesasFertilizantes(Long tenantId) {
 		return manager.createNamedQuery("DespesaFertilizante.buscarDespesasFertilizantes")
 				.setParameter("tenantId", tenantId).getResultList();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<NotaFiscal> buscarNotasFiscais(Long tenantId) {
-		return manager.createNamedQuery("NotaFiscal.buscarNotasFiscais")
-				.setParameter("tenantId", tenantId)
-				.getResultList();
-	}
-	
-	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Long tenantId) {
-		log.info(numero);
-		return manager.createNamedQuery("NotaFiscal.buscarNotaFiscalPorNumero", NotaFiscal.class)
-				.setParameter("numero", numero)
-				.setParameter("tenantId", tenantId)
-				.getSingleResult();
 	}
 
 }

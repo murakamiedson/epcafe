@@ -12,8 +12,11 @@ import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class NotaFiscalDAO implements Serializable {
-	
+
 private static final long serialVersionUID = 1L;
 	
 	@Inject
@@ -88,6 +91,29 @@ private static final long serialVersionUID = 1L;
 				.setParameter("numero", numero)
 				.setParameter("tenantId", tenantId)
 				.getSingleResult();
+	}
+	
+	public List<NotaFiscal> buscarNotasFiscaisPorFertilizante(Long codigoFertilizante, Long tenantId) {
+		/*
+		 * SELECT * FROM epcafe.notafiscal nf INNER JOIN item i ON i.codigo_nota = nf.id
+		 * WHERE i.codigo_fertilizante = 4;
+		 */
+		
+		
+		
+		List<NotaFiscal> lista = manager.createQuery(
+			    "SELECT DISTINCT n " + 
+			    "FROM NotaFiscal n " +
+			    "INNER JOIN n.itens i " +
+			    "WHERE i.fertilizante.id = :codigoFertilizante " +
+			    "AND n.tenant_id = :tenantId", NotaFiscal.class)
+			.setParameter("codigoFertilizante", codigoFertilizante)
+			.setParameter("tenantId", tenantId)
+			.getResultList();
+		
+		log.info(lista);
+		
+		return lista;
 	}
 	
 }

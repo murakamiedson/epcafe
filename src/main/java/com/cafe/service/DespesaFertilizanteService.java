@@ -1,6 +1,7 @@
 package com.cafe.service;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,6 +9,9 @@ import javax.inject.Inject;
 import com.cafe.dao.DespesaFertilizanteDAO;
 import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.modelo.DespesaFertilizante;
+import com.cafe.modelo.Fertilizante;
+import com.cafe.modelo.Item;
+import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.Propriedade;
 import com.cafe.modelo.Talhao;
 import com.cafe.util.NegocioException;
@@ -83,6 +87,25 @@ public class DespesaFertilizanteService implements Serializable {
 		log.info("Primeiro acesso a banco... buscar despesas com Fertilizantes");
 		return despesaFertilizanteDAO.buscarDespesasFertilizantes(tenantId);
 	}
+	
+	public BigDecimal calcularValorTalhao(DespesaFerTalhao qdeTalhao) {
+		
+		BigDecimal valor = new BigDecimal(0);
+		
+		
+		return valor;
+	}
+	
+	public boolean validarNotaSelecionada(NotaFiscal nf, Fertilizante fertilizante) {
+		for(Item item : nf.getItens()) {
+			if(item.getFertilizante() == fertilizante) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	
 	
 

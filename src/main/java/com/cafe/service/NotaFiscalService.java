@@ -41,6 +41,10 @@ public class NotaFiscalService implements Serializable {
 
 		return fertilizanteDAO.buscarFertilizantes(tenantId);
 	}
-
+	
+	public List<NotaFiscal> buscarNotaFiscalPorFertilizante(Long codigoFertilizante, Long tenantId){
+		
+		return this.notaFiscalDAO.buscarNotasFiscaisPorFertilizante(codigoFertilizante, tenantId);
+	}
 
 }

@@ -111,7 +111,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		log.info("ID nota fiscal " + notaFiscal.getId());
 		log.info("NR nota fiscal " + notaFiscal.getNumero());
 
-		// log.info(this.uploadedFile.getFileName());
+		log.info(this.uploadedFile.getFileName());
 
 		try {
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
