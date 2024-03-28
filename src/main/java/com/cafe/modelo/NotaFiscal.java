@@ -1,6 +1,7 @@
 package com.cafe.modelo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -11,11 +12,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -52,8 +53,9 @@ public class NotaFiscal implements Serializable{
 	private String numero;	
 	private String descricao;	
 	private LocalDate dataEmissao;	
-	@Lob
-	private byte[] imagem;
+	private String fileName;
+	@PositiveOrZero
+	private BigDecimal valorTotal = new BigDecimal(0);
 	
 	//@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	//@Fetch(value = FetchMode.JOIN)
