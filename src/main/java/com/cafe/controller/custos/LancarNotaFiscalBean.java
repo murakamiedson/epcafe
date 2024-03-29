@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,13 +96,51 @@ public class LancarNotaFiscalBean implements Serializable {
 	public void salvarItem() {
 		try {
 			log.info("nf id = " + notaFiscal.getId());
+			
+			validarTotal();
+			
 			this.item.setNotaFiscal(notaFiscal);
-			this.notaFiscal.getItens().add(item);
+			if(item.getId() == null) {
+				this.notaFiscal.getItens().add(item);
+				MessageUtil.sucesso("Item adicionado com sucesso!");
+				limparItem();
+			}
+			else {
+				MessageUtil.sucesso("Item alterado com sucesso!");
+			}
 			log.info("size item --> " + this.notaFiscal.getItens().size());
-			MessageUtil.sucesso("Item adicionado com sucesso!");
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			MessageUtil.alerta(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 			MessageUtil.erro("Um problema ocorreu, o item não foi adicionado!");
+		}
+		
+	}
+	private void validarTotal() throws NegocioException {		
+		if(valorTotalItens() > notaFiscal.getValorTotal().longValue()) {
+			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!");
+		}	
+	}
+	public long valorTotalItens() {
+		BigDecimal total = new BigDecimal(0);
+		for(Item i : notaFiscal.getItens()) {
+			total = total.add(new BigDecimal(i.getQuantidade()).multiply(i.getValor()));			
+		}
+		return total.longValue();
+	}
+	
+	public void excluirItem() {
+		try {
+			log.info("remover item nr  = " + item.getId());			
+			this.notaFiscal.getItens().remove(item);
+			//notaFiscal = this.notaFiscalService.salvar(notaFiscal);
+			//this.notas = buscarNotas();
+			MessageUtil.sucesso("Item excluído com sucesso!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			MessageUtil.erro("Um problema ocorreu, o item não foi excluído!");
 		}
 		limparItem();
 	}
@@ -111,7 +150,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		log.info("ID nota fiscal " + notaFiscal.getId());
 		log.info("NR nota fiscal " + notaFiscal.getNumero());
 
-		log.info(this.uploadedFile.getFileName());
+		log.info("arquivo " + this.uploadedFile);
 
 		try {
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
@@ -139,7 +178,7 @@ public class LancarNotaFiscalBean implements Serializable {
 
 		try {
 			notaFiscalService.excluir(notaFiscalSelecionada);
-			this.notas = this.notaFiscalService.buscarNotasFiscais(loginBean.getTenantId());
+			this.notas = buscarNotas();
 			MessageUtil.sucesso("Nota Fiscal " + notaFiscalSelecionada.getNumero() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -154,6 +193,10 @@ public class LancarNotaFiscalBean implements Serializable {
 			log.info("uploaded file:" + event.getFile().getFileName());
 			File file = new File(uploadedFile.getFileName());
 
+			//TODO gravar o caminho do arquivo no sistema 
+			//de arquivos do servidor, fora da aplicação
+			notaFiscal.setFileName(file.getAbsolutePath());
+			
 			OutputStream out = new FileOutputStream(file);
 			out.write(uploadedFile.getContent());
 			out.close();
