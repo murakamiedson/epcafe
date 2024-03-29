@@ -56,22 +56,11 @@
 					<h:outputText value="#{despesa.notaFiscal.numero}" />
 				</p:column>
 
-				<p:column headerText="Quantidades por Talhão"
-					style="width: 30px; text-align:center">
-					<p:commandButton icon="pi pi-info-circle" title="Ver"
-						onclick="PF('divisaoTalhoes').show();" process="@this">
-						<f:setPropertyActionListener
-							target="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
-							value="#{despesa}" />
-					</p:commandButton>
-				</p:column>
-
-
-
+				
 				<p:column headerText="Operações"
 					style="width: 10px; text-align: center">
 
-					<p:commandButton value="Editar" title="Editar despesa"
+					<p:commandButton title="Editar despesa"
 						icon="pi pi-pencil"	            	
 		            	oncomplete="PF('addDialogWidgetVar').show()"
 		            	update="form:addDialog form:qdesTalhaoTable" 
@@ -109,22 +98,6 @@
 					action="#{lancarDespesaFertilizanteBean.excluirDespesa}" />
 			</p:confirmDialog>
 
-
-			<p:dialog id="divisaoTalhoesDialog" widgetVar="divisaoTalhoes"
-				minHeight="200" width="400"
-				header="Distribuição de quantidades por talhão">
-
-				<div class="card">
-					<p:dataTable id="talhoesTable"
-						value="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
-						var="qde" style="margin-top: 20px"
-						emptyMessage="Nenhum talhão encontrado.">
-
-						
-
-					</p:dataTable>
-				</div>
-			</p:dialog>
 
 			<p:dialog id="addDialog" widgetVar="addDialogWidgetVar"
 				header="Cadastro de Despesa com Fertilizante" modal="true"
@@ -194,7 +167,6 @@
 
 				</p:panelGrid>
 					<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
-						rendered="#{!lancarDespesaFertilizanteBean.despesaGravada}"
 						style="margin-top: 10px; margin-bottom: 10px"
 						actionListener="#{lancarDespesaFertilizanteBean.salvar}" 
 						update="despesasTable messages qdesTalhaoTable"
@@ -239,15 +211,6 @@
 						</p:cellEditor>
 					</p:column>
 					
-					<p:cellEditor>
-                <f:facet name="output"><h:outputText value="#{car.id}" /></f:facet>
-                <f:facet name="input"><p:inputText value="#{car.year}" style="width:100%" label="Year"/></f:facet>
-            </p:cellEditor>
-					
-					<p:column headerText="Valor" sortBy="#{despesaTalhao.valor}"
-						style="width: 30px; text-align: left">
-						<h:outputText value="#{despesaTalhao.valor}" />
-					</p:column>
 				</p:dataTable>
 				<p:toolbar id="tbQdeTalhao" >
 				<p:toolbarGroup>
@@ -257,12 +220,11 @@
 							actionListener="#{lancarDespesaFertilizanteBean.salvarQuantidadeTalhao}"
 							style="margin-top: 10px; margin-bottom: 10px"
 							update="despesasTable messages"
-							process="@this gridDespesa"/>
+							process="@this gridDespesa qdesTalhaoTable"/>
 	
 						<p:spacer width="10px" />
 		
 						<p:commandButton value="Limpar" id="botaoLimparQdeTalhao" icon="pi pi-save"
-							rendered="#{lancarDespesaFertilizanteBean.despesaGravada}"
 							style="margin-top: 10px; margin-bottom: 10px"
 							action="#{lancarNotaFiscalBean.limpar}" 
 							update="gridDespesa qdesTalhaoTable"
@@ -275,12 +237,8 @@
 							update="despesasTable messages"
 							process="@this" style="margin-top: 10px; margin-bottom: 10px" />
 					</p:toolbarGroup>
-				</p:toolbar>		
-				
-				
-
+				</p:toolbar>
 			</p:dialog>
-			
 
 
 		</h:form>

@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.EqualsAndHashCode;
@@ -63,6 +65,7 @@ public class NotaFiscal implements Serializable{
     //						inverseJoinColumns={@JoinColumn(name="codigo_fertilizante")})
 	
 	@OneToMany( mappedBy = "notaFiscal", cascade = CascadeType.ALL)
+	@Fetch(FetchMode.JOIN)
 	private List<Item> itens;
 	
 	/*

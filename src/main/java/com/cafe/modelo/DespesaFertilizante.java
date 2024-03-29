@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -58,7 +59,7 @@ public class DespesaFertilizante {
 	@JoinColumn(nullable = false)
 	private NotaFiscal notaFiscal;
 		
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name="DespesaFerTalhao", joinColumns={@JoinColumn(name="codigo_despesa")}, 
     									inverseJoinColumns={@JoinColumn(name="codigo_talhao")})

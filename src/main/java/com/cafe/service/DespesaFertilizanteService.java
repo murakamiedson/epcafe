@@ -2,6 +2,7 @@ package com.cafe.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -94,11 +95,12 @@ public class DespesaFertilizanteService implements Serializable {
 		
 		
 		List<Item> itensNota =  qdeTalhao.getDespesafertilizante().getNotaFiscal().getItens();
-		
+		log.info(itensNota);
 		for(Item item : itensNota) {
 			if(item.getFertilizante() == qdeTalhao.getDespesafertilizante().getFertilizante()) {
-				valor = item.getValor().divide(qdeTalhao.getQuantidade());
-			
+				log.info("for 1");
+				valor = item.getValor().divide(qdeTalhao.getQuantidade(), RoundingMode.DOWN);
+			log.info("for 2 " + valor);
 			}
 		}
 		
