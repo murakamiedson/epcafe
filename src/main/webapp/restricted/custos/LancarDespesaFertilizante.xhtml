@@ -173,14 +173,11 @@
 								var="fertilizante" itemLabel="#{fertilizante.tipo}"
 								itemValue="#{fertilizante}" />
 
-							<p:ajax update="medida fertilizanteId" process="fertilizante" />
+							<p:ajax update="medida" process="fertilizante" />
 						</p:selectOneMenu>
 						<p:spacer width="10px" />
 						<p:outputLabel id="medida"
 							value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.medida}" />
-							
-						<h:inputHidden id="fertilizanteId" 
-							value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.id}" />
 		
 					</h:panelGroup>
 

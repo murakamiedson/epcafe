@@ -93,6 +93,15 @@ public class DespesaFertilizanteService implements Serializable {
 		BigDecimal valor = new BigDecimal(0);
 		
 		
+		List<Item> itensNota =  qdeTalhao.getDespesafertilizante().getNotaFiscal().getItens();
+		
+		for(Item item : itensNota) {
+			if(item.getFertilizante() == qdeTalhao.getDespesafertilizante().getFertilizante()) {
+				valor = item.getValor().divide(qdeTalhao.getQuantidade());
+			
+			}
+		}
+		
 		return valor;
 	}
 	

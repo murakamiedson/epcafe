@@ -31,7 +31,7 @@ public class DespesaFerTalhao {
 	private Long tenantId;
 	
 	@PositiveOrZero
-	private int quantidade = 0;
+	private BigDecimal quantidade = new BigDecimal(0);
 	
 	@PositiveOrZero
 	private BigDecimal valor = new BigDecimal(0);
