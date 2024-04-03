@@ -21,7 +21,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-
 public class DespesaFerTalhao {
 	
 	@EqualsAndHashCode.Include

@@ -25,8 +25,10 @@ private static final long serialVersionUID = 1L;
 	@Transactional
 	public NotaFiscal salvar(NotaFiscal notaFiscal) throws PersistenceException, NegocioException {
 		try {	
+			NotaFiscal nf = manager.merge(notaFiscal);
+			manager.flush();
+			return nf;
 			
-			return manager.merge(notaFiscal);			
 		
 		} catch (PersistenceException e) {
 			e.printStackTrace();

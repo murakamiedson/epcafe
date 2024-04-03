@@ -118,7 +118,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 		
 	}
-	private void validarTotal() throws NegocioException {		
+	public void validarTotal() throws NegocioException {		
 		if(valorTotalItens() > notaFiscal.getValorTotal().longValue()) {
 			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!");
 		}	
@@ -135,6 +135,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		try {
 			log.info("remover item nr  = " + item.getId());			
 			this.notaFiscal.getItens().remove(item);
+			log.info("qde  = " + this.notaFiscal.getItens().size());			
 			//notaFiscal = this.notaFiscalService.salvar(notaFiscal);
 			//this.notas = buscarNotas();
 			MessageUtil.sucesso("Item excluído com sucesso!");
@@ -155,7 +156,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		try {
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
 			this.notas = buscarNotas();
-			log.info("notas fiscais = " + notas.size());
+			log.info("qde notas fiscais = " + notas.size());
 			nfGravada = true;
 
 			MessageUtil.sucesso("Nota Fiscal salva com sucesso!");

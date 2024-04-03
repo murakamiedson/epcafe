@@ -19,8 +19,6 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
 
 import com.cafe.modelo.enums.Grupo;
 import com.cafe.modelo.enums.Role;
@@ -40,7 +38,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Audited
 @NamedQueries({
 	// único que é busca geral - usado no login para identificar o tenant
 	@NamedQuery(name="Usuario.buscarPorEmail", query="select u from Usuario u "
@@ -126,7 +123,6 @@ public class Usuario implements Serializable {
 	@JoinColumn(name="codigo_unidade")
 	private Propriedade propriedade;
 	
-	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 	@ManyToOne
 	@JoinColumn(name="tenant_id")
 	private Tenant tenant;

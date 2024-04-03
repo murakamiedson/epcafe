@@ -142,14 +142,21 @@
 					<p:inputTextarea id="descricao" rows="2" cols="40"
 						value="#{lancarNotaFiscalBean.notaFiscal.descricao}"/>
 						
-					<p:outputLabel value="Valor Total" for="total"/>
-					<p:inputNumber id="total"
-						value="#{lancarNotaFiscalBean.notaFiscal.valorTotal}" symbol="R$ "
-						symbolPosition="p" decimalSeparator="," thousandSeparator="."
-						minValue="0" decimalPlaces="2" required="true"
-						validatorMessage="O valor total é obrigatório.">
-					</p:inputNumber>	
-
+					<p:outputLabel value="Total da NF" for="total"/>
+					<h:panelGroup>
+						<p:inputNumber id="total"
+							value="#{lancarNotaFiscalBean.notaFiscal.valorTotal}" symbol="R$ "
+							symbolPosition="p" decimalSeparator="," thousandSeparator="."
+							minValue="0" decimalPlaces="2" required="true"
+							validatorMessage="O valor total é obrigatório.">
+						</p:inputNumber>
+						<p:spacer width="10px" />							
+						<p:outputLabel id="totalItem" value="Total dos Itens = " />	
+						<h:outputText value="#{lancarNotaFiscalBean.notaFiscal.valorTotal}" >
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>	
+					</h:panelGroup>	
+					
 					<p:outputLabel for="imagem" value="Imagem" />
 					<p:fileUpload id="imagem"
 						value="#{lancarNotaFiscalBean.uploadedFile}" mode="simple" />
@@ -234,13 +241,7 @@
 					</p:commandButton>
 				</p:column>
 		
-				</p:dataTable>
-				
-				<p:spacer height="10px" />
-				<p:outputLabel value="Total Itens = " />	
-				<h:outputText value="#{lancarNotaFiscalBean.notaFiscal.valorTotal}" >
-					<f:convertNumber type="currency" currencySymbol="R$"/>
-				</h:outputText>				
+				</p:dataTable>		
 				
 				<p:toolbar id="tbNF" >
 					<p:toolbarGroup>
@@ -250,7 +251,7 @@
 							rendered="#{lancarNotaFiscalBean.nfGravada}"
 							style="margin-top: 10px; margin-bottom: 10px"
 							action="#{lancarNotaFiscalBean.salvar}" 
-							update="notasTable messages"
+							update="notasTable messages totalItem"
 							process="@this gridNota"/>
 	
 						<p:spacer width="10px" />
@@ -325,6 +326,7 @@
 					process="@this gridItem" />
 				<p:spacer width="10px" />
 				<p:commandButton value="Sair" id="botaoSair" icon="pi pi-save"
+					actionListener="#{lancarNotaFiscalBean.validarTotal}"
 					onclick="PF('addItemDialogWidgetVar').hide();"
 					update="itensTable"
 					process="@this" style="margin-top: 10px; margin-bottom: 10px" />
