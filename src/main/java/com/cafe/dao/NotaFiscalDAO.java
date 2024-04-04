@@ -25,11 +25,8 @@ private static final long serialVersionUID = 1L;
 	@Transactional
 	public NotaFiscal salvar(NotaFiscal notaFiscal) throws PersistenceException, NegocioException {
 		try {	
-			NotaFiscal nf = manager.merge(notaFiscal);
-			manager.flush();
-			return nf;
-			
-		
+			return manager.merge(notaFiscal);
+
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;
@@ -69,17 +66,12 @@ private static final long serialVersionUID = 1L;
 	
 	
 	/*
-	 * Buscas
+	 * Buscas NF
 	 */
 	
 	public NotaFiscal buscarNotaFiscalPeloCodigo(Long id) {
 		return manager.find(NotaFiscal.class, id);
 	}
-	
-	public Item buscarItemPeloCodigo(Long id) {
-		return manager.find(Item.class, id);
-	}
-	
 	
 	@SuppressWarnings("unchecked")
 	public List<NotaFiscal> buscarNotasFiscais(Long tenantId) {
@@ -99,9 +91,7 @@ private static final long serialVersionUID = 1L;
 		/*
 		 * SELECT * FROM epcafe.notafiscal nf INNER JOIN item i ON i.codigo_nota = nf.id
 		 * WHERE i.codigo_fertilizante = 4;
-		 */
-		
-		
+		 */		
 		
 		List<NotaFiscal> lista = manager.createQuery(
 			    "SELECT DISTINCT n " + 
@@ -118,4 +108,36 @@ private static final long serialVersionUID = 1L;
 		return lista;
 	}
 	
+	
+	/*
+	 * Item
+	 */
+	
+	
+	public Item buscarItemPeloCodigo(Long id) {
+		return manager.find(Item.class, id);
+	}
+	
+	@Transactional
+	public void excluirItem(Item item) throws NegocioException {
+			
+		try {
+			Item i = this.buscarItemPeloCodigo(item.getId());
+			manager.remove(i);
+			manager.flush();
+			
+		} catch (PersistenceException e) {			
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}
+	}
 }

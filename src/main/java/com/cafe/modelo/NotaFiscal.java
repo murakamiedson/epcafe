@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -27,7 +28,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @Getter
@@ -52,21 +55,27 @@ public class NotaFiscal implements Serializable{
 	private Long id;	
 	private Long tenant_id;	
 	@NotNull
+	@Column(unique=true)
 	private String numero;	
 	private String descricao;	
 	private LocalDate dataEmissao;	
 	private String fileName;
 	@PositiveOrZero
 	private BigDecimal valorTotal = new BigDecimal(0);
-	
-	//@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	//@Fetch(value = FetchMode.JOIN)
-    //@JoinTable(name="Item", joinColumns={@JoinColumn(name="codigo_nota")}, 
-    //						inverseJoinColumns={@JoinColumn(name="codigo_fertilizante")})
-	
+		
 	@OneToMany( mappedBy = "notaFiscal", cascade = CascadeType.ALL)
 	@Fetch(FetchMode.JOIN)
 	private List<Item> itens;
+	
+	@Transient
+	public float getValorItens() {
+		BigDecimal total = new BigDecimal(0);
+		for(Item i : this.getItens()) {
+			total = total.add(new BigDecimal(i.getQuantidade()).multiply(i.getValor()));			
+		}
+		log.info("valorTotalItens : " + total);
+		return total.floatValue();
+	}
 	
 	/*
 	 * Datas de Criação e Modificação

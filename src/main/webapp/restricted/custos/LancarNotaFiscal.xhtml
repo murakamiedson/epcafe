@@ -151,10 +151,13 @@
 							validatorMessage="O valor total é obrigatório.">
 						</p:inputNumber>
 						<p:spacer width="10px" />							
-						<p:outputLabel id="totalItem" value="Total dos Itens = " />	
-						<h:outputText value="#{lancarNotaFiscalBean.notaFiscal.valorTotal}" >
+						<p:outputLabel value="Total dos Itens = " />	
+						<h:outputText id="totalItem" value="#{lancarNotaFiscalBean.notaFiscal.valorItens}" > 
 							<f:convertNumber type="currency" currencySymbol="R$"/>
-						</h:outputText>	
+						</h:outputText>
+						<h:outputText value=" # (#{lancarNotaFiscalBean.notaFiscal.valorTotal - lancarNotaFiscalBean.notaFiscal.valorItens})" > 
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>
 					</h:panelGroup>	
 					
 					<p:outputLabel for="imagem" value="Imagem" />
@@ -198,23 +201,23 @@
 					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
 					
 					<p:column headerText="Fertilizante" sortBy="#{item.fertilizante.tipo}"
-						style="width: 30px; text-align: center">
+						style="width: 100px; text-align: left">
 						<h:outputText value="#{item.fertilizante.tipo}" />
 					</p:column>				
 
 					<p:column headerText="Qde" 
-						style="width: 30px; text-align: left">
+						style="width: 30px; text-align: center">
 						<h:outputText value="#{item.quantidade}" />
 					</p:column>
 				
 					<p:column headerText="Valor Unitário"
-						style="width: 30px; text-align: rigth">
+						style="width: 40px; text-align: right">
 						<h:outputText value="#{item.valor}">
 							<f:convertNumber type="currency" currencySymbol="R$"/>
 						</h:outputText>						
 					</p:column>
 					<p:column headerText="Valor Total"
-						style="width: 30px; text-align: rigth">
+						style="width: 50px; text-align: right">
 						<h:outputText value="#{item.valor * item.quantidade}" >
 							<f:convertNumber type="currency" currencySymbol="R$"/>
 						</h:outputText>
@@ -251,7 +254,7 @@
 							rendered="#{lancarNotaFiscalBean.nfGravada}"
 							style="margin-top: 10px; margin-bottom: 10px"
 							action="#{lancarNotaFiscalBean.salvar}" 
-							update="notasTable messages totalItem"
+							update="notasTable messages gridNota"
 							process="@this gridNota"/>
 	
 						<p:spacer width="10px" />
@@ -267,7 +270,7 @@
 							
 						<p:commandButton value="Sair" id="botaoSairNF" icon="pi pi-save"
 							onclick="PF('addDialogWidgetVar').hide();"
-							update="notasTable messages"
+							update="notasTable messages gridNota"
 							process="@this" style="margin-top: 10px; margin-bottom: 10px" />
 					</p:toolbarGroup>
 				</p:toolbar>		
@@ -320,15 +323,15 @@
 					
 				</p:panelGrid>
 									
-				<p:commandButton value="Salvar Item" id="botaoSalvarItem" icon="pi pi-save"
-					action="#{lancarNotaFiscalBean.salvarItem}" 
+				<p:commandButton value="Adicionar" id="botaoSalvarItem" icon="pi pi-save"
+					actionListener="#{lancarNotaFiscalBean.salvarItem}" 
 					update="itensTable gridItem messagesItem"
 					process="@this gridItem" />
 				<p:spacer width="10px" />
 				<p:commandButton value="Sair" id="botaoSair" icon="pi pi-save"
-					actionListener="#{lancarNotaFiscalBean.validarTotal}"
+					actionListener="#{lancarNotaFiscalBean.salvar}"
 					onclick="PF('addItemDialogWidgetVar').hide();"
-					update="itensTable"
+					update="itensTable gridNota"
 					process="@this" style="margin-top: 10px; margin-bottom: 10px" />
 				
 			</p:dialog>
@@ -344,7 +347,7 @@
 				<p:commandButton icon="pi pi-thumbs-up" 
 					value="Sim" 
 					process="@this"
-					update=":form:itensTable"
+					update=":form:itensTable gridNota"
 					onclick="PF('confirmacaoExclusaoItem').hide();"
 					action="#{lancarNotaFiscalBean.excluirItem}" />
 			</p:confirmDialog>
