@@ -19,8 +19,6 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.RelationTargetAuditMode;
 
 import com.cafe.modelo.enums.TipoPropriedade;
 
@@ -38,7 +36,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Audited
 @NamedQueries({
 	@NamedQuery(name="Propriedade.buscarTodos", query="select u from Propriedade u where u.tenant_id = :tenantId"),	
 	@NamedQuery(name="Propriedade.buscarNomesUnidades", query="select u.nome from Propriedade u where u.tenant_id = :tenantId")	
@@ -68,7 +65,6 @@ public class Propriedade implements Serializable {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="codigo_endereco")
-	@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 	private Endereco endereco;
 	
 	/*

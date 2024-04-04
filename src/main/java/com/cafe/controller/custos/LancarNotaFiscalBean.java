@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,23 +83,20 @@ public class LancarNotaFiscalBean implements Serializable {
 	}
 
 	public void limparItem() {
-		log.info("limpar item");
 		item = new Item();
 	}
 	public void editarNota() {
 		nfGravada = true;
-		log.info("editarNota : " + nfGravada);
-		
 	}
 
 	public void salvarItem() {
 		try {
-			log.info("nf id = " + notaFiscal.getId());
+			log.info("salvar item ");
 			
-			validarTotal();
+			validarTotal();						
 			
-			this.item.setNotaFiscal(notaFiscal);
 			if(item.getId() == null) {
+				this.item.setNotaFiscal(notaFiscal);
 				this.notaFiscal.getItens().add(item);
 				MessageUtil.sucesso("Item adicionado com sucesso!");
 				limparItem();
@@ -110,6 +106,9 @@ public class LancarNotaFiscalBean implements Serializable {
 			}
 			log.info("size item --> " + this.notaFiscal.getItens().size());
 		} catch (NegocioException e) {
+			
+			notaFiscal = this.notaFiscalService.buscarNotaFiscalPeloCodigo(notaFiscal.getId());
+			
 			e.printStackTrace();
 			MessageUtil.alerta(e.getMessage());
 		} catch (Exception e) {
@@ -118,25 +117,27 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 		
 	}
-	private void validarTotal() throws NegocioException {		
-		if(valorTotalItens() > notaFiscal.getValorTotal().longValue()) {
-			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!");
+	public void validarTotal() throws NegocioException {
+		
+		float total = 0;
+		for(Item i : notaFiscal.getItens()) {
+			
+			total = total + (i.getValor().floatValue() * i.getQuantidade());
+		}
+		
+		if(total > notaFiscal.getValorTotal().floatValue()) {
+			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!  (Valor restante = " + (total - notaFiscal.getValorTotal().floatValue()) + ")");
 		}	
 	}
-	public long valorTotalItens() {
-		BigDecimal total = new BigDecimal(0);
-		for(Item i : notaFiscal.getItens()) {
-			total = total.add(new BigDecimal(i.getQuantidade()).multiply(i.getValor()));			
-		}
-		return total.longValue();
-	}
-	
+		
 	public void excluirItem() {
 		try {
 			log.info("remover item nr  = " + item.getId());			
 			this.notaFiscal.getItens().remove(item);
-			//notaFiscal = this.notaFiscalService.salvar(notaFiscal);
-			//this.notas = buscarNotas();
+			log.info("qde  = " + this.notaFiscal.getItens().size());
+			
+			this.notaFiscalService.excluirItem(item);
+
 			MessageUtil.sucesso("Item excluído com sucesso!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,15 +148,12 @@ public class LancarNotaFiscalBean implements Serializable {
 
 	public void salvar() {
 
-		log.info("ID nota fiscal " + notaFiscal.getId());
-		log.info("NR nota fiscal " + notaFiscal.getNumero());
-
 		log.info("arquivo " + this.uploadedFile);
 
 		try {
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
 			this.notas = buscarNotas();
-			log.info("notas fiscais = " + notas.size());
+			log.info("qde notas fiscais = " + notas.size());
 			nfGravada = true;
 
 			MessageUtil.sucesso("Nota Fiscal salva com sucesso!");
@@ -165,7 +163,6 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 
 		log.info("gravada nf id = " + this.notaFiscal.getId());
-		log.info("nfGravada  = " + nfGravada);
 	}	
 
 	private List<NotaFiscal> buscarNotas() {
