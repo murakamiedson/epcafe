@@ -37,7 +37,7 @@ public class DespesaFerTalhao {
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_despesa", nullable = false)
-	private DespesaFertilizante despesafertilizante;
+	private DespesaFertilizante despesaFertilizante;
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_talhao", nullable = false)

@@ -1,7 +1,6 @@
 package com.cafe.controller.custos;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,6 +92,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		this.fertilizantes = this.fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
 
 		limpar();
+		//limparDesFerTalhao();
 	}
 
 	public void salvar() {
@@ -104,20 +104,52 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 							(numeroNF, loginBean.getTenantId()));
 		}
 
-		try {
-			if (!this.despesaService.validarNotaSelecionada(despesaFertilizante.getNotaFiscal(),
-					despesaFertilizante.getFertilizante())) {
-				throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
-			}
-			despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
-			this.carregarTalhoes(despesaFertilizante);
-			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
 
-			MessageUtil.sucesso("Despesa salva com sucesso!");
-		} catch (NegocioException e) {
-			e.printStackTrace();
-			MessageUtil.erro(e.getMessage());
+
+		if(despesaFertilizante.getId() != null){
+
+			try {
+				if (!this.despesaService.validarNotaSelecionada(despesaFertilizante.getNotaFiscal(),
+						despesaFertilizante.getFertilizante())) {
+					throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
+				}
+				log.info("salvando despesa com id nao nulo");
+				//this.carregarTalhoes(despesaFertilizante);
+				this.despesaService.calculaValorPorTalhao(despesaFertilizante);
+				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
+				//log.info("carregar talhoes: ");
+				//log.info(despesaFertilizante.getDespesasTalhoes());
+				despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
+				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
+	
+				MessageUtil.sucesso("Despesa salva com sucesso!");
+			} catch (NegocioException e) {
+				e.printStackTrace();
+				MessageUtil.erro(e.getMessage());
+			}
+		}else{
+
+			try {
+				if (!this.despesaService.validarNotaSelecionada(despesaFertilizante.getNotaFiscal(),
+						despesaFertilizante.getFertilizante())) {
+					throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
+				}
+				log.info("salvando despesa com id nulo");
+				//this.despesaService.calculaValorPorTalhao(despesaFertilizante);
+				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
+				this.carregarTalhoes(despesaFertilizante);
+				//log.info("carregar talhoes: ");
+				//log.info(despesaFertilizante.getDespesasTalhoes());
+				//despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
+				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
+	
+				MessageUtil.sucesso("Despesa salva com sucesso!");
+			} catch (NegocioException e) {
+				e.printStackTrace();
+				MessageUtil.erro(e.getMessage());
+			}
 		}
+
 
 	}
 
@@ -161,16 +193,27 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void salvarQuantidadeTalhao() {
 
 		try {
-			for (DespesaFerTalhao despesaTalhao : listaQdeTalhoes) {
-				despesaTalhao.setValor(this.despesaService.calcularValorTalhao(despesaTalhao));
-				despesaService.salvarQuantidadeTalhao(despesaTalhao);
+			log.info("salvando quantidades de talhoes...");
+
+			if(despesaFerTalhao.getId() == null) {
+				despesaFerTalhao.setDespesaFertilizante(despesaFertilizante);
+				despesaFerTalhao.setValor(this.despesaService.calcularValorTalhao(despesaFerTalhao));
+				despesaFertilizante.getDespesasTalhoes().add(despesaFerTalhao);
+				MessageUtil.sucesso("Quantidades de talhões adicionada com sucesso!");
+				limparQuantidadeTalhao();
+			}else{
+				MessageUtil.sucesso("Quantidades de talhoes alterado com sucesso!");
 			}
-			MessageUtil.sucesso("Quantidades de talhões salvas com sucesso!");
-		} catch (NegocioException e) {
+			log.info("tamanho lista talhoes: " + this.despesaFertilizante.getDespesasTalhoes().size());
+		} catch (Exception e) {
 			e.printStackTrace();
-			MessageUtil.erro(e.getMessage());
+			MessageUtil.erro("Um problema ocorreu, a quantidade de talhão não foi adicionada!");
 		}
-		this.limpar();
+
+	}
+
+	private void limparQuantidadeTalhao() {
+		despesaFerTalhao = new DespesaFerTalhao();
 	}
 
 	public void excluirQuantidadeTalhao() {
@@ -192,7 +235,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		despesaFertilizante = new DespesaFertilizante();
 		despesaFertilizante.setDespesasTalhoes(new ArrayList<DespesaFerTalhao>());
 		despesaFertilizante.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
-		notaFiscal = new NotaFiscal();
+		//notaFiscal = new NotaFiscal();
 	}
 
 	public void carregarTalhoes(DespesaFertilizante despesaFertilizante) {
@@ -206,15 +249,15 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 			DespesaFerTalhao qtdTalhao = new DespesaFerTalhao();
 			qtdTalhao.setTalhao(talhao);
 			qtdTalhao.setTenantId(loginBean.getTenantId());
-			log.info(despesaFertilizante.getId());
-			qtdTalhao.setDespesafertilizante(despesaFertilizante);
-			qtdTalhao.setValor(new BigDecimal(3));
+
+			qtdTalhao.setDespesaFertilizante(despesaFertilizante);
+
 
 			despesaFertilizante.getDespesasTalhoes().add(qtdTalhao);
 		}
 		log.info(despesaFertilizante.getDespesasTalhoes());
 		this.listaQdeTalhoes = despesaFertilizante.getDespesasTalhoes();
-		this.limpar();
+		// this.limpar();
 	}
 
 	public void onRowEdit(RowEditEvent<DespesaFerTalhao> event) {

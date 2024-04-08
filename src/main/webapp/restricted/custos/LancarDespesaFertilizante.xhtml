@@ -115,7 +115,7 @@
 					<p:outputLabel for="data" value="Data" />
 					<p:datePicker id="data"
 						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.data}"
-						pattern="MM/yyyy" type="localDate" yearNavigator="true"
+						pattern="dd/MM/yyyy" type="localDate" yearNavigator="true"
 						monthNavigator="true" showIcon="true" required="true"
 						yearRange="#{lancarDespesaFertilizanteBean.yearRange}"
 						validatorMessage="A data é obrigatória.">
@@ -170,7 +170,7 @@
 						style="margin-top: 10px; margin-bottom: 10px"
 						actionListener="#{lancarDespesaFertilizanteBean.salvar}" 
 						update="despesasTable messages qdesTalhaoTable"
-						process="@this gridDespesa" >
+						process="@this gridDespesa " >
 							
 							
 					</p:commandButton>
@@ -182,7 +182,7 @@
 					
 				
 				<p:dataTable id="qdesTalhaoTable"
-					value="#{lancarDespesaFertilizanteBean.listaQdeTalhoes}"
+					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.despesasTalhoes}"
 					var="despesaTalhao"
 					emptyMessage="Nenhum item encontrado."
 					rows="10" paginator="true" paginatorAlwaysVisible="true"
@@ -210,6 +210,11 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
+
+					<p:column headerText="Valor" sortBy="#{despesaTalhao.valor}"
+						style="width: 30px; text-align: left">
+						<h:outputText value="#{despesaTalhao.valor}" />
+					</p:column>
 					
 				</p:dataTable>
 				<p:toolbar id="tbQdeTalhao" >
@@ -217,9 +222,9 @@
 						<p:spacer width="10px" />
 									
 						<p:commandButton value="Salvar" id="botaoSalvarQdeTalhao" icon="pi pi-save"
-							actionListener="#{lancarDespesaFertilizanteBean.salvarQuantidadeTalhao}"
+							actionListener="#{lancarDespesaFertilizanteBean.salvar}"
 							style="margin-top: 10px; margin-bottom: 10px"
-							update="despesasTable messages"
+							update="despesasTable messages qdesTalhaoTable"
 							process="@this gridDespesa qdesTalhaoTable"/>
 	
 						<p:spacer width="10px" />

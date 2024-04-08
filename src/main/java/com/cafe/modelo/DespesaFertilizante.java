@@ -7,21 +7,17 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.CreationTimestamp; 
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.EqualsAndHashCode;
@@ -58,11 +54,8 @@ public class DespesaFertilizante {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private NotaFiscal notaFiscal;
-		
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@Fetch(value = FetchMode.SUBSELECT)
-    @JoinTable(name="DespesaFerTalhao", joinColumns={@JoinColumn(name="codigo_despesa")}, 
-    									inverseJoinColumns={@JoinColumn(name="codigo_talhao")})
+	
+	@OneToMany( mappedBy = "despesaFertilizante", cascade = CascadeType.ALL)
 	private List<DespesaFerTalhao> despesasTalhoes;
 	
 	

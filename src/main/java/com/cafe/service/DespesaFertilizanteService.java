@@ -94,10 +94,10 @@ public class DespesaFertilizanteService implements Serializable {
 		BigDecimal valor = new BigDecimal(0);
 		
 		
-		List<Item> itensNota =  qdeTalhao.getDespesafertilizante().getNotaFiscal().getItens();
+		List<Item> itensNota =  qdeTalhao.getDespesaFertilizante().getNotaFiscal().getItens();
 		log.info(itensNota);
 		for(Item item : itensNota) {
-			if(item.getFertilizante() == qdeTalhao.getDespesafertilizante().getFertilizante()) {
+			if(item.getFertilizante() == qdeTalhao.getDespesaFertilizante().getFertilizante()) {
 				log.info("for 1");
 				valor = item.getValor().divide(qdeTalhao.getQuantidade(), RoundingMode.DOWN);
 			log.info("for 2 " + valor);
@@ -116,6 +116,24 @@ public class DespesaFertilizanteService implements Serializable {
 		return false;
 	}
 	
+	public void calculaValorPorTalhao(DespesaFertilizante despesaFertilizante) {
+		BigDecimal valorFertilizanteNF = new BigDecimal(0);
+		// despesaFertilizante.getNotaFiscal().getItens().forEach(item -> {
+		// 	if(item.getFertilizante() == despesaFertilizante.getFertilizante()) {
+		// 		valorFertilizanteNF = item.getValor();	
+		// 	}
+		// });
+		for(Item itens : despesaFertilizante.getNotaFiscal().getItens()) {
+			if(itens.getFertilizante() == despesaFertilizante.getFertilizante()) {
+				valorFertilizanteNF = itens.getValor();
+			}
+		}
+		for(DespesaFerTalhao qdeTalhao : despesaFertilizante.getDespesasTalhoes()) {
+			qdeTalhao.setValor(valorFertilizanteNF.multiply(qdeTalhao.getQuantidade()));
+			
+		}
+		
+	}
 	
 	
 	

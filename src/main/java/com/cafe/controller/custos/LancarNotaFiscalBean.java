@@ -148,7 +148,7 @@ public class LancarNotaFiscalBean implements Serializable {
 
 	public void salvar() {
 
-		log.info("arquivo " + this.uploadedFile);
+		//log.info("arquivo " + this.uploadedFile);
 
 		try {
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
