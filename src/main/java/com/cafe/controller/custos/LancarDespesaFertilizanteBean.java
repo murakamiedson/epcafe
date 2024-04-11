@@ -114,11 +114,10 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 					throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
 				}
 				log.info("salvando despesa com id nao nulo");
-				//this.carregarTalhoes(despesaFertilizante);
+
 				this.despesaService.calculaValorPorTalhao(despesaFertilizante);
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
-				//log.info("carregar talhoes: ");
-				//log.info(despesaFertilizante.getDespesasTalhoes());
+	
 				despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
 				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
 	
@@ -135,12 +134,10 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 					throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
 				}
 				log.info("salvando despesa com id nulo");
-				//this.despesaService.calculaValorPorTalhao(despesaFertilizante);
+
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
 				this.carregarTalhoes(despesaFertilizante);
-				//log.info("carregar talhoes: ");
-				//log.info(despesaFertilizante.getDespesasTalhoes());
-				//despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
+
 				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
 	
 				MessageUtil.sucesso("Despesa salva com sucesso!");
@@ -227,6 +224,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void limpar() {
 		log.info("limpar");
 		auxiliar = null;
+		numeroNF = null;
 
 		despesaFertilizante = new DespesaFertilizante();
 		despesaFertilizante.setDespesasTalhoes(new ArrayList<DespesaFerTalhao>());
@@ -287,6 +285,12 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				MessageUtil.erro(e.getMessage());
 			}
 		}
+	}
+	
+	public void editarDespesa() {
+		log.info("editar despesa");
+		auxiliar = despesaFertilizante.getFertilizante().getTipoInsumo();
+		numeroNF = despesaFertilizante.getNotaFiscal().getNumero();
 	}
 
 }

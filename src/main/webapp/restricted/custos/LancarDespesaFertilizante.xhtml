@@ -32,10 +32,6 @@
 				</p:toolbarGroup>
 			</p:toolbar>
 
-			<!-- <p:messages id="messages" showDetail="false" closable="true">
-				<p:autoUpdate />
-			</p:messages> -->
-
 			<p:dataTable id="despesasTable"
 				value="#{lancarDespesaFertilizanteBean.despesas}" var="despesa"
 				style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada."
@@ -64,8 +60,9 @@
 					style="width: 10px; text-align: center">
 
 					<p:commandButton title="Editar despesa" icon="pi pi-pencil"
-						oncomplete="PF('editDialogWidgetVar').show()"
-						update="form:editDialog form:editQdesTalhaoTable" process="@this">
+						oncomplete="PF('addDialogWidgetVar').show()"
+						action="#{lancarDespesaFertilizanteBean.editarDespesa}"
+						update="form:addDialog form:qdesTalhaoTable" process="@this">
 						<f:setPropertyActionListener
 							target="#{lancarDespesaFertilizanteBean.despesaFertilizante}"
 							value="#{despesa}" />
@@ -172,8 +169,7 @@
 					actionListener="#{lancarDespesaFertilizanteBean.salvar}"
 					update="despesasTable messages qdesTalhaoTable"
 					process="@this gridDespesa ">
-
-
+					
 				</p:commandButton>
 
 				<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-save"
