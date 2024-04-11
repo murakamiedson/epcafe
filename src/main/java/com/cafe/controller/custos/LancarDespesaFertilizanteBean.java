@@ -162,10 +162,6 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void excluirDespesa() {
 		try {
 			log.info("excluindo...");
-			for(DespesaFerTalhao talhao : despesaFertilizante.getDespesasTalhoes()) {
-				log.info("DespesaFerTalhao Id " + talhao.getId());
-				this.despesaService.excluirQuantidadeTalhao(talhao);
-			}
 			despesaService.excluir(despesaFertilizante);
 			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
 			MessageUtil.sucesso("Despesa " + despesaFertilizante.getId() + " excluído com sucesso.");

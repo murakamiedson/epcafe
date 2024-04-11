@@ -12,6 +12,9 @@
 		<h2>Despesas com Fertilizantes e Defensivos</h2>
 
 		<h:form id="form">
+		
+			<p:messages id="alertMessages" showDetail="false" closable="true">
+			</p:messages>
 
 			<p:toolbar id="toolbar">
 				<p:toolbarGroup>
@@ -91,7 +94,7 @@
 				<p:button icon="pi pi-thumbs-down" value="Não"
 					onclick="PF('confirmacaoExclusao').hide(); return false;" />
 				<p:commandButton icon="pi pi-thumbs-up" value="Sim" process="@this"
-					update=":form:despesasTable"
+					update=":form:despesasTable alertMessages"
 					onclick="PF('confirmacaoExclusao').hide();"
 					action="#{lancarDespesaFertilizanteBean.excluirDespesa}" />
 			</p:confirmDialog>
