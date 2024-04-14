@@ -58,8 +58,6 @@ public class Fertilizante {
 	@Enumerated(EnumType.STRING)
 	private TipoAuxiliarInsumos tipo;
 	
-	@OneToMany(mappedBy = "fertilizante", cascade = CascadeType.ALL)
-	private List<Item> itens;
 
 	/*
 	 * Datas de Criação e Modificação

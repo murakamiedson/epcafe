@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +94,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		try {
 			log.info("salvar item ");
 			
-			validarTotal();						
+			validarTotal(item);						
 			
 			if(item.getId() == null) {
 				this.item.setNotaFiscal(notaFiscal);
@@ -117,16 +118,20 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 		
 	}
-	public void validarTotal() throws NegocioException {
+	public void validarTotal(Item itemAdicionado) throws NegocioException {
 		
-		float total = 0;
+		BigDecimal total = new BigDecimal(0);
+		total = total.add(itemAdicionado.getValor().multiply(itemAdicionado.getQuantidade()));
 		for(Item i : notaFiscal.getItens()) {
+			total = total.add(i.getValor().multiply(i.getQuantidade()));
 			
-			total = total + (i.getValor().floatValue() * i.getQuantidade());
 		}
 		
-		if(total > notaFiscal.getValorTotal().floatValue()) {
-			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!  (Valor restante = " + (total - notaFiscal.getValorTotal().floatValue()) + ")");
+		//total > notaFiscal.getValorTotal()
+		if(total.compareTo(notaFiscal.getValorTotal()) == 1) {
+			
+			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!"
+					+ "(Valor restante = " + (total.subtract(notaFiscal.getValorTotal())) + ")");
 		}	
 	}
 		

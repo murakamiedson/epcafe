@@ -1,6 +1,7 @@
 package com.cafe.controller.custos;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +59,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private NotaFiscal notaFiscal;
 	private String numeroNF;
 	private String yearRange;
+	private boolean despesaGravada = false;
+	private BigDecimal qtdItensRestantes = new BigDecimal(0);
 
 	@Inject
 	private LoginBean loginBean;
@@ -121,6 +124,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
 				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
 	
+				this.despesaGravada = true;
 				MessageUtil.sucesso("Despesa salva com sucesso!");
 			} catch (NegocioException e) {
 				e.printStackTrace();
@@ -140,6 +144,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
 	
+				this.despesaGravada = true;
 				MessageUtil.sucesso("Despesa salva com sucesso!");
 			} catch (NegocioException e) {
 				e.printStackTrace();
@@ -148,6 +153,12 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		}
 
 
+	}
+	
+	public void despesaGravadaBool() {
+		log.info("Update despesaGravada");
+		despesaGravada = true;
+		
 	}
 
 	public void carregarTipos() {
@@ -183,48 +194,11 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				.collect(Collectors.toList());
 	}
 
-	public void salvarQuantidadeTalhao() {
-
-		try {
-			log.info("salvando quantidades de talhoes...");
-
-			if(despesaFerTalhao.getId() == null) {
-				despesaFerTalhao.setDespesaFertilizante(despesaFertilizante);
-				despesaFerTalhao.setValor(this.despesaService.calcularValorTalhao(despesaFerTalhao));
-				despesaFertilizante.getDespesasTalhoes().add(despesaFerTalhao);
-				MessageUtil.sucesso("Quantidades de talhões adicionada com sucesso!");
-				limparQuantidadeTalhao();
-			}else{
-				MessageUtil.sucesso("Quantidades de talhoes alterado com sucesso!");
-			}
-			log.info("tamanho lista talhoes: " + this.despesaFertilizante.getDespesasTalhoes().size());
-		} catch (Exception e) {
-			e.printStackTrace();
-			MessageUtil.erro("Um problema ocorreu, a quantidade de talhão não foi adicionada!");
-		}
-
-	}
-
-	private void limparQuantidadeTalhao() {
-		despesaFerTalhao = new DespesaFerTalhao();
-	}
-
-	public void excluirQuantidadeTalhao() {
-		try {
-			log.info("excluindo quantidades de talhoes...");
-			despesaService.excluirQuantidadeTalhao(despesaFerTalhao);
-			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
-			MessageUtil.sucesso("Quantidade " + despesaFerTalhao.getId() + " excluída com sucesso.");
-		} catch (NegocioException e) {
-			e.printStackTrace();
-			MessageUtil.erro(e.getMessage());
-		}
-	}
-
 	public void limpar() {
 		log.info("limpar");
 		auxiliar = null;
 		numeroNF = null;
+//		this.despesaGravada = true;
 
 		despesaFertilizante = new DespesaFertilizante();
 		despesaFertilizante.setDespesasTalhoes(new ArrayList<DespesaFerTalhao>());
@@ -251,6 +225,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		}
 		log.info(despesaFertilizante.getDespesasTalhoes());
 		this.listaQdeTalhoes = despesaFertilizante.getDespesasTalhoes();
+		if(despesaFertilizante.getDespesasTalhoes().size()>0)
+			this.despesaGravada = true;
 		// this.limpar();
 	}
 

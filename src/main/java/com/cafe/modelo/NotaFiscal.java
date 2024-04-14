@@ -68,13 +68,14 @@ public class NotaFiscal implements Serializable{
 	private List<Item> itens;
 	
 	@Transient
-	public float getValorItens() {
+	public BigDecimal getValorItens() {
 		BigDecimal total = new BigDecimal(0);
 		for(Item i : this.getItens()) {
-			total = total.add(new BigDecimal(i.getQuantidade()).multiply(i.getValor()));			
+			//total = total.add(new BigDecimal(i.getQuantidade()).multiply(i.getValor()));
+			total = total.add(i.getQuantidade().multiply(i.getValor()));
 		}
 		log.info("valorTotalItens : " + total);
-		return total.floatValue();
+		return total;
 	}
 	
 	/*

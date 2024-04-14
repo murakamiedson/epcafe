@@ -32,7 +32,7 @@ public class Item implements Serializable{
 	private Long id;
 	
 	@PositiveOrZero
-	private int quantidade = 0;
+	private BigDecimal quantidade;
 	
 	@PositiveOrZero
 	private BigDecimal valor = new BigDecimal(0);

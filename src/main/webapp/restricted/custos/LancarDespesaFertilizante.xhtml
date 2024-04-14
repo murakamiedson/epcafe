@@ -167,8 +167,9 @@
 				<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
 					style="margin-top: 10px; margin-bottom: 10px"
 					actionListener="#{lancarDespesaFertilizanteBean.salvar}"
-					update="despesasTable messages qdesTalhaoTable"
-					process="@this gridDespesa ">
+					update="despesasTable messages qdesTalhaoTable qtdRestanteTalhoes"
+					process="@this gridDespesa "
+					>
 					
 				</p:commandButton>
 
@@ -176,6 +177,11 @@
 					action="#{lancarDespesaFertilizanteBean.limpar}"
 					update="gridDespesa" process="@this"
 					style="margin-top: 10px; margin-bottom: 10px" />
+					
+				<p:outputLabel id="qtdRestanteTalhoes" 
+					style="margin-left: 10px;"
+					value="Quantidade de Itens Restantes: #{lancarDespesaFertilizanteBean.qtdItensRestantes}" 
+				/>
 
 
 				<p:dataTable id="qdesTalhaoTable"
@@ -243,125 +249,6 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 			</p:dialog>
-
-			<p:dialog id="editDialog" widgetVar="editDialogWidgetVar"
-				header="Editar Despesa com Fertilizante" modal="true"
-				resizable="true" closeOnEscape="true" showEffect="explode"
-				hideEffect="explode" width="100%" position="center top"
-				maximizable="true" height="100%" fitViewport="true"
-				responsive="true">
-
-
-				<p:messages id="messagesEdit" showDetail="false" closable="true">
-				</p:messages>
-
-				<p:panelGrid id="gridEditDespesa" columns="2"
-					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
-
-					<p:outputLabel for="editData" value="Data" />
-					<p:datePicker id="editData"
-						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.data}"
-						pattern="dd/MM/yyyy" type="localDate" yearNavigator="true"
-						monthNavigator="true" showIcon="true" required="true"
-						yearRange="#{lancarDespesaFertilizanteBean.yearRange}"
-						validatorMessage="A data é obrigatória.">
-					</p:datePicker>
-
-					<p:outputLabel value="Tipo Insumo" />
-					<p:outputLabel
-						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.tipoInsumo}"
-						disabled="true" />
-
-					<p:outputLabel value="Fertilizante" />
-					<h:panelGroup>
-						<p:outputLabel
-							value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.tipo}"
-							disabled="true" />
-						<p:spacer width="20px" />
-						<p:outputLabel
-							value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.medida}" />
-
-					</h:panelGroup>
-
-					<p:outputLabel value="Nota Fiscal" />
-					<p:outputLabel
-						value="#{lancarDespesaFertilizanteBean.despesaFertilizante.notaFiscal.numero}"
-						disabled="true" />
-
-
-				</p:panelGrid>
-
-				<p:dataTable id="editQdesTalhaoTable"
-					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.despesasTalhoes}"
-					var="despesaTalhao" emptyMessage="Nenhum item encontrado."
-					rows="10" paginator="true" paginatorAlwaysVisible="true"
-					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
-					editable="true" editMode="cell" widgetVar="cellTalhoes">
-
-
-					<p:ajax event="cellEdit"
-						listener="#{lancarDespesaFertilizanteBean.onCellEdit}"
-						update="editQdesTalhaoTable" />
-
-					<p:column headerText="Talhão" sortBy="#{despesaTalhao.talhao.nome}"
-						style="width: 30px; text-align: left">
-						<h:outputText value="#{despesaTalhao.talhao.nome}" />
-					</p:column>
-
-					<p:column headerText="Quantidade"
-						sortBy="#{despesaTalhao.quantidade}"
-						style="width: 30px; text-align: left">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{despesaTalhao.quantidade}" />
-							</f:facet>
-							<f:facet name="input">
-								<p:inputNumber value="#{despesaTalhao.quantidade}"
-									style="width:100%" label="Quantidade" />
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-
-					<p:column headerText="Valor" sortBy="#{despesaTalhao.valor}"
-						style="width: 30px; text-align: left">
-						<h:outputText value="#{despesaTalhao.valor}">
-							<f:convertNumber type="currency" currencySymbol="R$" />
-						</h:outputText>
-					</p:column>
-				</p:dataTable>
-				
-				<p:toolbar id="tbEditQdeTalhao">
-					<p:toolbarGroup>
-						<p:spacer width="10px" />
-
-						<p:commandButton value="Salvar" id="botaoSalvarEditQdeTalhao"
-							icon="pi pi-save"
-							actionListener="#{lancarDespesaFertilizanteBean.salvar}"
-							
-							style="margin-top: 10px; margin-bottom: 10px"
-							update="despesasTable messagesEdit editQdesTalhaoTable"
-							process="@this editQdesTalhaoTable" />
-
-						<p:spacer width="10px" />
-
-						<p:commandButton value="Limpar" id="botaoEditLimparQdeTalhao"
-							icon="pi pi-save" style="margin-top: 10px; margin-bottom: 10px"
-							action="#{lancarNotaFiscalBean.limpar}"
-							update="editQdesTalhaoTable" process="@this" />
-
-						<p:spacer width="10px" />
-
-						<p:commandButton value="Sair" id="botaoEditSairDespesa"
-							icon="pi pi-save" onclick="PF('editDialogWidgetVar').hide();"
-							update="despesasTable messagesEdit" process="@this"
-							style="margin-top: 10px; margin-bottom: 10px" />
-					</p:toolbarGroup>
-				</p:toolbar>
-
-
-			</p:dialog>
-
-
 		</h:form>
 	</ui:define>
 </ui:composition>
