@@ -116,9 +116,14 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 						despesaFertilizante.getFertilizante())) {
 					throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
 				}
+				if(!this.despesaService.validarQuantidadesTalhoesComNF(despesaFertilizante)) {
+					throw new NegocioException("Quantidade de insumo usada por talhão "
+							+ "ultrapassa a informada na Nota Fiscal");
+				}
 				log.info("salvando despesa com id nao nulo");
 
 				this.despesaService.calculaValorPorTalhao(despesaFertilizante);
+				
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
 	
 				despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
@@ -137,6 +142,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 						despesaFertilizante.getFertilizante())) {
 					throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
 				}
+				
 				log.info("salvando despesa com id nulo");
 
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
@@ -183,7 +189,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		String queryLowerCase = query.toLowerCase();
 		List<String> notasFiscaisList = new ArrayList<>();
 		Long fertilizanteId = despesaFertilizante.getFertilizante().getId();
-		log.info(fertilizanteId);
+		
 		List<NotaFiscal> notasFiscais = this.notaFiscalService.buscarNotaFiscalPorFertilizante(fertilizanteId,
 				loginBean.getTenantId());
 		for (NotaFiscal notaFiscal : notasFiscais) {

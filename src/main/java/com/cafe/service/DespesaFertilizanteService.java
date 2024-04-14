@@ -65,10 +65,23 @@ public class DespesaFertilizanteService implements Serializable {
 	
 	public boolean validarQuantidadesTalhoesComNF(DespesaFertilizante despesaFertilizante) {
 		//BigDecimal total = despesaFertilizante.getNotaFiscal().getItens()
+		log.info("entrou no metodo de validação");
+		BigDecimal total = new BigDecimal(0);
+		BigDecimal totalFerNF = new BigDecimal(0);
 		for(DespesaFerTalhao qdeTalhao : despesaFertilizante.getDespesasTalhoes()) {
-			
+			total = total.add(qdeTalhao.getQuantidade());
+			log.info("TOTAL: " + total);
 		}
-		return false;
+		for(Item item : despesaFertilizante.getNotaFiscal().getItens()) {
+			if(item.getFertilizante() == despesaFertilizante.getFertilizante()) {
+				totalFerNF = item.getQuantidade();
+			}
+		}
+		if(total.compareTo(totalFerNF) == 1) {
+			log.info("Quantidade informada ultrapassa nota fiscal");
+			return false;
+		}
+		return true;
 	}
 	
 	//calcula o valor equivalente gasto com cada talhao da despesa
