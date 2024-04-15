@@ -18,13 +18,21 @@
 					<p:spacer width="10px" />			
 					<p:commandButton value="Adicionar NF" title="Adicionar nota fiscal"
 						style="margin-top: 10px; margin-bottom: 10px"
-						icon="pi pi-user-plus"            	
+						icon="pi pi-plus"            	
 		            	actionListener="#{lancarNotaFiscalBean.limpar}" 
 		            	oncomplete="PF('addDialogWidgetVar').show()"
 		            	update="addDialog toolbar" 
 		            	process="@this">
 		            	<p:resetInput target="addDialog" />	
-	            	</p:commandButton>	 		            
+	            	</p:commandButton>
+	            	
+	            	<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+			        
+					<p:button icon="pi pi-chevron-right" value="Lançar Despesa Fertilizante" 
+						outcome="/restricted/custos/LancarDespesaFertilizante.xhtml"/>
+						 		            
 		             
 				</p:toolbarGroup>
 			</p:toolbar>
@@ -184,7 +192,7 @@
 						<p:commandButton value="Adicionar Itens" title="Adicionar item"
 							rendered="#{lancarNotaFiscalBean.nfGravada}" 
 							style="margin-top: 10px; margin-bottom: 10px"
-							icon="pi pi-user-plus"            	
+							icon="pi pi-plus"            	
 			            	actionListener="#{lancarNotaFiscalBean.limparItem}" 
 			            	oncomplete="PF('addItemDialogWidgetVar').show()"
 			            	update="addItemDialog" 
@@ -259,7 +267,7 @@
 	
 						<p:spacer width="10px" />
 		
-						<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-save"
+						<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-replay"
 							rendered="#{lancarNotaFiscalBean.nfGravada}"
 							style="margin-top: 10px; margin-bottom: 10px"
 							action="#{lancarNotaFiscalBean.limpar}" 
@@ -268,7 +276,7 @@
 							
 						<p:spacer width="10px" />
 							
-						<p:commandButton value="Sair" id="botaoSairNF" icon="pi pi-save"
+						<p:commandButton value="Sair" id="botaoSairNF" icon="pi pi-times"
 							onclick="PF('addDialogWidgetVar').hide();"
 							update="notasTable messages gridNota"
 							process="@this" style="margin-top: 10px; margin-bottom: 10px" />

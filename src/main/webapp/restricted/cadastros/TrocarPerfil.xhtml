@@ -22,11 +22,11 @@
 	    	
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
-	    			<p:button type="button" icon="pi pi-arrow-left" value="Voltar" outcome="/restricted/home/CafeHome.xhtml" styleClass="mr-2" /> 
-          			
-	    			<p:commandButton type="button" value="Salvar" id="botaoSalvar" icon="pi pi-save" styleClass="ui-button-success"
-	    				action="#{alterarPerfilBean.salvarPerfil}" update="frmPerfil"/>   			
-	    			
+	    			<p:button type="button" icon="pi pi-arrow-left" 
+	    				value="Voltar" outcome="/restricted/home/CafeHome.xhtml" styleClass="mr-2" /> 
+          			<p:spacer width="10px" />
+          			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+    					action="#{alterarPerfilBean.salvarPerfil}" update="@form"/>		    			
 				</p:toolbarGroup>
 	    	</p:toolbar>
 	    	

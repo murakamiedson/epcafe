@@ -22,12 +22,19 @@
 					<p:commandButton value="Adicionar Despesa"
 						title="Adicionar despesa"
 						style="margin-top: 10px; margin-bottom: 10px"
-						icon="pi pi-user-plus"
+						icon="pi pi-plus"
 						actionListener="#{lancarDespesaFertilizanteBean.limpar}"
 						oncomplete="PF('addDialogWidgetVar').show()"
 						update="addDialog toolbar" process="@this">
 						<p:resetInput target="addDialog" />
 					</p:commandButton>
+					
+					<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+			        
+					<p:button icon="pi pi-chevron-right" value="Lançar Nota Fiscal" 
+						outcome="/restricted/custos/LancarNotaFiscal.xhtml"/>				
 
 				</p:toolbarGroup>
 			</p:toolbar>
@@ -159,7 +166,13 @@
 							completeMethod="#{lancarDespesaFertilizanteBean.completeText}"
 							scrollHeight="250" />
 
+						<p:spacer width="10px" />
 
+						<p:commandButton value="Consultar Notas Fiscais" title="Consultar Notas Fiscais"
+							style="margin-top: 10px; margin-bottom: 10px"
+							icon="pi pi-eye">
+	            		</p:commandButton>
+	            		
 					</h:panelGroup>
 
 
@@ -173,7 +186,7 @@
 					
 				</p:commandButton>
 
-				<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-save"
+				<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-replay"
 					action="#{lancarDespesaFertilizanteBean.limpar}"
 					update="gridDespesa" process="@this"
 					style="margin-top: 10px; margin-bottom: 10px" />
@@ -236,14 +249,14 @@
 						<p:spacer width="10px" />
 
 						<p:commandButton value="Limpar" id="botaoLimparQdeTalhao"
-							icon="pi pi-save" style="margin-top: 10px; margin-bottom: 10px"
+							icon="pi pi-replay" style="margin-top: 10px; margin-bottom: 10px"
 							action="#{lancarNotaFiscalBean.limpar}"
 							update="gridDespesa qdesTalhaoTable" process="@this" />
 
 						<p:spacer width="10px" />
 
 						<p:commandButton value="Sair" id="botaoSairDespesa"
-							icon="pi pi-save" onclick="PF('addDialogWidgetVar').hide();"
+							icon="pi pi-times" onclick="PF('addDialogWidgetVar').hide();"
 							update="despesasTable messages" process="@this"
 							style="margin-top: 10px; margin-bottom: 10px" />
 					</p:toolbarGroup>
