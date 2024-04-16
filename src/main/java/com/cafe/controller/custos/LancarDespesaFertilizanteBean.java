@@ -51,6 +51,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private List<Fertilizante> fertilizantes;
 	private List<TipoInsumo> tiposInsumo;
 	private List<Talhao> talhoesPorUnidade;
+	private List<NotaFiscal> notasDisponiveis;
 	private TipoInsumo auxiliar;
 	private DespesaFertilizante despesaFertilizante;
 	private List<DespesaFertilizante> despesas = new ArrayList<>();
@@ -172,6 +173,15 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		this.fertilizantes = this.fertilizanteService.buscarFertilizantePorTipoInsumo(auxiliar,
 				loginBean.getTenantId());
 	}
+	
+	public void carregarNotasFiscais() {
+		this.notasDisponiveis = this.notaFiscalService.buscarNotaFiscalPorFertilizante(
+				despesaFertilizante.getFertilizante().getId(), loginBean.getTenantId());
+	}
+	
+	public void selecionarNotaFiscal(NotaFiscal nota) {
+	    this.numeroNF = nota.getNumero();
+	}
 
 	public void excluirDespesa() {
 		try {
@@ -185,6 +195,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		}
 	}
 
+	
 	public List<String> completeText(String query) {
 		String queryLowerCase = query.toLowerCase();
 		List<String> notasFiscaisList = new ArrayList<>();
@@ -199,6 +210,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		return notasFiscaisList.stream().filter(t -> t.toLowerCase().startsWith(queryLowerCase))
 				.collect(Collectors.toList());
 	}
+	
 
 	public void limpar() {
 		log.info("limpar");

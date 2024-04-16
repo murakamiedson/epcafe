@@ -161,17 +161,21 @@
 
 					<p:outputLabel value="Nota Fiscal" for="notaFiscal" />
 					<h:panelGroup>
-						<p:autoComplete id="notaFiscal" dropdown="true"
-							value="#{lancarDespesaFertilizanteBean.numeroNF}"
-							completeMethod="#{lancarDespesaFertilizanteBean.completeText}"
-							scrollHeight="250" />
+							
+						<p:inputText id="notaFiscal" size="30" maxlength="80"
+							value="#{lancarDespesaFertilizanteBean.numeroNF}" required="true"
+							validatorMessage="A nota fiscal é obrigatória." />
 
 						<p:spacer width="10px" />
 
-						<p:commandButton value="Consultar Notas Fiscais" title="Consultar Notas Fiscais"
+						<p:commandButton value="Consultar Notas Fiscais" 
+							title="Consultar Notas Fiscais"
 							style="margin-top: 10px; margin-bottom: 10px"
-							icon="pi pi-eye">
-	            		</p:commandButton>
+							icon="pi pi-eye"
+							actionListener="#{lancarDespesaFertilizanteBean.carregarNotasFiscais}"
+							oncomplete="PF('verNFDialogWidgetVar').show()"
+							update="verNFDialog" process="@this" />
+	            		
 	            		
 					</h:panelGroup>
 
@@ -180,7 +184,7 @@
 				<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
 					style="margin-top: 10px; margin-bottom: 10px"
 					actionListener="#{lancarDespesaFertilizanteBean.salvar}"
-					update="despesasTable messages qdesTalhaoTable qtdRestanteTalhoes"
+					update="despesasTable messages qdesTalhaoTable"
 					process="@this gridDespesa "
 					>
 					
@@ -190,11 +194,6 @@
 					action="#{lancarDespesaFertilizanteBean.limpar}"
 					update="gridDespesa" process="@this"
 					style="margin-top: 10px; margin-bottom: 10px" />
-					
-				<p:outputLabel id="qtdRestanteTalhoes" 
-					style="margin-left: 10px;"
-					value="Quantidade de Itens Restantes: #{lancarDespesaFertilizanteBean.qtdItensRestantes}" 
-				/>
 
 
 				<p:dataTable id="qdesTalhaoTable"
@@ -262,6 +261,62 @@
 					</p:toolbarGroup>
 				</p:toolbar>
 			</p:dialog>
+			<p:dialog id="verNFDialog" widgetVar="verNFDialogWidgetVar"
+				header="Notas Fiscais Disponíveis" modal="true"
+				resizable="true" closeOnEscape="true" showEffect="explode"
+				hideEffect="explode"  position="center" width="70%"
+				maximizable="true" height="100%" fitViewport="true"
+				responsive="true">
+				
+				<p:dataTable id="notasTable"
+					value="#{lancarDespesaFertilizanteBean.notasDisponiveis}" var="nota"
+					style="margin-top: 20px" emptyMessage="Nenhuma nota fiscal encontrada."
+					rows="10" paginator="true" paginatorAlwaysVisible="true"
+					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" >
+					
+					<p:column headerText="Número" sortBy="#{nota.numero}"
+						style="width: 30px; text-align: left">
+						<h:outputText value="#{nota.numero}" />
+					</p:column>
+				
+					<p:column headerText="Data Emissão" style="width: 10px; text-align: center">
+						<h:outputText value="#{nota.dataEmissao}">
+							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Descrição"
+						style="width: 30px; text-align: left">
+						<h:outputText value="#{nota.descricao}" />
+					</p:column>
+				
+				
+					<p:column headerText="Valor Total"
+						style="width: 30px; text-align: rigth">
+						<h:outputText value="#{nota.valorTotal}" >
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>
+					</p:column>			
+									
+					<p:column headerText="Arquivo"
+						style="width: 30px; text-align: left">
+						<h:outputText value="teste" />
+					</p:column>
+					
+					<p:column headerText="Selecionar" style="width: 50px; text-align: center">
+				        <p:commandButton value="Selecionar" id="botaoSelecionarNF"
+				            action="#{lancarDespesaFertilizanteBean.selecionarNotaFiscal(nota)}"
+				            onclick="PF('verNFDialogWidgetVar').hide();"
+				            
+				            process="@this" >
+				            
+						</p:commandButton>
+				    </p:column>
+				
+				</p:dataTable>
+				
+			</p:dialog>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>
