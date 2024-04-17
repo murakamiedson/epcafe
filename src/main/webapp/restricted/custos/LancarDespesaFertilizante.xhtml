@@ -164,7 +164,8 @@
 							
 						<p:inputText id="notaFiscal" size="30" maxlength="80"
 							value="#{lancarDespesaFertilizanteBean.numeroNF}" required="true"
-							validatorMessage="A nota fiscal é obrigatória." />
+							validatorMessage="A nota fiscal é obrigatória."
+							widgetVar="notaFiscalInput" />
 
 						<p:spacer width="10px" />
 
@@ -307,7 +308,7 @@
 				        <p:commandButton value="Selecionar" id="botaoSelecionarNF"
 				            action="#{lancarDespesaFertilizanteBean.selecionarNotaFiscal(nota)}"
 				            onclick="PF('verNFDialogWidgetVar').hide();"
-				            
+				            update="form:notaFiscal"
 				            process="@this" >
 				            
 						</p:commandButton>

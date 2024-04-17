@@ -181,6 +181,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	
 	public void selecionarNotaFiscal(NotaFiscal nota) {
 	    this.numeroNF = nota.getNumero();
+	    log.info("NUMERONF SELECIONADA: " + numeroNF);
 	}
 
 	public void excluirDespesa() {
