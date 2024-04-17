@@ -49,7 +49,8 @@ private static final long serialVersionUID = 1L;
 			NotaFiscal m = this.buscarNotaFiscalPeloCodigo(notaFiscal.getId());
 			manager.remove(m);
 			manager.flush();
-		} catch (PersistenceException e) {			
+			
+		}catch (PersistenceException e) {			
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
 		} catch (RuntimeException e) {

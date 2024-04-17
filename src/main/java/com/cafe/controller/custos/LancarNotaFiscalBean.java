@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -49,6 +50,7 @@ public class LancarNotaFiscalBean implements Serializable {
 	private String yearRange;
 	private List<Fertilizante> fertilizantes = new ArrayList<Fertilizante>();
 	private boolean nfGravada = false;
+	private String imagemConvertida = "teste";
 
 	@Inject
 	private LoginBean loginBean;
@@ -156,6 +158,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		//log.info("arquivo " + this.uploadedFile);
 
 		try {
+			this.upload();
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
 			this.notas = buscarNotas();
 			log.info("qde notas fiscais = " + notas.size());
@@ -188,31 +191,36 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 	}
 
-	public void upload(FileUploadEvent event) {
+	public void upload() {
 		log.info("entrou no metodo upload");
-		try {
-			this.uploadedFile = event.getFile();
-			log.info("uploaded file:" + event.getFile().getFileName());
-			File file = new File(uploadedFile.getFileName());
+		
+		//File file = new File(uploadedFile.getFileName());
 
-			//TODO gravar o caminho do arquivo no sistema 
-			//de arquivos do servidor, fora da aplicação
-			notaFiscal.setFileName(file.getAbsolutePath());
-			
-			OutputStream out = new FileOutputStream(file);
-			out.write(uploadedFile.getContent());
-			out.close();
+		//TODO gravar o caminho do arquivo no sistema 
+		//de arquivos do servidor, fora da aplicação
+		//notaFiscal.setFileName(file.getAbsolutePath());
+		byte[] fileBytes = uploadedFile.getContent();
+		notaFiscal.setImagem(fileBytes);
 
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage("Upload completo", "O arquivo " + uploadedFile.getFileName() + " foi salvo!"));
-		} catch (IOException e) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Erro", e.getMessage()));
-		}
+	}
+	
+	public String getImagemNotaFiscalURL() {
+		log.info("Metodo de conversao de Imagem. Nota Fiscal selecionado: " + notaFiscal.getId());
+	    if (notaFiscal != null && notaFiscal.getImagem() != null) {
+	        return "data:image/png;base64," + Base64.getEncoder().encodeToString(notaFiscal.getImagem());
+	    } else {
+	        return null;
+	    }
+	}
+	
+	public void converterImagem() {
+		log.info("Metodo de conversao de Imagem. Nota Fiscal selecionado: " + notaFiscal.getId());
+	    if (notaFiscal != null && notaFiscal.getImagem() != null) {
+	        this.imagemConvertida =  "data:image/png;base64," + Base64.getEncoder().encodeToString(notaFiscal.getImagem());
+	    } else {
+	        this.imagemConvertida = null;
+	    }
 	}
 
-	public void teste() {
-		log.info("uploaded file name: " + this.uploadedFile.getFileName());
-	}
-
+	
 }

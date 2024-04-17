@@ -13,6 +13,9 @@
 
 		<h:form enctype="multipart/form-data" id="form">
 			
+			<p:messages id="messagesNF" showDetail="false" closable="true" />
+				
+			
 			<p:toolbar id="toolbar">
 				<p:toolbarGroup>
 					<p:spacer width="10px" />			
@@ -71,8 +74,17 @@
 				</p:column>			
 								
 				<p:column headerText="Arquivo"
-					style="width: 30px; text-align: left">
-					<h:outputText value="teste" />
+					style="width: 30px; text-align: center">
+					<p:commandButton icon="pi pi-eye" title="Ver Imagem" 
+						value="Ver imagem" 
+						oncomplete="PF('imagemDialog').show()" 
+						actionListener="#{lancarNotaFiscalBean.converterImagem}"
+						update=":form:notasTable"
+						process="@this">
+        				<f:setPropertyActionListener 
+        					target="#{lancarNotaFiscalBean.notaFiscal}" 
+        					value="#{nota}" />
+    				</p:commandButton>
 				</p:column>
 					
 				<p:column headerText="Operações"
@@ -359,7 +371,13 @@
 					onclick="PF('confirmacaoExclusaoItem').hide();"
 					action="#{lancarNotaFiscalBean.excluirItem}" />
 			</p:confirmDialog>
-				
+			
+			<p:dialog id="imagemDialog" header="Imagem da Nota Fiscal" 
+				widgetVar="imagemDialog" resizable="false" modal="true">
+			    <p:outputPanel id="imagemDialogPanel">
+			        <p:graphicImage name="#{lancarNotaFiscalBean.imagemConvertida}" />
+			    </p:outputPanel>
+			</p:dialog>
 
 		</h:form>
 	</ui:define>
