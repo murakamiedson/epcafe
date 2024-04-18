@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
@@ -50,18 +52,21 @@ private static final long serialVersionUID = 1L;
 			manager.remove(m);
 			manager.flush();
 			
-		}catch (PersistenceException e) {			
+		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			if(e.getMessage().contains("ConstraintViolationException"))
+				throw new NegocioException("Não foi possível excluir pois já existem"
+						+ " despesas cadastradas com essa Nota Fiscal.");
+			throw new NegocioException("Não foi possível executar a operação.1");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw new NegocioException("Não foi possível executar a operação.2");
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw new NegocioException("Não foi possível executar a operação.3");
 		} catch (Error e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw new NegocioException("Não foi possível executar a operação.4");
 		}
 	}
 	
@@ -121,9 +126,10 @@ private static final long serialVersionUID = 1L;
 	
 	@Transactional
 	public void excluirItem(Item item) throws NegocioException {
-			
+		log.info("entrou no metodo dao");	
 		try {
 			Item i = this.buscarItemPeloCodigo(item.getId());
+			log.info("EXCLUSÃO: " + i.getId());
 			manager.remove(i);
 			manager.flush();
 			

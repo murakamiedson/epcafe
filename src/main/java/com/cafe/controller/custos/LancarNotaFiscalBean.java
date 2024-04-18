@@ -185,7 +185,7 @@ public class LancarNotaFiscalBean implements Serializable {
 			notaFiscalService.excluir(notaFiscalSelecionada);
 			this.notas = buscarNotas();
 			MessageUtil.sucesso("Nota Fiscal " + notaFiscalSelecionada.getNumero() + " excluída com sucesso.");
-		} catch (NegocioException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
 		}
