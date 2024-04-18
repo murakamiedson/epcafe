@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,8 +22,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.EqualsAndHashCode;
@@ -67,8 +66,7 @@ public class NotaFiscal implements Serializable{
 	private BigDecimal valorTotal = new BigDecimal(0);
 		
 	@OneToMany( mappedBy = "notaFiscal", cascade = CascadeType.ALL)
-	@Fetch(FetchMode.JOIN)
-	private List<Item> itens;
+	private Set<Item> itens = new HashSet<>();
 	
 	@Transient
 	public BigDecimal getValorItens() {

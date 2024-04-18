@@ -3,6 +3,7 @@ package com.cafe.modelo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,12 +38,14 @@ public class Item implements Serializable{
 	@PositiveOrZero
 	private BigDecimal valor = new BigDecimal(0);
 	
-	@ManyToOne
-	@JoinColumn(name = "codigo_fertilizante", nullable = false)
+	@ToString.Include
+	@EqualsAndHashCode.Include
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "codigo_fertilizante")
 	private Fertilizante fertilizante;
 	
-	@ManyToOne
-	@JoinColumn(name= "codigo_nota", nullable = false)
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name= "codigo_nota")
 	private NotaFiscal notaFiscal;
 	
 }

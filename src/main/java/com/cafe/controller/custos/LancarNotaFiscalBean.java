@@ -1,23 +1,15 @@
 package com.cafe.controller.custos;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 
 import com.cafe.controller.LoginBean;
@@ -49,7 +41,6 @@ public class LancarNotaFiscalBean implements Serializable {
 	private UploadedFile uploadedFile;
 	private String yearRange;
 	private List<Fertilizante> fertilizantes = new ArrayList<Fertilizante>();
-	private boolean nfGravada = false;
 	private String imagemConvertida = "teste";
 
 	@Inject
@@ -63,7 +54,6 @@ public class LancarNotaFiscalBean implements Serializable {
 	public void inicializar() {
 
 		log.info("inicializando lancarNotaFiscalBean...");
-		log.info("nfGravada  = " + nfGravada);
 		this.yearRange = this.calcUtil.getAnoCorrente();
 
 		this.notas = buscarNotas();
@@ -80,70 +70,40 @@ public class LancarNotaFiscalBean implements Serializable {
 	public void limpar() {
 		log.info("limpar nf");
 		notaFiscal = new NotaFiscal();
-		notaFiscal.setItens(new ArrayList<Item>());
+		//notaFiscal.setItens(new ArrayList<Item>());
 		notaFiscal.setTenant_id(loginBean.getTenantId());
 		//nfGravada = false;
 	}
 
 	public void limparItem() {
-		item = new Item();
-	}
-	public void editarNota() {
-		nfGravada = true;
+		this.item = new Item();
 	}
 
 	public void salvarItem() {
-		try {
-			log.info("salvar item ");
-			
-			validarTotal(item);						
-			
-			if(item.getId() == null) {
-				this.item.setNotaFiscal(notaFiscal);
-				this.notaFiscal.getItens().add(item);
-				MessageUtil.sucesso("Item adicionado com sucesso!");
-				limparItem();
-			}
-			else {
-				MessageUtil.sucesso("Item alterado com sucesso!");
-			}
-			log.info("size item --> " + this.notaFiscal.getItens().size());
-		} catch (NegocioException e) {
-			
-			notaFiscal = this.notaFiscalService.buscarNotaFiscalPeloCodigo(notaFiscal.getId());
-			
-			e.printStackTrace();
-			MessageUtil.alerta(e.getMessage());
-		} catch (Exception e) {
-			e.printStackTrace();
-			MessageUtil.erro("Um problema ocorreu, o item não foi adicionado!");
+		log.info("salvar item " + this.item);								
+		
+		if(this.item.getId() == null) {
+			log.info("item novo adicionando ..." + this.item);
+			this.item.setNotaFiscal(notaFiscal);
+			this.notaFiscal.getItens().add(this.item);
+			log.info("size --> " + this.notaFiscal.getItens().size());
+			MessageUtil.sucesso("Item adicionado com sucesso!");
+			limparItem();
+			log.info("item limpo " + this.item);	
+		}
+		else {
+			MessageUtil.sucesso("Item alterado com sucesso!");
 		}
 		
-	}
-	public void validarTotal(Item itemAdicionado) throws NegocioException {
-		
-		BigDecimal total = new BigDecimal(0);
-		total = total.add(itemAdicionado.getValor().multiply(itemAdicionado.getQuantidade()));
-		for(Item i : notaFiscal.getItens()) {
-			total = total.add(i.getValor().multiply(i.getQuantidade()));
-			
-		}
-		
-		//total > notaFiscal.getValorTotal()
-		if(total.compareTo(notaFiscal.getValorTotal()) == 1) {
-			
-			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!"
-					+ "(Valor restante = " + (total.subtract(notaFiscal.getValorTotal())) + ")");
-		}	
-	}
+		log.info("size item --> " + this.notaFiscal.getItens().size());
+		log.info("itens --> " + this.notaFiscal.getItens());
+	}	
 		
 	public void excluirItem() {
 		try {
-			log.info("remover item nr  = " + item.getId());			
-			this.notaFiscal.getItens().remove(item);
+			log.info("remover item nr  = " + this.item.getId());			
+			this.notaFiscal.getItens().remove(this.item);
 			log.info("qde  = " + this.notaFiscal.getItens().size());
-			
-			this.notaFiscalService.excluirItem(item);
 
 			MessageUtil.sucesso("Item excluído com sucesso!");
 		} catch (Exception e) {
@@ -158,11 +118,12 @@ public class LancarNotaFiscalBean implements Serializable {
 		//log.info("arquivo " + this.uploadedFile);
 
 		try {
-			this.upload();
+			//TODO
+			//this.upload();
+			
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
 			this.notas = buscarNotas();
 			log.info("qde notas fiscais = " + notas.size());
-			nfGravada = true;
 
 			MessageUtil.sucesso("Nota Fiscal salva com sucesso!");
 		} catch (NegocioException e) {
