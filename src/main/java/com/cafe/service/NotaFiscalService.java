@@ -76,8 +76,6 @@ public class NotaFiscalService implements Serializable {
 		return notaFiscalDAO.buscarNotaFiscalPeloCodigo(id);
 	}
 	
-
-=======
 	/*
 	 * Item
 	 */
