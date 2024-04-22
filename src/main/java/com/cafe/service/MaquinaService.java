@@ -44,8 +44,10 @@ public class MaquinaService implements Serializable {
 		return maquinaDAO.buscarMaquinas(tenantId);
 	}
 	
-	public Maquina buscarPeloNome(String nome, Long tenantId) {
-		return maquinaDAO.buscarPeloNome(nome, tenantId);
+	public List<Maquina> buscarMaquinasAlfabetico(Long tenantId) {
+		
+		log.info("Primeiro acesso a banco... buscar maquinas em ordem alfabética");					
+		return maquinaDAO.buscarMaquinasAlfabetico(tenantId);
 	}
 
 	

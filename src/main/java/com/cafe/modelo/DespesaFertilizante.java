@@ -1,6 +1,5 @@
 package com.cafe.modelo;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -8,18 +7,19 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.EqualsAndHashCode;
@@ -46,23 +46,20 @@ public class DespesaFertilizante {
 	private Long id;	
 	private Long tenant_id;
 	
+	@NotNull
+	private LocalDate data;
+	
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Fertilizante fertilizante;
 	
-	@NotNull
-	private LocalDate mesAno;
-	
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private NotaFiscal notaFiscal;
 	
-	@Positive
-	private BigDecimal quantidade;
-	
-	@Positive
-	private BigDecimal valorDespesa;
-	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="despesaFertilizante", fetch = FetchType.EAGER)
-	private List<DespesaFerTalhao> qdesTalhoes;
+	@OneToMany( mappedBy = "despesaFertilizante", cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<DespesaFerTalhao> despesasTalhoes;
 	
 	
 	

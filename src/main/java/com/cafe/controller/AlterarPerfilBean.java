@@ -33,13 +33,9 @@ public class AlterarPerfilBean implements Serializable {
 
 	private Usuario usuario;
 	private String senhaAntiga;
-	//private Theme theme;
-	//private List<Theme> themes;
 	
 	@Inject
 	private UsuarioService usuarioService;
-	//@Inject
-	//private ThemeService themeService;
 	@Inject
 	private LoginBean usuarioLogado;
 	
@@ -47,17 +43,7 @@ public class AlterarPerfilBean implements Serializable {
 	public void inicializar() {
 		
 		log.info("Alterar Perfil " + usuarioLogado.getUsuario());
-		this.usuario = usuarioLogado.getUsuario();
-		/*
-		themes = themeService.getThemes();
-		
-		if(usuario.getTheme() == null) {
-			theme = ThemeService.getThemeDefault(); // Default = Cupertino
-		}
-		else {
-			theme = getThemes().get(usuario.getTheme());
-		}
-		*/
+		this.usuario = usuarioLogado.getUsuario();		
 	}
 	
 	public void salvar() {
@@ -74,33 +60,10 @@ public class AlterarPerfilBean implements Serializable {
 
 	}
 	
-	public void salvarTema() {
-		try {
-			/*
-			log.info("salvarTema()..." + theme.getDisplayName());
-			
-			usuario.setTheme(theme.getId());
-			*/
-			this.usuarioService.alterarPerfil(usuario);
-			MessageUtil.sucesso("Tema alterado com sucesso! Saia do sistema e faça login novamente.");
-		} catch (NegocioException e) {
-			e.printStackTrace();
-			MessageUtil.erro(e.getMessage());
-		} catch (Exception le) {
-			le.printStackTrace();
-			MessageUtil.erro(le.getMessage());
-		}
-	}
 	public void salvarPerfil() {
 		try {
-			/*
-			log.info("salvarTema()..." + theme.getDisplayName());
 			
-			if(usuario.getTheme() != theme.getId()) {
-				log.info("Alterando tema...de " + usuario.getTheme() + " para " + theme.getId());
-				usuario.setTheme(theme.getId());
-			}
-			*/
+			log.info("salvarPerfil()...");			
 			
 			this.usuarioService.alterarPerfil(usuario);
 			MessageUtil.sucesso("Perfil alterado com sucesso! Saia do sistema e faça login novamente.");

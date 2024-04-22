@@ -11,9 +11,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -51,18 +52,20 @@ public class DespesaMaquina {
 	private Long tenant_id;	
 	
 	@NotNull
-	private LocalDate mesAno;
+	private LocalDate data;
 
 	@PositiveOrZero
-	private BigDecimal horasTrabalhadas;
+	private BigDecimal minutosTrabalhados;
 	
 	@Enumerated(EnumType.STRING)
 	private FatorPotencia fatorPotencia;
 	
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(nullable = false, name="codigo_propriedade")
 	private Propriedade propriedade;
 	
-	@OneToOne	
+	@ManyToOne
+	@JoinColumn(nullable = false, name="codigo_maquina")
 	private Maquina maquina;
 	
 	private BigDecimal precoUnitarioCombustivel;

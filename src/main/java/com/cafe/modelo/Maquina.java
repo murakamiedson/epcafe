@@ -33,8 +33,8 @@ import lombok.EqualsAndHashCode;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "Maquina.buscarMaquinas", query = "select u from Maquina u where u.tenant_id = :tenantId"),
-		@NamedQuery(name = "Maquina.buscarPeloNome", 
-			query = "select u from Maquina u where u.nome = :nome and u.tenant_id = :tenantId")
+		@NamedQuery(name = "Maquina.buscarMaquinasAlfabetico", 
+			query = "select u from Maquina u where u.tenant_id = :tenantId order by u.nome")
 })
 public class Maquina {
 
