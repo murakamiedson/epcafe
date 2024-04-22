@@ -13,9 +13,10 @@ import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
 
-import lombok.extern.log4j.Log4j;
 
-@Log4j
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class NotaFiscalService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -75,7 +76,17 @@ public class NotaFiscalService implements Serializable {
 		return notaFiscalDAO.buscarNotaFiscalPeloCodigo(id);
 	}
 	
+
+=======
+	/*
+	 * Item
+	 */
 	
+	public void excluirItem(Item item) throws NegocioException {
+		log.info("Entrou no service");
+		notaFiscalDAO.excluirItem(item);		
+	}
+
 	
 	/*
 	 * Nota Fiscal / Fertilizante

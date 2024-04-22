@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
@@ -92,18 +94,22 @@ private static final long serialVersionUID = 1L;
 			NotaFiscal m = this.buscarNotaFiscalPeloCodigo(notaFiscal.getId());
 			manager.remove(m);
 			manager.flush();
-		}catch (PersistenceException e) {			
+			
+		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new NegocioException("NF não pode ser excluída. Já existe lançamento de despesa para esta nota!");
+			if(e.getMessage().contains("ConstraintViolationException"))
+				throw new NegocioException("Não foi possível excluir pois já existem"
+						+ " despesas cadastradas com essa Nota Fiscal.");
+			throw new NegocioException("Não foi possível executar a operação.1");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw new NegocioException("Não foi possível executar a operação.2");
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw new NegocioException("Não foi possível executar a operação.3");
 		} catch (Error e) {
 			e.printStackTrace();
-			throw new NegocioException("Não foi possível executar a operação.");
+			throw new NegocioException("Não foi possível executar a operação.4");
 		}
 	}
 	
@@ -158,4 +164,29 @@ private static final long serialVersionUID = 1L;
 		return manager.find(Item.class, id);
 	}
 	
+
+	@Transactional
+	public void excluirItem(Item item) throws NegocioException {
+		log.info("entrou no metodo dao");	
+		try {
+			Item i = this.buscarItemPeloCodigo(item.getId());
+			log.info("EXCLUSÃO: " + i.getId());
+			manager.remove(i);
+			manager.flush();
+			
+		} catch (PersistenceException e) {			
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}
+	}
+
 }
