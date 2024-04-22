@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 import org.hibernate.exception.ConstraintViolationException;
 
@@ -14,9 +15,10 @@ import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.log4j.Log4j;
 
-@Log4j2
+
+@Log4j
 public class NotaFiscalDAO implements Serializable {
 
 private static final long serialVersionUID = 1L;
@@ -25,13 +27,52 @@ private static final long serialVersionUID = 1L;
 	private EntityManager manager;
 	
 	@Transactional
-	public NotaFiscal salvar(NotaFiscal notaFiscal) throws PersistenceException, NegocioException {
+	public NotaFiscal alterar(NotaFiscal notaFiscal) throws NegocioException {
+		log.info("alterando na dao...");
+		NotaFiscal nfBanco = manager.find(NotaFiscal.class, notaFiscal.getId());
+		
+		if( notaFiscal.getItens().size() < nfBanco.getItens().size() ) {
+			removerItem(notaFiscal, nfBanco);
+		}
+	
+		return manager.merge(notaFiscal);
+	}	
+	
+	private void removerItem(NotaFiscal notaFiscal, NotaFiscal nfBanco) throws NegocioException {
+
+		 
+		 for(Item ib : notaFiscal.getItens()) {
+			 if (nfBanco.getItens().contains(ib)) {
+				 nfBanco.getItens().remove(ib);
+			 }
+		 }
+		 
+		 for(Item ib : nfBanco.getItens()) {
+			log.info("excluindo item..." + ib.getId());
+			Item i = manager.find(Item.class, ib.getId());
+			
+			Query query = manager.createQuery(
+					"DELETE FROM Item it WHERE it.fertilizante = :fertilizante and it.notaFiscal = :notaFiscal");
+			
+			int deletedCount = query.setParameter("fertilizante", i.getFertilizante())
+					.setParameter("notaFiscal", i.getNotaFiscal()).executeUpdate();
+
+			log.info(deletedCount);
+			//manager.remove(i);				
+		 }
+		 manager.flush();		 
+	}
+
+	@Transactional
+	public NotaFiscal salvar(NotaFiscal notaFiscal) throws NegocioException {
 		try {	
+			log.info("salvando na dao...");
+							
 			return manager.merge(notaFiscal);
 
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw e;
+			throw new NegocioException("Não foi possível executar a operação.");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
@@ -44,10 +85,12 @@ private static final long serialVersionUID = 1L;
 		}		
 	}
 	
+		
 	@Transactional
 	public void excluir(NotaFiscal notaFiscal) throws NegocioException {
 			
 		try {
+			log.info("excluindo nf...");
 			NotaFiscal m = this.buscarNotaFiscalPeloCodigo(notaFiscal.getId());
 			manager.remove(m);
 			manager.flush();
@@ -115,15 +158,13 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	
-	/*
-	 * Item
-	 */
 	
 	
 	public Item buscarItemPeloCodigo(Long id) {
 		return manager.find(Item.class, id);
 	}
 	
+
 	@Transactional
 	public void excluirItem(Item item) throws NegocioException {
 		log.info("entrou no metodo dao");	
@@ -147,4 +188,5 @@ private static final long serialVersionUID = 1L;
 			throw new NegocioException("Não foi possível executar a operação.");
 		}
 	}
+
 }
