@@ -33,9 +33,19 @@
 	    	
 	    	<p:panelGrid columns="2" id="painel" style="width: 100%; margin-top: 20px"
 	    			columnClasses="rotulo, campo">
-	    		<p:outputLabel value="Id" for="id"/>
-	    		<p:outputLabel id="id" size="20" maxlength="20" 
-	    			value="#{cadastroInstalacaoBean.instalacao.id}"/>		    		
+	    		
+	    		<p:outputLabel value="Tipo de Instalação" for="tipo" />
+	    		<p:selectOneMenu id="tipo" 
+	    			value="#{cadastroInstalacaoBean.instalacao.tipo}"
+	    			required="true" 
+			    	validatorMessage="O tipo de instalação é obrigatório.">
+	    			<f:selectItem itemLabel="Selecione o tipo de instalação" />
+	    			<f:selectItems value="#{cadastroInstalacaoBean.tiposInstalacao}" var="tipoInstalacao" 
+						itemLabel="#{tipoInstalacao}" itemValue="#{tipoInstalacao}"/>
+						
+					<p:ajax listener="#{cadastroInstalacaoBean.atualizaNome}" update="nome" process="tipo" />
+					<p:ajax listener="#{cadastroInstalacaoBean.carregaVidaUtil}" update="vidaUtil" process="tipo" />
+	    		</p:selectOneMenu>			    		
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 

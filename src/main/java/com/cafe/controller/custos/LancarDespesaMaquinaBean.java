@@ -1,7 +1,6 @@
 package com.cafe.controller.custos;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +16,7 @@ import com.cafe.modelo.Maquina;
 import com.cafe.modelo.enums.FatorPotencia;
 import com.cafe.service.DespesaMaquinaService;
 import com.cafe.service.MaquinaService;
+import com.cafe.util.CalculoUtil;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
 
@@ -37,15 +37,16 @@ public class LancarDespesaMaquinaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private LocalDate mesAno;
 	private List<Maquina> maquinas;
 	private DespesaMaquina despesaMaquina;
 	private DespesaMaquina despesaMaquinaSelecionada;
 	private List<FatorPotencia> fatorPotencias;
 	private List<DespesaMaquina> despesas = new ArrayList<>();
-	//private List<BigDecimal> valorTotal;
 	private Long tenantId;
-
+	
+	private String nomeMaquina;
+	
+	private String yearRange;
 	
 	@Inject
 	private LoginBean loginBean;
@@ -55,14 +56,17 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	
 	@Inject
 	private DespesaMaquinaService despesaService;
+	
+	@Inject
+	private CalculoUtil calcUtil;
 
 	@PostConstruct
 	public void inicializar() {
-		//tenantId = loginBean.getUsuario().getTenant().getCodigo();
 		
 		log.info("inicializar login = " + loginBean.getUsuario());
-		//mesAno = LocalDate.now();
-		maquinas = maquinaService.buscarMaquinas(loginBean.getTenantId());
+		
+		this.yearRange = this.calcUtil.getAnoCorrente();
+		maquinas = maquinaService.buscarMaquinasAlfabetico(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
 		despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());		
 
@@ -72,8 +76,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	
     public void salvar() {
     	
-    	despesaMaquina.setMesAno(mesAno);
-    	log.info("mesAno: " + mesAno);
+    	
     	log.info("salvar ..." + despesaMaquina);
     	
 
@@ -88,6 +91,8 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		this.limpar();
  	
     }
+    
+    
     
     public void excluirDespesa() {
     	try {
@@ -106,9 +111,10 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		log.info("limpar");
 		despesaMaquina = new DespesaMaquina();
 
-		//despesaMaquina.setMesAno(mesAno);
 		despesaMaquina.setPropriedade(loginBean.getUsuario().getPropriedade());
 		despesaMaquina.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 	}
+	
+	
 	
 }

@@ -20,8 +20,9 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.TipoAuxiliarInsumos;
+import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
 import com.cafe.modelo.enums.TipoCombustivel;
+import com.cafe.modelo.enums.TipoConsumo;
 import com.cafe.modelo.enums.TipoInsumo;
 
 import lombok.Data;
@@ -31,7 +32,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Maquina.buscarMaquinas", query="select u from Maquina u where u.tenant_id = :tenantId"),
+		@NamedQuery(name = "Maquina.buscarMaquinas", query = "select u from Maquina u where u.tenant_id = :tenantId"),
+		@NamedQuery(name = "Maquina.buscarMaquinasAlfabetico", 
+			query = "select u from Maquina u where u.tenant_id = :tenantId order by u.nome")
 })
 public class Maquina {
 
@@ -39,45 +42,51 @@ public class Maquina {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private Long tenant_id;
-	
+
 	@NotBlank
 	@Column(nullable = false)
 	private String nome;
-	
+
 	@NotBlank
 	private String modelo;
-	
+
 	@PositiveOrZero
 	private BigDecimal valor; // valor do bem
-	
+
 	@PositiveOrZero
-	private BigDecimal potencia = new BigDecimal(0.0); // CV	
-		
+	private BigDecimal potencia = new BigDecimal(0.0); // CV
+
+	@PositiveOrZero
+	private BigDecimal consumoMedio = new BigDecimal(0.0);
+
 	@PositiveOrZero
 	private Integer vidaUtil;
-	
+
 	@NotNull
 	private LocalDate dataCompra;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TipoInsumo tipoInsumo;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TipoCombustivel tipoCombustivel;
-	
+
 	@Enumerated(EnumType.STRING)
-	private TipoAuxiliarInsumos tipo;
+	private TipoAuxiliarMaquinas tipo;
+
+	@Enumerated(EnumType.STRING)
+	private TipoConsumo tipoConsumo;
 
 	/*
 	 * Datas de Criação e Modificação
 	 */
-	
-	@CreationTimestamp	
+
+	@CreationTimestamp
 	@Column(columnDefinition = "datetime")
 	private OffsetDateTime dataCriacao;
-	
+
 	@UpdateTimestamp
 	@Column(columnDefinition = "datetime")
 	private OffsetDateTime dataModificacao;

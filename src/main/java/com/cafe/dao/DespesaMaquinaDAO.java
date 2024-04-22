@@ -90,7 +90,7 @@ public class DespesaMaquinaDAO implements Serializable{
 	/*
 	 * Para Relatorio Despesas Máquina
 	 */
-	public List<DespesaDTO> buscarDespesasDTO(LocalDate mesAno, Long tenantId){
+	public List<DespesaDTO> buscarDespesasDTO(LocalDate data, Long tenantId){
 		
 		log.info("consultando DTO...");
 		
@@ -107,7 +107,7 @@ public class DespesaMaquinaDAO implements Serializable{
 				
 		List<DespesaDTO> lista = manager.createQuery(
 				"SELECT new com.cafe.modelo.to.DespesaDTO( "
-				+ "d.mesAno, "
+				+ "d.data, "
 				+ "d.valorTotal, "
 				+ "m.id, "
 				+ "m.nome, "
@@ -115,10 +115,10 @@ public class DespesaMaquinaDAO implements Serializable{
 			+ "FROM DespesaMaquina d "
 			+ "  INNER JOIN Maquina m on d.maquina = m.id "
 			+ "WHERE "
-			+ "  mesAno <= :mesAno "  //TODO alterar, usado so para teste
+			+ "  data <= :data "  //TODO alterar, usado so para teste
 			+ "  and d.tenant_id = :tenantId "
 			+ "ORDER BY m.id", DespesaDTO.class)
-			.setParameter("mesAno", mesAno)
+			.setParameter("data", data)
 			.setParameter("tenantId", tenantId)
 			.getResultList();
 			

@@ -1,16 +1,17 @@
 package com.cafe.service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import com.cafe.dao.DespesaFertilizanteDAO;
+import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.modelo.DespesaFertilizante;
-import com.cafe.modelo.QuantidadeTalhao;
-import com.cafe.modelo.Talhao;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Fertilizante;
+import com.cafe.modelo.Item;
+import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -25,8 +26,9 @@ public class DespesaFertilizanteService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Inject
-	private TalhaoService talhaoService;
+	private BigDecimal quantidadeFertilizanteNF;
+	
+	
 	@Inject
 	private DespesaFertilizanteDAO despesaFertilizanteDAO;
 
@@ -35,43 +37,11 @@ public class DespesaFertilizanteService implements Serializable {
 		log.info("salvando despesa...");
 		return this.despesaFertilizanteDAO.salvar(despesaFertilizante);
 	}
-	public DespesaFertilizante criarDistribuicao(DespesaFertilizante despesaFertilizante, Propriedade propriedade) {
-		
-		log.info("criar Distribuição de qdes por talhao ");
-		
-		List<Talhao> talhoesUnidade = talhaoService.buscarTalhoesPorUnidade(propriedade, propriedade.getTenant_id());
-		
-		// se não existir distribuicao buscar os talhoes e criar uma qdeTalhao para cada
-		if(despesaFertilizante.getQdesTalhoes() == null && talhoesUnidade.size() > 0) {
-						
-			despesaFertilizante.setQdesTalhoes(new ArrayList<QuantidadeTalhao>());
-			
-			for(Talhao t : talhoesUnidade) {
-				QuantidadeTalhao quantidadeTalhao = new QuantidadeTalhao();
-				quantidadeTalhao.setDespesaFertilizante(despesaFertilizante);
-				quantidadeTalhao.setTalhao(t);
-				despesaFertilizante.getQdesTalhoes().add(quantidadeTalhao);
-				log.info("quantidadeTalhao adicionado");
-			}
-			
-			
-			log.info("talhoes adicionados " + despesaFertilizante.getQdesTalhoes().size());
-		}
-		return despesaFertilizante;
-	}
+	
 
 	public void excluir(DespesaFertilizante despesaFertilizante) throws NegocioException {
 		despesaFertilizanteDAO.excluir(despesaFertilizante);
-	}
-
-	public QuantidadeTalhao salvarQuantidadeTalhao(QuantidadeTalhao quantidadeTahaoDespesa)
-			throws NegocioException {
-		return this.despesaFertilizanteDAO.salvarQuantidadeTalhao(quantidadeTahaoDespesa);
-	}
-
-	public void excluirQuantidadeTalhao(QuantidadeTalhao quantidadeTalhao) throws NegocioException {
-		despesaFertilizanteDAO.excluirQuantidadeTalhao(quantidadeTalhao);
-	}
+	}	
 
 	public DespesaFertilizante buscarPeloCodigo(long codigo) {
 		return despesaFertilizanteDAO.buscarPeloCodigo(codigo);
@@ -82,5 +52,59 @@ public class DespesaFertilizanteService implements Serializable {
 		log.info("Primeiro acesso a banco... buscar despesas com Fertilizantes");
 		return despesaFertilizanteDAO.buscarDespesasFertilizantes(tenantId);
 	}
+	
+	//verifica se a notafiscal selecionada contém o fertilizante selecionado
+	public boolean validarNotaSelecionada(NotaFiscal nf, Fertilizante fertilizante) {
+		for(Item item : nf.getItens()) {
+			if(item.getFertilizante() == fertilizante) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean validarQuantidadesTalhoesComNF(DespesaFertilizante despesaFertilizante) {
+		//BigDecimal total = despesaFertilizante.getNotaFiscal().getItens()
+		log.info("entrou no metodo de validação");
+		BigDecimal total = new BigDecimal(0);
+		BigDecimal totalFerNF = new BigDecimal(0);
+		for(DespesaFerTalhao qdeTalhao : despesaFertilizante.getDespesasTalhoes()) {
+			total = total.add(qdeTalhao.getQuantidade());
+			log.info("TOTAL: " + total);
+		}
+		for(Item item : despesaFertilizante.getNotaFiscal().getItens()) {
+			if(item.getFertilizante() == despesaFertilizante.getFertilizante()) {
+				totalFerNF = item.getQuantidade();
+			}
+		}
+		if(total.compareTo(totalFerNF) == 1) {
+			log.info("Quantidade informada ultrapassa nota fiscal");
+			return false;
+		}
+		return true;
+	}
+	
+	//calcula o valor equivalente gasto com cada talhao da despesa
+	public void calculaValorPorTalhao(DespesaFertilizante despesaFertilizante) {
+		BigDecimal valorFertilizanteNF = new BigDecimal(0);
+		
+		for(Item itens : despesaFertilizante.getNotaFiscal().getItens()) {
+			if(itens.getFertilizante() == despesaFertilizante.getFertilizante()) {
+				valorFertilizanteNF = itens.getValor();
+				this.quantidadeFertilizanteNF = itens.getQuantidade();
+				log.info("Quantidade fertilizante nota fiscal: " + this.quantidadeFertilizanteNF);
+			}
+		}
+		
+		for(DespesaFerTalhao qdeTalhao : despesaFertilizante.getDespesasTalhoes()) {
+			qdeTalhao.setValor(valorFertilizanteNF.multiply(qdeTalhao.getQuantidade()));
+			
+		}
+		
+	}
+	
+	
+	
+	
 
 }
