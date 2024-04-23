@@ -1,6 +1,6 @@
 package com.cafe.modelo.to;
 
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.Tenant;
 import com.cafe.modelo.Usuario;
 
@@ -12,6 +12,6 @@ import lombok.Setter;
 public class CadastroTenantTO {
 	
 	private Tenant proprietario;
-	private Propriedade propriedade;
+	private Unidade unidade;
 	private Usuario usuario;
 }

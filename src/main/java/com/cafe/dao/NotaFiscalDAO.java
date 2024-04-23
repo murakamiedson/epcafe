@@ -8,8 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import org.hibernate.exception.ConstraintViolationException;
-
 import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;

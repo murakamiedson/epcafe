@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import com.cafe.dao.FuncionarioDAO;
 import com.cafe.dao.PropriedadeDAO;
 import com.cafe.modelo.Funcionario;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -48,14 +48,14 @@ public class FuncionarioService implements Serializable{
 		return funcionarioDAO.buscarFuncionarios(tenantId);
 	}
 	
-	public List<Funcionario> buscarFuncionariosPorUnidade(Propriedade propriedade, Long tenantId) {
+	public List<Funcionario> buscarFuncionariosPorUnidade(Unidade unidade, Long tenantId) {
 		
-		return this.funcionarioDAO.buscarFuncionariosPorUnidade(propriedade, tenantId);
+		return this.funcionarioDAO.buscarFuncionariosPorUnidade(unidade, tenantId);
 	}
 	
 /* Unidades */
 	
-	public List<Propriedade> buscarUnidades(Long tenantId) {		
+	public List<Unidade> buscarUnidades(Long tenantId) {		
 		return propriedadeDAO.buscarTodos(tenantId);
 	}
 

@@ -8,7 +8,7 @@
 
 	<submenu label="Cadastros" icon="pi pi-folder-open">
 		<grupo value="TECNICOS"></grupo>
-		<menuitem value="Propriedades"
+		<menuitem value="Unidades"
 			outcome="/restricted/cadastros/PesquisaPropriedade.xhtml"></menuitem>
 		<menuitem value="Máquinas e Implementos"
 			outcome="/restricted/cadastros/PesquisaMaquina.xhtml"></menuitem>

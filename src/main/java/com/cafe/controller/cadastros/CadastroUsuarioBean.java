@@ -11,7 +11,7 @@ import javax.inject.Named;
 import javax.persistence.PersistenceException;
 
 import com.cafe.controller.LoginBean;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.Usuario;
 import com.cafe.modelo.enums.Grupo;
 import com.cafe.modelo.enums.Role;
@@ -39,13 +39,13 @@ public class CadastroUsuarioBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Usuario usuario;
-	private Propriedade propriedade;
+	private Unidade unidade;
 	private List<Role> roles;
 	private List<Status> status;
 	
 	
 	private List<Grupo> grupos;
-	private List<Propriedade> propriedades;
+	private List<Unidade> unidades;
 	
 	@Inject
 	private UsuarioService usuarioService;
@@ -62,8 +62,8 @@ public class CadastroUsuarioBean implements Serializable {
 		this.grupos = Arrays.asList(Grupo.valueOf("TECNICOS"), Grupo.valueOf("GESTORES"));
 		this.roles = Arrays.asList(Role.valueOf("TECNICO"), Role.valueOf("GESTOR"));
 		this.status = Arrays.asList(Status.values());
-		this.propriedade = loginBean.getUsuario().getPropriedade();
-		this.propriedades = this.propriedadeService.buscarTodos(loginBean.getTenantId());
+		this.unidade = loginBean.getUsuario().getUnidade();
+		this.unidades = this.propriedadeService.buscarTodos(loginBean.getTenantId());
 		
 		this.limpar();
 		
@@ -72,8 +72,8 @@ public class CadastroUsuarioBean implements Serializable {
 	public void salvar() {
 		try {	
 			
-			log.info("usuario" + usuario.getPropriedade().getCodigo());
-			log.info("logado" + propriedade.getCodigo());							
+			log.info("usuario" + usuario.getUnidade().getCodigo());
+			log.info("logado" + unidade.getCodigo());							
 			
 			this.usuarioService.salvar(usuario, loginBean.getTenantId());				
 			
@@ -97,7 +97,7 @@ public class CadastroUsuarioBean implements Serializable {
 	
 	public void limpar() {
 		this.usuario = new Usuario();
-		this.usuario.setPropriedade(propriedade);
+		this.usuario.setUnidade(unidade);
 		this.usuario.setStatus(Status.ATIVO);
 		this.usuario.setTenant(loginBean.getUsuario().getTenant());
 	}
