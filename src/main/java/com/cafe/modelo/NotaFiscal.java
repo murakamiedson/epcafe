@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,7 +66,7 @@ public class NotaFiscal implements Serializable{
 	@PositiveOrZero
 	private BigDecimal valorTotal = new BigDecimal(0);
 		
-	@OneToMany( mappedBy = "notaFiscal", cascade = CascadeType.ALL)
+	@OneToMany( mappedBy = "notaFiscal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Item> itens = new HashSet<>();
 	
 	@Transient
