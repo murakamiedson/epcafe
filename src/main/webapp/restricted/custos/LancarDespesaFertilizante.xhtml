@@ -305,7 +305,18 @@
 						<h:outputText value="#{nota.valorTotal}" >
 							<f:convertNumber type="currency" currencySymbol="R$"/>
 						</h:outputText>
-					</p:column>			
+					</p:column>
+					
+					<p:column headerText="Itens" style="width: 30px; text-align: center">
+						<p:commandButton title="Itens" value="Ver Itens" icon="pi pi-eye"
+							oncomplete="PF('itensDialogWidgetVar').show()"
+							update="form:itensTable" process="@this">
+							<f:setPropertyActionListener
+								target="#{lancarDespesaFertilizanteBean.notaSelecionada}" 
+								value="#{nota}" />
+						</p:commandButton>
+					</p:column>					
+						
 									
 					<p:column headerText="Arquivo"
 						style="width: 30px; text-align: left">
@@ -321,6 +332,40 @@
 				            
 						</p:commandButton>
 				    </p:column>
+				
+				</p:dataTable>
+				
+			</p:dialog>
+			
+			<p:dialog id="itensDialog" widgetVar="itensDialogWidgetVar"
+				header="Itens da Nota Fiscal" modal="true"
+				resizable="true" closeOnEscape="true" showEffect="explode"
+				hideEffect="explode"  position="center" width="70%"
+				maximizable="true" height="100%" fitViewport="true"
+				responsive="true">
+				
+				<p:dataTable id="itensTable" lazy="false"
+					value="#{lancarDespesaFertilizanteBean.notaSelecionada.itens}" var="item"
+					style="margin-top: 20px" emptyMessage="Nenhum item encontrado."
+					rows="10" paginator="true" paginatorAlwaysVisible="true"
+					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" >
+					
+					<p:column headerText="Id" 
+						style="width: 30px; text-align: left">
+						<h:outputText value="#{item.id}" />
+					</p:column>
+					
+					<p:column headerText="Qde" 
+						style="width: 30px; text-align: left">
+						<h:outputText value="#{item.quantidade}" />
+					</p:column>				
+				
+					<p:column headerText="Valor Unitário"
+						style="width: 30px; text-align: rigth">
+						<h:outputText value="#{item.valor}" >
+							<f:convertNumber type="currency" currencySymbol="R$"/>
+						</h:outputText>
+					</p:column>				
 				
 				</p:dataTable>
 				

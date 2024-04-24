@@ -8,8 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import org.hibernate.exception.ConstraintViolationException;
-
 import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
@@ -28,14 +26,31 @@ private static final long serialVersionUID = 1L;
 	
 	@Transactional
 	public NotaFiscal alterar(NotaFiscal notaFiscal) throws NegocioException {
-		log.info("alterando na dao...");
-		NotaFiscal nfBanco = manager.find(NotaFiscal.class, notaFiscal.getId());
 		
-		if( notaFiscal.getItens().size() < nfBanco.getItens().size() ) {
-			removerItem(notaFiscal, nfBanco);
-		}
-	
-		return manager.merge(notaFiscal);
+		try {
+			log.info("alterando na dao...");
+			NotaFiscal nfBanco = manager.find(NotaFiscal.class, notaFiscal.getId());
+			
+			if( notaFiscal.getItens().size() < nfBanco.getItens().size() ) {
+				removerItem(notaFiscal, nfBanco);
+			}
+		
+			return manager.merge(notaFiscal);
+			
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação. Verifique se este item já está na NF. Exclua um deles e grave a NF novamente.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}		
+		
 	}	
 	
 	private void removerItem(NotaFiscal notaFiscal, NotaFiscal nfBanco) throws NegocioException {

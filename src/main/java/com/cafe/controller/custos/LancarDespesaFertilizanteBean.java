@@ -58,6 +58,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private List<DespesaFerTalhao> listaQdeTalhoes;
 	private DespesaFerTalhao despesaFerTalhao;
 	private NotaFiscal notaFiscal;
+	private NotaFiscal notaSelecionada;
 	private String numeroNF;
 	private String yearRange;
 	private boolean despesaGravada = false;

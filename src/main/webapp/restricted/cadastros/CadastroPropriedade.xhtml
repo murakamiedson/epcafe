@@ -6,14 +6,14 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">Propriedade</ui:define>
+    <ui:define name="titulo">Unidade</ui:define>
     
     <ui:define name="corpo">
     	<f:metadata>
-			<o:viewParam name="propriedade" value="#{cadastroPropriedadeBean.propriedade}" />
+			<o:viewParam name="unidade" value="#{cadastroPropriedadeBean.unidade}" />
 		</f:metadata>
     
-    	<h2>Cadastro de Propriedades</h2>
+    	<h2>Cadastro de Unidades</h2>
     
     	<h:form id="frmCadastro">
     	
@@ -34,15 +34,15 @@
 	    			columnClasses="rotulo, campo">
 	    		<p:outputLabel value="Código" for="codigo"/>
 	    		<p:outputLabel id="codigo" size="20" maxlength="20" 
-	    			value="#{cadastroPropriedadeBean.propriedade.codigo}"/>	    		
+	    			value="#{cadastroPropriedadeBean.unidade.codigo}"/>	    		
 	    		
 	    		<p:outputLabel value="Tipo" for="tipo"/>
-	    		<p:selectOneMenu id="tipo" value="#{cadastroPropriedadeBean.propriedade.tipo}" 
+	    		<p:selectOneMenu id="tipo" value="#{cadastroPropriedadeBean.unidade.tipo}" 
 	    			required="true">
 	    			<p:ajax event="valueChange"
 						listener="#{cadastroPropriedadeBean.carregarPropriedades}"
 						process="tipo"/>
-	    			<f:selectItem itemLabel="Selecione o tipo da propriedade" />
+	    			<f:selectItem itemLabel="Selecione o tipo da unidade" />
 	    			<f:selectItems value="#{cadastroPropriedadeBean.tipos}" var="tipo" 
 						itemLabel="#{tipo}" itemValue="#{tipo}"/>					
 	    		</p:selectOneMenu>   		
@@ -50,7 +50,7 @@
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
 	    		<p:inputText id="nome" size="60" maxlength="80" 
-	    			value="#{cadastroPropriedadeBean.propriedade.nome}"
+	    			value="#{cadastroPropriedadeBean.unidade.nome}"
 	    			required="true" 
 			    	validatorMessage="O nome é obrigatório."/>	 	    		
 			   
@@ -58,12 +58,12 @@
 	    		<p:inputText id="phone" size="20" maxlength="20"
 	    			required="true"
 	    			validatorMessage="O telefone é obrigatório." 
-	    			value="#{cadastroPropriedadeBean.propriedade.endereco.telefoneContato}"/>
+	    			value="#{cadastroPropriedadeBean.unidade.endereco.telefoneContato}"/>
 			    
 			    <p:outputLabel for="cep" value="CEP"  />		    	
 		    	<h:panelGroup>                   	
 			    	<p:inputMask id="cep" mask="99999-999" size="9" 
-                   		value="#{cadastroPropriedadeBean.propriedade.endereco.cep}" 
+                   		value="#{cadastroPropriedadeBean.unidade.endereco.cep}" 
                    		required="true"                   		
 			    		validatorMessage="O cep é obrigatório."/>
 			    				    					    		
@@ -79,32 +79,32 @@
 		    	
 		    	<p:outputLabel value="Endereço" for="endereco"/>
 	    		<p:inputText id="endereco" size="60" maxlength="80" 
-	    			value="#{cadastroPropriedadeBean.propriedade.endereco.endereco}"
+	    			value="#{cadastroPropriedadeBean.unidade.endereco.endereco}"
 	    			required="true" 
 			    	validatorMessage="O endereço é obrigatório."/>	    		
 	    		
 	    		<p:outputLabel value="Número" for="numero"/>
 	    		<p:inputText id="numero" size="5" maxlength="8" 
-	    			value="#{cadastroPropriedadeBean.propriedade.endereco.numero}">			    	
+	    			value="#{cadastroPropriedadeBean.unidade.endereco.numero}">			    	
 			    </p:inputText>			    			    	
 			    
 	    		<p:outputLabel value="Complemento" for="complemento"/>
 	    		<p:inputText id="complemento" size="60" maxlength="80" 
-	    			value="#{cadastroPropriedadeBean.propriedade.endereco.complemento}"/>	    		
+	    			value="#{cadastroPropriedadeBean.unidade.endereco.complemento}"/>	    		
 	    		
 	    		<p:outputLabel value="Bairro" for="bairro"/>
 	    		<p:inputText id="bairro" size="60" maxlength="80" 
 	    			required="true" 
-	    			value="#{cadastroPropriedadeBean.propriedade.endereco.bairro}"/>	   
+	    			value="#{cadastroPropriedadeBean.unidade.endereco.bairro}"/>	   
 	    			 		
 	    		<p:outputLabel value="Município" for="municipio"/>
 	    		<p:inputText id="municipio" size="60" maxlength="80" 
-	    			value="#{cadastroPropriedadeBean.propriedade.endereco.municipio}"
+	    			value="#{cadastroPropriedadeBean.unidade.endereco.municipio}"
 	    			required="true" 
 			    	validatorMessage="O município é obrigatório."/>	    		
 	    		
 	    		<p:outputLabel value="UF" for="uf"/>
-	    		<p:selectOneMenu id="uf" value="#{cadastroPropriedadeBean.propriedade.endereco.uf}"
+	    		<p:selectOneMenu id="uf" value="#{cadastroPropriedadeBean.unidade.endereco.uf}"
 	    			required="true" 
 			    	validatorMessage="A UF é obrigatória.">
 	    			<f:selectItem itemLabel="Selecione a UF" />
@@ -115,7 +115,7 @@
 	    		<p:outputLabel value="Referência" for="referencia"/>
 	    		<h:panelGroup>
 	    			<p:inputText id="referencia" size="60" maxlength="80" 
-	    				value="#{cadastroPropriedadeBean.propriedade.endereco.referencia}" />	 
+	    				value="#{cadastroPropriedadeBean.unidade.endereco.referencia}" />	 
 	    			<p:watermark for="referencia" value="Um local próximo conhecido" />
 	    		</h:panelGroup>	
 	    		  		

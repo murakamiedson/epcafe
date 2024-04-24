@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.enums.TipoPlano;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
@@ -27,10 +27,10 @@ public class PropriedadeDAO implements Serializable {
 	private EntityManager manager;	
 	
 	@Transactional
-	public void salvar(Propriedade propriedade) throws NegocioException {
-		log.info("DAO : tenant = " + propriedade.getTenant_id());
+	public void salvar(Unidade unidade) throws NegocioException {
+		log.info("DAO : tenant = " + unidade.getTenant_id());
 		try {
-			manager.merge(propriedade);
+			manager.merge(unidade);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new NegocioException("Não foi possível executar a operação.");
@@ -47,10 +47,10 @@ public class PropriedadeDAO implements Serializable {
 	}
 	
 	@Transactional
-	public void excluir(Propriedade propriedade) throws NegocioException {
-		propriedade = buscarPeloCodigo(propriedade.getCodigo());
+	public void excluir(Unidade unidade) throws NegocioException {
+		unidade = buscarPeloCodigo(unidade.getCodigo());
 		try {
-			manager.remove(propriedade);
+			manager.remove(unidade);
 			manager.flush();
 		} catch (PersistenceException e) {
 			e.printStackTrace();
@@ -74,20 +74,20 @@ public class PropriedadeDAO implements Serializable {
 	 */
 	
 	
-	public Propriedade buscarPeloCodigo(Long codigo) {
-		return manager.find(Propriedade.class, codigo);
+	public Unidade buscarPeloCodigo(Long codigo) {
+		return manager.find(Unidade.class, codigo);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Propriedade> buscarTodos(Long tenantId) {
-		return manager.createNamedQuery("Propriedade.buscarTodos")
+	public List<Unidade> buscarTodos(Long tenantId) {
+		return manager.createNamedQuery("Unidade.buscarTodos")
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
 		
 	@SuppressWarnings("unchecked")
-	public List<Propriedade> buscarComPaginacao(int first, int pageSize, Long tenantId) {
-		return manager.createNamedQuery("Propriedade.buscarTodos")
+	public List<Unidade> buscarComPaginacao(int first, int pageSize, Long tenantId) {
+		return manager.createNamedQuery("Unidade.buscarTodos")
 				.setParameter("tenantId", tenantId)
 				.setFirstResult(first)
 				.setMaxResults(pageSize)
@@ -95,15 +95,15 @@ public class PropriedadeDAO implements Serializable {
 	}
 
 	public Long encontrarQuantidadeDeUnidades(Long tenantId) {
-		return manager.createQuery("select count(u) from Propriedade u where u.tenant_id = :tenantId", Long.class)
+		return manager.createQuery("select count(u) from Unidade u where u.tenant_id = :tenantId", Long.class)
 				.setParameter("tenantId", tenantId)
 				.getSingleResult();
 	}
 	
-	// verifica se o Propriedade é free pelo tenantId
+	// verifica se o Unidade é free pelo tenantId
 	public Long verificaTipoUnidadeTenant(Long tenantId, TipoPlano plano) {
 		
-		return manager.createQuery("SELECT count(u) FROM Propriedade u "
+		return manager.createQuery("SELECT count(u) FROM Unidade u "
 				+ "INNER JOIN Tenant t ON t.codigo = u.tenant_id "
 				+ "where t.codigo = :tenantId "
 				+ "and t.tipoPlano = :plano", Long.class)

@@ -111,7 +111,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		log.info("limpar");
 		despesaMaquina = new DespesaMaquina();
 
-		despesaMaquina.setPropriedade(loginBean.getUsuario().getPropriedade());
+		despesaMaquina.setUnidade(loginBean.getUsuario().getUnidade());
 		despesaMaquina.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
 	}
 	

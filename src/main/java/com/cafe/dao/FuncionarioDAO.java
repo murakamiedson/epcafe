@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.Funcionario;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -83,9 +83,9 @@ private static final long serialVersionUID = 1L;
 				.getResultList();
 	}
 	
-	public List<Funcionario> buscarFuncionariosPorUnidade(Propriedade propriedade, Long tenantId) {
+	public List<Funcionario> buscarFuncionariosPorUnidade(Unidade unidade, Long tenantId) {
 		return manager.createNamedQuery("Funcionario.buscarPorUnidade", Funcionario.class)				
-				.setParameter("unidade", propriedade)
+				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}

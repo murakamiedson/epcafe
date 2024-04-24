@@ -35,7 +35,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Instalacao.buscarInstalacoes", query="select u from Instalacao u where u.tenant_id = :tenantId"),
-	@NamedQuery(name="Instalacao.buscarPorUnidade", query="select u from Instalacao u where u.propriedade = :unidade "
+	@NamedQuery(name="Instalacao.buscarPorUnidade", query="select u from Instalacao u where u.unidade = :unidade "
 			+ "and u.tenant_id = :tenantId")
 })
 public class Instalacao {
@@ -62,7 +62,7 @@ public class Instalacao {
 	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_unidade")
-	private Propriedade propriedade;
+	private Unidade unidade;
 
 	/*
 	 * Datas de Criação e Modificação

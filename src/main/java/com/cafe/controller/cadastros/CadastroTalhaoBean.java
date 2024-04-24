@@ -10,7 +10,7 @@ import javax.inject.Named;
 
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Talhao;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.service.TalhaoService;
 import com.cafe.service.PropriedadeService;
 import com.cafe.util.MessageUtil;
@@ -36,7 +36,7 @@ public class CadastroTalhaoBean implements Serializable {
 	private Talhao talhao;	
 	
 	private List<Talhao> talhoes;
-	private List<Propriedade> propriedades;
+	private List<Unidade> unidades;
 	
 	@Inject
 	private TalhaoService talhaoService;
@@ -72,7 +72,7 @@ public class CadastroTalhaoBean implements Serializable {
 	
 	public void limpar() {
 		this.talhao = new Talhao();
-		this.talhao.setPropriedade(usuarioLogado.getUsuario().getPropriedade());
+		this.talhao.setUnidade(usuarioLogado.getUsuario().getUnidade());
 		this.talhao.setTenant_id(tenantId);
 	}	 
 }
