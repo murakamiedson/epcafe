@@ -201,7 +201,7 @@
 					style="margin-top: 10px; margin-bottom: 10px" />
 				<br/>
 				
-				<h:outputText id="qtdRestante" value="Quantidade disponível para distribuir: #{lancarDespesaFertilizanteBean.qtdItem} />
+				<h:outputText id="qtdRestante" value="Quantidade disponível para distribuir: #{lancarDespesaFertilizanteBean.qtdItem} "/>
 				
 				<br/>
 				
@@ -288,7 +288,7 @@
 						<h:outputText value="#{nota.numero}" />
 					</p:column>
 				
-					<p:column headerText="Data Emissão" style="width: 10px; text-align: center">
+					<p:column headerText="Data Emissão" style="width: 20px; text-align: center">
 						<h:outputText value="#{nota.dataEmissao}">
 							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 						</h:outputText>
@@ -301,7 +301,7 @@
 				
 				
 					<p:column headerText="Valor Total"
-						style="width: 30px; text-align: rigth">
+						style="width: 20px; text-align: rigth">
 						<h:outputText value="#{nota.valorTotal}" >
 							<f:convertNumber type="currency" currencySymbol="R$"/>
 						</h:outputText>
@@ -323,7 +323,7 @@
 						<h:outputText value="teste" />
 					</p:column>
 					
-					<p:column headerText="Selecionar" style="width: 50px; text-align: center">
+					<p:column headerText="Selecionar" style="width: 30px; text-align: center">
 				        <p:commandButton value="Selecionar" id="botaoSelecionarNF"
 				            action="#{lancarDespesaFertilizanteBean.selecionarNotaFiscal(nota)}"
 				            onclick="PF('verNFDialogWidgetVar').hide();"
@@ -350,9 +350,9 @@
 					rows="10" paginator="true" paginatorAlwaysVisible="true"
 					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" >
 					
-					<p:column headerText="Id" 
+					<p:column headerText="Fertilizante" 
 						style="width: 30px; text-align: left">
-						<h:outputText value="#{item.id}" />
+						<h:outputText value="#{item.fertilizante.tipo}" />
 					</p:column>
 					
 					<p:column headerText="Qde" 
