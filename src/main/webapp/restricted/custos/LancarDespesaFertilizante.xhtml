@@ -176,6 +176,10 @@
 							actionListener="#{lancarDespesaFertilizanteBean.carregarNotasFiscais}"
 							oncomplete="PF('verNFDialogWidgetVar').show()"
 							update="verNFDialog" process="@this" />
+							
+						<p:spacer width="20px" />
+						
+						
 	            		
 	            		
 					</h:panelGroup>
@@ -185,7 +189,7 @@
 				<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
 					style="margin-top: 10px; margin-bottom: 10px"
 					actionListener="#{lancarDespesaFertilizanteBean.salvar}"
-					update="despesasTable messages qdesTalhaoTable"
+					update="despesasTable messages qdesTalhaoTable qtdRestante"
 					process="@this gridDespesa "
 					>
 					
@@ -193,10 +197,14 @@
 
 				<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-replay"
 					action="#{lancarDespesaFertilizanteBean.limpar}"
-					update="gridDespesa" process="@this"
+					update="gridDespesa qtdRestante" process="@this"
 					style="margin-top: 10px; margin-bottom: 10px" />
-
-
+				<br/>
+				
+				<h:outputText id="qtdRestante" value="Quantidade disponível para distribuir: #{lancarDespesaFertilizanteBean.qtdItem} />
+				
+				<br/>
+				
 				<p:dataTable id="qdesTalhaoTable"
 					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.despesasTalhoes}"
 					var="despesaTalhao" emptyMessage="Nenhum item encontrado."

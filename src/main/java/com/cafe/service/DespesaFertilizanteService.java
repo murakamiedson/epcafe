@@ -26,8 +26,6 @@ public class DespesaFertilizanteService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private BigDecimal quantidadeFertilizanteNF;
-	
 	
 	@Inject
 	private DespesaFertilizanteDAO despesaFertilizanteDAO;
@@ -70,13 +68,15 @@ public class DespesaFertilizanteService implements Serializable {
 		BigDecimal totalFerNF = new BigDecimal(0);
 		for(DespesaFerTalhao qdeTalhao : despesaFertilizante.getDespesasTalhoes()) {
 			total = total.add(qdeTalhao.getQuantidade());
-			log.info("TOTAL: " + total);
+			
 		}
-		for(Item item : despesaFertilizante.getNotaFiscal().getItens()) {
+		/*for(Item item : despesaFertilizante.getNotaFiscal().getItens()) {
 			if(item.getFertilizante() == despesaFertilizante.getFertilizante()) {
 				totalFerNF = item.getQuantidade();
 			}
-		}
+		}*/
+		totalFerNF = this.getItemDaDespesa(despesaFertilizante).getQuantidade();
+		log.info("TOTAL FER NF: " + totalFerNF);
 		if(total.compareTo(totalFerNF) == 1) {
 			log.info("Quantidade informada ultrapassa nota fiscal");
 			return false;
@@ -84,17 +84,28 @@ public class DespesaFertilizanteService implements Serializable {
 		return true;
 	}
 	
+	public Item getItemDaDespesa(DespesaFertilizante despesaFertilizante) {
+		for(Item i : despesaFertilizante.getNotaFiscal().getItens()) {
+			if(i.getFertilizante() == despesaFertilizante.getFertilizante()) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
 	//calcula o valor equivalente gasto com cada talhao da despesa
 	public void calculaValorPorTalhao(DespesaFertilizante despesaFertilizante) {
 		BigDecimal valorFertilizanteNF = new BigDecimal(0);
-		
+		/*
 		for(Item itens : despesaFertilizante.getNotaFiscal().getItens()) {
 			if(itens.getFertilizante() == despesaFertilizante.getFertilizante()) {
 				valorFertilizanteNF = itens.getValor();
 				this.quantidadeFertilizanteNF = itens.getQuantidade();
 				log.info("Quantidade fertilizante nota fiscal: " + this.quantidadeFertilizanteNF);
 			}
-		}
+		}*/
+		
+		valorFertilizanteNF = this.getItemDaDespesa(despesaFertilizante).getValor();
 		
 		for(DespesaFerTalhao qdeTalhao : despesaFertilizante.getDespesasTalhoes()) {
 			qdeTalhao.setValor(valorFertilizanteNF.multiply(qdeTalhao.getQuantidade()));
