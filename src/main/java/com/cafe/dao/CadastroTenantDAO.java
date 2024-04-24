@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.Tenant;
 import com.cafe.modelo.Usuario;
 import com.cafe.modelo.to.CadastroTenantTO;
@@ -37,13 +37,13 @@ public class CadastroTenantDAO implements Serializable {
 			Tenant sec = autocadTO.getProprietario();
 			sec = manager.merge(sec);
 			
-			Propriedade unid = autocadTO.getPropriedade();
+			Unidade unid = autocadTO.getUnidade();
 			unid.setTenant_id(sec.getCodigo());
 			unid = manager.merge(unid);
 			
 			Usuario usu = autocadTO.getUsuario();
 			usu.setTenant(sec);
-			usu.setPropriedade(unid);
+			usu.setUnidade(unid);
 			usu = manager.merge(usu);
 						
 			manager.flush();

@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Funcionario;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.service.FuncionarioService;
 import com.cafe.service.PropriedadeService;
 import com.cafe.util.CalculoUtil;
@@ -41,7 +41,7 @@ public class CadastroFuncionarioBean implements Serializable {
 	private Funcionario funcionario;
 
 	private List<Funcionario> funcionarios;
-	private List<Propriedade> propriedades;
+	private List<Unidade> unidades;
 
 	private Long tenantId;
 	private String yearRange;
@@ -97,7 +97,7 @@ public class CadastroFuncionarioBean implements Serializable {
 
 	public void limpar() {
 		this.funcionario = new Funcionario();
-		this.funcionario.setPropriedade(usuarioLogado.getUsuario().getPropriedade());
+		this.funcionario.setUnidade(usuarioLogado.getUsuario().getUnidade());
 		this.funcionario.setTenant_id(tenantId);
 	}
 

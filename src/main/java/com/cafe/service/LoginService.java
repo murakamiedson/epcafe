@@ -90,7 +90,7 @@ public class LoginService implements Serializable {
 		DefaultSubMenu subMenuNome = DefaultSubMenu.builder().icon("pi pi-user").build();
 		subMenuNome = addMenuItem(subMenuNome, user.getNome(), null);
 		subMenuNome = addMenuItem(subMenuNome, user.getRole().name(), null);
-		subMenuNome = addMenuItem(subMenuNome, user.getPropriedade().getNome(), null);
+		subMenuNome = addMenuItem(subMenuNome, user.getUnidade().getNome(), null);
 		subMenuNome = addMenuItem(subMenuNome, user.getTenant().getTenant(), null);
 		subMenuNome = addMenuItem(subMenuNome, "Alterar Perfil", "#{loginBean.trocarPerfil}");
 		subMenuNome = addMenuItem(subMenuNome, "Alterar Senha", "#{loginBean.trocarSenha}");
@@ -104,7 +104,7 @@ public class LoginService implements Serializable {
 		modelo.getElements().add(item);
 		
 		DefaultMenuItem unid = new DefaultMenuItem();
-		unid.setValue("[" + user.getPropriedade().getNome() + "]");
+		unid.setValue("[" + user.getUnidade().getNome() + "]");
 		modelo.getElements().add(unid);
 
 		return modelo;

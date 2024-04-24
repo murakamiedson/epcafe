@@ -15,7 +15,7 @@ import javax.inject.Named;
 import org.primefaces.event.FlowEvent;
 
 import com.cafe.modelo.Endereco;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.Tenant;
 import com.cafe.modelo.Usuario;
 import com.cafe.modelo.enums.Grupo;
@@ -79,10 +79,10 @@ public class CadastroTenantBean implements Serializable {
 		autocadTO.setProprietario(new Tenant());
 		autocadTO.getProprietario().setTipoPlano(TipoPlano.FREE);
 
-		autocadTO.setPropriedade(new Propriedade());
+		autocadTO.setUnidade(new Unidade());
 		
-		autocadTO.getPropriedade().setEndereco(new Endereco());
-		autocadTO.getPropriedade().setTipo(TipoPropriedade.FAZENDA);
+		autocadTO.getUnidade().setEndereco(new Endereco());
+		autocadTO.getUnidade().setTipo(TipoPropriedade.FAZENDA);
 
 		Usuario usuario = new Usuario();
 		
@@ -102,20 +102,20 @@ public class CadastroTenantBean implements Serializable {
 
 	public void buscaEnderecoPorCEP() {
 
-		log.info("Buscar endereço cep = " + autocadTO.getPropriedade().getEndereco().getCep());		
+		log.info("Buscar endereço cep = " + autocadTO.getUnidade().getEndereco().getCep());		
 		try {
-			enderecoTO = buscaCEPService.buscaEnderecoPorCEP(autocadTO.getPropriedade().getEndereco().getCep());
+			enderecoTO = buscaCEPService.buscaEnderecoPorCEP(autocadTO.getUnidade().getEndereco().getCep());
 
 			/*
 			 * Preenche o Endereco com os dados buscados
 			 */
-			autocadTO.getPropriedade().getEndereco().setUf(enderecoTO.getEstado());
-			autocadTO.getPropriedade().getEndereco().setMunicipio(enderecoTO.getCidade());
-			autocadTO.getPropriedade().getEndereco().setBairro(enderecoTO.getBairro());
-			autocadTO.getPropriedade().getEndereco().setCep(enderecoTO.getCep());
-			autocadTO.getPropriedade().getEndereco()
+			autocadTO.getUnidade().getEndereco().setUf(enderecoTO.getEstado());
+			autocadTO.getUnidade().getEndereco().setMunicipio(enderecoTO.getCidade());
+			autocadTO.getUnidade().getEndereco().setBairro(enderecoTO.getBairro());
+			autocadTO.getUnidade().getEndereco().setCep(enderecoTO.getCep());
+			autocadTO.getUnidade().getEndereco()
 					.setEndereco(enderecoTO.getTipoLogradouro().concat(" ").concat(enderecoTO.getLogradouro()));
-			autocadTO.getPropriedade().getEndereco().setUf(enderecoTO.getEstado());
+			autocadTO.getUnidade().getEndereco().setUf(enderecoTO.getEstado());
 
 			if (enderecoTO.getResultado() != 1) {
 				MessageUtil.erro("Endereço não encontrado para o CEP fornecido.");
@@ -134,7 +134,7 @@ public class CadastroTenantBean implements Serializable {
 			
 			log.info("cadastro concluido com sucesso!");
 			log.info("usuario = " + usuario.getCodigo() + " - nome = " + usuario.getNome());
-			log.info("unidade = " + usuario.getPropriedade().getCodigo());
+			log.info("unidade = " + usuario.getUnidade().getCodigo());
 			log.info("tenant = " + usuario.getTenant().getCodigo());
 			
 			MessageUtil.info("Cadastro realizado com sucesso!");

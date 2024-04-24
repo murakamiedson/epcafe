@@ -61,8 +61,8 @@ public class DespesaMaquina {
 	private FatorPotencia fatorPotencia;
 	
 	@ManyToOne
-	@JoinColumn(nullable = false, name="codigo_propriedade")
-	private Propriedade propriedade;
+	@JoinColumn(nullable = false, name="codigo_unidade")
+	private Unidade unidade;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_maquina")

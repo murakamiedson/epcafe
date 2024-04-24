@@ -11,7 +11,7 @@ import javax.inject.Named;
 
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Instalacao;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.enums.TipoInstalacao;
 import com.cafe.service.InstalacaoService;
 import com.cafe.service.PropriedadeService;
@@ -38,7 +38,7 @@ public class CadastroInstalacaoBean implements Serializable {
 	private Instalacao instalacao;	
 	
 	private List<Instalacao> instalacoes;
-	private List<Propriedade> propriedades;
+	private List<Unidade> unidades;
 	private List<TipoInstalacao> tiposInstalacao;
 	
 	@Inject
@@ -85,7 +85,7 @@ public class CadastroInstalacaoBean implements Serializable {
 	
 	public void limpar() {
 		this.instalacao = new Instalacao();
-		this.instalacao.setPropriedade(usuarioLogado.getUsuario().getPropriedade());
+		this.instalacao.setUnidade(usuarioLogado.getUsuario().getUnidade());
 		this.instalacao.setTenant_id(tenantId);
 	}	 
 }

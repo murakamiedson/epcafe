@@ -58,10 +58,11 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private List<DespesaFerTalhao> listaQdeTalhoes;
 	private DespesaFerTalhao despesaFerTalhao;
 	private NotaFiscal notaFiscal;
+	private NotaFiscal notaSelecionada;
 	private String numeroNF;
 	private String yearRange;
 	private boolean despesaGravada = false;
-	private BigDecimal qtdItensRestantes = new BigDecimal(0);
+	private BigDecimal qtdItem;
 
 	@Inject
 	private LoginBean loginBean;
@@ -123,9 +124,13 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				}
 				log.info("salvando despesa com id nao nulo");
 
+				this.qtdItem = this.despesaService.getItemDaDespesa(despesaFertilizante).getQuantidade();
+				
 				this.despesaService.calculaValorPorTalhao(despesaFertilizante);
 				
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
+				
+
 	
 				despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
 				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
@@ -147,6 +152,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				log.info("salvando despesa com id nulo");
 
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
+
+				this.qtdItem = this.despesaService.getItemDaDespesa(despesaFertilizante).getQuantidade();
 				this.carregarTalhoes(despesaFertilizante);
 
 				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
@@ -156,7 +163,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 			} catch (NegocioException e) {
 				e.printStackTrace();
 				MessageUtil.erro(e.getMessage());
-			}
+			} 
 		}
 
 

@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import com.cafe.dao.TalhaoDAO;
 import com.cafe.dao.PropriedadeDAO;
 import com.cafe.modelo.Talhao;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -47,14 +47,14 @@ private static final long serialVersionUID = 1L;
 		return this.talhaoDAO.buscarTalhoes(tenantId);
 	}
 	
-	public List<Talhao> buscarTalhoesPorUnidade(Propriedade propriedade, Long tenantId) {
+	public List<Talhao> buscarTalhoesPorUnidade(Unidade unidade, Long tenantId) {
 					
-		return this.talhaoDAO.buscarTalhoesPorUnidade(propriedade, tenantId);
+		return this.talhaoDAO.buscarTalhoesPorUnidade(unidade, tenantId);
 	}
 
 	/* Unidades */
 	
-	public List<Propriedade> buscarUnidades(Long tenantId) {		
+	public List<Unidade> buscarUnidades(Long tenantId) {		
 		return propriedadeDAO.buscarTodos(tenantId);
 	}
 
