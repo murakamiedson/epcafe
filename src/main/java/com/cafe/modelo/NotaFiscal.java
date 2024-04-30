@@ -14,7 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,11 +41,11 @@ import lombok.extern.log4j.Log4j;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="NotaFiscal.buscarNotasFiscais", 
-			query="select u from NotaFiscal u where u.tenant_id = :tenantId"),
+			query="select u from NotaFiscal u where u.unidade = :codigo_unidade"),
 	@NamedQuery(name="NotaFiscal.buscarNotaFiscalPorNumero",
-			query="select u from NotaFiscal u where u.numero = :numero and u.tenant_id = :tenantId"),
+			query="select u from NotaFiscal u where u.numero = :numero and u.unidade = :codigo_unidade"),
 	@NamedQuery(name="NotaFiscal.buscarNotaFiscalPorTipoFertilizante",
-			query="select u from NotaFiscal u where u.tenant_id = :tenantId")
+			query="select u from NotaFiscal u where u.unidade = :codigo_unidade")
 })
 public class NotaFiscal implements Serializable{
 
@@ -59,7 +61,11 @@ public class NotaFiscal implements Serializable{
 	@Column(unique=true)
 	private String numero;	
 	private String descricao;	
-	private LocalDate dataEmissao;	
+	private LocalDate dataEmissao;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false, name="codigo_unidade")
+	private Unidade unidade;
 	
 	@Lob
 	private byte[] imagem;

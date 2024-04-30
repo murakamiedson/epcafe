@@ -202,11 +202,17 @@
 					</p:toolbarGroup>
 				</p:toolbar>				
 				
+				<p:outputLabel value="Total dos Itens = " />	
+				<h:outputText id="totalItem" value="#{lancarNotaFiscalBean.notaFiscal.valorItens}" > 
+					<f:convertNumber type="currency" currencySymbol="R$"/>
+				</h:outputText>
+				
+				
 	    		<p:dataTable id="itensTable"
 					value="#{lancarNotaFiscalBean.notaFiscal.itens}" var="item"
 					emptyMessage="Nenhum item encontrado."
 					rows="10" paginator="true" paginatorAlwaysVisible="true"
-					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
+					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" style="margin-top: 10px">
 					
 					<p:column headerText="Fertilizante" sortBy="#{item.fertilizante.tipo}"
 						style="width: 100px; text-align: left">
@@ -255,13 +261,10 @@
 				</p:dataTable>	
 				
 					
-				<p:outputLabel value="Total dos Itens = " />	
-				<h:outputText id="totalItem" value="#{lancarNotaFiscalBean.notaFiscal.valorItens}" > 
-					<f:convertNumber type="currency" currencySymbol="R$"/>
-				</h:outputText>				
+								
 							
 				
-				<p:toolbar id="tbNF" >
+				<p:toolbar id="tbNF" style="margin-top: 10px">
 					<p:toolbarGroup>
 						<p:spacer width="10px" />
 									
@@ -297,7 +300,7 @@
 				modal="true" resizable="true" closeOnEscape="true"
 				showEffect="explode" hideEffect="explode" 
 				width="70%" position="center top" maximizable="true"
-				height="70%" fitViewport="true" responsive="true">
+				height="70%" fitViewport="true" responsive="true" >
 				
 				<p:messages id="messagesItem" showDetail="false" closable="true">
 				</p:messages>

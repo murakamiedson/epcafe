@@ -68,7 +68,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		this.yearRange = this.calcUtil.getAnoCorrente();
 		maquinas = maquinaService.buscarMaquinasAlfabetico(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
-		despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());		
+		despesas = despesaService.buscarDespesasMaquinas(loginBean.getUnidadeTemp());		
 
 		
 		limpar();
@@ -82,7 +82,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 
     	try {
     		despesaMaquina = this.despesaService.salvar(despesaMaquina);
-    		this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());
+    		this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getUnidadeTemp());
 			MessageUtil.sucesso("Despesa salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -98,7 +98,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
     	try {
     		log.info("excluindo...");
 			despesaService.excluir(despesaMaquinaSelecionada);			
-			this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getTenantId());
+			this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getUnidadeTemp());
 			MessageUtil.sucesso("Despesa " + despesaMaquinaSelecionada.getId() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
