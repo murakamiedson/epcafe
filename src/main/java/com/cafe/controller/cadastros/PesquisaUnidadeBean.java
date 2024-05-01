@@ -29,7 +29,7 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Named
 @ViewScoped
-public class PesquisaPropriedadeBean implements Serializable {
+public class PesquisaUnidadeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

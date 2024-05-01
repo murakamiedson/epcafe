@@ -21,14 +21,7 @@
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
 	    			<p:commandButton icon="pi pi-plus" value="Novo Proprietário" 
-	    				actionListener="#{pesquisaTenantBean.cadastrar}"/>
-	    				
-	    			<span class="ui-separator">
-		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-			        </span>
-			        	
-    				<p:commandButton icon="pi pi-power-off" value="Sair" 
-    					actionListener="#{pesquisaTenantBean.sair}"/>
+	    				actionListener="#{pesquisaTenantBean.cadastrar}"/>	    			
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    		    	
@@ -48,10 +41,47 @@
 	    		
 	    		<p:column headerText="Tipo Plano" style="width: 50px; text-align: center">
 	    			<h:outputText value="#{tenant.tipoPlano}" />
-	    		</p:column>	    		
+	    		</p:column>
+	    		
+	    		<p:column headerText="Operações" style="width: 50px; text-align: center">
+	    			<p:commandButton icon="pi pi-pencil" title="Editar Proprietário"
+		            	oncomplete="PF('addDialogWidgetVar').show()"
+		            	update="frmPesquisa:addDialog tenantsTable" 
+		            	process="@this">
+		            	<f:setPropertyActionListener
+							target="#{pesquisaTenantBean.tenant}"
+							value="#{tenant}"/>	
+	            	</p:commandButton>
+	    		</p:column>	   		
 	    		
 		   	</p:dataTable>
 		   	
+		   	<p:dialog id="addDialog" widgetVar="addDialogWidgetVar" 
+				header="Edição de Proprietário"
+				modal="true" resizable="true" closeOnEscape="true"
+				showEffect="explode" hideEffect="explode" 
+				width="100%" position="center top" maximizable="true"
+				height="100%" fitViewport="true" responsive="true">	
+			
+				<p:panelGrid id="gridProp" columns="2"
+					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+					<p:outputLabel for="nome" value="Proprietário" />
+					<p:inputText id="nome" size="80" maxlength="100"
+						value="#{pesquisaTenantBean.tenant.tenant}" required="true"
+						validatorMessage="O nome do proprietário é obrigatório." />					
+						
+					<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+							style="margin-top: 10px; margin-bottom: 10px"
+							action="#{pesquisaTenantBean.alterar}" 
+							oncomplete="PF('addDialogWidgetVar').hide()"
+							update="tenantsTable messages"
+							process="@this gridProp"/>
+				</p:panelGrid>
+			</p:dialog>
+		   	
+		    		
+		    		
     	</h:form>
     </ui:define>
 </ui:composition>

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.DespesaFertilizante;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
@@ -124,9 +125,9 @@ public class DespesaFertilizanteDAO implements Serializable {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<DespesaFertilizante> buscarDespesasFertilizantes(Long tenantId) {
+	public List<DespesaFertilizante> buscarDespesasFertilizantes(Unidade unidade) {
 		return manager.createNamedQuery("DespesaFertilizante.buscarDespesasFertilizantes")
-				.setParameter("tenantId", tenantId).getResultList();
+				.setParameter("codigo_unidade", unidade).getResultList();
 	}
 
 }

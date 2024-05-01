@@ -10,6 +10,7 @@ import com.cafe.dao.FertilizanteDAO;
 import com.cafe.dao.NotaFiscalDAO;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.Item;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.util.NegocioException;
 
@@ -64,12 +65,12 @@ public class NotaFiscalService implements Serializable {
 		this.notaFiscalDAO.excluir(notaFiscal);
 	}
 
-	public List<NotaFiscal> buscarNotasFiscais(Long tenantId) {
-		return notaFiscalDAO.buscarNotasFiscais(tenantId);
+	public List<NotaFiscal> buscarNotasFiscais(Unidade unidade) {
+		return notaFiscalDAO.buscarNotasFiscais(unidade);
 	}
 
-	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Long tenantId) {
-		return notaFiscalDAO.buscarNotaFiscalPorNumero(numero, tenantId);
+	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Unidade unidade) {
+		return notaFiscalDAO.buscarNotaFiscalPorNumero(numero, unidade);
 	}
 	
 	public NotaFiscal buscarNotaFiscalPeloCodigo(long id) {
@@ -95,9 +96,9 @@ public class NotaFiscalService implements Serializable {
 		return fertilizanteDAO.buscarFertilizantes(tenantId);
 	}
 	
-	public List<NotaFiscal> buscarNotaFiscalPorFertilizante(Long codigoFertilizante, Long tenantId){
+	public List<NotaFiscal> buscarNotaFiscalPorFertilizante(Long codigoFertilizante, Unidade unidade){
 		
-		return this.notaFiscalDAO.buscarNotasFiscaisPorFertilizante(codigoFertilizante, tenantId);
+		return this.notaFiscalDAO.buscarNotasFiscaisPorFertilizante(codigoFertilizante, unidade);
 	}
 	
 }

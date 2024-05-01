@@ -12,6 +12,7 @@ import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
+import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -45,10 +46,10 @@ public class DespesaFertilizanteService implements Serializable {
 		return despesaFertilizanteDAO.buscarPeloCodigo(codigo);
 	}
 
-	public List<DespesaFertilizante> buscarDespesasFertilizantes(Long tenantId) {
+	public List<DespesaFertilizante> buscarDespesasFertilizantes(Unidade unidade) {
 
 		log.info("Primeiro acesso a banco... buscar despesas com Fertilizantes");
-		return despesaFertilizanteDAO.buscarDespesasFertilizantes(tenantId);
+		return despesaFertilizanteDAO.buscarDespesasFertilizantes(unidade);
 	}
 	
 	//verifica se a notafiscal selecionada contém o fertilizante selecionado

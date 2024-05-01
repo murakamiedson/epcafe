@@ -37,14 +37,18 @@ import lombok.Setter;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="DespesaFertilizante.buscarDespesasFertilizantes", 
-			query="select u from DespesaFertilizante u where u.tenant_id = :tenantId")
+			query="select d from DespesaFertilizante d where d.unidade = :codigo_unidade")
 })
 public class DespesaFertilizante {
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;	
-	private Long tenant_id;
+	private Long id;
+	private Long tenantId;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false, name="codigo_unidade")
+	private Unidade unidade;
 	
 	@NotNull
 	private LocalDate data;

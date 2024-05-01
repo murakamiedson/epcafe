@@ -29,6 +29,10 @@ public class DespesaFerTalhao {
 	private Long id;
 	private Long tenantId;
 	
+	@ManyToOne
+	@JoinColumn(nullable = false, name="codigo_unidade")
+	private Unidade unidade;
+	
 	@PositiveOrZero
 	private BigDecimal quantidade = new BigDecimal(0);
 	

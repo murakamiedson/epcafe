@@ -203,14 +203,13 @@
 				
 				<h:outputText id="qtdRestante" value="Quantidade disponível para distribuir: #{lancarDespesaFertilizanteBean.qtdItem} "/>
 				
-				<br/>
 				
 				<p:dataTable id="qdesTalhaoTable"
 					value="#{lancarDespesaFertilizanteBean.despesaFertilizante.despesasTalhoes}"
 					var="despesaTalhao" emptyMessage="Nenhum item encontrado."
 					rows="10" paginator="true" paginatorAlwaysVisible="true"
 					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
-					editable="true" editMode="cell" widgetVar="cellTalhoes">
+					editable="true" editMode="cell" widgetVar="cellTalhoes" style="margin-top: 10px">
 
 					<p:ajax event="cellEdit"
 						listener="#{lancarDespesaFertilizanteBean.onCellEdit}"
@@ -243,7 +242,7 @@
 					</p:column>
 
 				</p:dataTable>
-				<p:toolbar id="tbQdeTalhao">
+				<p:toolbar id="tbQdeTalhao" style="margin-top: 10px">
 					<p:toolbarGroup>
 						<p:spacer width="10px" />
 

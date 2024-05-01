@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.DespesaMaquina;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.to.DespesaDTO;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
@@ -80,9 +81,9 @@ public class DespesaMaquinaDAO implements Serializable{
 	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<DespesaMaquina> buscarDespesasMaquinas(Long tenantId) {
+	public List<DespesaMaquina> buscarDespesasMaquinas(Unidade unidade) {
 		return manager.createNamedQuery("DespesaMaquina.buscarDespesasMaquinas")
-				.setParameter("tenantId", tenantId)
+				.setParameter("codigo_unidade", unidade)
 				.getResultList();
 	}
 	
