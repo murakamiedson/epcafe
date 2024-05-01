@@ -67,7 +67,7 @@ public class CadastroTenantBean implements Serializable {
 	@PostConstruct
 	public void inicializar() throws Exception{
 		
-		log.info("Chegou no cadastro de Secretaria");		
+		log.info("Chegou no cadastro de Proprietários");		
 		this.ufs = Arrays.asList(Uf.values());
 		
 		inicializarUsuario();		
@@ -77,7 +77,7 @@ public class CadastroTenantBean implements Serializable {
 		this.autocadTO = new CadastroTenantTO();
 
 		autocadTO.setProprietario(new Tenant());
-		autocadTO.getProprietario().setTipoPlano(TipoPlano.FREE);
+		autocadTO.getProprietario().setTipoPlano(TipoPlano.PROFISSIONAL);
 
 		autocadTO.setUnidade(new Unidade());
 		

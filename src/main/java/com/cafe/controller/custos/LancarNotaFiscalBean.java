@@ -72,7 +72,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		notaFiscal = new NotaFiscal();
 		//notaFiscal.setItens(new ArrayList<Item>());
 		notaFiscal.setTenant_id(loginBean.getTenantId());
-		notaFiscal.setUnidade(loginBean.getUnidadeTemp());
+		notaFiscal.setUnidade(loginBean.getUsuario().getUnidade());
 		//nfGravada = false;
 	}
 

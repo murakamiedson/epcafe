@@ -34,7 +34,7 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Named
 @ViewScoped
-public class CadastroPropriedadeBean implements Serializable {
+public class CadastroUnidadeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

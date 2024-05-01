@@ -9,7 +9,7 @@
 	<submenu label="Cadastros" icon="pi pi-folder-open">
 		<grupo value="TECNICOS"></grupo>
 		<menuitem value="Unidades"
-			outcome="/restricted/cadastros/PesquisaPropriedade.xhtml"></menuitem>
+			outcome="/restricted/cadastros/PesquisaUnidade.xhtml"></menuitem>
 		<menuitem value="Máquinas e Implementos"
 			outcome="/restricted/cadastros/PesquisaMaquina.xhtml"></menuitem>
 		<menuitem value="Fertilizantes e Defensivos"
@@ -31,7 +31,7 @@
 	</submenu>
 
 	<submenu label="Admin" icon="pi pi-home">
-		<grupo value="ADMINISTRATIVOS"></grupo>
+		<grupo value="ADMINISTRADORES"></grupo>
 		<menuitem value="Administração do èpCafé"
 			outcome="/restricted/cadastros/PesquisaTenant.xhtml"></menuitem>
 	</submenu>

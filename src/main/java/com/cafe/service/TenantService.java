@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import com.cafe.dao.TenantDAO;
 import com.cafe.modelo.Tenant;
+import com.cafe.util.NegocioException;
 
 /**
  * @author murakamiadmin
@@ -31,5 +32,11 @@ public class TenantService implements Serializable {
 	
 	public void setManager(EntityManager manager) {
 		tenantDAO.setEntityManager(manager);		
+	}
+
+	public Tenant alterar(Tenant tenant) throws NegocioException {
+		
+		return tenantDAO.alterar(tenant);
+		
 	}
 }

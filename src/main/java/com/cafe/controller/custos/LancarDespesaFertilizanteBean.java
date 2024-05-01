@@ -228,7 +228,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 		despesaFertilizante = new DespesaFertilizante();
 		despesaFertilizante.setDespesasTalhoes(new ArrayList<DespesaFerTalhao>());
-		despesaFertilizante.setUnidade(loginBean.getUnidadeTemp());
+		despesaFertilizante.setUnidade(loginBean.getUsuario().getUnidade());
 		despesaFertilizante.setTenantId(loginBean.getTenantId());
 		//notaFiscal = new NotaFiscal();
 	}
