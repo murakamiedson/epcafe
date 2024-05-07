@@ -72,6 +72,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		notaFiscal = new NotaFiscal();
 		//notaFiscal.setItens(new ArrayList<Item>());
 		notaFiscal.setTenant_id(loginBean.getTenantId());
+		notaFiscal.setUnidade(loginBean.getUsuario().getUnidade());
 		//nfGravada = false;
 	}
 
@@ -82,7 +83,8 @@ public class LancarNotaFiscalBean implements Serializable {
 	public void salvarItem() {
 		log.info("salvar item " + this.item);								
 		
-		if(this.item.getId() == null) {
+		if(this.item.getId() == null) {	
+			
 			log.info("item novo adicionando ..." + this.item);
 			this.item.setNotaFiscal(notaFiscal);
 			this.notaFiscal.getItens().add(this.item);
@@ -97,7 +99,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		
 		log.info("size item --> " + this.notaFiscal.getItens().size());
 		log.info("itens --> " + this.notaFiscal.getItens());
-	}	
+	}
 		
 	public void excluirItem() {
 		try {
@@ -135,7 +137,7 @@ public class LancarNotaFiscalBean implements Serializable {
 	}	
 
 	private List<NotaFiscal> buscarNotas() {
-		return this.notaFiscalService.buscarNotasFiscais(loginBean.getTenantId());
+		return this.notaFiscalService.buscarNotasFiscais(loginBean.getUnidadeTemp());
 	}
 
 	public void excluir() {

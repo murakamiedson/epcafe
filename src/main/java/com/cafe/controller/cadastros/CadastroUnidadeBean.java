@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Endereco;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.enums.TipoPropriedade;
 import com.cafe.modelo.enums.Uf;
 import com.cafe.modelo.to.EnderecoTO;
@@ -34,16 +34,16 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Named
 @ViewScoped
-public class CadastroPropriedadeBean implements Serializable {
+public class CadastroUnidadeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Propriedade propriedade;
+	private Unidade unidade;
 	private List<Uf> ufs;
 	private String cep = null;
 	private EnderecoTO enderecoTO;	
 	private List<TipoPropriedade> tipos;
-	private List<Propriedade> propriedades = new ArrayList<>();
+	private List<Unidade> unidades = new ArrayList<>();
 	private boolean scfv = false;
 	
 	@Inject
@@ -76,9 +76,9 @@ public class CadastroPropriedadeBean implements Serializable {
 	public void salvar() {
 		try {
 			
-			propriedade.getEndereco().setMunicipio(propriedade.getEndereco().getMunicipio());
-			this.propriedadeService.salvar(propriedade);
-			MessageUtil.sucesso("propriedade salva com sucesso!");
+			unidade.getEndereco().setMunicipio(unidade.getEndereco().getMunicipio());
+			this.propriedadeService.salvar(unidade);
+			MessageUtil.sucesso("unidade salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
@@ -88,24 +88,24 @@ public class CadastroPropriedadeBean implements Serializable {
 	}
 	
 	public void limpar() {
-		this.propriedade = new Propriedade();
-		this.propriedade.setEndereco(new Endereco());
-		this.propriedade.setTenant_id(tenantId);
+		this.unidade = new Unidade();
+		this.unidade.setEndereco(new Endereco());
+		this.unidade.setTenant_id(tenantId);
 	}
 	
 	public void buscaEnderecoPorCEP() {
 		
         try {
-			enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(propriedade.getEndereco().getCep());
+			enderecoTO  = buscaCEPService.buscaEnderecoPorCEP(unidade.getEndereco().getCep());
 			
 			/*
 	         * Preenche o Endereco com os dados buscados
 	         */	 
-			propriedade.getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
+			unidade.getEndereco().setEndereco(enderecoTO.getTipoLogradouro().
 	        		                concat(" ").concat(enderecoTO.getLogradouro()));
-			propriedade.getEndereco().setBairro(enderecoTO.getBairro());
-			propriedade.getEndereco().setMunicipio(enderecoTO.getCidade());
-			propriedade.getEndereco().setUf(enderecoTO.getEstado());
+			unidade.getEndereco().setBairro(enderecoTO.getBairro());
+			unidade.getEndereco().setMunicipio(enderecoTO.getCidade());
+			unidade.getEndereco().setUf(enderecoTO.getEstado());
 	        
 	        if (enderecoTO.getResultado() != 1) {
 	        	MessageUtil.erro("Endereço não encontrado para o CEP fornecido.");		            
@@ -118,7 +118,7 @@ public class CadastroPropriedadeBean implements Serializable {
 	
 	public void carregarPropriedades() {
 		
-		propriedades = propriedadeService.buscarUnidades(usuarioLogado.getTenantId());	
+		unidades = propriedadeService.buscarUnidades(usuarioLogado.getTenantId());	
 	}
 
 }

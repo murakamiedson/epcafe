@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import com.cafe.dao.DespesaMaquinaDAO;
 import com.cafe.modelo.DespesaMaquina;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
 import com.cafe.modelo.enums.TipoConsumo;
 import com.cafe.modelo.to.DespesaDTO;
@@ -48,10 +49,10 @@ public class DespesaMaquinaService implements Serializable {
 		return despesaMaquinaDAO.buscarPeloCodigo(codigo);
 	}
 
-	public List<DespesaMaquina> buscarDespesasMaquinas(Long tenantId) {
+	public List<DespesaMaquina> buscarDespesasMaquinas(Unidade unidade) {
 
 		log.info("Primeiro acesso a banco... buscar maquinas");
-		return despesaMaquinaDAO.buscarDespesasMaquinas(tenantId);
+		return despesaMaquinaDAO.buscarDespesasMaquinas(unidade);
 	}
 
 	private BigDecimal calcularValorTotal(DespesaMaquina despesaMaquina) {

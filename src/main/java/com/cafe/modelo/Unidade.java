@@ -37,10 +37,10 @@ import lombok.ToString;
 @Setter
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Propriedade.buscarTodos", query="select u from Propriedade u where u.tenant_id = :tenantId"),	
-	@NamedQuery(name="Propriedade.buscarNomesUnidades", query="select u.nome from Propriedade u where u.tenant_id = :tenantId")	
+	@NamedQuery(name="Unidade.buscarTodos", query="select u from Unidade u where u.tenant_id = :tenantId"),	
+	@NamedQuery(name="Unidade.buscarNomesUnidades", query="select u.nome from Unidade u where u.tenant_id = :tenantId")	
 })
-public class Propriedade implements Serializable {
+public class Unidade implements Serializable {
 
 	/**
 	 * 

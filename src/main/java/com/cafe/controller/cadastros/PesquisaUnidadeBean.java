@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.cafe.controller.LoginBean;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.service.PropriedadeService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
@@ -29,13 +29,13 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Named
 @ViewScoped
-public class PesquisaPropriedadeBean implements Serializable {
+public class PesquisaUnidadeBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Propriedade> propriedades = new ArrayList<>();
-	private Propriedade unidadeSelecionada;
-	private Propriedade unidadeTemp;
+	private List<Unidade> unidades = new ArrayList<>();
+	private Unidade unidadeSelecionada;
+	private Unidade unidadeTemp;
 	
 	@Inject
 	PropriedadeService propriedadeService;
@@ -45,8 +45,8 @@ public class PesquisaPropriedadeBean implements Serializable {
 		
 	@PostConstruct
 	public void inicializar() {
-		propriedades = propriedadeService.buscarTodos(loginBean.getTenantId());
-		if(loginBean.getUsuario().getPropriedade().getCodigo().equals(loginBean.getUnidadeTemp().getCodigo())) {
+		unidades = propriedadeService.buscarTodos(loginBean.getTenantId());
+		if(loginBean.getUsuario().getUnidade().getCodigo().equals(loginBean.getUnidadeTemp().getCodigo())) {
 			unidadeTemp = loginBean.getUnidadeTemp();
 			log.info("prop = unidadeTemp");
 		}
@@ -55,8 +55,8 @@ public class PesquisaPropriedadeBean implements Serializable {
 	public void excluir() {
 		try {
 			propriedadeService.excluir(unidadeSelecionada);			
-			this.propriedades.remove(unidadeSelecionada);
-			MessageUtil.sucesso("Propriedade " + unidadeSelecionada.getNome() + " excluída com sucesso.");
+			this.unidades.remove(unidadeSelecionada);
+			MessageUtil.sucesso("Unidade " + unidadeSelecionada.getNome() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());

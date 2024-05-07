@@ -37,7 +37,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="DespesaMaquina.buscarDespesasMaquinas", 
-			query="select u from DespesaMaquina u where u.tenant_id = :tenantId"),
+			query="select u from DespesaMaquina u where u.unidade = :codigo_unidade"),
 	@NamedQuery(name="DespesaMaquina.buscarMaquinasDistintas", 
 			query="SELECT DISTINCT d.maquina FROM DespesaMaquina d where d.tenant_id = :tenantId" ),
 	//@NamedQuery(name="DespesaMaquina.buscarValorTotalMensal", query="select ")
@@ -61,8 +61,8 @@ public class DespesaMaquina {
 	private FatorPotencia fatorPotencia;
 	
 	@ManyToOne
-	@JoinColumn(nullable = false, name="codigo_propriedade")
-	private Propriedade propriedade;
+	@JoinColumn(nullable = false, name="codigo_unidade")
+	private Unidade unidade;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_maquina")

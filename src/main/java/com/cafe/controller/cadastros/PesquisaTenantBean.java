@@ -14,6 +14,8 @@ import javax.inject.Named;
 
 import com.cafe.modelo.Tenant;
 import com.cafe.service.TenantService;
+import com.cafe.util.MessageUtil;
+import com.cafe.util.NegocioException;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +36,7 @@ public class PesquisaTenantBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private List<Tenant> tenants = new ArrayList<>();
+	private Tenant tenant;
 	
 	@Inject
 	TenantService tenantService;
@@ -70,6 +73,16 @@ public class PesquisaTenantBean implements Serializable {
 	
 	private ExternalContext getExternalContext() {
 		return FacesContext.getCurrentInstance().getExternalContext();
+	}
+	
+	public void alterar() {
+		try {			
+			this.tenantService.alterar(tenant);
+			MessageUtil.sucesso("Talhao salvo com sucesso!");
+		} catch (NegocioException e) {
+			e.printStackTrace();
+			MessageUtil.erro(e.getMessage());
+		}		
 	}
 	
 }

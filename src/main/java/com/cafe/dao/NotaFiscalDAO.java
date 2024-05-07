@@ -8,10 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import org.hibernate.exception.ConstraintViolationException;
-
 import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
+import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -28,14 +27,31 @@ private static final long serialVersionUID = 1L;
 	
 	@Transactional
 	public NotaFiscal alterar(NotaFiscal notaFiscal) throws NegocioException {
-		log.info("alterando na dao...");
-		NotaFiscal nfBanco = manager.find(NotaFiscal.class, notaFiscal.getId());
 		
-		if( notaFiscal.getItens().size() < nfBanco.getItens().size() ) {
-			removerItem(notaFiscal, nfBanco);
-		}
-	
-		return manager.merge(notaFiscal);
+		try {
+			log.info("alterando na dao...");
+			NotaFiscal nfBanco = manager.find(NotaFiscal.class, notaFiscal.getId());
+			
+			if( notaFiscal.getItens().size() < nfBanco.getItens().size() ) {
+				removerItem(notaFiscal, nfBanco);
+			}
+		
+			return manager.merge(notaFiscal);
+			
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação. Verifique se este item já está na NF. Exclua um deles e grave a NF novamente.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		} catch (Error e) {
+			e.printStackTrace();
+			throw new NegocioException("Não foi possível executar a operação.");
+		}		
+		
 	}	
 	
 	private void removerItem(NotaFiscal notaFiscal, NotaFiscal nfBanco) throws NegocioException {
@@ -123,20 +139,20 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<NotaFiscal> buscarNotasFiscais(Long tenantId) {
+	public List<NotaFiscal> buscarNotasFiscais(Unidade unidade) {
 		return manager.createNamedQuery("NotaFiscal.buscarNotasFiscais")
-				.setParameter("tenantId", tenantId)
+				.setParameter("codigo_unidade", unidade)
 				.getResultList();
 	}
 	
-	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Long tenantId) {
+	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Unidade unidade) {
 		return manager.createNamedQuery("NotaFiscal.buscarNotaFiscalPorNumero", NotaFiscal.class)
 				.setParameter("numero", numero)
-				.setParameter("tenantId", tenantId)
+				.setParameter("codigo_unidade", unidade)
 				.getSingleResult();
 	}
 	
-	public List<NotaFiscal> buscarNotasFiscaisPorFertilizante(Long codigoFertilizante, Long tenantId) {
+	public List<NotaFiscal> buscarNotasFiscaisPorFertilizante(Long codigoFertilizante, Unidade unidade) {
 		/*
 		 * SELECT * FROM epcafe.notafiscal nf INNER JOIN item i ON i.codigo_nota = nf.id
 		 * WHERE i.codigo_fertilizante = 4;
@@ -147,9 +163,9 @@ private static final long serialVersionUID = 1L;
 			    "FROM NotaFiscal n " +
 			    "INNER JOIN n.itens i " +
 			    "WHERE i.fertilizante.id = :codigoFertilizante " +
-			    "AND n.tenant_id = :tenantId", NotaFiscal.class)
+			    "AND n.unidade = :codigo_unidade", NotaFiscal.class)
 			.setParameter("codigoFertilizante", codigoFertilizante)
-			.setParameter("tenantId", tenantId)
+			.setParameter("codigo_unidade", unidade)
 			.getResultList();
 		
 		log.info(lista);

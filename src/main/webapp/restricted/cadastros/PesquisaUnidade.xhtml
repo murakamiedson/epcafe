@@ -6,11 +6,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">Propriedade</ui:define>
+    <ui:define name="titulo">Unidade</ui:define>
     
     <ui:define name="corpo">
    	
-   		<h2>Pesquisa de Propriedades</h2>
+   		<h2>Pesquisa de Unidades</h2>
    		
     	<h:form id="frmPesquisa">
     	
@@ -20,8 +20,8 @@
     		
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
-	    			<p:commandButton icon="pi pi-plus" value="Nova Propriedade" id="botaoNovo" 
-	    				action="/restricted/cadastros/CadastroPropriedade.xhtml"/>
+	    			<p:commandButton icon="pi pi-plus" value="Nova Unidade" id="botaoNovo" 
+	    				action="/restricted/cadastros/CadastroUnidade.xhtml"/>
     				<span class="ui-separator">
 		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
@@ -49,57 +49,57 @@
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    		    	
-	    	<p:dataTable id="unidadesTable" value="#{pesquisaPropriedadeBean.propriedades}" var="propriedade"
+	    	<p:dataTable id="unidadesTable" value="#{pesquisaUnidadeBean.unidades}" var="unidade"
 		    		style="margin-top: 20px" 
 		    		
-		    		rowStyleClass="#{propriedade.nome eq pesquisaPropriedadeBean.unidadeTemp.nome ? 'inativo' : null}"
-		    		emptyMessage="Nenhuma propriedade encontrada." rows="10"
+		    		rowStyleClass="#{unidade.nome eq pesquisaUnidadeBean.unidadeTemp.nome ? 'inativo' : null}"
+		    		emptyMessage="Nenhuma unidade encontrada." rows="10"
 		    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
 		    		rowsPerPageTemplate="5,10,15" >
 		    		
 	    		<p:column headerText="Código" style="width: 15px; text-align: center">
-	    			<h:outputText value="#{propriedade.codigo}" />
+	    			<h:outputText value="#{unidade.codigo}" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Tipo" style="width: 15px; text-align: center">
-	    			<h:outputText value="#{propriedade.tipo}" />
+	    			<h:outputText value="#{unidade.tipo}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Propriedade" sortBy="#{propriedade.nome}" style="width: 90px; text-align: left">
-	    			<h:outputText value="#{propriedade.nome}" />
+	    		<p:column headerText="Unidade" sortBy="#{unidade.nome}" style="width: 90px; text-align: left">
+	    			<h:outputText value="#{unidade.nome}" />
 	    		</p:column>	
 	    		<p:column headerText="Proprietário" style="width: 90px; text-align: left">
-	    			<h:outputText value="#{pesquisaPropriedadeBean.loginBean.usuario.tenant.tenant}" />
+	    			<h:outputText value="#{pesquisaUnidadeBean.loginBean.usuario.tenant.tenant}" />
 	    		</p:column>	    		
 	    		
 	    		<p:column headerText="Endereço" style="width: 100px; text-align: left">
-	    			<h:outputText value="#{propriedade.endereco.endereco}, #{propriedade.endereco.numero}" />
+	    			<h:outputText value="#{unidade.endereco.endereco}, #{unidade.endereco.numero}" />
 	    		</p:column>
 	    		
 	    		<p:column headerText="Cep" style="width: 30px; text-align: left">
-	    			<h:outputText value="#{propriedade.endereco.cep}" />
+	    			<h:outputText value="#{unidade.endereco.cep}" />
 	    		</p:column>	    		
 	    		
 	    		<p:column style="width: 25px; text-align: center" headerText="Operações">
-		    		<p:button outcome="CadastroPropriedade" icon="pi pi-pencil" title="Editar">
-		    			<f:param name="propriedade" value="#{propriedade.codigo}"/>
+		    		<p:button outcome="CadastroUnidade" icon="pi pi-pencil" title="Editar">
+		    			<f:param name="unidade" value="#{unidade.codigo}"/>
 		    		</p:button>
 		    		<p:commandButton icon="pi pi-trash" title="Excluir"		    				
 		    			onclick="PF('confirmacaoExclusao').show();"
 						process="@this">
-						<f:setPropertyActionListener target="#{pesquisaPropriedadeBean.unidadeSelecionada}" value="#{propriedade}" />
+						<f:setPropertyActionListener target="#{pesquisaUnidadeBean.unidadeSelecionada}" value="#{unidade}" />
 					</p:commandButton>
 		    	</p:column>
 		   	</p:dataTable>
 		   	<p:confirmDialog id="confirmacaoExclusaoDialog" 
 		   			widgetVar="confirmacaoExclusao"
-	        		message="Tem certeza que deseja excluir a propriedade #{pesquisaPropriedadeBean.unidadeSelecionada.nome}?"  
-	                header="Exclusão de propriedade" severity="alert">
+	        		message="Tem certeza que deseja excluir a unidade #{pesquisaUnidadeBean.unidadeSelecionada.nome}?"  
+	                header="Exclusão de unidade" severity="alert">
 	        	<p:button icon="pi pi-thumbs-down" value="Não" 
 	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
 	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
 	        		update=":frmPesquisa:unidadesTable"
-	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaPropriedadeBean.excluir}" />
+	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaUnidadeBean.excluir}" />
 	    	</p:confirmDialog>
     	</h:form>
     </ui:define>

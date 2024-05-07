@@ -26,7 +26,7 @@
 			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
 			        </span>
 					<p:commandButton icon="pi pi-chevron-left" value="Voltar" id="botaoVoltar" 
-	    				action="/restricted/cadastros/PesquisaPropriedade.xhtml"
+	    				action="/restricted/cadastros/PesquisaUnidade.xhtml"
 	    				process="@this"/>
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
@@ -55,8 +55,8 @@
 	    			</h:outputText>
 	    		</p:column>
 	    		
-	    		<p:column headerText="propriedade" sortBy="#{instalacao.propriedade}" style="width: 50px; text-align: left">
-	    			<h:outputText value="#{instalacao.propriedade.nome}" />
+	    		<p:column headerText="unidade" sortBy="#{instalacao.unidade}" style="width: 50px; text-align: left">
+	    			<h:outputText value="#{instalacao.unidade.nome}" />
 	    		</p:column>	
 	    		
 	    		

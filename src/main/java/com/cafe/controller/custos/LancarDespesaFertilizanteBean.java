@@ -58,10 +58,11 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private List<DespesaFerTalhao> listaQdeTalhoes;
 	private DespesaFerTalhao despesaFerTalhao;
 	private NotaFiscal notaFiscal;
+	private NotaFiscal notaSelecionada;
 	private String numeroNF;
 	private String yearRange;
 	private boolean despesaGravada = false;
-	private BigDecimal qtdItensRestantes = new BigDecimal(0);
+	private BigDecimal qtdItem;
 
 	@Inject
 	private LoginBean loginBean;
@@ -86,8 +87,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 		log.info("inicializar login = " + loginBean.getUsuario());
 
-		despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
-
+		despesas = despesaService.buscarDespesasFertilizantes(loginBean.getUnidadeTemp());
+		log.info("conseguiu buscar as despesas");
 		this.yearRange = this.calcUtil.getAnoCorrente();
 
 		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.FUNGICIDA, TipoInsumo.HERBICIDA,
@@ -105,7 +106,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		if (numeroNF != null && !numeroNF.isEmpty()) {
 			despesaFertilizante
 					.setNotaFiscal(this.notaFiscalService.buscarNotaFiscalPorNumero
-							(numeroNF, loginBean.getTenantId()));
+							(numeroNF, loginBean.getUnidadeTemp()));
 		}
 
 
@@ -123,12 +124,16 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				}
 				log.info("salvando despesa com id nao nulo");
 
+				this.qtdItem = this.despesaService.getItemDaDespesa(despesaFertilizante).getQuantidade();
+				
 				this.despesaService.calculaValorPorTalhao(despesaFertilizante);
 				
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
+				
+
 	
 				despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
-				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
+				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getUnidadeTemp());
 	
 				this.despesaGravada = true;
 				MessageUtil.sucesso("Despesa salva com sucesso!");
@@ -147,16 +152,18 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				log.info("salvando despesa com id nulo");
 
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
+
+				this.qtdItem = this.despesaService.getItemDaDespesa(despesaFertilizante).getQuantidade();
 				this.carregarTalhoes(despesaFertilizante);
 
-				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
+				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getUnidadeTemp());
 	
 				this.despesaGravada = true;
 				MessageUtil.sucesso("Despesa salva com sucesso!");
 			} catch (NegocioException e) {
 				e.printStackTrace();
 				MessageUtil.erro(e.getMessage());
-			}
+			} 
 		}
 
 
@@ -176,7 +183,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	
 	public void carregarNotasFiscais() {
 		this.notasDisponiveis = this.notaFiscalService.buscarNotaFiscalPorFertilizante(
-				despesaFertilizante.getFertilizante().getId(), loginBean.getTenantId());
+				despesaFertilizante.getFertilizante().getId(), loginBean.getUnidadeTemp());
 	}
 	
 	public void selecionarNotaFiscal(NotaFiscal nota) {
@@ -188,7 +195,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		try {
 			log.info("excluindo...");
 			despesaService.excluir(despesaFertilizante);
-			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getTenantId());
+			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getUnidadeTemp());
 			MessageUtil.sucesso("Despesa " + despesaFertilizante.getId() + " excluído com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -203,7 +210,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		Long fertilizanteId = despesaFertilizante.getFertilizante().getId();
 		
 		List<NotaFiscal> notasFiscais = this.notaFiscalService.buscarNotaFiscalPorFertilizante(fertilizanteId,
-				loginBean.getTenantId());
+				loginBean.getUnidadeTemp());
 		for (NotaFiscal notaFiscal : notasFiscais) {
 			notasFiscaisList.add(notaFiscal.getNumero());
 		}
@@ -221,7 +228,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 		despesaFertilizante = new DespesaFertilizante();
 		despesaFertilizante.setDespesasTalhoes(new ArrayList<DespesaFerTalhao>());
-		despesaFertilizante.setTenant_id(loginBean.getUsuario().getTenant().getCodigo());
+		despesaFertilizante.setUnidade(loginBean.getUsuario().getUnidade());
+		despesaFertilizante.setTenantId(loginBean.getTenantId());
 		//notaFiscal = new NotaFiscal();
 	}
 
@@ -235,6 +243,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 			log.info("entrou no for");
 			DespesaFerTalhao qtdTalhao = new DespesaFerTalhao();
 			qtdTalhao.setTalhao(talhao);
+			qtdTalhao.setUnidade(loginBean.getUnidadeTemp());
 			qtdTalhao.setTenantId(loginBean.getTenantId());
 
 			qtdTalhao.setDespesaFertilizante(despesaFertilizante);

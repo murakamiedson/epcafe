@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.cafe.dao.UsuarioDAO;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.Usuario;
 import com.cafe.modelo.enums.Role;
 import com.cafe.modelo.enums.Status;
@@ -55,7 +55,7 @@ public class UsuarioService implements Serializable {
 		
 		/*
 		 * verifica se é free, profissional ou especial
-		 * free = 1 Propriedade e 3 usuarios
+		 * free = 1 Unidade e 3 usuarios
 		 * profissional = 5 unidades e 50 usuarios
 		 * especial = ilimitado
 		 */
@@ -121,18 +121,18 @@ public class UsuarioService implements Serializable {
 
 
 
-	public List<Usuario> buscarTecnicos(Propriedade propriedade, Long tenantId) {		
-		return usuarioDAO.buscarTecnicos(propriedade, tenantId);
+	public List<Usuario> buscarTecnicos(Unidade unidade, Long tenantId) {		
+		return usuarioDAO.buscarTecnicos(unidade, tenantId);
 	}
-	public List<Usuario> buscarTecnicosRole(Role role, Propriedade propriedade, Long tenantId) {
-		return usuarioDAO.buscarTecnicosRole(role, propriedade, tenantId);
+	public List<Usuario> buscarTecnicosRole(Role role, Unidade unidade, Long tenantId) {
+		return usuarioDAO.buscarTecnicosRole(role, unidade, tenantId);
 	}
-	public List<Usuario> buscarUsuarios(Propriedade propriedade, Long tenantId) {		
-		return usuarioDAO.buscarUsuarios(propriedade, tenantId);
+	public List<Usuario> buscarUsuarios(Unidade unidade, Long tenantId) {		
+		return usuarioDAO.buscarUsuarios(unidade, tenantId);
 	}
 
 
-	public List<Propriedade> buscarUnidades(Long tenantId) {	
+	public List<Unidade> buscarUnidades(Long tenantId) {	
 		log.info("Primeiro acesso a banco... buscar unidades");
 		
 		return propriedadeService.buscarTodos(tenantId);

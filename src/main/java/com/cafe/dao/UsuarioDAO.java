@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.Usuario;
 import com.cafe.modelo.enums.Role;
 import com.cafe.modelo.enums.Status;
@@ -105,24 +105,24 @@ public class UsuarioDAO implements Serializable {
 	
 	/* Buscas caso de uso ManterSCFV, RealizarAtendimento ind e col e ManterPAIF */
 	
-	public List<Usuario> buscarTecnicos(Propriedade propriedade, Long tenantId) {
+	public List<Usuario> buscarTecnicos(Unidade unidade, Long tenantId) {
 		return manager.createNamedQuery("Usuario.buscarTecnicos", Usuario.class)				
-				.setParameter("unidade", propriedade)
+				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", Status.ATIVO)
 				.getResultList();
 	}
-	public List<Usuario> buscarTecnicosRole(Role role, Propriedade propriedade, Long tenantId) {
+	public List<Usuario> buscarTecnicosRole(Role role, Unidade unidade, Long tenantId) {
 		return manager.createNamedQuery("Usuario.buscarTecnicosRole", Usuario.class)
 				.setParameter("role", role)
-				.setParameter("unidade", propriedade)
+				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", Status.ATIVO)
 				.getResultList();
 	}
-	public List<Usuario> buscarUsuarios(Propriedade propriedade, Long tenantId) {
+	public List<Usuario> buscarUsuarios(Unidade unidade, Long tenantId) {
 		return manager.createNamedQuery("Usuario.buscarUsuarios", Usuario.class)				
-				.setParameter("unidade", propriedade)
+				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", Status.ATIVO)
 				.getResultList();
@@ -152,10 +152,10 @@ public class UsuarioDAO implements Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Usuario> buscarComPaginacao(int first, int pageSize, Propriedade propriedade, Long tenantId) {
+	public List<Usuario> buscarComPaginacao(int first, int pageSize, Unidade unidade, Long tenantId) {
 		
 		return manager.createNamedQuery("Usuario.buscarTodosPorUnidade")
-			.setParameter("unidade", propriedade)
+			.setParameter("unidade", unidade)
 			.setParameter("tenantId", tenantId)
 			.setFirstResult(first)
 			.setMaxResults(pageSize)
@@ -163,10 +163,10 @@ public class UsuarioDAO implements Serializable {
 	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<Usuario> buscarComPaginacao(int first, int pageSize, Propriedade propriedade, String nome, Long tenantId) {	
+	public List<Usuario> buscarComPaginacao(int first, int pageSize, Unidade unidade, String nome, Long tenantId) {	
 		
 		return manager.createNamedQuery("Usuario.buscarTodosFiltro")
-			.setParameter("unidade", propriedade)
+			.setParameter("unidade", unidade)
 			.setParameter("tenantId", tenantId)
 			.setParameter("nome", "%" + nome.toUpperCase() + "%")
 			.setFirstResult(first)
@@ -192,18 +192,18 @@ public class UsuarioDAO implements Serializable {
 				.setParameter("nome", "%" + nome.toUpperCase() + "%")
 				.getSingleResult();
 	}
-	public Long encontrarQuantidadeDeUsuarios(Propriedade propriedade, Long tenantId) {
-		return manager.createQuery("select count(u) from Usuario u where u.propriedade = :unidade "
+	public Long encontrarQuantidadeDeUsuarios(Unidade unidade, Long tenantId) {
+		return manager.createQuery("select count(u) from Usuario u where u.unidade = :unidade "
 				+ "and u.tenant.codigo = :tenantId", Long.class)
-				.setParameter("unidade", propriedade)
+				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.getSingleResult();
 	}
-	public Long encontrarQuantidadeDeUsuarios(Propriedade propriedade, String nome, Long tenantId) {
-		return manager.createQuery("select count(u) from Usuario u where u.propriedade = :unidade "
+	public Long encontrarQuantidadeDeUsuarios(Unidade unidade, String nome, Long tenantId) {
+		return manager.createQuery("select count(u) from Usuario u where u.unidade = :unidade "
 				+ "and u.nome LIKE :nome "
 				+ "and u.tenant.codigo = :tenantId", Long.class)
-				.setParameter("unidade", propriedade)
+				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.setParameter("nome", "%" + nome.toUpperCase() + "%")
 				.getSingleResult();
@@ -214,9 +214,9 @@ public class UsuarioDAO implements Serializable {
 				.setParameter("tenantId", tenantId)
 				.getSingleResult();
 	}
-	public Long buscarTotalTecnicosUnid(Propriedade propriedade, Long tenantId) {
+	public Long buscarTotalTecnicosUnid(Unidade unidade, Long tenantId) {
 		return manager.createNamedQuery("Usuario.buscarTotalTecnicosUnid", Long.class)
-				.setParameter("unidade", propriedade)
+				.setParameter("unidade", unidade)
 				.setParameter("tenantId", tenantId)
 				.setParameter("status", Status.ATIVO)
 				.getSingleResult();

@@ -38,7 +38,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @NamedQueries({
 	@NamedQuery(name="Funcionario.buscarFuncionarios", query="select u from Funcionario u where u.tenant_id = :tenantId"),
-	@NamedQuery(name="Funcionario.buscarPorUnidade", query="select u from Funcionario u where u.propriedade = :unidade "
+	@NamedQuery(name="Funcionario.buscarPorUnidade", query="select u from Funcionario u where u.unidade = :unidade "
 			+ "and u.tenant_id = :tenantId")
 })
 public class Funcionario {
@@ -70,7 +70,7 @@ public class Funcionario {
 	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_unidade")
-	private Propriedade propriedade;
+	private Unidade unidade;
 	
 	
 	

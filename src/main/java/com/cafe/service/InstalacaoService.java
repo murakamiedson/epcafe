@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import com.cafe.dao.InstalacaoDAO;
 import com.cafe.dao.PropriedadeDAO;
 import com.cafe.modelo.Instalacao;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
 
 import lombok.extern.log4j.Log4j;
@@ -48,14 +48,14 @@ private static final long serialVersionUID = 1L;
 		return this.instalacaoDAO.buscarInstalacoes(tenantId);
 	}
 	
-	public List<Instalacao> buscarInstalacoesPorUnidade(Propriedade propriedade, Long tenantId) {
+	public List<Instalacao> buscarInstalacoesPorUnidade(Unidade unidade, Long tenantId) {
 		
-		return this.instalacaoDAO.buscarInstalacoesPorUnidade(propriedade, tenantId);
+		return this.instalacaoDAO.buscarInstalacoesPorUnidade(unidade, tenantId);
 	}
 
 	/* Unidades */
 	
-	public List<Propriedade> buscarUnidades(Long tenantId) {		
+	public List<Unidade> buscarUnidades(Long tenantId) {		
 		return propriedadeDAO.buscarTodos(tenantId);
 	}
 	

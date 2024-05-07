@@ -45,10 +45,10 @@ import lombok.ToString;
 	
 	@NamedQuery(name="Usuario.buscarTodos", query="select u from Usuario u where u.tenant.codigo = :tenantId"),
 	@NamedQuery(name="Usuario.buscarTodosPorUnidade", query="select u from Usuario u "
-			+ "where u.propriedade = :unidade "
+			+ "where u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId"),	
 	@NamedQuery(name="Usuario.buscarTodosFiltro", query="select u from Usuario u "
-			+ "where u.propriedade = :unidade "
+			+ "where u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId "
 			+ "and u.nome LIKE :nome "),
 	@NamedQuery(name="Usuario.buscarTodosFiltro2", query="select u from Usuario u "
@@ -61,18 +61,18 @@ import lombok.ToString;
 	/* apenas usuarios Ativos */
 	
 	@NamedQuery(name="Usuario.buscarTecnicos", query="select u from Usuario u "
-			+ "where u.propriedade = :unidade "
+			+ "where u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId "
 			+ "and u.status = :status " 
 			+ "order by u.nome"),
 	@NamedQuery(name="Usuario.buscarTecnicosRole", query="select u from Usuario u "
 			+ "where u.role = :role "
-			+ "and u.propriedade = :unidade "
+			+ "and u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId "
 			+ "and u.status = :status "
 			+ "order by u.nome"),
 	@NamedQuery(name="Usuario.buscarUsuarios", query="select u from Usuario u "
-			+ "where u.propriedade = :unidade "
+			+ "where u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId "
 			+ "and u.status = :status "			
 			+ "order by u.nome"),  
@@ -83,7 +83,7 @@ import lombok.ToString;
 			+ "where u.tenant.codigo = :tenantId "
 			+ "and u.status = :status"),
 	@NamedQuery(name="Usuario.buscarTotalTecnicosUnid", query="select count(u) from Usuario u "
-			+ "where u.propriedade = :unidade "
+			+ "where u.unidade = :unidade "
 			+ "and u.tenant.codigo = :tenantId " 
 			+ "and u.status = :status")
 })
@@ -121,7 +121,7 @@ public class Usuario implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name="codigo_unidade")
-	private Propriedade propriedade;
+	private Unidade unidade;
 	
 	@ManyToOne
 	@JoinColumn(name="tenant_id")

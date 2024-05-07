@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 
 import com.cafe.dao.PropriedadeDAO;
 import com.cafe.modelo.Tenant;
-import com.cafe.modelo.Propriedade;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.enums.TipoPlano;
 import com.cafe.util.NegocioException;
 
@@ -29,30 +29,30 @@ public class PropriedadeService implements Serializable {
 	private TenantService tenantService;
 
 
-	public void salvar(Propriedade propriedade) throws NegocioException {
+	public void salvar(Unidade unidade) throws NegocioException {
 		
-		log.info("Service : tenant = " + propriedade.getTenant_id());		
+		log.info("Service : tenant = " + unidade.getTenant_id());		
 		
-		validaDados(propriedade);		
+		validaDados(unidade);		
 		
-		this.propriedadeDAO.salvar(propriedade);
+		this.propriedadeDAO.salvar(unidade);
 	}
 	
-	private void validaDados(Propriedade propriedade) throws NegocioException {
+	private void validaDados(Unidade unidade) throws NegocioException {
 		/*
 		 * Verifica se existe agendamento em aberto	
 		 */		
-		if (propriedade.getTipo() == null) 
+		if (unidade.getTipo() == null) 
 			throw new NegocioException("O tipo é obrigatório.");
 		
 		/*
 		 * verifica se é free, profissional ou especial
-		 * free = 1 Propriedade e 3 usuarios
+		 * free = 1 Unidade e 3 usuarios
 		 * profissional = 5 unidades e 50 usuarios
 		 * especial = ilimitado
 		 */
 		
-		Long tenantId = propriedade.getTenant_id();
+		Long tenantId = unidade.getTenant_id();
 		Tenant tenant = tenantService.buscarPeloCodigo(tenantId);
 		TipoPlano plano = tenant.getTipoPlano();
 		 
@@ -61,7 +61,7 @@ public class PropriedadeService implements Serializable {
 		log.info("plano qde unidades = " + qde);
 		if(plano == TipoPlano.FREE) {			
 			if (qde > 1) {
-				throw new NegocioException("A quantidade de unidades do Plano Free é limitado a uma Propriedade. Faça o upgrade para o Plano Profissional.");
+				throw new NegocioException("A quantidade de unidades do Plano Free é limitado a uma unidades. Faça o upgrade para o Plano Profissional.");
 			}
 		} 
 		else {
@@ -73,22 +73,22 @@ public class PropriedadeService implements Serializable {
 		}
 	}		
 
-	public Propriedade buscarPeloCodigo(long codigo) {
+	public Unidade buscarPeloCodigo(long codigo) {
 		return propriedadeDAO.buscarPeloCodigo(codigo);
 	}
 	
 
-	public List<Propriedade> buscarTodos(Long tenantId) {
+	public List<Unidade> buscarTodos(Long tenantId) {
 		return propriedadeDAO.buscarTodos(tenantId);
 	}	
 	
-	public void excluir(Propriedade propriedade) throws NegocioException {
-		propriedadeDAO.excluir(propriedade);
+	public void excluir(Unidade unidade) throws NegocioException {
+		propriedadeDAO.excluir(unidade);
 		
 	}
 	
 	
-	public List<Propriedade> buscarUnidades(Long tenantId) {	
+	public List<Unidade> buscarUnidades(Long tenantId) {	
 		log.info("Primeiro acesso a banco... buscar unidades");
 		
 		return propriedadeDAO.buscarTodos(tenantId);
