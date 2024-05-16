@@ -21,8 +21,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
+import com.cafe.modelo.enums.TipoCalculo;
 import com.cafe.modelo.enums.TipoCombustivel;
-import com.cafe.modelo.enums.TipoConsumo;
 import com.cafe.modelo.enums.TipoInsumo;
 
 import lombok.Data;
@@ -75,9 +75,10 @@ public class Maquina {
 
 	@Enumerated(EnumType.STRING)
 	private TipoAuxiliarMaquinas tipo;
-
+	
 	@Enumerated(EnumType.STRING)
-	private TipoConsumo tipoConsumo;
+	private TipoCalculo tipoCalculo;
+
 
 	/*
 	 * Datas de Criação e Modificação

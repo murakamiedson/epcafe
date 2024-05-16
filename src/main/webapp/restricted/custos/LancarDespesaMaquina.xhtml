@@ -77,7 +77,7 @@
 							value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel}" />
 						<p:spacer width="20px" />
 						<p:outputLabel id="calc"
-							value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo}" />
+							value="Tipo de Cálculo: #{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo}" />
 					</h:panelGroup>
 	
 					<p:outputLabel id="precoLabel"
@@ -111,15 +111,14 @@
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.minutosTrabalhados}"
 						decimalSeparator="," thousandSeparator="." minValue="0"
 						decimalPlaces="2" required="true"
-						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo eq 'QUILOMETRO'}">
+						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}">
 					</p:inputNumber>
 	
 					<p:outputLabel value="Litros Consumidos" for="litros" />
 					<p:inputNumber id="litros"
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.litrosConsumidos}"
 						decimalSeparator="," thousandSeparator="." minValue="0"
-						decimalPlaces="2" symbol=" L" symbolPosition="s"
-						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo ne 'TEMPO'}">
+						decimalPlaces="2" symbol=" L" symbolPosition="s">
 					</p:inputNumber>
 	
 					<p:outputLabel value="Distância Trabalhada" for="distancia" />
@@ -127,7 +126,7 @@
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.distanciaTrabalhada}"
 						decimalSeparator="," thousandSeparator="." minValue="0"
 						decimalPlaces="2" symbol=" Km" symbolPosition="s"
-						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoConsumo ne 'QUILOMETRO'}">
+						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo ne 'DISTANCIA'}">
 					</p:inputNumber>
 	
 				</p:panelGrid>
@@ -177,6 +176,11 @@
 				<p:column headerText="Fator Potência"
 					style="width: 30px; text-align: left">
 					<h:outputText value="#{despesa.fatorPotencia}" />
+				</p:column>
+				
+				<p:column headerText="Tipo de Cálculo"
+					style="width: 30px; text-align: left">
+					<h:outputText value="#{despesa.maquina.tipoCalculo}" />
 				</p:column>
 
 				<p:column headerText="Valor Total (R$)"
