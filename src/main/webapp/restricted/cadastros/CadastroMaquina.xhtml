@@ -75,8 +75,67 @@
 					<f:selectItems value="#{cadastroMaquinaBean.tiposCombustivel}"
 						var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
 
-					<p:ajax update="consumo" process="tipoc" />
+
 				</p:selectOneMenu>
+
+				<p:outputLabel value="Cálculo da Despesa" for="calcDespesa" />
+				<h:panelGroup>
+					<p:selectOneMenu id="calcDespesa"
+						value="#{cadastroMaquinaBean.maquina.tipoCalculo}" required="true"
+						validatorMessage="O tipo de cálculo é obrigatório.">
+						<f:selectItem itemLabel="Selecione o tipo de cálculo" />
+						<f:selectItems value="#{cadastroMaquinaBean.tiposCalculo}"
+							var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
+
+						
+						<p:ajax update="consumoMedio" process="calcDespesa" />
+					</p:selectOneMenu>
+					<p:spacer width="10px" />
+					<p:commandButton type="button" id="content"
+						icon="pi pi-question-circle" />
+					<p:tooltip for="content"
+						value="Escolha o método de cálculo para as despesas com essa máquina "
+						trackMouse="true" />
+
+					<p:accordionPanel style="margin-top: 10px">
+						<p:tab title="TRATOR">
+							<h:panelGrid cellpadding="10">
+
+								<h:outputText
+									value="Recomendado para máquinas do tipo Trator, como Colhedora automotriz café, 
+										colhedora de café, microtrator, trator e trator de roda pequeno.
+			                   			O cálculo realizado consiste em: Potencia * Fator Potencia * 0,15 * Preco Combustível * Tempo Trabalhado" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="NÃO TRATOR">
+							<h:panelGrid cellpadding="10">
+
+								<h:outputText
+									value="Recomendado para máquinas que usam cálculo por tempo trabalhado, mas não são tratores, 
+											como Atomizador costal motorizado, motorroçadeira, soprador, Roçadeira, derriçadora e moto serra.
+			                				O cálculo realizado consiste em: Potencia * 0,15 * Preco Combustivel * Tempo Trabalhado" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="ENERGIA ELÉTRICA">
+							<h:panelGrid cellpadding="10">
+
+								<h:outputText
+									value="Recomendado para máquinas que usam energia elétrica. O cálculo realizado consiste em: 
+									Potencia * 0,735 * Preco Energia * Tempo Trabalhado" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="DISTÂNCIA">
+							<h:panelGrid cellpadding="10">
+
+								<h:outputText
+									value="Recomendado para máquinas que usam cálculo por distância trabalhada, como Caminhão, 
+										Carro, Moto, entre outros. O cálculo realizado consiste em: 
+										Litros Consumidos * ( Distancia Trabalhada / Consumo Medio ) * Preco Combustivela" />
+							</h:panelGrid>
+						</p:tab>
+					</p:accordionPanel>
+				</h:panelGroup>
+
 
 				<p:outputLabel value="Potência" for="potencia" />
 				<p:inputNumber id="potencia"
@@ -85,24 +144,11 @@
 					validatorMessage="A potência é obrigatória.">
 				</p:inputNumber>
 
-				<p:outputLabel value="Tipo de Consumo" for="consumo" />
-				<p:selectOneMenu id="consumo"
-					value="#{cadastroMaquinaBean.maquina.tipoConsumo}"
-					disabled="#{cadastroMaquinaBean.maquina.tipoCombustivel ne 'GASOLINA' 
-						and cadastroMaquinaBean.maquina.tipoCombustivel ne 'ETANOL'}">
-					<f:selectItem itemLabel="Selecione o tipo de consumo" />
-					<f:selectItems value="#{cadastroMaquinaBean.tiposConsumo}"
-						var="tipoConsumo" itemLabel="#{tipoConsumo}"
-						itemValue="#{tipoConsumo}" />
-						
-						<p:ajax update="consumoMedio" process="consumo" />
-				</p:selectOneMenu>
-				
 				<p:outputLabel value="Consumo Médio" for="consumoMedio" />
 				<p:inputNumber id="consumoMedio"
 					value="#{cadastroMaquinaBean.maquina.consumoMedio}" symbol=" Km/L"
 					symbolPosition="s" minValue="0" decimalPlaces="2"
-					disabled="#{cadastroMaquinaBean.maquina.tipoConsumo ne 'QUILOMETRO'}">
+					disabled="#{cadastroMaquinaBean.maquina.tipoCalculo ne 'DISTANCIA'}">
 				</p:inputNumber>
 
 				<p:outputLabel value="Nome" for="nome" />
