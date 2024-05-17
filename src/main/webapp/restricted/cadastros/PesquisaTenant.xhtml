@@ -16,15 +16,8 @@
     	
     		<p:messages id="messages" showDetail="false" closable="true">
         		<p:autoUpdate />
-    		</p:messages>
-    		
-	    	<p:toolbar style="margin-top: 20px">
-	    		<p:toolbarGroup>
-	    			<p:commandButton icon="pi pi-plus" value="Novo Proprietário" 
-	    				actionListener="#{pesquisaTenantBean.cadastrar}"/>	    			
-	    		</p:toolbarGroup>
-	    	</p:toolbar>
-	    		    	
+    		</p:messages>    		
+	    		    		    	
 	    	<p:dataTable id="tenantsTable" value="#{pesquisaTenantBean.tenants}" 
 	    		var="tenant" style="margin-top: 20px"		    		
 	    		emptyMessage="Nenhum proprietário encontrado." rows="10"

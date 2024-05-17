@@ -1,0 +1,250 @@
+<ui:composition template="/WEB-INF/template/LayoutLogin.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Cadastro de Tenant</ui:define>
+
+	<ui:define name="corpo">
+		
+		<div class="card">
+			<p:tooltip/>
+			<p:tooltip/>
+			<h:form id="frmCadastro">
+
+				<p:growl id="growl" sticky="true" showDetail="true" />
+				
+
+				<p:wizard flowListener="#{autoCadPropBean.onFlowProcess}" updateModelOnPrev="true" effect="blind" 
+					nextLabel="Próximo" backLabel="Anterior" >
+					
+					
+
+					<p:tab id="tenant" title="Proprietário">
+						<p:panel header="Cadastrar Proprietário">
+						
+						 	<p:messages/>
+						 
+							<h:panelGrid columns="2" cellpadding="2" columnClasses="label, value">
+
+								<h:outputText value="Proprietário " for="prop" />
+								<p:inputText id="prop" size="80" maxlength="100"
+									value="#{autoCadPropBean.autocadTO.tenant.tenant}"
+									required="true"
+									requiredMessage="O nome do Proprietário é obrigatório." />
+							</h:panelGrid>
+							
+						</p:panel>
+						<p:spacer height="30px" />
+						<p:commandButton id="bt3" value="Sair"
+							icon="pi pi-sign-out"
+							action="#{autoCadUserBean.sair}" process="@this" />
+					</p:tab>
+
+					<p:tab id="unidade" title="Unidade">
+						<p:panel header="Cadastrar Unidade">
+						
+							<p:messages />
+							
+							<h:panelGrid columns="2" cellpadding="2" columnClasses="label, value">
+
+								<h:outputText value="Nome: " for="unid" />
+								<p:inputText id="unid" size="80" maxlength="100" 
+									value="#{autoCadPropBean.autocadTO.unidade.nome}" 									
+									placeholder="Nome da unidade" 
+									required="true"
+									requiredMessage="O nome da unidade é obrigatório.">
+								</p:inputText>
+
+
+								<p:outputLabel for="cep" value="CEP" />
+								<h:panelGroup>
+									<p:inputMask id="cep" mask="99999-999" size="9"
+										value="#{autoCadPropBean.autocadTO.unidade.endereco.cep}"
+										required="true" 
+										requiredMessage="O cep é obrigatório." />
+
+									<p:commandButton value="Pesquisar"
+										action="#{autoCadPropBean.buscaEnderecoPorCEP}"
+										update="cep endereco bairro municipio uf" 
+										process="@this cep" 
+										imadiate="true" />
+								</h:panelGroup>
+
+
+								<h:outputText value="Endereço: " for="endereco" />
+								<p:inputText id="endereco" size="100" maxlength="120" 
+									value="#{autoCadPropBean.autocadTO.unidade.endereco.endereco}"
+									required="true" 
+									requiredMessage="O logradouro é obrigatório."/>
+
+								<h:outputText value="Número: " for="nr"/>
+								<p:inputText id="nr" size="5" maxlength="8"
+									value="#{autoCadPropBean.autocadTO.unidade.endereco.numero}"
+									required="true" 
+									requiredMessage="O número é obrigatório." />
+
+								<h:outputText value="Bairro: " for="bairro" />
+								<p:inputText id="bairro" size="80" maxlength="120" 
+									value="#{autoCadPropBean.autocadTO.unidade.endereco.bairro}"
+									required="true" 
+									requiredMessage="O bairro é obrigatório."/>
+									
+								<h:outputText value="Município: " for="municipio" />
+								<p:inputText id="municipio" size="80" maxlength="120" 
+									value="#{autoCadPropBean.autocadTO.unidade.endereco.municipio}"
+									required="true" 
+									requiredMessage="O Município: é obrigatório."/>
+									
+								<h:outputText value="UF: " for="uf" />								
+								<p:selectOneMenu id="uf" size="3"
+									value="#{autoCadPropBean.autocadTO.unidade.endereco.uf}"
+									required="true" 
+									requiredMessage="A UF é obrigatória.">
+									<h:outputText value="UF: " />
+									<f:selectItem itemLabel="Selecione a UF:" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{autoCadPropBean.ufs}" var="uf"
+										itemLabel="#{uf}" itemValue="#{uf}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="usuario" title="Usuário">
+						<p:panel header="Cadastrar Usuario">
+						
+						 	<p:messages/>
+						 
+							<h:panelGrid columns="2" cellpadding="2" columnClasses="label, value">
+
+								<h:outputText value="Nome: " for="nome" />
+								<p:inputText id="nome" size="80" maxlength="100" 
+									value="#{autoCadPropBean.autocadTO.usuario.nome}" 
+									placeholder="Nome Completo" 
+									required="true"
+									requiredMessage="O nome é obrigatório.">
+								</p:inputText>
+
+								<h:outputText value="Nº Registro Profissional: " for="registro" />
+								<p:inputText id="registro" size="20" maxlength="25" 
+									value="#{autoCadPropBean.autocadTO.usuario.registroProfissional}"
+									placeholder="Nº do Registro Profissional">
+								</p:inputText>
+
+								<h:outputText value="Email: " />
+								<p:outputLabel value="#{autoCadPropBean.autocadTO.usuario.email}" />
+
+								<h:outputText value="Grupo de Usuários: " />
+								<p:outputLabel value="#{autoCadPropBean.autocadTO.usuario.grupo}" />
+
+								<h:outputText value="Perfil de usuário: " />
+								<p:outputLabel value="#{autoCadPropBean.autocadTO.usuario.role}" />
+
+								<h:outputText value="Unidade: " />
+								<p:outputLabel value="#{autoCadPropBean.autocadTO.usuario.unidade.nome}" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="confirm" title="Confirmação">
+						<p:panel id="panelconfirm" header="Confirmation">						
+		
+							<h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+							
+								<p:panelGrid columns="2" cellpadding="5" columnClasses="label, value">
+								
+									<h:outputText value="Nome Proprietário " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.tenant.tenant}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Proprietário " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.tenant.tenant}"
+										styleClass="outputLabel" />
+								
+
+									<h:outputText value="Nome Unidade: " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.unidade.nome}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Contato:  " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.unidade.endereco.cep}"
+										styleClass="outputLabel" />
+										
+								</p:panelGrid>
+								
+								<p:panelGrid columns="2" cellpadding="5" columnClasses="label, value">
+								
+									<h:outputText value="Endereço:  " style="font-weight:bold"/>
+									<h:outputText
+										value="#{autoCadPropBean.autocadTO.unidade.endereco.endereco}, 
+											#{autoCadPropBean.autocadTO.unidade.endereco.numero}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Bairro:  " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.unidade.endereco.bairro}"
+										styleClass="outputLabel" />
+										
+									<h:outputText value="Município:  " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.unidade.endereco.municipio}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="UF:  " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.unidade.endereco.uf}"
+										styleClass="outputLabel" />
+										
+								</p:panelGrid>
+								
+								<p:panelGrid columns="2" cellpadding="5" columnClasses="label, value">
+
+									<h:outputText value="Usuário: " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.usuario.nome}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Email: " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.usuario.email}"
+										styleClass="outputLabel" />
+										
+									<h:outputText value="Perfil: " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.usuario.role}"
+										styleClass="outputLabel" />
+										
+									<h:outputText value="Grupo de Acesso: " style="font-weight:bold"/>
+									<h:outputText value="#{autoCadPropBean.autocadTO.usuario.grupo}"
+										styleClass="outputLabel" />								
+								</p:panelGrid>
+								
+							</h:panelGrid>					
+							
+							
+							<p:spacer width="10px" />
+							
+							<p:commandButton value="Confirmar"
+								icon="pi pi-check" iconPos="right" 
+								action="#{autoCadPropBean.salvar}"
+								update="growl panelconfirm"
+								process="@this"/>
+							
+							<p:spacer width="10px" />
+							
+											            
+				            <p:button id="login" value="Fazer Login" title="Sair"				            
+				            	rendered="#{autoCadPropBean.sucesso}"
+								styleClass="p-mr-2" icon="pi pi-sign-out"
+								outcome="/restricted/home/CafeHome.xhtml"/>	
+	              
+	             			<p:spacer width="10px" />
+	              
+							<p:button id="sair" value="Sair" title="Sair"
+								styleClass="p-mr-2" icon="pi pi-sign-out"
+								outcome="/Home.xhtm"/>								
+							
+						</p:panel>
+					</p:tab>
+				</p:wizard>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

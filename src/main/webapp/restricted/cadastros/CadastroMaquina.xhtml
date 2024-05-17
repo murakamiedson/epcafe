@@ -75,8 +75,49 @@
 					<f:selectItems value="#{cadastroMaquinaBean.tiposCombustivel}"
 						var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
 
-					<p:ajax update="consumo" process="tipoc" />
+
 				</p:selectOneMenu>
+
+				<p:outputLabel value="Método de Cálculo de Despesa" for="calcDespesa" />
+				<h:panelGroup>
+					<p:selectOneMenu id="calcDespesa"
+						value="#{cadastroMaquinaBean.maquina.tipoCalculo}" required="true"
+						validatorMessage="O tipo de cálculo é obrigatório.">
+						<f:selectItem itemLabel="Selecione o tipo de cálculo" />
+						<f:selectItems value="#{cadastroMaquinaBean.tiposCalculo}"
+							var="tipo" itemLabel="#{tipo}" itemValue="#{tipo}" />
+
+						
+						<p:ajax update="consumoMedio" process="calcDespesa" />
+					</p:selectOneMenu>
+					<p:spacer width="10px" />
+				
+
+
+					<p:fieldset legend="Ver Cálculos" toggleable="true" toggleSpeed="500" collapsed="true">
+			            <p:ajax event="toggle"/>
+			            <p class="m-0">
+			                <b>TRATOR</b> : Para máquinas do tipo trator, como colhedora automotriz, 
+									colhedora de café, microtrator, trator e trator de roda pequeno.<br></br>
+		                   			<i>Potencia * Fator Potência * 0,15 * Preço Combustível * Tempo Trabalhado</i>
+		                </p>
+		                <p class="m-0">
+		                   	<b>NÃO TRATOR</b> : Para máquinas que usam cálculo por tempo trabalhado, mas não são tratores, 
+									como atomizador costal motorizado, motorroçadeira, soprador, roçadeira, derriçadora e moto serra.<br></br>
+	                				<i>Potência * 0,15 * Preço Combustível * Tempo Trabalhado</i>
+	                	</p>
+	                	<p class="m-0">
+		                   	<b>ENERGIA ELÉTRICA</b> : Para máquinas que usam energia elétrica.<br></br>
+									<i>Potência * 0,735 * Preço Energia * Tempo Trabalhado</i>
+						</p>
+	                	<p class="m-0">
+		                   	<b>DISTÂNCIA</b> : Para máquinas que usam cálculo por distância trabalhada, como caminhão, 
+									carro, moto, entre outros.<br></br>
+									<i>Litros Consumidos * ( Distância Trabalhada / Consumo Médio ) * Preço Combustivel</i>
+						</p>
+			        </p:fieldset>
+				</h:panelGroup>
+
 
 				<p:outputLabel value="Potência" for="potencia" />
 				<p:inputNumber id="potencia"
@@ -85,24 +126,11 @@
 					validatorMessage="A potência é obrigatória.">
 				</p:inputNumber>
 
-				<p:outputLabel value="Tipo de Consumo" for="consumo" />
-				<p:selectOneMenu id="consumo"
-					value="#{cadastroMaquinaBean.maquina.tipoConsumo}"
-					disabled="#{cadastroMaquinaBean.maquina.tipoCombustivel ne 'GASOLINA' 
-						and cadastroMaquinaBean.maquina.tipoCombustivel ne 'ETANOL'}">
-					<f:selectItem itemLabel="Selecione o tipo de consumo" />
-					<f:selectItems value="#{cadastroMaquinaBean.tiposConsumo}"
-						var="tipoConsumo" itemLabel="#{tipoConsumo}"
-						itemValue="#{tipoConsumo}" />
-						
-						<p:ajax update="consumoMedio" process="consumo" />
-				</p:selectOneMenu>
-				
 				<p:outputLabel value="Consumo Médio" for="consumoMedio" />
 				<p:inputNumber id="consumoMedio"
 					value="#{cadastroMaquinaBean.maquina.consumoMedio}" symbol=" Km/L"
 					symbolPosition="s" minValue="0" decimalPlaces="2"
-					disabled="#{cadastroMaquinaBean.maquina.tipoConsumo ne 'QUILOMETRO'}">
+					disabled="#{cadastroMaquinaBean.maquina.tipoCalculo ne 'DISTANCIA'}">
 				</p:inputNumber>
 
 				<p:outputLabel value="Nome" for="nome" />

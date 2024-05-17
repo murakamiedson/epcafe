@@ -14,8 +14,8 @@ import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Maquina;
 import com.cafe.modelo.enums.EnumUtil;
 import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
+import com.cafe.modelo.enums.TipoCalculo;
 import com.cafe.modelo.enums.TipoCombustivel;
-import com.cafe.modelo.enums.TipoConsumo;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.MaquinaService;
 import com.cafe.util.CalculoUtil;
@@ -42,9 +42,10 @@ public class CadastroMaquinaBean implements Serializable {
 	private Maquina maquina;	
 	private List<TipoInsumo> tiposInsumo;
 	private List<TipoCombustivel> tiposCombustivel;
+	private List<TipoCalculo> tiposCalculo;
 	private List<TipoAuxiliarMaquinas> tiposMaquina;
-	private List<TipoConsumo> tiposConsumo;
 	private List<Maquina> maquinas = new ArrayList<>();
+	private String descricaoCalculo;
 	private Long tenantId;
 	
 	private String yearRange;
@@ -67,8 +68,8 @@ public class CadastroMaquinaBean implements Serializable {
 
 		this.tiposInsumo = Arrays.asList(TipoInsumo.MAQUINA, TipoInsumo.IMPLEMENTO);
 		this.tiposCombustivel = Arrays.asList(TipoCombustivel.values());
-		this.tiposConsumo = Arrays.asList(TipoConsumo.values());
-		log.info(tiposConsumo);
+		this.tiposCalculo = Arrays.asList(TipoCalculo.values());
+		
 		
 		
 		
@@ -91,6 +92,7 @@ public class CadastroMaquinaBean implements Serializable {
 	public void carregaVidaUtil() {
 		this.maquina.setVidaUtil(maquina.getTipo().getValor());
 	}
+	
 	
 	public void salvar() {
 		try {			

@@ -1,9 +1,10 @@
-package com.cafe.controller.cadastros;
+package com.cafe.controller.autocad;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -15,18 +16,19 @@ import javax.inject.Named;
 import org.primefaces.event.FlowEvent;
 
 import com.cafe.modelo.Endereco;
-import com.cafe.modelo.Unidade;
 import com.cafe.modelo.Tenant;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.Usuario;
+import com.cafe.modelo.UsuarioTemp;
 import com.cafe.modelo.enums.Grupo;
 import com.cafe.modelo.enums.Role;
 import com.cafe.modelo.enums.Status;
 import com.cafe.modelo.enums.TipoPlano;
 import com.cafe.modelo.enums.TipoPropriedade;
 import com.cafe.modelo.enums.Uf;
-import com.cafe.modelo.to.CadastroTenantTO;
+import com.cafe.modelo.to.AutoCadPropTO;
 import com.cafe.modelo.to.EnderecoTO;
-import com.cafe.service.CadastroTenantService;
+import com.cafe.service.AutoCadPropService;
 import com.cafe.service.UsuarioService;
 import com.cafe.service.rest.BuscaCEPService;
 import com.cafe.util.MessageUtil;
@@ -37,7 +39,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**
- * @author murakami
+ * @author isadora
  *
  */
 @Log4j
@@ -45,12 +47,13 @@ import lombok.extern.log4j.Log4j;
 @Setter
 @Named
 @ViewScoped
-public class CadastroTenantBean implements Serializable {
+public class AutoCadPropBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private CadastroTenantTO autocadTO;
+	private AutoCadPropTO autocadTO;
 	private EnderecoTO enderecoTO;
+	private UsuarioTemp usuarioTemp;
 	private Usuario usuario;
 	private List<Uf> ufs;
 	private boolean sucesso = false;
@@ -60,24 +63,42 @@ public class CadastroTenantBean implements Serializable {
 	@Inject
 	private UsuarioService usuarioService;
 	@Inject
-	private CadastroTenantService autocadService;
+	private AutoCadPropService autocadService;
 	@Inject
 	private BuscaCEPService buscaCEPService;	
 
 	@PostConstruct
 	public void inicializar() throws Exception{
+		log.info("Chegou no cadastro de Propriedade");		
+		this.ufs = Arrays.asList(Uf.values());		
 		
-		log.info("Chegou no cadastro de Proprietários");		
-		this.ufs = Arrays.asList(Uf.values());
-		
-		inicializarUsuario();		
+		try {
+			Map<String, String> map;
+			ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+			map = externalContext.getRequestParameterMap();
+			
+			Long id = Long.valueOf(map.get("id"));
+			log.info("parametro id do request= " + id);
+			usuarioTemp = autocadService.buscarUserPeloCodigo(id);
+			
+			if(usuarioTemp == null) {
+				throw new NegocioException("ocorreu um problema! Volte para a página inicial e tente novamente.");
+			}
+			this.inicializarUsuario();
+			
+			log.info("usuarioTemp = " + usuarioTemp.getEmail());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;			
+		}
 	}	
 
 	public void inicializarUsuario() {
-		this.autocadTO = new CadastroTenantTO();
+		this.autocadTO = new AutoCadPropTO();
 
-		autocadTO.setProprietario(new Tenant());
-		autocadTO.getProprietario().setTipoPlano(TipoPlano.PROFISSIONAL);
+		autocadTO.setTenant(new Tenant());
+		autocadTO.getTenant().setTipoPlano(TipoPlano.PROFISSIONAL);
 
 		autocadTO.setUnidade(new Unidade());
 		
@@ -86,12 +107,14 @@ public class CadastroTenantBean implements Serializable {
 
 		Usuario usuario = new Usuario();
 		
-			
+		usuario.setEmail(getUsuarioTemp().getEmail());
+		usuario.setSenha(getUsuarioTemp().getSenha());		
 		usuario.setRole(Role.GESTOR);
 		usuario.setGrupo(Grupo.GESTORES);
 		usuario.setStatus(Status.ATIVO);		
 		
 		autocadTO.setUsuario(usuario);
+		autocadTO.setUsuarioTemp(usuarioTemp);
 	}
 	
 	public String onFlowProcess(FlowEvent event) {
@@ -102,7 +125,6 @@ public class CadastroTenantBean implements Serializable {
 
 	public void buscaEnderecoPorCEP() {
 
-		log.info("Buscar endereço cep = " + autocadTO.getUnidade().getEndereco().getCep());		
 		try {
 			enderecoTO = buscaCEPService.buscaEnderecoPorCEP(autocadTO.getUnidade().getEndereco().getCep());
 
@@ -148,12 +170,11 @@ public class CadastroTenantBean implements Serializable {
 		log.info("Sair...");   
 		
 		try {
-			getExternalContext().redirect(getExternalContext().getRequestContextPath() 
-					+ "/restricted/cadastros/PesquisaTenant.xhtml");
+			getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/Home.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "/restricted/cadastros/PesquisaTenant.xhtml";
+		return "/Home.xhtml";
 	}
 	
 

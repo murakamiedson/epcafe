@@ -12,8 +12,6 @@ import javax.inject.Inject;
 import com.cafe.dao.DespesaMaquinaDAO;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Unidade;
-import com.cafe.modelo.enums.TipoAuxiliarMaquinas;
-import com.cafe.modelo.enums.TipoConsumo;
 import com.cafe.modelo.to.DespesaDTO;
 import com.cafe.modelo.to.DespesaTO;
 import com.cafe.util.NegocioException;
@@ -54,64 +52,58 @@ public class DespesaMaquinaService implements Serializable {
 		log.info("Primeiro acesso a banco... buscar maquinas");
 		return despesaMaquinaDAO.buscarDespesasMaquinas(unidade);
 	}
+	
 
 	private BigDecimal calcularValorTotal(DespesaMaquina despesaMaquina) {
-		/*
-		 * Diesel 15% Valor = Potencia (CV) x Fator de Potência x Consumo médio do
-		 * combustível Ex.: 134 * 0,55 * 0,15 * 5,00 * 10 = 11,055 l/h * preco
-		 * combustivel
-		 * 
-		 * Energia eletrica 73,5% Valor = Potencia * 0,735 Ex.: 134 * 0,735 * 0,35 * 10
-		 * = 98,49 kwh * preco combustivel
-		 */
+
 		BigDecimal valor = new BigDecimal(0);
-		var tipoCombustivel = despesaMaquina.getMaquina().getTipoCombustivel();
+		var tipoCalculo = despesaMaquina.getMaquina().getTipoCalculo();
 
-		switch (tipoCombustivel) {
-		case DIESEL:
-			if (despesaMaquina.getMaquina().getTipo() == TipoAuxiliarMaquinas.TRATOR
-					|| despesaMaquina.getMaquina().getTipo() == TipoAuxiliarMaquinas.TRATOR_DE_RODA_PEQUENO_PORTE) {
-				valor = despesaMaquina.getMaquina().getPotencia()
-						.multiply(despesaMaquina.getFatorPotencia().getValor().divide(new BigDecimal(100)))
-						.multiply(new BigDecimal(0.15)).multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-						.multiply(despesaMaquina.getMinutosTrabalhados().divide(new BigDecimal(60), RoundingMode.DOWN));
-			} else {
-				valor = despesaMaquina.getMaquina().getPotencia().multiply(new BigDecimal(0.15))
-						.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-						.multiply(despesaMaquina.getMinutosTrabalhados().divide(new BigDecimal(60), RoundingMode.DOWN));
-			}
+		switch (tipoCalculo) {
+		case TRATOR:
+			valor = despesaMaquina.getMaquina().getPotencia()
+					.multiply(despesaMaquina.getFatorPotencia().getValor()
+							.divide(new BigDecimal(100)))
+					.multiply(new BigDecimal(0.15))
+					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
+					.multiply(despesaMaquina.getMinutosTrabalhados()
+							.divide(new BigDecimal(60), RoundingMode.DOWN));
 			break;
-		case ENERGIA_ELETRICA:
-			valor = despesaMaquina.getMaquina().getPotencia().multiply(new BigDecimal(0.15))
-			.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-			.multiply(despesaMaquina.getMinutosTrabalhados().divide(new BigDecimal(60), RoundingMode.DOWN));
+			
+		case NAO_TRATOR:
+			// MAQUINAS QUE NAO SAO TRATOR
+			// Potencia * 0,15 * Preco Combustivel * Tempo Trabalhado
+			valor = despesaMaquina.getMaquina().getPotencia()
+					.multiply(new BigDecimal(0.15))
+					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
+					.multiply(despesaMaquina.getMinutosTrabalhados()
+							.divide(new BigDecimal(60), RoundingMode.DOWN));
+			
 			break;
-		case ETANOL:
-		case GASOLINA:
-			if(despesaMaquina.getMaquina().getTipoConsumo() == TipoConsumo.TEMPO) {
-				valor = despesaMaquina.getMinutosTrabalhados().divide(new BigDecimal(60), RoundingMode.DOWN)
-						.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-						.multiply(despesaMaquina.getLitrosConsumidos());
-			}else {
-				valor = despesaMaquina.getPrecoUnitarioCombustivel()
-						.multiply(despesaMaquina.getDistanciaTrabalhada()
-								.divide(despesaMaquina.getMaquina().getConsumoMedio(), RoundingMode.DOWN));
-			}
-			/*
-			 * TODO A) MÁQUINA CALCULADA POR TEMPO:
-			 * 
-			 * cálculo: qtd de litros utilizada * horas trabalhadas * preço combustível
-			 * 
-			 * B) MÁQUINA CALCULADA POR QUILOMETRO
-			 * 
-			 * cálculo: (distância trabalhada / consumo(km/L) ) * preço combustível
-			 */
+			
+		case ENERGIA_ELETRICA: 
+			// Potencia * 0,735 * Preco Energia * Tempo Trabalhado
+			valor = despesaMaquina.getMaquina().getPotencia()
+					.multiply(new BigDecimal(0.735))
+					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
+					.multiply(despesaMaquina.getMinutosTrabalhados()
+							.divide(new BigDecimal(60), RoundingMode.DOWN));
 			break;
-		default://TODO tratar excessão
+			
+		case DISTANCIA:
+			
+			// Litros Consumidos * ( Distancia Trabalhada / Consumo Medio ) * Preco
+			// Combustivel
+			valor = despesaMaquina.getLitrosConsumidos()
+					.multiply(despesaMaquina.getDistanciaTrabalhada())
+					.divide(despesaMaquina.getMaquina().getConsumoMedio(), RoundingMode.DOWN)
+					.multiply(despesaMaquina.getPrecoUnitarioCombustivel());
+
 			break;
+
+			
 		}
-
-	return valor;
+		return valor;
 
 	}
 
