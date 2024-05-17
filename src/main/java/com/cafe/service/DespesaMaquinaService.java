@@ -70,7 +70,7 @@ public class DespesaMaquinaService implements Serializable {
 							.divide(new BigDecimal(60), RoundingMode.DOWN));
 			break;
 			
-		case NAOTRATOR:
+		case NAO_TRATOR:
 			// MAQUINAS QUE NAO SAO TRATOR
 			// Potencia * 0,15 * Preco Combustivel * Tempo Trabalhado
 			valor = despesaMaquina.getMaquina().getPotencia()
