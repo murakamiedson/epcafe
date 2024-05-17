@@ -2,7 +2,7 @@ package com.cafe.modelo.enums;
 
 public enum TipoCalculo {
 	TRATOR,
-	NAOTRATOR,
+	NAO_TRATOR,
 	ENERGIA_ELETRICA,
 	DISTANCIA
 }

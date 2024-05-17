@@ -78,7 +78,7 @@
 
 				</p:selectOneMenu>
 
-				<p:outputLabel value="Cálculo da Despesa" for="calcDespesa" />
+				<p:outputLabel value="Método de Cálculo de Despesa" for="calcDespesa" />
 				<h:panelGroup>
 					<p:selectOneMenu id="calcDespesa"
 						value="#{cadastroMaquinaBean.maquina.tipoCalculo}" required="true"
@@ -91,49 +91,31 @@
 						<p:ajax update="consumoMedio" process="calcDespesa" />
 					</p:selectOneMenu>
 					<p:spacer width="10px" />
-					<p:commandButton type="button" id="content"
-						icon="pi pi-question-circle" />
-					<p:tooltip for="content"
-						value="Escolha o método de cálculo para as despesas com essa máquina "
-						trackMouse="true" />
+				
 
-					<p:accordionPanel style="margin-top: 10px">
-						<p:tab title="TRATOR">
-							<h:panelGrid cellpadding="10">
 
-								<h:outputText
-									value="Recomendado para máquinas do tipo Trator, como Colhedora automotriz café, 
-										colhedora de café, microtrator, trator e trator de roda pequeno.
-			                   			O cálculo realizado consiste em: Potencia * Fator Potencia * 0,15 * Preco Combustível * Tempo Trabalhado" />
-							</h:panelGrid>
-						</p:tab>
-						<p:tab title="NÃO TRATOR">
-							<h:panelGrid cellpadding="10">
-
-								<h:outputText
-									value="Recomendado para máquinas que usam cálculo por tempo trabalhado, mas não são tratores, 
-											como Atomizador costal motorizado, motorroçadeira, soprador, Roçadeira, derriçadora e moto serra.
-			                				O cálculo realizado consiste em: Potencia * 0,15 * Preco Combustivel * Tempo Trabalhado" />
-							</h:panelGrid>
-						</p:tab>
-						<p:tab title="ENERGIA ELÉTRICA">
-							<h:panelGrid cellpadding="10">
-
-								<h:outputText
-									value="Recomendado para máquinas que usam energia elétrica. O cálculo realizado consiste em: 
-									Potencia * 0,735 * Preco Energia * Tempo Trabalhado" />
-							</h:panelGrid>
-						</p:tab>
-						<p:tab title="DISTÂNCIA">
-							<h:panelGrid cellpadding="10">
-
-								<h:outputText
-									value="Recomendado para máquinas que usam cálculo por distância trabalhada, como Caminhão, 
-										Carro, Moto, entre outros. O cálculo realizado consiste em: 
-										Litros Consumidos * ( Distancia Trabalhada / Consumo Medio ) * Preco Combustivela" />
-							</h:panelGrid>
-						</p:tab>
-					</p:accordionPanel>
+					<p:fieldset legend="Ver Cálculos" toggleable="true" toggleSpeed="500" collapsed="true">
+			            <p:ajax event="toggle"/>
+			            <p class="m-0">
+			                <b>TRATOR</b> : Para máquinas do tipo trator, como colhedora automotriz, 
+									colhedora de café, microtrator, trator e trator de roda pequeno.<br></br>
+		                   			<i>Potencia * Fator Potência * 0,15 * Preço Combustível * Tempo Trabalhado</i>
+		                </p>
+		                <p class="m-0">
+		                   	<b>NÃO TRATOR</b> : Para máquinas que usam cálculo por tempo trabalhado, mas não são tratores, 
+									como atomizador costal motorizado, motorroçadeira, soprador, roçadeira, derriçadora e moto serra.<br></br>
+	                				<i>Potência * 0,15 * Preço Combustível * Tempo Trabalhado</i>
+	                	</p>
+	                	<p class="m-0">
+		                   	<b>ENERGIA ELÉTRICA</b> : Para máquinas que usam energia elétrica.<br></br>
+									<i>Potência * 0,735 * Preço Energia * Tempo Trabalhado</i>
+						</p>
+	                	<p class="m-0">
+		                   	<b>DISTÂNCIA</b> : Para máquinas que usam cálculo por distância trabalhada, como caminhão, 
+									carro, moto, entre outros.<br></br>
+									<i>Litros Consumidos * ( Distância Trabalhada / Consumo Médio ) * Preço Combustivel</i>
+						</p>
+			        </p:fieldset>
 				</h:panelGroup>
 
 
