@@ -10,10 +10,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CadastroTenantTO {
+public class AutoCadPropTO {
 	
-	private Tenant proprietario;
+	private Tenant tenant;
 	private Unidade unidade;
 	private Usuario usuario;
 	private UsuarioTemp usuarioTemp;
+
 }

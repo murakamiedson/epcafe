@@ -55,6 +55,12 @@
 	    			</h:outputText>
 	    		</p:column>	    		
 	    		
+	    		<p:column headerText="Tipo de Cálculo" style="width: 50px; text-align: center"
+	    			sortBy="#{maquina.tipoCalculo}">
+	    			<h:outputText value="#{maquina.tipoCalculo}">
+	    			</h:outputText>
+	    		</p:column>	 
+	    		
 	    		<p:column headerText="Potência (CV)" style="width: 15px; text-align: center">
 	    			<h:outputText value="#{maquina.potencia}">
 	    				<f:convertNumber pattern="#0.00" />

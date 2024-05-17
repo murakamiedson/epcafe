@@ -1,4 +1,4 @@
-package com.cafe.controller.cadastros;
+package com.cafe.controller.autocad;
 
 import java.io.IOException;
 import java.io.Serializable;
