@@ -52,7 +52,6 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 		log.info("inicializar login = " + loginBean.getUsuario());
 		mesAno = LocalDate.now();		
 		despesasTO = relatorioService.buscarDespesasTO(mesAno, loginBean.getTenantId());
-		log.info("TESTE DESSA PORRAAAA");
 		despesaTotal = relatorioService.calcTotal(despesasTO);
 		
 		log.info("finalizar...");
