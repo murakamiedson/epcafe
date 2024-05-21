@@ -69,7 +69,6 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		maquinas = maquinaService.buscarMaquinasAlfabetico(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
 		despesas = despesaService.buscarDespesasMaquinas(loginBean.getUnidadeTemp());		
-
 		
 		limpar();
 	}

@@ -1,6 +1,7 @@
 package com.cafe.controller.custos;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,8 @@ import javax.inject.Named;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.to.DespesaTO;
-import com.cafe.service.DespesaMaquinaService;
+import com.cafe.modelo.to.TotalDespesaTO;
+import com.cafe.service.RelatorioMaquinaService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,20 +37,23 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 	private LocalDate mesAno;
 	private DespesaMaquina despesaMaquina;
 	private List<DespesaTO> despesasTO = new ArrayList<>();
+	private List<BigDecimal> despesaTotal1 = new ArrayList<>(13);
+	private TotalDespesaTO despesaTotal;
 		
 	@Inject
 	private LoginBean loginBean;
 	
 	@Inject
-	private DespesaMaquinaService despesaService;
+	private RelatorioMaquinaService relatorioService;
 
 	@PostConstruct
 	public void inicializar() {
 	
 		log.info("inicializar login = " + loginBean.getUsuario());
 		mesAno = LocalDate.now();		
-		despesasTO = despesaService.buscarDespesasTO(mesAno, loginBean.getTenantId());
-		
+		despesasTO = relatorioService.buscarDespesasTO(mesAno, loginBean.getTenantId());
+		log.info("TESTE DESSA PORRAAAA");
+		despesaTotal = relatorioService.calcTotal(despesasTO);
 		
 		log.info("finalizar...");
 	}
