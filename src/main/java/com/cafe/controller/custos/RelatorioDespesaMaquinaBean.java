@@ -39,6 +39,8 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 	private List<DespesaTO> despesasTO = new ArrayList<>();
 	private List<BigDecimal> despesaTotal1 = new ArrayList<>(13);
 	private TotalDespesaTO despesaTotal;
+	private List<String> anos = new ArrayList<>();
+	private String teste = "oi";
 		
 	@Inject
 	private LoginBean loginBean;
@@ -49,11 +51,12 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 	
-		log.info("inicializar login = " + loginBean.getUsuario());
+		
 		mesAno = LocalDate.now();		
-		despesasTO = relatorioService.buscarDespesasTO(mesAno, loginBean.getTenantId());
+		despesasTO = relatorioService.buscarDespesasTO(mesAno, loginBean.getUsuario().getUnidade());
 		despesaTotal = relatorioService.calcTotal(despesasTO);
 		
+		anos = relatorioService.buscarAnosComRegistros(loginBean.getUsuario().getUnidade());
 		log.info("finalizar...");
 	}
 	

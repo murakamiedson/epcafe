@@ -91,7 +91,7 @@ public class DespesaMaquinaDAO implements Serializable{
 	/*
 	 * Para Relatorio Despesas Máquina
 	 */
-	public List<DespesaDTO> buscarDespesasDTO(LocalDate data, Long tenantId){
+	public List<DespesaDTO> buscarDespesasDTO(LocalDate data, Unidade unidade){
 		
 		log.info("consultando DTO...");
 		
@@ -117,10 +117,10 @@ public class DespesaMaquinaDAO implements Serializable{
 			+ "  INNER JOIN Maquina m on d.maquina = m.id "
 			+ "WHERE "
 			+ "  data <= :data "  //TODO alterar, usado so para teste
-			+ "  and d.tenant_id = :tenantId "
+			+ "  and d.unidade = :unidade "
 			+ "ORDER BY m.id", DespesaDTO.class)
 			.setParameter("data", data)
-			.setParameter("tenantId", tenantId)
+			.setParameter("unidade", unidade)
 			.getResultList();
 			
 		log.info("qde DTO..." + lista.size());
@@ -129,6 +129,21 @@ public class DespesaMaquinaDAO implements Serializable{
 		return lista;
 	}
 
-
+	public List<String> buscarAnosComRegistro (Unidade unidade) {
+		
+		List<String> anos = manager.createQuery(
+				"SELECT DISTINCT " +
+	                      "CASE " +
+	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+	                      "END " +
+	                      "FROM DespesaMaquina c " +
+	                      "ORDER BY " +
+	                      "CASE " +
+	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+	                      "END", String.class).getResultList();
+		return anos;
+	}
 
 }

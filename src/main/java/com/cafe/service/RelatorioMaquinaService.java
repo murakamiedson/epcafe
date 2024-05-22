@@ -9,6 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.cafe.dao.DespesaMaquinaDAO;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.to.DespesaDTO;
 import com.cafe.modelo.to.DespesaTO;
 import com.cafe.modelo.to.TotalDespesaTO;
@@ -21,11 +22,17 @@ public class RelatorioMaquinaService implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Inject
 	private DespesaMaquinaDAO despesaMaquinaDAO;
+	
+	public List<String> buscarAnosComRegistros(Unidade unidade) {
+		
+		List<String> anos  = despesaMaquinaDAO.buscarAnosComRegistro(unidade);
+		return anos;
+	}
 
-	public List<DespesaTO> buscarDespesasTO(LocalDate mesAno, Long tenantId) {
+	public List<DespesaTO> buscarDespesasTO(LocalDate mesAno, Unidade unidade) {
 
 		log.info("montando TO...");
-		List<DespesaDTO> despesasDTO = despesaMaquinaDAO.buscarDespesasDTO(mesAno, tenantId);
+		List<DespesaDTO> despesasDTO = despesaMaquinaDAO.buscarDespesasDTO(mesAno, unidade);
 
 		List<DespesaTO> despesasTO = new ArrayList<>();
 

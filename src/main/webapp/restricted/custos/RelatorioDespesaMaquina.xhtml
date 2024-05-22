@@ -13,35 +13,102 @@
 
 		<h:form id="frmDespesas">
 			<p:growl id="msgs" showDetail="true" />
-
+			
+			<h:outputLabel value="#{relatorioDespesaMaquinaBean.teste}"></h:outputLabel>
+			
 			<p:dataTable id="despesasTable" var="to"
 				value="#{relatorioDespesaMaquinaBean.despesasTO}"
 				style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada."
 				rows="10" paginator="true" paginatorAlwaysVisible="true"
 				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
-
-				<!-- 	
-			    <p:column headerText="Id" style="width: 10px; text-align: center">
-		    			<h:outputText value="#{to.maquinaId}"/>
-		    	</p:column>
-		    	 -->
-		    	   <f:facet name="header">
-				        Despesas por máquinas
-				   </f:facet>
-				<p:column headerText="Máquina" style="width: 10px; text-align: center">
+				
+		    	  
+				   
+				<f:facet name="header">
+	                <div class="flex align-items-center justify-content-between">
+	                    <span>Despesas por máquinas</span>
+	                    
+	                    <div class="field col-12 md:col-4" style="margin-top: 10px">
+							<p:outputLabel for="anoAgricola" value="Filtrar por ano" style="margin-right: 10px" />
+							<p:selectOneMenu id="anoAgricola" value="#{relatorioDespesaMaquinaBean.teste}"
+							>
+								<f:selectItem itemLabel="Selecione o ano agrícola" />
+								<f:selectItems value="#{relatorioDespesaMaquinaBean.anos}"
+									var="ano" itemValue="#{ano}" />
+								
+								<p:ajax
+									update="frmDespesas"
+									process="anoAgricola" />
+							</p:selectOneMenu>
+						</div>
+	                </div>
+	            </f:facet>
+	            
+	            <p:columnGroup type="header">
+		            <p:row>
+		                <p:column rowspan="2" headerText="Máquina" />
+		                <p:column colspan="6" headerText="2023" />
+		                <p:column colspan="6" headerText="2024" />
+		                <p:column rowspan="2" headerText="Total" />
+		            </p:row>
+		            <p:row>
+		                <p:column headerText="Agosto" />
+		                <p:column headerText="Setembro" />
+		                <p:column headerText="Outubro" />
+		                <p:column headerText="Novembro" />
+		                <p:column headerText="Dezembro" />
+		                <p:column headerText="Janeiro" />
+		                <p:column headerText="Fevereiro" />
+		                <p:column headerText="Março" />
+		                <p:column headerText="Abril" />
+		                <p:column headerText="Maio" />
+		                <p:column headerText="Junho" />
+		                <p:column headerText="Julho" />
+		            </p:row>
+		        </p:columnGroup>
+	            
+				<p:column>
 					<h:outputText value="#{to.maquinaNome}" >
 						<f:convertNumber type="currency" currencySymbol="R$" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Janeiro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalJan}" >
+				<p:column headerText="Agosto" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalAgo}" >
 						<f:convertNumber type="currency" currencySymbol="R$" />
 					</h:outputText>
 				</p:column>
 
+				<p:column headerText="Setembro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalSet}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
 
+				<p:column headerText="Outubro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalOut}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
 
+				<p:column headerText="Novembro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalNov}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Dezembro" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalDez}">
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Janeiro #{relatorioDespesaMaquinaBean.teste}" style="width: 10px; text-align: center">
+					<h:outputText value="#{to.valorTotalJan}" >
+						<f:convertNumber type="currency" currencySymbol="R$" />
+					</h:outputText>
+				</p:column>
+				
 				<p:column headerText="Fevereiro" style="width: 10px; text-align: center">
 					<h:outputText value="#{to.valorTotalFev}" >
 						<f:convertNumber type="currency" currencySymbol="R$" />
@@ -74,36 +141,6 @@
 
 				<p:column headerText="Julho" style="width: 10px; text-align: center">
 					<h:outputText value="#{to.valorTotalJul}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Agosto" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalAgo}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Setembro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalSet}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Outubro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalOut}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Novembro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalNov}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Dezembro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalDez}">
 						<f:convertNumber type="currency" currencySymbol="R$" />
 					</h:outputText>
 				</p:column>
