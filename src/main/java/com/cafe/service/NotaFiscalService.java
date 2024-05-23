@@ -10,10 +10,9 @@ import com.cafe.dao.FertilizanteDAO;
 import com.cafe.dao.NotaFiscalDAO;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.Item;
-import com.cafe.modelo.Unidade;
 import com.cafe.modelo.NotaFiscal;
+import com.cafe.modelo.Unidade;
 import com.cafe.util.NegocioException;
-
 
 import lombok.extern.log4j.Log4j2;
 

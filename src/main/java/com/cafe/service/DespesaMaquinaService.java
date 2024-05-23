@@ -94,8 +94,7 @@ public class DespesaMaquinaService implements Serializable {
 			
 			// Litros Consumidos * ( Distancia Trabalhada / Consumo Medio ) * Preco
 			// Combustivel
-			valor = despesaMaquina.getLitrosConsumidos()
-					.multiply(despesaMaquina.getDistanciaTrabalhada())
+			valor = despesaMaquina.getDistanciaTrabalhada()
 					.divide(despesaMaquina.getMaquina().getConsumoMedio(), RoundingMode.DOWN)
 					.multiply(despesaMaquina.getPrecoUnitarioCombustivel());
 

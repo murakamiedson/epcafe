@@ -1,6 +1,7 @@
 package com.cafe.controller.custos;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +44,8 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	private List<FatorPotencia> fatorPotencias;
 	private List<DespesaMaquina> despesas = new ArrayList<>();
 	private Long tenantId;
+	private boolean horas = true;
+	private BigDecimal tempo;
 	
 	private String nomeMaquina;
 	
@@ -77,11 +80,19 @@ public class LancarDespesaMaquinaBean implements Serializable {
     public void salvar() {
     	
     	
-    	log.info("salvar ..." + despesaMaquina);
+    	log.info("salvaR ..." + despesaMaquina);
     	
+    	if(horas) {
+    		this.despesaMaquina.setMinutosTrabalhados(
+    				this.tempo.multiply(new BigDecimal(60)));
+    	}
+    	else{
+    		this.despesaMaquina.setMinutosTrabalhados(this.tempo);
+    	}      	
 
     	try {
-    		despesaMaquina = this.despesaService.salvar(despesaMaquina);
+    		this.despesaMaquina = this.despesaService.salvar(despesaMaquina);
+    		log.info("salvaDO ..." + despesaMaquina);
     		this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getUnidadeTemp());
 			MessageUtil.sucesso("Despesa salva com sucesso!");
 		} catch (NegocioException e) {
@@ -106,6 +117,15 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		}
     }
     
+    public void converterTempo() {
+
+    	log.info(horas);
+    	
+    	if(horas) {
+    		this.despesaMaquina.setMinutosTrabalhados(
+    				this.despesaMaquina.getMinutosTrabalhados().multiply(new BigDecimal(0)));
+    	}  	
+    }
 
 	public void limpar() {
 		log.info("limpar");

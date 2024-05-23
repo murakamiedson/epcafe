@@ -58,7 +58,7 @@ public class DespesaMaquina {
 	private BigDecimal minutosTrabalhados;
 	
 	@Enumerated(EnumType.STRING)
-	private FatorPotencia fatorPotencia;
+	private FatorPotencia fatorPotencia = FatorPotencia.INDEFINIDO;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_unidade")
@@ -71,8 +71,6 @@ public class DespesaMaquina {
 	private BigDecimal precoUnitarioCombustivel;
 	
 	private BigDecimal valorTotal;
-	
-	private BigDecimal litrosConsumidos;
 	
 	private BigDecimal distanciaTrabalhada;
 	

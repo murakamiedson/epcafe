@@ -34,7 +34,7 @@
 			</p:toolbar>
 
 			<p:dialog id="addDialog" widgetVar="addDialogWidgetVar"
-				header="Cadastro de Despesa com Fertilizante" modal="true"
+				header="Lançar Despesa Máquina" modal="true"
 				resizable="true" closeOnEscape="true" showEffect="explode"
 				hideEffect="explode" width="100%" position="center top"
 				maximizable="true" height="100%" fitViewport="true"
@@ -66,7 +66,7 @@
 								var="maquina" itemLabel="#{maquina.nome}" itemValue="#{maquina}" />
 	
 							<p:ajax
-								update="tipo comb calc preco fator ht litros distancia preco precoLabel"
+								update="tipo comb calc precoLabel"
 								process="maquina" />
 						</p:selectOneMenu>
 						<p:spacer width="10px" />
@@ -75,11 +75,13 @@
 						<p:spacer width="20px" />
 						<p:outputLabel id="comb"
 							value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel}" />
-						<p:spacer width="20px" />
-						<p:outputLabel id="calc"
-							value="Tipo de Cálculo: #{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo}" />
+						<p:spacer width="20px" />						
 					</h:panelGroup>
 	
+					<p:outputLabel value="Tipo de Cálculo" for="calc" />
+					<p:outputLabel id="calc"
+							value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo}" />
+					
 					<p:outputLabel id="precoLabel"
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCombustivel 
 							eq 'ENERGIA_ELETRICA' ? 'Preço (t/kwh)' : 'Preço (l/kwh)'}" />
@@ -93,7 +95,9 @@
 					</p:inputNumber>
 	
 	
-					<p:outputLabel value="Fator de Potência" for="fator" />
+					<p:outputLabel value="Fator de Potência" for="fator" 
+						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR'
+							and lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR_DE_RODA_PEQUENO_PORTE'}"/>
 					<p:selectOneMenu id="fator"
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}"
 						required="true" validatorMessage="O fator é obrigatório."
@@ -106,21 +110,24 @@
 							itemValue="#{fatorPotencia}" />
 					</p:selectOneMenu>
 	
-					<p:outputLabel value="Minutos Trabalhados" for="ht" />
-					<p:inputNumber id="ht"
-						value="#{lancarDespesaMaquinaBean.despesaMaquina.minutosTrabalhados}"
+					<p:outputLabel value="Unidade de Tempo" for="tmp" 		
+						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}"/>
+					<h:selectOneRadio id="tmp"
+						value="#{lancarDespesaMaquinaBean.horas}"
+						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}">
+						<f:selectItem itemValue="true" itemLabel="Horas" />
+						<f:selectItem itemValue="false" itemLabel="Minutos" />
+					</h:selectOneRadio>		
+
+					<p:outputLabel value="Tempo Trabalhado" for="tt" 
+						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}"/>
+					<p:inputNumber id="tt"
+						value="#{lancarDespesaMaquinaBean.tempo}"
 						decimalSeparator="," thousandSeparator="." minValue="0"
 						decimalPlaces="2" required="true"
 						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}">
-					</p:inputNumber>
-	
-					<p:outputLabel value="Litros Consumidos" for="litros" />
-					<p:inputNumber id="litros"
-						value="#{lancarDespesaMaquinaBean.despesaMaquina.litrosConsumidos}"
-						decimalSeparator="," thousandSeparator="." minValue="0"
-						decimalPlaces="2" symbol=" L" symbolPosition="s">
-					</p:inputNumber>
-	
+					</p:inputNumber>	
+						
 					<p:outputLabel value="Distância Trabalhada" for="distancia" />
 					<p:inputNumber id="distancia"
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.distanciaTrabalhada}"
