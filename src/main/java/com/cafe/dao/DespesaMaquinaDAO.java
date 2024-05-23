@@ -91,7 +91,7 @@ public class DespesaMaquinaDAO implements Serializable{
 	/*
 	 * Para Relatorio Despesas Máquina
 	 */
-	public List<DespesaDTO> buscarDespesasDTO(LocalDate data, Unidade unidade){
+	public List<DespesaDTO> buscarDespesasDTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
 		
 		log.info("consultando DTO...");
 		
@@ -116,10 +116,11 @@ public class DespesaMaquinaDAO implements Serializable{
 			+ "FROM DespesaMaquina d "
 			+ "  INNER JOIN Maquina m on d.maquina = m.id "
 			+ "WHERE "
-			+ "  data <= :data "  //TODO alterar, usado so para teste
+			+ "  d.data BETWEEN :dataInicio AND :dataFim "  //TODO alterar, usado so para teste
 			+ "  and d.unidade = :unidade "
 			+ "ORDER BY m.id", DespesaDTO.class)
-			.setParameter("data", data)
+			.setParameter("dataInicio", dataInicio)
+			.setParameter("dataFim", dataFim)
 			.setParameter("unidade", unidade)
 			.getResultList();
 			

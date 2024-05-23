@@ -29,10 +29,10 @@ public class RelatorioMaquinaService implements Serializable {
 		return anos;
 	}
 
-	public List<DespesaTO> buscarDespesasTO(LocalDate mesAno, Unidade unidade) {
+	public List<DespesaTO> buscarDespesasTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade) {
 
 		log.info("montando TO...");
-		List<DespesaDTO> despesasDTO = despesaMaquinaDAO.buscarDespesasDTO(mesAno, unidade);
+		List<DespesaDTO> despesasDTO = despesaMaquinaDAO.buscarDespesasDTO(dataInicio, dataFim, unidade);
 
 		List<DespesaTO> despesasTO = new ArrayList<>();
 
