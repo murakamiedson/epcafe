@@ -46,7 +46,7 @@
 		                <p:column rowspan="2" headerText="Máquina" />
 		                <p:column colspan="6" headerText="#{relatorioDespesaMaquinaBean.ano1}" />
 		                <p:column colspan="6" headerText="#{relatorioDespesaMaquinaBean.ano2}" />
-		                <p:column rowspan="2" headerText="Total" />
+		                <p:column rowspan="2" headerText="Total Anual" />
 		            </p:row>
 		            <p:row>
 		                <p:column headerText="Agosto" />
@@ -152,99 +152,102 @@
 		            <p:row>
 		                <p:column colspan="1" style="text-align:center" footerText="Totais mensais:" />
 		                
-		              
-						
+		                <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalAgo}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalSet}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+                    	
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalOut}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalNov}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalDez}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalJan}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalFev}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalMar}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalAbr}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalMai}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalJun}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalJul}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
+	                    <p:column>
+	                        <f:facet name="footer">
+	                            <h:outputText value="#{relatorioDespesaMaquinaBean.despesaTotal.valorTotalAnual}">
+	                                <f:convertNumber type="currency" currencySymbol="R$"/>
+	                            </h:outputText>
+	                        </f:facet>
+	                    </p:column>
 		                
 		            </p:row>
 		        </p:columnGroup>
-			</p:dataTable>
-			
-			<p:dataTable id="despesasTotalTable" var="to"
-				value="#{relatorioDespesaMaquinaBean.despesaTotal}"
-				style="margin-top: 20px; margin-bottom: 20px" emptyMessage="Nenhuma despesa encontrada."
-				rows="10" rowsPerPageTemplate="5,10,15">
-				
-				<f:facet name="header">
-				        Despesas totais com máquinas
-				</f:facet>
-
-				<p:column headerText="Agosto" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalAgo}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Setembro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalSet}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Outubro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalOut}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Novembro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalNov}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Dezembro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalDez}">
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-				
-				<p:column headerText="Janeiro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalJan}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Fevereiro" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalFev}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Março" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalMar}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Abril" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalAbr}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Maio" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalMai}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Junho" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalJun}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Julho" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalJul}" >
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
-
-				<p:column headerText="Total" style="width: 10px; text-align: center">
-					<h:outputText value="#{to.valorTotalAnual}" style="font-weight: bold">
-						<f:convertNumber type="currency" currencySymbol="R$" />
-					</h:outputText>
-				</p:column>
 			</p:dataTable>
 
 		</h:form>
