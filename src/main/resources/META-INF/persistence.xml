@@ -21,10 +21,9 @@
 										
 			<!-- SALTO epCafe -->
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/epcafe?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
 			<property name="javax.persistence.jdbc.password" value="ifsp"/>
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/> 
-			
 			
 			
 			<!--################### TODOS ###################-->	
@@ -44,7 +43,7 @@
 			<property name="hibernate.c3p0.testConnectionOnCheckout" value="false" />
 			<property name="hibernate.c3p0.testConnectionOnCheckin" value="true" />
 			<property name="hibernate.c3p0.idleConnectionTestPeriod" value="60" />
-			
+						
 			<!-- Pool de instruções preparadas JDBC 
 			<property name="hibernate.c3p0.max_statements" value="0" />
 			<property name="hibernate.c3p0.maxStatementsPerConnection" value="5" />	

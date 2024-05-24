@@ -91,7 +91,7 @@ public class DespesaMaquinaDAO implements Serializable{
 	/*
 	 * Para Relatorio Despesas Máquina
 	 */
-	public List<DespesaDTO> buscarDespesasDTO(LocalDate data, Long tenantId){
+	public List<DespesaDTO> buscarDespesasDTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
 		
 		log.info("consultando DTO...");
 		
@@ -116,11 +116,12 @@ public class DespesaMaquinaDAO implements Serializable{
 			+ "FROM DespesaMaquina d "
 			+ "  INNER JOIN Maquina m on d.maquina = m.id "
 			+ "WHERE "
-			+ "  data <= :data "  //TODO alterar, usado so para teste
-			+ "  and d.tenant_id = :tenantId "
+			+ "  d.data BETWEEN :dataInicio AND :dataFim "  //TODO alterar, usado so para teste
+			+ "  and d.unidade = :unidade "
 			+ "ORDER BY m.id", DespesaDTO.class)
-			.setParameter("data", data)
-			.setParameter("tenantId", tenantId)
+			.setParameter("dataInicio", dataInicio)
+			.setParameter("dataFim", dataFim)
+			.setParameter("unidade", unidade)
 			.getResultList();
 			
 		log.info("qde DTO..." + lista.size());
@@ -129,6 +130,21 @@ public class DespesaMaquinaDAO implements Serializable{
 		return lista;
 	}
 
-
+	public List<String> buscarAnosComRegistro (Unidade unidade) {
+		
+		List<String> anos = manager.createQuery(
+				"SELECT DISTINCT " +
+	                      "CASE " +
+	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+	                      "END " +
+	                      "FROM DespesaMaquina c " +
+	                      "ORDER BY " +
+	                      "CASE " +
+	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+	                      "END", String.class).getResultList();
+		return anos;
+	}
 
 }

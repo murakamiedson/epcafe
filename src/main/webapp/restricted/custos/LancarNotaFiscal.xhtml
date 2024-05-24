@@ -11,7 +11,7 @@
 
 		<h2>Notas Fiscais</h2>
 
-		<h:form enctype="multipart/form-data" id="form">
+		<h:form id="form">
 			
 			<p:messages id="messagesNF" showDetail="false" closable="true">
 				<p:autoUpdate />
@@ -80,13 +80,12 @@
 					</h:outputText>
 				</p:column>			
 								
-				<p:column headerText="Arquivo"
+				<p:column headerText="Imagem"
 					style="width: 30px; text-align: center">
 					<p:commandButton icon="pi pi-eye" title="Ver Imagem" 
-						value="Ver imagem" 
+						value="Ver NF" 
 						oncomplete="PF('imagemDialog').show()" 
-						actionListener="#{lancarNotaFiscalBean.converterImagem}"
-						update=":form:notasTable"
+						update=":form:imagemDialog"
 						process="@this">
         				<f:setPropertyActionListener 
         					target="#{lancarNotaFiscalBean.notaFiscal}" 
@@ -174,12 +173,19 @@
 						symbolPosition="p" decimalSeparator="," thousandSeparator="."
 						minValue="0" decimalPlaces="2" required="true"
 						validatorMessage="O valor total é obrigatório.">
-					</p:inputNumber>						
+					</p:inputNumber>				
 					
-					<p:outputLabel for="imagem" value="Imagem" />
-					<p:fileUpload id="imagem"
-						value="#{lancarNotaFiscalBean.uploadedFile}" mode="simple" />				
-						
+					<p:outputLabel value="Imagem NF"/>
+					<h:panelGroup>
+						<p:fileUpload mode="advanced"
+							multiple="false"
+							sizeLimit="1024000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+							invalidSizeMessage="Maximum file size allowed is 1 MB"
+							invalidFileMessage="only gif | jpg | jpeg | png is allowed"
+							update="messages"
+							listener="#{lancarNotaFiscalBean.handleFileUpload}"/>
+						<p:outputLabel id="imgnf" value="#{lancarNotaFiscalBean.notaFiscal.imagem}"/>			        
+	        		</h:panelGroup>
 				</p:panelGrid>
 				
 					
@@ -369,10 +375,23 @@
 			</p:confirmDialog>
 			
 			<p:dialog id="imagemDialog" header="Imagem da Nota Fiscal" 
-				widgetVar="imagemDialog" resizable="false" modal="true">
-			    <p:outputPanel id="imagemDialogPanel">
-			        <p:graphicImage name="#{lancarNotaFiscalBean.imagemConvertida}" />
-			    </p:outputPanel>
+				widgetVar="imagemDialog" 
+				modal="true" resizable="true" closeOnEscape="true"
+				showEffect="explode" hideEffect="explode" 
+				position="center top" maximizable="true"
+				fitViewport="true" responsive="true" >
+			    
+			    <p:outputPanel id="image">
+	            		
+           			<h:panelGrid>
+	                    <p:outputPanel id="cropped">
+	                        <p:graphicImage 
+	                        	cache="false" 
+                                   value="#{lancarNotaFiscalBean.image}"/>
+	                    </p:outputPanel>			
+	                </h:panelGrid>	            		
+
+        		</p:outputPanel>
 			</p:dialog>
 
 		</h:form>

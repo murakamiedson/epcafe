@@ -38,10 +38,6 @@ import lombok.EqualsAndHashCode;
 @NamedQueries({
 	@NamedQuery(name="DespesaMaquina.buscarDespesasMaquinas", 
 			query="select u from DespesaMaquina u where u.unidade = :codigo_unidade"),
-	@NamedQuery(name="DespesaMaquina.buscarMaquinasDistintas", 
-			query="SELECT DISTINCT d.maquina FROM DespesaMaquina d where d.tenant_id = :tenantId" ),
-	//@NamedQuery(name="DespesaMaquina.buscarValorTotalMensal", query="select ")
-	
 })
 public class DespesaMaquina {
 	
@@ -58,7 +54,7 @@ public class DespesaMaquina {
 	private BigDecimal minutosTrabalhados;
 	
 	@Enumerated(EnumType.STRING)
-	private FatorPotencia fatorPotencia;
+	private FatorPotencia fatorPotencia = FatorPotencia.INDEFINIDO;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_unidade")
@@ -71,8 +67,6 @@ public class DespesaMaquina {
 	private BigDecimal precoUnitarioCombustivel;
 	
 	private BigDecimal valorTotal;
-	
-	private BigDecimal litrosConsumidos;
 	
 	private BigDecimal distanciaTrabalhada;
 	

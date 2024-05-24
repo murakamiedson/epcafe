@@ -18,7 +18,8 @@ public enum FatorPotencia {
 	BAIXA_40(40),
 	B_30(30),
 	B_20(20),
-	B_10(10);
+	B_10(10),
+	INDEFINIDO(1);
 	
 	
 	private final int valor;
