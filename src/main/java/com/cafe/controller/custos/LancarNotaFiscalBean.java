@@ -20,6 +20,7 @@ import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
+import com.cafe.modelo.Unidade;
 import com.cafe.service.NotaFiscalService;
 import com.cafe.util.CalculoUtil;
 import com.cafe.util.MessageUtil;
@@ -45,6 +46,7 @@ public class LancarNotaFiscalBean implements Serializable {
 	private String yearRange;
 	private List<Fertilizante> fertilizantes = new ArrayList<Fertilizante>();
 
+	private Unidade unidade;
 	private UploadedFile originalImageFile;
 
 	@Inject
@@ -59,7 +61,7 @@ public class LancarNotaFiscalBean implements Serializable {
 
 		log.info("inicializando lancarNotaFiscalBean...");
 		this.yearRange = this.calcUtil.getAnoCorrente();
-
+		this.unidade = loginBean.getUsuario().getUnidade();
 		this.notas = buscarNotas();
 
 		for (NotaFiscal n : notas) {
@@ -138,7 +140,7 @@ public class LancarNotaFiscalBean implements Serializable {
 	}
 
 	private List<NotaFiscal> buscarNotas() {
-		return this.notaFiscalService.buscarNotasFiscais(loginBean.getUnidadeTemp());
+		return this.notaFiscalService.buscarNotasFiscais(unidade);
 	}
 
 	public void excluir() {

@@ -1,5 +1,7 @@
 package com.cafe.controller.custos;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,19 +10,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
 
 import com.cafe.controller.LoginBean;
+import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.Talhao;
-import com.cafe.modelo.DespesaFerTalhao;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.DespesaFertilizanteService;
 import com.cafe.service.FertilizanteService;
@@ -43,7 +50,7 @@ import lombok.extern.log4j.Log4j;
 @Getter
 @Setter
 @Named
-@ViewScoped
+@SessionScoped
 public class LancarDespesaFertilizanteBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -59,10 +66,12 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private DespesaFerTalhao despesaFerTalhao;
 	private NotaFiscal notaFiscal;
 	private NotaFiscal notaSelecionada;
+	private UploadedFile originalImageFile;
 	private String numeroNF;
 	private String yearRange;
 	private boolean despesaGravada = false;
 	private BigDecimal qtdItem;
+	private Unidade unidade;
 
 	@Inject
 	private LoginBean loginBean;
@@ -87,7 +96,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 		log.info("inicializar login = " + loginBean.getUsuario());
 
-		despesas = despesaService.buscarDespesasFertilizantes(loginBean.getUnidadeTemp());
+		unidade = loginBean.getUsuario().getUnidade();
+		despesas = despesaService.buscarDespesasFertilizantes(unidade);
 		log.info("conseguiu buscar as despesas");
 		this.yearRange = this.calcUtil.getAnoCorrente();
 
@@ -106,7 +116,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		if (numeroNF != null && !numeroNF.isEmpty()) {
 			despesaFertilizante
 					.setNotaFiscal(this.notaFiscalService.buscarNotaFiscalPorNumero
-							(numeroNF, loginBean.getUnidadeTemp()));
+							(numeroNF, unidade));
 		}
 
 
@@ -133,7 +143,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 	
 				despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
-				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getUnidadeTemp());
+				this.despesas = despesaService.buscarDespesasFertilizantes(unidade);
 	
 				this.despesaGravada = true;
 				MessageUtil.sucesso("Despesa salva com sucesso!");
@@ -156,7 +166,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				this.qtdItem = this.despesaService.getItemDaDespesa(despesaFertilizante).getQuantidade();
 				this.carregarTalhoes(despesaFertilizante);
 
-				this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getUnidadeTemp());
+				this.despesas = despesaService.buscarDespesasFertilizantes(unidade);
 	
 				this.despesaGravada = true;
 				MessageUtil.sucesso("Despesa salva com sucesso!");
@@ -183,7 +193,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	
 	public void carregarNotasFiscais() {
 		this.notasDisponiveis = this.notaFiscalService.buscarNotaFiscalPorFertilizante(
-				despesaFertilizante.getFertilizante().getId(), loginBean.getUnidadeTemp());
+				despesaFertilizante.getFertilizante().getId(), unidade);
 	}
 	
 	public void selecionarNotaFiscal(NotaFiscal nota) {
@@ -195,7 +205,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		try {
 			log.info("excluindo...");
 			despesaService.excluir(despesaFertilizante);
-			this.despesas = despesaService.buscarDespesasFertilizantes(loginBean.getUnidadeTemp());
+			this.despesas = despesaService.buscarDespesasFertilizantes(unidade);
 			MessageUtil.sucesso("Despesa " + despesaFertilizante.getId() + " excluído com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -210,7 +220,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		Long fertilizanteId = despesaFertilizante.getFertilizante().getId();
 		
 		List<NotaFiscal> notasFiscais = this.notaFiscalService.buscarNotaFiscalPorFertilizante(fertilizanteId,
-				loginBean.getUnidadeTemp());
+				unidade);
 		for (NotaFiscal notaFiscal : notasFiscais) {
 			notasFiscaisList.add(notaFiscal.getNumero());
 		}
@@ -236,14 +246,14 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	public void carregarTalhoes(DespesaFertilizante despesaFertilizante) {
 		log.info("carregando talhoes");
 
-		this.talhoesPorUnidade = this.talhaoService.buscarTalhoesPorUnidade(loginBean.getUnidadeTemp(),
+		this.talhoesPorUnidade = this.talhaoService.buscarTalhoesPorUnidade(unidade,
 				loginBean.getTenantId());
 
 		for (Talhao talhao : talhoesPorUnidade) {
 			log.info("entrou no for");
 			DespesaFerTalhao qtdTalhao = new DespesaFerTalhao();
 			qtdTalhao.setTalhao(talhao);
-			qtdTalhao.setUnidade(loginBean.getUnidadeTemp());
+			qtdTalhao.setUnidade(unidade);
 			qtdTalhao.setTenantId(loginBean.getTenantId());
 
 			qtdTalhao.setDespesaFertilizante(despesaFertilizante);
@@ -295,6 +305,38 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		log.info("editar despesa");
 		auxiliar = despesaFertilizante.getFertilizante().getTipoInsumo();
 		numeroNF = despesaFertilizante.getNotaFiscal().getNumero();
+	}
+	
+	public void handleFileUpload(FileUploadEvent event) {
+		log.info("upload... = ");
+
+		this.originalImageFile = null;
+
+		UploadedFile file = event.getFile();
+
+		if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
+			this.originalImageFile = file;
+			
+			this.notaFiscal.setImagem(file.getContent());
+			 
+			MessageUtil.sucesso("Sucesso! " + this.originalImageFile.getFileName() + " foi enviado.");
+		}
+
+		log.info("uploaded... = " + this.originalImageFile.getFileName());
+	}
+	
+	public StreamedContent getImage() {
+		log.info("getImageBd... = ");
+	
+		StreamedContent file;
+		
+		InputStream in = new ByteArrayInputStream(this.notaFiscal.getImagem());
+		        
+        file = DefaultStreamedContent.builder()
+                .stream(() -> in)
+                .build(); 
+
+        return file;
 	}
 
 }

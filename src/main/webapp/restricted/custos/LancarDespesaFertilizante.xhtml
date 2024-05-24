@@ -306,7 +306,7 @@
 						</h:outputText>
 					</p:column>
 					
-					<p:column headerText="Itens" style="width: 30px; text-align: center">
+					<p:column headerText="Itens Cadastrados" style="width: 30px; text-align: center">
 						<p:commandButton title="Itens" value="Ver Itens" icon="pi pi-eye"
 							oncomplete="PF('itensDialogWidgetVar').show()"
 							update="form:itensTable" process="@this">
@@ -315,11 +315,17 @@
 								value="#{nota}" />
 						</p:commandButton>
 					</p:column>					
-						
-									
-					<p:column headerText="Arquivo"
-						style="width: 30px; text-align: left">
-						<h:outputText value="teste" />
+					
+					<p:column headerText="Imagem" style="width: 20px; text-align: rigth">
+						<p:commandButton icon="pi pi-eye" title="Ver Imagem" 
+							value="Ver NF" 
+							oncomplete="PF('imagemDialog').show()" 
+							update=":form:imagemDialog"
+							process="@this">
+	        				<f:setPropertyActionListener 
+	        					target="#{lancarDespesaFertilizanteBean.notaFiscal}" 
+	        					value="#{nota}" />
+	    				</p:commandButton>
 					</p:column>
 					
 					<p:column headerText="Selecionar" style="width: 30px; text-align: center">
@@ -368,6 +374,26 @@
 				
 				</p:dataTable>
 				
+			</p:dialog>
+			
+			<p:dialog id="imagemDialog" header="Imagem da Nota Fiscal" 
+				widgetVar="imagemDialog" 
+				modal="true" resizable="true" closeOnEscape="true"
+				showEffect="explode" hideEffect="explode" 
+				position="center top" maximizable="true"
+				fitViewport="true" responsive="true" >
+			    
+			    <p:outputPanel id="image">
+	            		
+           			<h:panelGrid>
+	                    <p:outputPanel id="cropped">
+	                        <p:graphicImage 
+	                        	cache="false" 
+                                   value="#{lancarDespesaFertilizanteBean.image}"/> 
+	                    </p:outputPanel>			
+	                </h:panelGrid>	            		
+
+        		</p:outputPanel>
 			</p:dialog>
 			
 		</h:form>
