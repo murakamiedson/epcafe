@@ -52,7 +52,7 @@
 	    	<p:dataTable id="unidadesTable" value="#{pesquisaUnidadeBean.unidades}" var="unidade"
 		    		style="margin-top: 20px" 
 		    		
-		    		rowStyleClass="#{unidade.nome eq pesquisaUnidadeBean.unidadeTemp.nome ? 'inativo' : null}"
+		    		rowStyleClass="#{unidade.nome eq pesquisaUnidadeBean.unidade.nome ? 'inativo' : null}"
 		    		emptyMessage="Nenhuma unidade encontrada." rows="10"
 		    		paginator="true" paginatorAlwaysVisible="true" paginatorPosition="bottom"
 		    		rowsPerPageTemplate="5,10,15" >

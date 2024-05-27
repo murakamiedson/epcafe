@@ -35,7 +35,7 @@ public class PesquisaUnidadeBean implements Serializable {
 	
 	private List<Unidade> unidades = new ArrayList<>();
 	private Unidade unidadeSelecionada;
-	private Unidade unidadeTemp;
+	private Unidade unidade;
 	
 	@Inject
 	PropriedadeService propriedadeService;
@@ -46,12 +46,11 @@ public class PesquisaUnidadeBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 		unidades = propriedadeService.buscarTodos(loginBean.getTenantId());
-		if(loginBean.getUsuario().getUnidade().getCodigo().equals(loginBean.getUnidadeTemp().getCodigo())) {
-			unidadeTemp = loginBean.getUnidadeTemp();
-			log.info("prop = unidadeTemp");
-		}
+		
+		unidade = loginBean.getUsuario().getUnidade();
+		log.info("prop = unidade");
 	}
-	
+
 	public void excluir() {
 		try {
 			propriedadeService.excluir(unidadeSelecionada);			

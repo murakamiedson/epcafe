@@ -14,6 +14,7 @@ import javax.inject.Named;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Maquina;
+import com.cafe.modelo.Unidade;
 import com.cafe.modelo.enums.FatorPotencia;
 import com.cafe.service.DespesaMaquinaService;
 import com.cafe.service.MaquinaService;
@@ -46,6 +47,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	private Long tenantId;
 	private boolean horas = true;
 	private BigDecimal tempo;
+	private Unidade unidade;
 	
 	private String nomeMaquina;
 	
@@ -67,11 +69,11 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	public void inicializar() {
 		
 		log.info("inicializar login = " + loginBean.getUsuario());
-		
+		unidade = loginBean.getUsuario().getUnidade();
 		this.yearRange = this.calcUtil.getAnoCorrente();
 		maquinas = maquinaService.buscarMaquinasAlfabetico(loginBean.getTenantId());
 		fatorPotencias = Arrays.asList(FatorPotencia.values());
-		despesas = despesaService.buscarDespesasMaquinas(loginBean.getUnidadeTemp());		
+		despesas = despesaService.buscarDespesasMaquinas(unidade);		
 		
 		limpar();
 	}
@@ -92,7 +94,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
     	try {
     		this.despesaMaquina = this.despesaService.salvar(despesaMaquina);
     		log.info("salvaDO ..." + despesaMaquina);
-    		this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getUnidadeTemp());
+    		this.despesas = despesaService.buscarDespesasMaquinas(unidade);
 			MessageUtil.sucesso("Despesa salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -108,7 +110,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
     	try {
     		log.info("excluindo...");
 			despesaService.excluir(despesaMaquinaSelecionada);			
-			this.despesas = despesaService.buscarDespesasMaquinas(loginBean.getUnidadeTemp());
+			this.despesas = despesaService.buscarDespesasMaquinas(unidade);
 			MessageUtil.sucesso("Despesa " + despesaMaquinaSelecionada.getId() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();
