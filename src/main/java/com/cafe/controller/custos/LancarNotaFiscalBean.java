@@ -1,19 +1,15 @@
 package com.cafe.controller.custos;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
 import com.cafe.controller.LoginBean;
@@ -34,7 +30,7 @@ import lombok.extern.log4j.Log4j;
 @Getter
 @Setter
 @Named
-@SessionScoped
+@ViewScoped
 public class LancarNotaFiscalBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -47,7 +43,7 @@ public class LancarNotaFiscalBean implements Serializable {
 	private List<Fertilizante> fertilizantes = new ArrayList<Fertilizante>();
 
 	private Unidade unidade;
-	private UploadedFile originalImageFile;
+	private UploadedFile file;
 
 	@Inject
 	private LoginBean loginBean;
@@ -157,79 +153,21 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 	}
 
-	public void handleFileUpload(FileUploadEvent event) {
-		log.info("upload... = ");
-
-		this.originalImageFile = null;
-
-		UploadedFile file = event.getFile();
-
-		if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
-			this.originalImageFile = file;
-			
-			this.notaFiscal.setImagem(file.getContent());
-			 
-			MessageUtil.sucesso("Sucesso! " + this.originalImageFile.getFileName() + " foi enviado.");
-		}
-
-		log.info("uploaded... = " + this.originalImageFile.getFileName());
-	}
-	
-	public StreamedContent getImage() {
-		log.info("getImageBd... = ");
-	
-		StreamedContent file;
+	public void upload(FileUploadEvent event) {
 		
-		InputStream in = new ByteArrayInputStream(this.notaFiscal.getImagem());
-		        
-        file = DefaultStreamedContent.builder()
-                .stream(() -> in)
-                .build(); 
-
-        return file;
-	}
-
-	/*
-	public StreamedContent getImage() {
-		log.info("getImage... = ");
-		
-		return DefaultStreamedContent.builder()
-				.contentType(originalImageFile == null ? null : originalImageFile.getContentType()).stream(() -> {
-					
-					if (originalImageFile == null || originalImageFile.getContent() == null
-							|| originalImageFile.getContent().length == 0) {
-						return null;
-					}
-
-					try {
-						return new ByteArrayInputStream(originalImageFile.getContent());
-					} catch (Exception e) {
-						e.printStackTrace();
-						return null;
-					}
-				}).build();
-	}
-	*/
+		this.file = event.getFile();
+        if (this.file != null) {
+        	MessageUtil.sucesso("O " + this.file.getFileName() + " foi enviado. Salve a NF para gravar o arquivo.");
+        	log.info("uploaded... = " + this.file.getFileName());
+        }
+    }
 	
-	/*
-	 * public void upload() {
-	 * 
-	 * log.info("qde notas fiscais = " + notas.size());
-	 * 
-	 * try { File file = new File("/notasfiscais/", nomeArquivo());
-	 * 
-	 * log.info(file.getAbsolutePath());
-	 * this.notaFiscal.setUrlNf(file.getAbsolutePath());
-	 * 
-	 * OutputStream out = new FileOutputStream(file);
-	 * out.write(uploadedFile.getContent()); out.close();
-	 * 
-	 * MessageUtil.sucesso("Upload completo. O arquivo " +
-	 * uploadedFile.getFileName() + " foi salvo!"); } catch(IOException e) {
-	 * e.printStackTrace(); MessageUtil.erro("Erro: " + e.getMessage()); } } private
-	 * String nomeArquivo() { LocalDate localDate = LocalDate.now(); String
-	 * nomeArquivo = notaFiscal.getUnidade().getCodigo() + "-" +
-	 * notaFiscal.getNumero().toString() + "-" + localDate.getYear(); return
-	 * nomeArquivo; }
-	 */
+	public String getNomeArquivo() {
+		 if (this.file != null)
+			 return file.getFileName();
+		 
+		 return "vazio";
+	}
+	
+	
 }
