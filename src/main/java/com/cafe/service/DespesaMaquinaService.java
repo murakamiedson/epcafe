@@ -3,6 +3,7 @@ package com.cafe.service;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,6 +48,10 @@ public class DespesaMaquinaService implements Serializable {
 
 		log.info("Primeiro acesso a banco... buscar maquinas");
 		return despesaMaquinaDAO.buscarDespesasMaquinas(unidade);
+	}
+	
+	public List<DespesaMaquina> buscarDespesasMaquinasPorAno(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+		return despesaMaquinaDAO.buscarDespesasMaquinasPorAno(dataInicio, dataFim, unidade);
 	}
 	
 

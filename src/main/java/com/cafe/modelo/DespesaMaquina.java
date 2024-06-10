@@ -38,6 +38,7 @@ import lombok.EqualsAndHashCode;
 @NamedQueries({
 	@NamedQuery(name="DespesaMaquina.buscarDespesasMaquinas", 
 			query="select u from DespesaMaquina u where u.unidade = :codigo_unidade"),
+	
 })
 public class DespesaMaquina {
 	
