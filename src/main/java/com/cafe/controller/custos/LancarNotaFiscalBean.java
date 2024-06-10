@@ -204,4 +204,91 @@ public class LancarNotaFiscalBean implements Serializable {
 	}
 	
 	
+	
+	
+	/**
+	 * 
+	 * UPLOAD E DOWNLOAD DE IMAGEM GRAVADA NO BANCO
+	 * 
+	 *
+	 *
+	 *
+	 *
+	// atributo entity
+	private byte[] imagem;
+	
+	
+	// upload bean
+	
+	private UploadedFile originalImageFile;
+	
+	public void handleFileUpload(FileUploadEvent event) {
+		log.info("upload... = ");
+
+		this.originalImageFile = null;
+
+		UploadedFile file = event.getFile();
+
+		if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
+			this.originalImageFile = file;
+			
+			this.notaFiscal.setImagem(file.getContent());
+			 
+			MessageUtil.sucesso("Sucesso! " + this.originalImageFile.getFileName() + " foi enviado.");
+		}
+
+		log.info("uploaded... = " + this.originalImageFile.getFileName());
+	}
+	
+	// download - ver
+	
+	public StreamedContent getImage() {
+		log.info("getImageBd... = ");
+	
+		StreamedContent file;
+		
+		InputStream in = new ByteArrayInputStream(this.notaFiscal.getImagem());
+		        
+        file = DefaultStreamedContent.builder()
+                .stream(() -> in)
+                .build(); 
+
+        return file;
+	}
+	
+
+	// upload
+
+	<p:outputLabel value="Imagem NF"/>
+	<h:panelGroup>
+		<p:fileUpload mode="advanced"
+			multiple="false"
+			sizeLimit="1024000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+			invalidSizeMessage="Maximum file size allowed is 1 MB"
+			invalidFileMessage="only gif | jpg | jpeg | png is allowed"
+			update="messages"
+			listener="#{lancarNotaFiscalBean.handleFileUpload}"/>
+		<p:outputLabel id="imgnf" value="#{lancarNotaFiscalBean.notaFiscal.imagem}"/>			        
+	</h:panelGroup>
+
+
+	// download - ver
+	
+	<p:column headerText="Arquivo" style="width: 30px; text-align: center">
+		<p:commandButton icon="pi pi-eye" title="Ver Imagem" 
+			value="Ver NF" 
+			oncomplete="PF('imagemDialog').show()" 
+			update=":form:imagemDialog"
+			process="@this">
+			<f:setPropertyActionListener 
+				target="#{lancarNotaFiscalBean.notaFiscal}" 
+				value="#{nota}" />
+		</p:commandButton>
+	</p:column>
+	
+	
+	 *
+	 *
+	 */
+	
 }
