@@ -2,7 +2,6 @@ package com.cafe.controller.custos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -46,7 +45,6 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 	private String periodoSelecionado;
 	private int ano1;
 	private int ano2;
-	private NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		
 	@Inject
 	private LoginBean loginBean;
@@ -61,7 +59,7 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 		dataInicio = LocalDate.now().withMonth(Month.AUGUST.getValue()).withDayOfMonth(1).minusYears(1);
 		dataFim = LocalDate.now().withMonth(Month.JULY.getValue()).withDayOfMonth(31);
 		this.alterarAnosHeader();
-		log.info("DATAS: " + dataInicio + "eee" + dataFim);
+		
 		despesasTO = relatorioService.buscarDespesasTO(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
 		despesaTotal = relatorioService.calcTotal(despesasTO);
 		

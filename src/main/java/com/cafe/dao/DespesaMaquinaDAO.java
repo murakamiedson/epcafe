@@ -87,6 +87,19 @@ public class DespesaMaquinaDAO implements Serializable{
 				.getResultList();
 	}
 	
+	public List<DespesaMaquina> buscarDespesasMaquinasPorAno(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+		return manager.createQuery(
+				"SELECT d FROM DespesaMaquina d "
+				+ "WHERE d.data "
+				+ "BETWEEN :dataInicio AND :dataFim "
+				+ "AND d.unidade = :codigo_unidade "
+				+ "ORDER BY d.data", DespesaMaquina.class)
+				.setParameter("dataInicio", dataInicio)
+				.setParameter("dataFim", dataFim)
+				.setParameter("codigo_unidade", unidade)
+				.getResultList();
+	}
+	
 	
 	/*
 	 * Para Relatorio Despesas Máquina
