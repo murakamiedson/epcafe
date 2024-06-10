@@ -81,11 +81,13 @@
 								
 				<p:column headerText="Download NF"
 					style="width: 30px; text-align: center">
-					<p:commandButton value="Download" ajax="false"
-                         icon="pi pi-arrow-down" styleClass="mr-2"
-                         process="@this" partialSubmit="true">
-			            <p:fileDownload value="#{lancarNotaFiscalBean.file}"/>
-			        </p:commandButton>
+					<p:commandButton title="Download pdf" icon="pi pi-download"  
+			        	rendered="#{nota.url ne null}"	
+		            	ajax="false"
+		            	process="@this"
+		            	immediate="true"
+		            	action="#{lancarNotaFiscalBean.download(nota)}">            	
+	            	</p:commandButton>	
 				</p:column>
 					
 				<p:column headerText="Operações"

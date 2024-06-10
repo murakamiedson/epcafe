@@ -1,5 +1,8 @@
 package com.cafe.controller.custos;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ import com.cafe.service.NotaFiscalService;
 import com.cafe.util.CalculoUtil;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
+import com.cafe.util.pdf.PdfUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -118,8 +122,6 @@ public class LancarNotaFiscalBean implements Serializable {
 
 	public void salvar() {
 
-		// log.info("arquivo " + this.uploadedFile);
-
 		try {
 
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
@@ -153,20 +155,52 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 	}
 
+	
 	public void upload(FileUploadEvent event) {
 		
 		this.file = event.getFile();
         if (this.file != null) {
-        	MessageUtil.sucesso("O " + this.file.getFileName() + " foi enviado. Salve a NF para gravar o arquivo.");
+        	
+        	try {
+
+        		File pdf = PdfUtil.escrever(this.file.getFileName(), this.file.getContent());
+        		notaFiscal.setUrl(pdf.getAbsolutePath());
+        		MessageUtil.sucesso("O arquivo '" + this.file.getFileName() + "' foi enviado. Salve a NF para gravar o arquivo.");
+                
+			} catch (IOException e) {
+				MessageUtil.erro("Houve um problema para salvar o pdf.");	        	
+				e.printStackTrace();
+			}
+        	
         	log.info("uploaded... = " + this.file.getFileName());
         }
     }
 	
+	public void download(NotaFiscal nf) throws IOException {
+    	
+    	log.info(nf.getId());
+		
+    	if(nf.getUrl() != null && !nf.getUrl().isEmpty()) {
+    		
+			String arquivoPath = nf.getUrl();
+			
+			log.info(arquivoPath);
+			
+			File arquivoPDF = new File(arquivoPath);
+			
+	        if (arquivoPDF.exists()) {
+	
+	            // Abra o arquivo PDF com o aplicativo padrão associado
+	            Desktop.getDesktop().open(arquivoPDF);
+	        }
+    	}
+	}
+	
 	public String getNomeArquivo() {
-		 if (this.file != null)
-			 return file.getFileName();
+		 if (this.notaFiscal.getUrl() != null)
+			 return "Já existe NF gravada. O upload de nova NF substituirá a anterior."; 
 		 
-		 return "vazio";
+		 return "Nenhuma nota gravada ainda.";
 	}
 	
 	

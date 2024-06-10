@@ -129,7 +129,8 @@
 
 					<p:outputLabel value="Tipo Insumo" for="tipoInsumo" />
 					<p:selectOneMenu id="tipoInsumo"
-						value="#{lancarDespesaFertilizanteBean.auxiliar}">
+						value="#{lancarDespesaFertilizanteBean.auxiliar}"
+						rendered="true" validatorMessage="O tipo é obrigatório.">
 						<f:selectItem itemLabel="Selecione o tipo" />
 						<f:selectItems
 							value="#{lancarDespesaFertilizanteBean.tiposInsumo}"
@@ -142,16 +143,15 @@
 
 					<p:outputLabel value="Fertilizante" for="fertilizante" />
 					<h:panelGroup>
-						<p:selectOneMenu id="fertilizante"
-							value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante}"
-							required="true" validatorMessage="O fertilizante é obrigatório.">
+						<p:selectOneMenu id="fertilizante" required="true"
+							value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante}">
 							<f:selectItem itemLabel="Selecione o fertilizante" />
 							<f:selectItems
 								value="#{lancarDespesaFertilizanteBean.fertilizantes}"
-								var="fertilizante" itemLabel="#{fertilizante.tipo}"
+								var="fertilizante" itemLabel="#{fertilizante.tipo}"								
 								itemValue="#{fertilizante}" />
 
-							<p:ajax update="medida" process="fertilizante" />
+							<p:ajax update="medida consultanf" process="fertilizante consultanf"/>
 						</p:selectOneMenu>
 						<p:spacer width="10px" />
 						<p:outputLabel id="medida"
@@ -169,13 +169,14 @@
 
 						<p:spacer width="10px" />
 
-						<p:commandButton value="Consultar Notas Fiscais" 
+						<p:commandButton id="consultanf" value="Consultar Notas Fiscais"
+							disabled="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante eq null}" 
 							title="Consultar Notas Fiscais"
 							style="margin-top: 10px; margin-bottom: 10px"
 							icon="pi pi-eye"
 							actionListener="#{lancarDespesaFertilizanteBean.carregarNotasFiscais}"
 							oncomplete="PF('verNFDialogWidgetVar').show()"
-							update="verNFDialog" process="@this" />
+							update="verNFDialog" process="@this tipoInsumo fertilizante" />
 							
 						<p:spacer width="20px" />
 						
