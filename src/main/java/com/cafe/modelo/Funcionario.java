@@ -3,6 +3,7 @@ package com.cafe.modelo;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -64,7 +65,7 @@ public class Funcionario {
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="funcionario", fetch = FetchType.EAGER)
 	//@JoinColumn(name = "codigo_formacao")
-	private List<Formacao> formacao;
+	private List<Formacao> formacoes = new ArrayList<>();
 	
 	
 	@NotNull

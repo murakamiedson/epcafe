@@ -4,10 +4,13 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -45,6 +48,10 @@ public class LancarNotaFiscalBean implements Serializable {
 	private Item item;
 	private String yearRange;
 	private List<Fertilizante> fertilizantes = new ArrayList<Fertilizante>();
+	private String periodoSelecionado;
+	private LocalDate dataInicio;
+	private LocalDate dataFim;
+	private List<String> anos = new ArrayList<>();
 
 	private Unidade unidade;
 	private UploadedFile file;
@@ -56,19 +63,23 @@ public class LancarNotaFiscalBean implements Serializable {
 	@Inject
 	private CalculoUtil calcUtil;
 
+
 	@PostConstruct
 	public void inicializar() {
 
 		log.info("inicializando lancarNotaFiscalBean...");
 		this.yearRange = this.calcUtil.getAnoCorrente();
 		this.unidade = loginBean.getUsuario().getUnidade();
-		this.notas = buscarNotas();
-
-		for (NotaFiscal n : notas) {
-			log.info(n.getItens());
-		}
 
 		fertilizantes = notaFiscalService.buscarFertilizantes(loginBean.getTenantId());
+		
+		//filtrar por ano
+		anos = notaFiscalService.buscarAnosComRegistros(loginBean.getUsuario().getUnidade());
+		dataInicio = LocalDate.now().withMonth(Month.AUGUST.getValue()).withDayOfMonth(1).minusYears(1);
+		dataFim = LocalDate.now().withMonth(Month.JULY.getValue()).withDayOfMonth(31);
+		notas = notaFiscalService.buscarNotasFiscaisPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
+		
+		
 		limpar();
 		limparItem();
 	}
@@ -256,6 +267,15 @@ public class LancarNotaFiscalBean implements Serializable {
         return file;
 	}
 	
+
+	public void filtrarPorAno() {
+		
+		dataInicio = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(0, 4)), Month.AUGUST, 1);
+		dataFim = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(5, 9)), Month.JULY, 31);
+		notas = notaFiscalService.buscarNotasFiscaisPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
+		
+	}
+
 
 	// upload
 

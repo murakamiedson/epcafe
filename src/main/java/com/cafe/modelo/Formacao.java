@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,10 +23,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cafe.modelo.enums.NivelEscolaridade;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
@@ -45,6 +48,9 @@ public class Formacao {
 	
 	@NotBlank
 	private String descricao;
+	
+	@Lob
+	private byte[] imagem;
 	
 	/*
 	@NotEmpty

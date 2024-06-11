@@ -1,18 +1,22 @@
 package com.cafe.controller.cadastros;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 import com.cafe.controller.LoginBean;
+import com.cafe.modelo.Formacao;
 import com.cafe.modelo.Funcionario;
 import com.cafe.service.FuncionarioService;
 import com.cafe.util.MessageUtil;
@@ -20,6 +24,7 @@ import com.cafe.util.NegocioException;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 
 
 /**
@@ -30,15 +35,15 @@ import lombok.Setter;
 @Setter
 @Named
 @ViewScoped
+@Log4j2
 public class PesquisaFuncionarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private List<Funcionario> funcionarios = new ArrayList<>();
 	private Funcionario funcionarioSelecionado;
-	
-	//private CadastroFormacaoBean cadastroFormacaoBean;
-	
+	private Formacao formacaoSelecionada;
+		
 	@Inject
 	private FuncionarioService funcionarioService;
 	@Inject
@@ -48,6 +53,7 @@ public class PesquisaFuncionarioBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 		funcionarios = funcionarioService.buscarFuncionariosPorUnidade(loginBean.getUsuario().getUnidade() ,loginBean.getTenantId());
+		
 	}
 	
 	public void excluir() {
@@ -60,25 +66,21 @@ public class PesquisaFuncionarioBean implements Serializable {
 			MessageUtil.erro(e.getMessage());
 		}
 	}
-	public void cadastrarFormacao() {
-	    if (funcionarioSelecionado != null) {
-	        String url = "cadastroFormacao.xhtml?funcionarioId=" + funcionarioSelecionado.getId();
-	        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-	        try {
-	            externalContext.redirect(externalContext.getRequestContextPath() + "/" + url);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	}
 	
 	
+	public StreamedContent getImage() {
+		log.info("getImageBd... = ");
+	
+		StreamedContent file;
+		
+		InputStream in = new ByteArrayInputStream(this.formacaoSelecionada.getImagem());
+		        
+        file = DefaultStreamedContent.builder()
+                .stream(() -> in)
+                .build(); 
 
-	/*
-	public void setFuncionario() {
-		this.cadastroFormacaoBean.salvar();
-	}*/
-	
+        return file;
+	}
 	
 	
 }
