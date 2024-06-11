@@ -1,7 +1,5 @@
 package com.cafe.controller.custos;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,16 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.file.UploadedFile;
 
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaFerTalhao;
@@ -52,7 +46,7 @@ import lombok.extern.log4j.Log4j;
 @Getter
 @Setter
 @Named
-@SessionScoped
+@ViewScoped
 public class LancarDespesaFertilizanteBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -68,7 +62,6 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private DespesaFerTalhao despesaFerTalhao;
 	private NotaFiscal notaFiscal;
 	private NotaFiscal notaSelecionada;
-	private UploadedFile originalImageFile;
 	private String numeroNF;
 	private String yearRange;
 	private boolean despesaGravada = false;
@@ -316,47 +309,5 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		log.info("editar despesa");
 		auxiliar = despesaFertilizante.getFertilizante().getTipoInsumo();
 		numeroNF = despesaFertilizante.getNotaFiscal().getNumero();
-	}
-	
-
-	public void filtrarPorAno() {
-		
-		dataInicio = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(0, 4)), Month.AUGUST, 1);
-		dataFim = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(5, 9)), Month.JULY, 31);
-		despesas = despesaService.buscarDespesasFertilizantesPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
-		
-	}
-	
-	public void handleFileUpload(FileUploadEvent event) {
-		log.info("upload... = ");
-
-		this.originalImageFile = null;
-
-		UploadedFile file = event.getFile();
-
-		if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
-			this.originalImageFile = file;
-			
-			this.notaFiscal.setImagem(file.getContent());
-			 
-			MessageUtil.sucesso("Sucesso! " + this.originalImageFile.getFileName() + " foi enviado.");
-		}
-
-		log.info("uploaded... = " + this.originalImageFile.getFileName());
-	}
-	
-	public StreamedContent getImage() {
-		log.info("getImageBd... = ");
-	
-		StreamedContent file;
-		
-		InputStream in = new ByteArrayInputStream(this.notaFiscal.getImagem());
-		        
-        file = DefaultStreamedContent.builder()
-                .stream(() -> in)
-                .build(); 
-
-        return file;
-	}
 
 }

@@ -65,9 +65,9 @@ public class NotaFiscal implements Serializable{
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_unidade")
 	private Unidade unidade;
-	
-	@Lob
-	private byte[] imagem;
+
+	private String url;
+
 	
 	@PositiveOrZero
 	private BigDecimal valorTotal = new BigDecimal(0);

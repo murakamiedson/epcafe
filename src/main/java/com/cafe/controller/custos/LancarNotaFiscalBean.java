@@ -1,7 +1,8 @@
 package com.cafe.controller.custos;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -9,14 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
 import com.cafe.controller.LoginBean;
@@ -28,6 +27,7 @@ import com.cafe.service.NotaFiscalService;
 import com.cafe.util.CalculoUtil;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
+import com.cafe.util.pdf.PdfUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +37,6 @@ import lombok.extern.log4j.Log4j;
 @Getter
 @Setter
 @Named
-//@SessionScoped
 @ViewScoped
 public class LancarNotaFiscalBean implements Serializable {
 
@@ -55,7 +54,7 @@ public class LancarNotaFiscalBean implements Serializable {
 	private List<String> anos = new ArrayList<>();
 
 	private Unidade unidade;
-	private UploadedFile originalImageFile;
+	private UploadedFile file;
 
 	@Inject
 	private LoginBean loginBean;
@@ -134,8 +133,6 @@ public class LancarNotaFiscalBean implements Serializable {
 
 	public void salvar() {
 
-		// log.info("arquivo " + this.uploadedFile);
-
 		try {
 
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
@@ -169,6 +166,73 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 	}
 
+	
+	public void upload(FileUploadEvent event) {
+		
+		this.file = event.getFile();
+        if (this.file != null) {
+        	
+        	try {
+
+        		File pdf = PdfUtil.escrever(this.file.getFileName(), this.file.getContent());
+        		notaFiscal.setUrl(pdf.getAbsolutePath());
+        		MessageUtil.sucesso("O arquivo '" + this.file.getFileName() + "' foi enviado. Salve a NF para gravar o arquivo.");
+                
+			} catch (IOException e) {
+				MessageUtil.erro("Houve um problema para salvar o pdf.");	        	
+				e.printStackTrace();
+			}
+        	
+        	log.info("uploaded... = " + this.file.getFileName());
+        }
+    }
+	
+	public void download(NotaFiscal nf) throws IOException {
+    	
+    	log.info(nf.getId());
+		
+    	if(nf.getUrl() != null && !nf.getUrl().isEmpty()) {
+    		
+			String arquivoPath = nf.getUrl();
+			
+			log.info(arquivoPath);
+			
+			File arquivoPDF = new File(arquivoPath);
+			
+	        if (arquivoPDF.exists()) {
+	
+	            // Abra o arquivo PDF com o aplicativo padrão associado
+	            Desktop.getDesktop().open(arquivoPDF);
+	        }
+    	}
+	}
+	
+	public String getNomeArquivo() {
+		 if (this.notaFiscal.getUrl() != null)
+			 return "Já existe NF gravada. O upload de nova NF substituirá a anterior."; 
+		 
+		 return "Nenhuma nota gravada ainda.";
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * UPLOAD E DOWNLOAD DE IMAGEM GRAVADA NO BANCO
+	 * 
+	 *
+	 *
+	 *
+	 *
+	// atributo entity
+	private byte[] imagem;
+	
+	
+	// upload bean
+	
+	private UploadedFile originalImageFile;
+	
 	public void handleFileUpload(FileUploadEvent event) {
 		log.info("upload... = ");
 
@@ -187,6 +251,8 @@ public class LancarNotaFiscalBean implements Serializable {
 		log.info("uploaded... = " + this.originalImageFile.getFileName());
 	}
 	
+	// download - ver
+	
 	public StreamedContent getImage() {
 		log.info("getImageBd... = ");
 	
@@ -201,6 +267,7 @@ public class LancarNotaFiscalBean implements Serializable {
         return file;
 	}
 	
+
 	public void filtrarPorAno() {
 		
 		dataInicio = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(0, 4)), Month.AUGUST, 1);
@@ -209,47 +276,39 @@ public class LancarNotaFiscalBean implements Serializable {
 		
 	}
 
-	/*
-	public StreamedContent getImage() {
-		log.info("getImage... = ");
-		
-		return DefaultStreamedContent.builder()
-				.contentType(originalImageFile == null ? null : originalImageFile.getContentType()).stream(() -> {
-					
-					if (originalImageFile == null || originalImageFile.getContent() == null
-							|| originalImageFile.getContent().length == 0) {
-						return null;
-					}
 
-					try {
-						return new ByteArrayInputStream(originalImageFile.getContent());
-					} catch (Exception e) {
-						e.printStackTrace();
-						return null;
-					}
-				}).build();
-	}
-	*/
+	// upload
+
+	<p:outputLabel value="Imagem NF"/>
+	<h:panelGroup>
+		<p:fileUpload mode="advanced"
+			multiple="false"
+			sizeLimit="1024000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+			invalidSizeMessage="Maximum file size allowed is 1 MB"
+			invalidFileMessage="only gif | jpg | jpeg | png is allowed"
+			update="messages"
+			listener="#{lancarNotaFiscalBean.handleFileUpload}"/>
+		<p:outputLabel id="imgnf" value="#{lancarNotaFiscalBean.notaFiscal.imagem}"/>			        
+	</h:panelGroup>
+
+
+	// download - ver
 	
-	/*
-	 * public void upload() {
-	 * 
-	 * log.info("qde notas fiscais = " + notas.size());
-	 * 
-	 * try { File file = new File("/notasfiscais/", nomeArquivo());
-	 * 
-	 * log.info(file.getAbsolutePath());
-	 * this.notaFiscal.setUrlNf(file.getAbsolutePath());
-	 * 
-	 * OutputStream out = new FileOutputStream(file);
-	 * out.write(uploadedFile.getContent()); out.close();
-	 * 
-	 * MessageUtil.sucesso("Upload completo. O arquivo " +
-	 * uploadedFile.getFileName() + " foi salvo!"); } catch(IOException e) {
-	 * e.printStackTrace(); MessageUtil.erro("Erro: " + e.getMessage()); } } private
-	 * String nomeArquivo() { LocalDate localDate = LocalDate.now(); String
-	 * nomeArquivo = notaFiscal.getUnidade().getCodigo() + "-" +
-	 * notaFiscal.getNumero().toString() + "-" + localDate.getYear(); return
-	 * nomeArquivo; }
+	<p:column headerText="Arquivo" style="width: 30px; text-align: center">
+		<p:commandButton icon="pi pi-eye" title="Ver Imagem" 
+			value="Ver NF" 
+			oncomplete="PF('imagemDialog').show()" 
+			update=":form:imagemDialog"
+			process="@this">
+			<f:setPropertyActionListener 
+				target="#{lancarNotaFiscalBean.notaFiscal}" 
+				value="#{nota}" />
+		</p:commandButton>
+	</p:column>
+	
+	
+	 *
+	 *
 	 */
+	
 }
