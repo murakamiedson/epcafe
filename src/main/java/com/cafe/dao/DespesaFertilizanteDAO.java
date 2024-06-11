@@ -1,6 +1,7 @@
 package com.cafe.dao;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -128,6 +129,36 @@ public class DespesaFertilizanteDAO implements Serializable {
 	public List<DespesaFertilizante> buscarDespesasFertilizantes(Unidade unidade) {
 		return manager.createNamedQuery("DespesaFertilizante.buscarDespesasFertilizantes")
 				.setParameter("codigo_unidade", unidade).getResultList();
+	}
+	
+	public List<DespesaFertilizante> buscarDespesasFertilizantesPorAno(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+		return manager.createQuery(
+				"SELECT d FROM DespesaFertilizante d "
+				+ "WHERE d.data "
+				+ "BETWEEN :dataInicio AND :dataFim "
+				+ "AND d.unidade = :codigo_unidade "
+				+ "ORDER BY d.data", DespesaFertilizante.class)
+				.setParameter("dataInicio", dataInicio)
+				.setParameter("dataFim", dataFim)
+				.setParameter("codigo_unidade", unidade)
+				.getResultList();
+	}
+	
+	public List<String> buscarAnosComRegistro (Unidade unidade) {
+		
+		List<String> anos = manager.createQuery(
+				"SELECT DISTINCT " +
+	                      "CASE " +
+	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+	                      "END " +
+	                      "FROM DespesaFertilizante c " +
+	                      "ORDER BY " +
+	                      "CASE " +
+	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+	                      "END", String.class).getResultList();
+		return anos;
 	}
 
 }

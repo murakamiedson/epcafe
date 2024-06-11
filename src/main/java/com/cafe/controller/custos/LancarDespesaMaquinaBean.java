@@ -107,7 +107,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
     	try {
     		this.despesaMaquina = this.despesaService.salvar(despesaMaquina);
     		log.info("salvaDO ..." + despesaMaquina);
-    		this.despesas = despesaService.buscarDespesasMaquinas(unidade);
+    		this.despesas = despesaService.buscarDespesasMaquinasPorAno(dataInicio, dataFim, unidade);
 			MessageUtil.sucesso("Despesa salva com sucesso!");
 		} catch (NegocioException e) {
 			e.printStackTrace();
@@ -123,7 +123,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
     	try {
     		log.info("excluindo...");
 			despesaService.excluir(despesaMaquinaSelecionada);			
-			this.despesas = despesaService.buscarDespesasMaquinas(unidade);
+			this.despesas = despesaService.buscarDespesasMaquinasPorAno(dataInicio, dataFim, unidade);
 			MessageUtil.sucesso("Despesa " + despesaMaquinaSelecionada.getId() + " excluída com sucesso.");
 		} catch (NegocioException e) {
 			e.printStackTrace();

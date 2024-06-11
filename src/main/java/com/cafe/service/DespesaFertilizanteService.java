@@ -2,6 +2,7 @@ package com.cafe.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,6 +51,16 @@ public class DespesaFertilizanteService implements Serializable {
 
 		log.info("Primeiro acesso a banco... buscar despesas com Fertilizantes");
 		return despesaFertilizanteDAO.buscarDespesasFertilizantes(unidade);
+	}
+	
+	public List<DespesaFertilizante> buscarDespesasFertilizantesPorAno(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+		return despesaFertilizanteDAO.buscarDespesasFertilizantesPorAno(dataInicio, dataFim, unidade);
+	}
+	
+	public List<String> buscarAnosComRegistros(Unidade unidade) {
+		
+		List<String> anos  = despesaFertilizanteDAO.buscarAnosComRegistro(unidade);
+		return anos;
 	}
 	
 	//verifica se a notafiscal selecionada contém o fertilizante selecionado
