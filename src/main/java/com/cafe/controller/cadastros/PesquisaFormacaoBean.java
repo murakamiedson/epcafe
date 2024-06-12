@@ -56,36 +56,4 @@ public class PesquisaFormacaoBean implements Serializable {
 			MessageUtil.erro(e.getMessage());
 		}
 	}
-	/*
-	public void gravarPdf(){
-		try {
-			if(getFile() != null) {
-				formacaoSelecionada = formacaoService.gravaPdfCadUnico(formacaoSelecionada, getFile());
-				// grava a chave de acesso ao arquivo no s3
-				formacaoSelecionada = this.formacaoService.salvarComPdf(formacaoSelecionada);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}*/
-	
-	/*
-	public String gravarPdf() throws IOException{
-		
-		try {
-			if(getFile() != null) {
-				formacaoSelecionada = s3.gravaPdfCadUnico(prontuarioSelecionado, getFile());
-				// grava a chave de acesso ao arquivo no s3
-				formacaoSelecionada = this.prontuarioService.salvarComPdf(prontuarioSelecionado);
-			}
-		}
-		return"";
-	}
-	
-	public void redirectPdf(Formacao formacao) throws IOException {
-
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        externalContext.redirect(formacao.getUrlAnexo());
-    }*/
-	
 }

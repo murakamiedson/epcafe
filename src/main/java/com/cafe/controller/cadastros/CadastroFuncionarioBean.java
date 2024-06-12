@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -43,7 +43,7 @@ import lombok.extern.log4j.Log4j;
 @Getter
 @Setter
 @Named
-@SessionScoped
+@ViewScoped
 public class CadastroFuncionarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -146,7 +146,7 @@ public class CadastroFuncionarioBean implements Serializable {
 						+ "' foi enviado. Salve o funcionário para gravar o arquivo.");
 
 			} catch (IOException e) {
-				MessageUtil.erro("Houve um problema para salvar o pdf.");
+				MessageUtil.erro("Houve um problema para salvar o arquivo.");
 				e.printStackTrace();
 			}
 
