@@ -113,28 +113,39 @@
 				closeOnEscape="true" showEffect="explode" hideEffect="explode"
 				position="center top" responsive="true" width="70%" style="margin-top: 20px">
 
-				
+				<p:dataTable id="formacoesTable"
+					value="#{pesquisaFuncionarioBean.funcionarioSelecionado.formacoes}"
+					var="formacao" emptyMessage="Nenhuma formação cadastrada"
+					rows="10" paginator="true" paginatorAlwaysVisible="true"
+					paginatorPosition="bottom" lazy="true" rowsPerPageTemplate="5,10,15"
+					style="margin-top: 10px">
+
+					<p:column headerText="Descrição" sortBy="#{formacao.descricao}"
+						style="width: 100px; text-align: left">
+						<h:outputText value="#{formacao.descricao}" />
+					</p:column>
+
+					<p:column headerText="Escolaridade"
+						style="width: 30px; text-align: center">
+						<h:outputText value="#{formacao.nivelEscolaridade}" />
+					</p:column>
+					
+					<p:column headerText="Download Certificado"
+						style="width: 30px; text-align: center">
+						<p:commandButton title="Download pdf" icon="pi pi-download"  
+				        	rendered="#{formacao.url ne null}"	
+			            	ajax="false"
+			            	process="@this"
+			            	immediate="true"
+			            	action="#{pesquisaFuncionarioBean.download(formacao)}">            	
+		            	</p:commandButton>	
+					</p:column>
+
+					
+				</p:dataTable>
 			</p:dialog>
 			
-			<p:dialog id="imagemDialog" header="Certificado Formação" 
-				widgetVar="imagemDialog" 
-				modal="true" resizable="true" closeOnEscape="true"
-				showEffect="explode" hideEffect="explode" 
-				position="center top" maximizable="true"
-				fitViewport="true" responsive="true" >
-			    
-			    <p:outputPanel id="image">
-	            		
-           			<h:panelGrid>
-	                    <p:outputPanel id="cropped">
-	                        <p:graphicImage 
-	                        	cache="false" 
-                                   value="#{pesquisaFuncionarioBean.image}"/>
-	                    </p:outputPanel>			
-	                </h:panelGrid>	            		
-
-        		</p:outputPanel>
-			</p:dialog>
+			
 
 
 		</h:form>

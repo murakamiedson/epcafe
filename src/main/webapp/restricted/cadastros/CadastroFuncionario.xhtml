@@ -94,18 +94,16 @@
 					<h:outputText value="#{formacao.nivelEscolaridade}" />
 				</p:column>
 				
-				<p:column headerText="Imagem"
-					style="width: 30px; text-align: center">
-					<p:commandButton icon="pi pi-eye" title="Ver Imagem" 
-						value="Ver Imagem" 
-						oncomplete="PF('imagemDialog').show()" 
-						update="frmCadastro:imagemDialog"
-						process="@this">
-        				<f:setPropertyActionListener 
-        					target="#{cadastroFuncionarioBean.formacao}" 
-        					value="#{formacao}" />
-    				</p:commandButton>
-				</p:column>
+				<p:column headerText="Download Certificado"
+						style="width: 30px; text-align: center">
+						<p:commandButton title="Download pdf" icon="pi pi-download"  
+				        	rendered="#{formacao.url ne null}"	
+			            	ajax="false"
+			            	process="@this"
+			            	immediate="true"
+			            	action="#{cadastroFuncionarioBean.download(formacao)}">            	
+		            	</p:commandButton>	
+					</p:column>
 				
 
 				<p:column headerText="Operações"
@@ -164,16 +162,13 @@
 							itemValue="#{nivelEscolaridade}" />
 					</p:selectOneMenu>
 					
-					<p:outputLabel value="Imagem" for="imagem" />
-					<h:panelGroup>
-						<p:fileUpload id="imagem" mode="advanced"
-							multiple="false"
-							sizeLimit="1024000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-							invalidSizeMessage="Maximum file size allowed is 1 MB"
-							invalidFileMessage="only gif | jpg | jpeg | png is allowed"
-							update="messagesFormacao"
-							listener="#{cadastroFuncionarioBean.handleFileUpload}"/>
-						<p:outputLabel id="imgnf" value="#{cadastroFuncionarioBean.formacao.imagem}"/>			        
+					<p:outputLabel value="Upload Formação"/>
+					<h:panelGroup>						
+        				<p:fileUpload id="upload" value="#{cadastroFuncionarioBean.file}"
+		                      mode="simple" skinSimple="true" auto="true"
+		                      process="@this" update="messagesFormacao :frmCadastro:nomearquivo"
+		                      listener="#{cadastroFuncionarioBean.upload}" />
+		                <p:outputLabel id="nomearquivo" value="#{cadastroFuncionarioBean.nomeArquivo}" />
 	        		</h:panelGroup>
 					
 					<f:facet name="footer">
@@ -190,25 +185,7 @@
 				</p:panelGrid>
 	    	</p:dialog>
 	    	
-	    	<p:dialog id="imagemDialog" header="Certificado Formação" 
-				widgetVar="imagemDialog" 
-				modal="true" resizable="true" closeOnEscape="true"
-				showEffect="explode" hideEffect="explode" 
-				position="center top" maximizable="true"
-				fitViewport="true" responsive="true" >
-			    
-			    <p:outputPanel id="image">
-	            		
-           			<h:panelGrid>
-	                    <p:outputPanel id="cropped">
-	                        <p:graphicImage 
-	                        	cache="false" 
-                                   value="#{cadastroFuncionarioBean.image}"/>
-	                    </p:outputPanel>			
-	                </h:panelGrid>	            		
-
-        		</p:outputPanel>
-			</p:dialog>
+	    	
 
 		</h:form>
 	</ui:define>

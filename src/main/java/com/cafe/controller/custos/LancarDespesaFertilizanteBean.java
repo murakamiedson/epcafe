@@ -310,4 +310,13 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		auxiliar = despesaFertilizante.getFertilizante().getTipoInsumo();
 		numeroNF = despesaFertilizante.getNotaFiscal().getNumero();
 
+	}
+	
+	public void filtrarPorAno() {
+		
+		dataInicio = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(0, 4)), Month.AUGUST, 1);
+		dataFim = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(5, 9)), Month.JULY, 31);
+		despesas = despesaService.buscarDespesasFertilizantesPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
+		
+	}
 }
