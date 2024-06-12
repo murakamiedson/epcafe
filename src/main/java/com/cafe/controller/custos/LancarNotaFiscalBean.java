@@ -1,19 +1,21 @@
 package com.cafe.controller.custos;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
 import com.cafe.controller.LoginBean;
@@ -25,6 +27,7 @@ import com.cafe.service.NotaFiscalService;
 import com.cafe.util.CalculoUtil;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
+import com.cafe.util.pdf.PdfUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +37,7 @@ import lombok.extern.log4j.Log4j;
 @Getter
 @Setter
 @Named
-@SessionScoped
+@ViewScoped
 public class LancarNotaFiscalBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -45,9 +48,13 @@ public class LancarNotaFiscalBean implements Serializable {
 	private Item item;
 	private String yearRange;
 	private List<Fertilizante> fertilizantes = new ArrayList<Fertilizante>();
+	private String periodoSelecionado;
+	private LocalDate dataInicio;
+	private LocalDate dataFim;
+	private List<String> anos = new ArrayList<>();
 
 	private Unidade unidade;
-	private UploadedFile originalImageFile;
+	private UploadedFile file;
 
 	@Inject
 	private LoginBean loginBean;
@@ -56,19 +63,23 @@ public class LancarNotaFiscalBean implements Serializable {
 	@Inject
 	private CalculoUtil calcUtil;
 
+
 	@PostConstruct
 	public void inicializar() {
 
 		log.info("inicializando lancarNotaFiscalBean...");
 		this.yearRange = this.calcUtil.getAnoCorrente();
 		this.unidade = loginBean.getUsuario().getUnidade();
-		this.notas = buscarNotas();
-
-		for (NotaFiscal n : notas) {
-			log.info(n.getItens());
-		}
 
 		fertilizantes = notaFiscalService.buscarFertilizantes(loginBean.getTenantId());
+		
+		//filtrar por ano
+		anos = notaFiscalService.buscarAnosComRegistros(loginBean.getUsuario().getUnidade());
+		dataInicio = LocalDate.now().withMonth(Month.AUGUST.getValue()).withDayOfMonth(1).minusYears(1);
+		dataFim = LocalDate.now().withMonth(Month.JULY.getValue()).withDayOfMonth(31);
+		notas = notaFiscalService.buscarNotasFiscaisPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
+		
+		
 		limpar();
 		limparItem();
 	}
@@ -122,8 +133,6 @@ public class LancarNotaFiscalBean implements Serializable {
 
 	public void salvar() {
 
-		// log.info("arquivo " + this.uploadedFile);
-
 		try {
 
 			notaFiscal = this.notaFiscalService.salvar(notaFiscal);
@@ -157,79 +166,59 @@ public class LancarNotaFiscalBean implements Serializable {
 		}
 	}
 
-	public void handleFileUpload(FileUploadEvent event) {
-		log.info("upload... = ");
+	
+	public void upload(FileUploadEvent event) {
+		
+		this.file = event.getFile();
+        if (this.file != null) {
+        	
+        	try {
 
-		this.originalImageFile = null;
-
-		UploadedFile file = event.getFile();
-
-		if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
-			this.originalImageFile = file;
+        		File pdf = PdfUtil.escrever(this.file.getFileName(), this.file.getContent());
+        		notaFiscal.setUrl(pdf.getAbsolutePath());
+        		MessageUtil.sucesso("O arquivo '" + this.file.getFileName() + "' foi enviado. Salve a NF para gravar o arquivo.");
+                
+			} catch (IOException e) {
+				MessageUtil.erro("Houve um problema para salvar o pdf.");	        	
+				e.printStackTrace();
+			}
+        	
+        	log.info("uploaded... = " + this.file.getFileName());
+        }
+    }
+	
+	public void download(NotaFiscal nf) throws IOException {
+    	
+    	log.info(nf.getId());
+		
+    	if(nf.getUrl() != null && !nf.getUrl().isEmpty()) {
+    		
+			String arquivoPath = nf.getUrl();
 			
-			this.notaFiscal.setImagem(file.getContent());
-			 
-			MessageUtil.sucesso("Sucesso! " + this.originalImageFile.getFileName() + " foi enviado.");
-		}
-
-		log.info("uploaded... = " + this.originalImageFile.getFileName());
+			log.info(arquivoPath);
+			
+			File arquivoPDF = new File(arquivoPath);
+			
+	        if (arquivoPDF.exists()) {
+	
+	            // Abra o arquivo PDF com o aplicativo padrão associado
+	            Desktop.getDesktop().open(arquivoPDF);
+	        }
+    	}
 	}
 	
-	public StreamedContent getImage() {
-		log.info("getImageBd... = ");
+	public String getNomeArquivo() {
+		 if (this.notaFiscal.getUrl() != null)
+			 return "Já existe NF gravada. O upload de nova NF substituirá a anterior."; 
+		 
+		 return "Nenhuma nota gravada ainda.";
+	}
 	
-		StreamedContent file;
+	public void filtrarPorAno() {
 		
-		InputStream in = new ByteArrayInputStream(this.notaFiscal.getImagem());
-		        
-        file = DefaultStreamedContent.builder()
-                .stream(() -> in)
-                .build(); 
-
-        return file;
-	}
-
-	/*
-	public StreamedContent getImage() {
-		log.info("getImage... = ");
+		dataInicio = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(0, 4)), Month.AUGUST, 1);
+		dataFim = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(5, 9)), Month.JULY, 31);
+		notas = notaFiscalService.buscarNotasFiscaisPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
 		
-		return DefaultStreamedContent.builder()
-				.contentType(originalImageFile == null ? null : originalImageFile.getContentType()).stream(() -> {
-					
-					if (originalImageFile == null || originalImageFile.getContent() == null
-							|| originalImageFile.getContent().length == 0) {
-						return null;
-					}
-
-					try {
-						return new ByteArrayInputStream(originalImageFile.getContent());
-					} catch (Exception e) {
-						e.printStackTrace();
-						return null;
-					}
-				}).build();
 	}
-	*/
-	
-	/*
-	 * public void upload() {
-	 * 
-	 * log.info("qde notas fiscais = " + notas.size());
-	 * 
-	 * try { File file = new File("/notasfiscais/", nomeArquivo());
-	 * 
-	 * log.info(file.getAbsolutePath());
-	 * this.notaFiscal.setUrlNf(file.getAbsolutePath());
-	 * 
-	 * OutputStream out = new FileOutputStream(file);
-	 * out.write(uploadedFile.getContent()); out.close();
-	 * 
-	 * MessageUtil.sucesso("Upload completo. O arquivo " +
-	 * uploadedFile.getFileName() + " foi salvo!"); } catch(IOException e) {
-	 * e.printStackTrace(); MessageUtil.erro("Erro: " + e.getMessage()); } } private
-	 * String nomeArquivo() { LocalDate localDate = LocalDate.now(); String
-	 * nomeArquivo = notaFiscal.getUnidade().getCodigo() + "-" +
-	 * notaFiscal.getNumero().toString() + "-" + localDate.getYear(); return
-	 * nomeArquivo; }
-	 */
 }

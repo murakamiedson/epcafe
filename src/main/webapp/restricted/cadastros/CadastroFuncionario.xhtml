@@ -10,9 +10,9 @@
 
 	<ui:define name="corpo">
 		<f:metadata>
-			<o:viewParam name="funcionario"
-				value="#{cadastroFuncionarioBean.funcionario}" />
+			<o:viewParam name="funcionario" value="#{cadastroFuncionarioBean.funcionario}" />
 		</f:metadata>
+
 
 		<h2>Funcionário</h2>
 
@@ -21,8 +21,6 @@
 			<p:messages id="messages" showDetail="false" closable="true">
 				<p:autoUpdate />
 			</p:messages>
-
-			<p:defaultCommand target="botaoSalvar" />
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
@@ -36,7 +34,7 @@
 				</p:toolbarGroup>
 			</p:toolbar>
 
-			<p:panelGrid columns="2" id="painel"
+			<p:panelGrid id="gridFuncionario" columns="2"
 				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
 
 				<p:outputLabel value="Nome" for="nome" />
@@ -61,19 +59,134 @@
 					validatorMessage="A data de nascimento é obrigatória."
 					yearRange="#{cadastroFuncionarioBean.yearRange}">
 				</p:datePicker>
+
 			</p:panelGrid>
-			<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
-				action="#{cadastroFuncionarioBean.salvar}" update="frmCadastro"
-				style="margin-top: 10px; margin-bottom: 10px" />
 
-			<!-- DIALOG CADASTRO MENOR DE 18 ANOS -->
-			<p:confirmDialog header="Idade inválida" widgetVar="avisoDialog"
-				modal="true" resizable="false" severity="alert"
-				message="A idade do funcionário deve ser maior ou igual a 18 anos.">
+			<p:toolbar id="tbformacao"
+				style="margin-top: 10px; margin-bottom: 20px">
+				<p:toolbarGroup>
+					<p:spacer width="10px" />
+					<p:commandButton value="Adicionar Formacoes"
+						title="Adicionar formacao"
+						style="margin-top: 10px; margin-bottom: 10px" icon="pi pi-plus"
+						actionListener="#{cadastroFuncionarioBean.limparFormacao}"
+						oncomplete="PF('addFormacaoWidgetVar').show()"
+						update="formacoesTable" process="@this">
 
-				<p:commandButton value="OK" onclick="PF('avisoDialog').hide();" />
+					</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
 
-			</p:confirmDialog>
+			<p:dataTable id="formacoesTable"
+				value="#{cadastroFuncionarioBean.funcionario.formacoes}"
+				var="formacao" emptyMessage="Nenhuma formações cadastrada" rows="10"
+				paginator="true" paginatorAlwaysVisible="true"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
+				style="margin-top: 10px">
+
+				<p:column headerText="Descrição" sortBy="#{formacao.descricao}"
+					style="width: 100px; text-align: left">
+					<h:outputText value="#{formacao.descricao}" />
+				</p:column>
+
+				<p:column headerText="Escolaridade"
+					style="width: 30px; text-align: center">
+					<h:outputText value="#{formacao.nivelEscolaridade}" />
+				</p:column>
+				
+				<p:column headerText="Certificado"
+						style="width: 30px; text-align: center">
+						<p:commandButton title="Download pdf" icon="pi pi-download"  
+				        	rendered="#{formacao.url ne null}"	
+			            	ajax="false"
+			            	process="@this"
+			            	immediate="true"
+			            	action="#{cadastroFuncionarioBean.download(formacao)}">            	
+		            	</p:commandButton>	
+					</p:column>
+				
+
+				<p:column headerText="Operações"
+					style="width: 30px; text-align: center">
+					
+					<p:commandButton
+						title="Editar Formacão"
+						style="margin-top: 10px; margin-bottom: 10px" icon="pi pi-pencil"
+						oncomplete="PF('addFormacaoWidgetVar').show()"
+						update="formacoesTable frmCadastro:addFormacaoDialog" process="@this">
+						<f:setPropertyActionListener
+							target="#{cadastroFuncionarioBean.formacao}" value="#{formacao}" />
+					</p:commandButton>
+
+					<p:commandButton icon="pi pi-trash" title="Excluir"
+						onclick="PF('confirmacaoExclusaoFormacao').show();"
+						process="@this" imediate="true">
+						<f:setPropertyActionListener
+							target="#{cadastroFuncionarioBean.formacao}" value="#{formacao}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:commandButton value="Salvar Funcionário" id="botaoSalvar" icon="pi pi-save"
+				style="margin-top: 10px; margin-bottom: 10px"
+				action="#{cadastroFuncionarioBean.salvar}"
+				update="frmCadastro" process="@this gridFuncionario formacoesTable" />
+				
+			<!-- DIALOG CADASTRO FORMAÇÕES --> 
+			<p:dialog id="addFormacaoDialog" widgetVar="addFormacaoWidgetVar" 
+				header="Cadastro de Formação"
+				modal="true" resizable="true" closeOnEscape="true"
+				showEffect="explode" hideEffect="explode" 
+				width="100%" position="center top" maximizable="true"
+				height="100%" fitViewport="true" responsive="true">
+				
+				<p:messages id="messagesFormacao" showDetail="false" closable="true">
+				</p:messages>
+				
+				<p:panelGrid columns="2" id="gridFormacao"
+					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+					
+					<p:outputLabel value="Descrição" for="descricao" />
+					<p:inputText id="descricao"
+						value="#{cadastroFuncionarioBean.formacao.descricao}" />
+						
+					<p:outputLabel value="Nível de Escolaridade"
+						for="nivelEscolaridade" />
+					<p:selectOneMenu id="nivelEscolaridade"
+						value="#{cadastroFuncionarioBean.formacao.nivelEscolaridade}"
+						validatorMessage="O nível de escolaridade é obrigatório.">
+						<f:selectItem itemLabel="Selecione o nível" />
+						<f:selectItems value="#{cadastroFuncionarioBean.niveisEscolaridade}"
+							var="nivelEscolaridade" itemLabel="#{nivelEscolaridade}"
+							itemValue="#{nivelEscolaridade}" />
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Upload Formação"/>
+					<h:panelGroup>						
+        				<p:fileUpload id="upload" value="#{cadastroFuncionarioBean.file}"
+		                      mode="simple" skinSimple="true" auto="true"
+		                      process="@this" update="messagesFormacao :frmCadastro:nomearquivo"
+		                      listener="#{cadastroFuncionarioBean.upload}" />
+		                <p:outputLabel id="nomearquivo" value="#{cadastroFuncionarioBean.nomeArquivo}" />
+	        		</h:panelGroup>
+					
+					<f:facet name="footer">
+							 
+						<p:commandButton value="Adicionar" id="botaoSalvarFormacao" icon="pi pi-save"
+							actionListener="#{cadastroFuncionarioBean.salvarFormacao}" 
+							onclick="PF('cadastroFormacao').hide();"
+							update="frmCadastro:formacoesTable" process="@this" />
+						
+						<p:commandButton value="Sair" id="botaoSairFormacao" icon="pi pi-times"
+							onclick="PF('cadastroFormacao').hide();"
+							process="@this" style="margin-top: 10px; margin-bottom: 10px" />
+					</f:facet>
+				</p:panelGrid>
+	    	</p:dialog>
+	    	
+	    	
+
 		</h:form>
 	</ui:define>
 </ui:composition>

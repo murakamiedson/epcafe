@@ -22,10 +22,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.cafe.modelo.enums.NivelEscolaridade;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
@@ -45,6 +47,8 @@ public class Formacao {
 	
 	@NotBlank
 	private String descricao;
+	
+	private String url;
 	
 	/*
 	@NotEmpty

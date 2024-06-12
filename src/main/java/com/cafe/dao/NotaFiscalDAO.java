@@ -1,6 +1,7 @@
 package com.cafe.dao;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -173,6 +174,35 @@ private static final long serialVersionUID = 1L;
 		return lista;
 	}
 	
+	public List<NotaFiscal> buscarNotasFiscaisPorAno(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+		return manager.createQuery(
+				"SELECT d FROM NotaFiscal d "
+				+ "WHERE d.dataEmissao "
+				+ "BETWEEN :dataInicio AND :dataFim "
+				+ "AND d.unidade = :codigo_unidade "
+				+ "ORDER BY d.dataEmissao", NotaFiscal.class)
+				.setParameter("dataInicio", dataInicio)
+				.setParameter("dataFim", dataFim)
+				.setParameter("codigo_unidade", unidade)
+				.getResultList();
+	}
+	
+	public List<String> buscarAnosComRegistro (Unidade unidade) {
+		
+		List<String> anos = manager.createQuery(
+				"SELECT DISTINCT " +
+	                      "CASE " +
+	                      "  WHEN FUNCTION('MONTH', c.dataEmissao) >= 8 THEN CONCAT(FUNCTION('YEAR', c.dataEmissao), '/', FUNCTION('YEAR', c.dataEmissao) + 1) " +
+	                      "  ELSE CONCAT(FUNCTION('YEAR', c.dataEmissao) - 1, '/', FUNCTION('YEAR', c.dataEmissao)) " +
+	                      "END " +
+	                      "FROM NotaFiscal c " +
+	                      "ORDER BY " +
+	                      "CASE " +
+	                      "  WHEN FUNCTION('MONTH', c.dataEmissao) >= 8 THEN CONCAT(FUNCTION('YEAR', c.dataEmissao), '/', FUNCTION('YEAR', c.dataEmissao) + 1) " +
+	                      "  ELSE CONCAT(FUNCTION('YEAR', c.dataEmissao) - 1, '/', FUNCTION('YEAR', c.dataEmissao)) " +
+	                      "END", String.class).getResultList();
+		return anos;
+	}
 	
 	
 	

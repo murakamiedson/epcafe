@@ -1,25 +1,21 @@
 package com.cafe.controller.custos;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.file.UploadedFile;
 
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaFerTalhao;
@@ -50,7 +46,7 @@ import lombok.extern.log4j.Log4j;
 @Getter
 @Setter
 @Named
-@SessionScoped
+@ViewScoped
 public class LancarDespesaFertilizanteBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -66,12 +62,15 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	private DespesaFerTalhao despesaFerTalhao;
 	private NotaFiscal notaFiscal;
 	private NotaFiscal notaSelecionada;
-	private UploadedFile originalImageFile;
 	private String numeroNF;
 	private String yearRange;
 	private boolean despesaGravada = false;
 	private BigDecimal qtdItem;
 	private Unidade unidade;
+	private String periodoSelecionado;
+	private LocalDate dataInicio;
+	private LocalDate dataFim;
+	private List<String> anos = new ArrayList<>();
 
 	@Inject
 	private LoginBean loginBean;
@@ -97,7 +96,6 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		log.info("inicializar login = " + loginBean.getUsuario());
 
 		unidade = loginBean.getUsuario().getUnidade();
-		despesas = despesaService.buscarDespesasFertilizantes(unidade);
 		log.info("conseguiu buscar as despesas");
 		this.yearRange = this.calcUtil.getAnoCorrente();
 
@@ -105,7 +103,13 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				TipoInsumo.INSETICIDA, TipoInsumo.ADJUVANTE);
 
 		this.fertilizantes = this.fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
-
+		
+		
+		//filtrar por ano
+		anos = despesaService.buscarAnosComRegistros(loginBean.getUsuario().getUnidade());
+		dataInicio = LocalDate.now().withMonth(Month.AUGUST.getValue()).withDayOfMonth(1).minusYears(1);
+		dataFim = LocalDate.now().withMonth(Month.JULY.getValue()).withDayOfMonth(31);
+		despesas = despesaService.buscarDespesasFertilizantesPorAno(dataInicio, dataFim, unidade);
 		limpar();
 		//limparDesFerTalhao();
 	}
@@ -305,38 +309,14 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		log.info("editar despesa");
 		auxiliar = despesaFertilizante.getFertilizante().getTipoInsumo();
 		numeroNF = despesaFertilizante.getNotaFiscal().getNumero();
+
 	}
 	
-	public void handleFileUpload(FileUploadEvent event) {
-		log.info("upload... = ");
-
-		this.originalImageFile = null;
-
-		UploadedFile file = event.getFile();
-
-		if (file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null) {
-			this.originalImageFile = file;
-			
-			this.notaFiscal.setImagem(file.getContent());
-			 
-			MessageUtil.sucesso("Sucesso! " + this.originalImageFile.getFileName() + " foi enviado.");
-		}
-
-		log.info("uploaded... = " + this.originalImageFile.getFileName());
-	}
-	
-	public StreamedContent getImage() {
-		log.info("getImageBd... = ");
-	
-		StreamedContent file;
+	public void filtrarPorAno() {
 		
-		InputStream in = new ByteArrayInputStream(this.notaFiscal.getImagem());
-		        
-        file = DefaultStreamedContent.builder()
-                .stream(() -> in)
-                .build(); 
-
-        return file;
+		dataInicio = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(0, 4)), Month.AUGUST, 1);
+		dataFim = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(5, 9)), Month.JULY, 31);
+		despesas = despesaService.buscarDespesasFertilizantesPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
+		
 	}
-
 }

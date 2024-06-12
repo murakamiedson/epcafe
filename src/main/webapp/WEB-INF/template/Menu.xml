@@ -20,8 +20,6 @@
 		<grupo value="TECNICOS"></grupo>
 		<menuitem value="Despesas Máquinas e Implementos"
 			outcome="/restricted/custos/LancarDespesaMaquina.xhtml"></menuitem>
-		<menuitem value="Notas Fiscais"
-			outcome="/restricted/custos/LancarNotaFiscal.xhtml"></menuitem>
 		<menuitem value="Despesas Fertilizantes e Defensivos"
 			outcome="/restricted/custos/LancarDespesaFertilizante.xhtml"></menuitem>		
 		<submenu2 label="Relatório">

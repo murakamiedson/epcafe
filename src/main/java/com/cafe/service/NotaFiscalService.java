@@ -2,6 +2,7 @@ package com.cafe.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -66,6 +67,16 @@ public class NotaFiscalService implements Serializable {
 
 	public List<NotaFiscal> buscarNotasFiscais(Unidade unidade) {
 		return notaFiscalDAO.buscarNotasFiscais(unidade);
+	}
+	
+	public List<NotaFiscal> buscarNotasFiscaisPorAno(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+		return notaFiscalDAO.buscarNotasFiscaisPorAno(dataInicio, dataFim, unidade);
+	}
+	
+	public List<String> buscarAnosComRegistros(Unidade unidade) {
+		
+		List<String> anos  = notaFiscalDAO.buscarAnosComRegistro(unidade);
+		return anos;
 	}
 
 	public NotaFiscal buscarNotaFiscalPorNumero(String numero, Unidade unidade) {
