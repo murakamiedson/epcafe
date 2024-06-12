@@ -214,6 +214,13 @@ public class LancarNotaFiscalBean implements Serializable {
 		 return "Nenhuma nota gravada ainda.";
 	}
 	
+	public void filtrarPorAno() {
+		
+		dataInicio = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(0, 4)), Month.AUGUST, 1);
+		dataFim = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(5, 9)), Month.JULY, 31);
+		notas = notaFiscalService.buscarNotasFiscaisPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
+		
+	}
 	
 	
 	
@@ -268,13 +275,7 @@ public class LancarNotaFiscalBean implements Serializable {
 	}
 	
 
-	public void filtrarPorAno() {
-		
-		dataInicio = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(0, 4)), Month.AUGUST, 1);
-		dataFim = LocalDate.of(Integer.parseInt(periodoSelecionado.substring(5, 9)), Month.JULY, 31);
-		notas = notaFiscalService.buscarNotasFiscaisPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
-		
-	}
+	
 
 
 	// upload
