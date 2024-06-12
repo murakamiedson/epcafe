@@ -1,6 +1,9 @@
 package com.cafe.controller.cadastros;
 
+import java.awt.Desktop;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -67,20 +70,46 @@ public class PesquisaFuncionarioBean implements Serializable {
 		}
 	}
 	
-	
-	public StreamedContent getImage() {
-		log.info("getImageBd... = ");
-	
-		StreamedContent file;
-		
-		InputStream in = new ByteArrayInputStream(this.formacaoSelecionada.getImagem());
-		        
-        file = DefaultStreamedContent.builder()
-                .stream(() -> in)
-                .build(); 
+	public void download(Formacao form) throws IOException {
 
-        return file;
+		log.info(form.getId());
+
+		if (form.getUrl() != null && !form.getUrl().isEmpty()) {
+
+			String arquivoPath = form.getUrl();
+
+			log.info(arquivoPath);
+
+			File arquivoPDF = new File(arquivoPath);
+
+			if (arquivoPDF.exists()) {
+
+				// Abra o arquivo PDF com o aplicativo padrão associado
+				Desktop.getDesktop().open(arquivoPDF);
+			}
+		}
 	}
+
+	public String getNomeArquivo() {
+		if (this.formacaoSelecionada.getUrl() != null)
+			return "Já existe formação gravada. O upload de nova formação substituirá a anterior.";
+
+		return "Nenhuma formação gravada ainda.";
+	}
+	
+	
+	/*
+	 * public StreamedContent getImage() { log.info("getImageBd... = ");
+	 * 
+	 * StreamedContent file;
+	 * 
+	 * InputStream in = new
+	 * ByteArrayInputStream(this.formacaoSelecionada.getImagem());
+	 * 
+	 * file = DefaultStreamedContent.builder() .stream(() -> in) .build();
+	 * 
+	 * return file; }
+	 */
 	
 	
 }

@@ -117,7 +117,7 @@
 					value="#{pesquisaFuncionarioBean.funcionarioSelecionado.formacoes}"
 					var="formacao" emptyMessage="Nenhuma formação cadastrada"
 					rows="10" paginator="true" paginatorAlwaysVisible="true"
-					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
+					paginatorPosition="bottom" lazy="true" rowsPerPageTemplate="5,10,15"
 					style="margin-top: 10px">
 
 					<p:column headerText="Descrição" sortBy="#{formacao.descricao}"
@@ -130,42 +130,22 @@
 						<h:outputText value="#{formacao.nivelEscolaridade}" />
 					</p:column>
 					
-					<p:column headerText="Imagem"
+					<p:column headerText="Download Certificado"
 						style="width: 30px; text-align: center">
-						<p:commandButton icon="pi pi-eye" title="Ver Imagem" 
-							value="Ver Imagem" 
-							oncomplete="PF('imagemDialog').show()" 
-							update="frmPesquisa:imagemDialog"
-							process="@this">
-	        				<f:setPropertyActionListener 
-	        					target="#{pesquisaFuncionarioBean.formacaoSelecionada}" 
-	        					value="#{formacao}" />
-	    				</p:commandButton>
+						<p:commandButton title="Download pdf" icon="pi pi-download"  
+				        	rendered="#{formacao.url ne null}"	
+			            	ajax="false"
+			            	process="@this"
+			            	immediate="true"
+			            	action="#{pesquisaFuncionarioBean.download(formacao)}">            	
+		            	</p:commandButton>	
 					</p:column>
 
 					
 				</p:dataTable>
 			</p:dialog>
 			
-			<p:dialog id="imagemDialog" header="Certificado Formação" 
-				widgetVar="imagemDialog" 
-				modal="true" resizable="true" closeOnEscape="true"
-				showEffect="explode" hideEffect="explode" 
-				position="center top" maximizable="true"
-				fitViewport="true" responsive="true" >
-			    
-			    <p:outputPanel id="image">
-	            		
-           			<h:panelGrid>
-	                    <p:outputPanel id="cropped">
-	                        <p:graphicImage 
-	                        	cache="false" 
-                                   value="#{pesquisaFuncionarioBean.image}"/>
-	                    </p:outputPanel>			
-	                </h:panelGrid>	            		
-
-        		</p:outputPanel>
-			</p:dialog>
+			
 
 
 		</h:form>
