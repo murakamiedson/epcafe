@@ -176,7 +176,7 @@ public class LancarNotaFiscalBean implements Serializable {
 
         		File pdf = PdfUtil.escrever(this.file.getFileName(), this.file.getContent());
         		notaFiscal.setUrl(pdf.getAbsolutePath());
-        		MessageUtil.sucesso("O arquivo '" + this.file.getFileName() + "' foi enviado. Salve a NF para gravar o arquivo.");
+        		MessageUtil.alerta("O arquivo '" + this.file.getFileName() + "' foi enviado. SALVE A NF PARA GRAVAR O ARQUIVO.");
                 
 			} catch (IOException e) {
 				MessageUtil.erro("Houve um problema para salvar o pdf.");	        	
