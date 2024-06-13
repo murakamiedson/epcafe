@@ -125,7 +125,7 @@ public class CadastroFuncionarioBean implements Serializable {
 			this.funcionario.getFormacoes().add(this.formacao);
 
 			log.info("size --> " + this.funcionario.getFormacoes().size());
-			MessageUtil.sucesso("Formação adicionada com sucesso!");
+			MessageUtil.alerta("Formação adicionada com sucesso!  SALVE O FUNCIONÁRIO PARA EFETIVAR AS FORMAÇÕES ADICIONADAS.");
 		} else {
 			MessageUtil.alerta("Formacao alterada com sucesso! SALVE O FUNCIONÁRIO PARA EFETIVAR AS FORMAÇÕES ADICIONADAS.");
 		}
