@@ -44,14 +44,13 @@ public class DespesaFertilizante {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long tenantId;
+	private Long tenantId;	
+	@NotNull
+	private LocalDate data;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_unidade")
 	private Unidade unidade;
-	
-	@NotNull
-	private LocalDate data;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
