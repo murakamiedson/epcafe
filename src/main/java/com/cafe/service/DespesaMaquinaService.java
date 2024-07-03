@@ -59,6 +59,9 @@ public class DespesaMaquinaService implements Serializable {
 
 		BigDecimal valor = new BigDecimal(0);
 		var tipoCalculo = despesaMaquina.getMaquina().getTipoCalculo();
+		BigDecimal tempoConvertido = despesaMaquina.isUnidadeHoras() 
+			    ? this.converterHoraParaMinuto(despesaMaquina) 
+			    : despesaMaquina.getTempoTrabalhado();
 
 		switch (tipoCalculo) {
 		case TRATOR:
@@ -67,7 +70,7 @@ public class DespesaMaquinaService implements Serializable {
 							.divide(new BigDecimal(100)))
 					.multiply(new BigDecimal(0.15))
 					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-					.multiply(despesaMaquina.getMinutosTrabalhados()
+					.multiply(tempoConvertido
 							.divide(new BigDecimal(60), RoundingMode.DOWN));
 			break;
 			
@@ -77,7 +80,7 @@ public class DespesaMaquinaService implements Serializable {
 			valor = despesaMaquina.getMaquina().getPotencia()
 					.multiply(new BigDecimal(0.15))
 					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-					.multiply(despesaMaquina.getMinutosTrabalhados()
+					.multiply(tempoConvertido
 							.divide(new BigDecimal(60), RoundingMode.DOWN));
 			
 			break;
@@ -87,7 +90,7 @@ public class DespesaMaquinaService implements Serializable {
 			valor = despesaMaquina.getMaquina().getPotencia()
 					.multiply(new BigDecimal(0.735))
 					.multiply(despesaMaquina.getPrecoUnitarioCombustivel())
-					.multiply(despesaMaquina.getMinutosTrabalhados()
+					.multiply(tempoConvertido
 							.divide(new BigDecimal(60), RoundingMode.DOWN));
 			break;
 			
@@ -105,6 +108,10 @@ public class DespesaMaquinaService implements Serializable {
 		}
 		return valor;
 
+	}
+	
+	private BigDecimal converterHoraParaMinuto(DespesaMaquina despesaMaquina) {
+			return despesaMaquina.getTempoTrabalhado().multiply(new BigDecimal(60));
 	}
 
 }
