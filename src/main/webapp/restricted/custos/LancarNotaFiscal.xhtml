@@ -196,7 +196,8 @@
         				<p:fileUpload id="upload" value="#{lancarNotaFiscalBean.file}"
 		                      mode="simple" skinSimple="true" auto="true"
 		                      process="@this" update="messages :form:nomearquivo"
-		                      listener="#{lancarNotaFiscalBean.upload}" />
+		                      listener="#{lancarNotaFiscalBean.upload}" 
+		                      label="Selecionar Arquivo" />
 		                <p:outputLabel id="nomearquivo" value="#{lancarNotaFiscalBean.nomeArquivo}" />
 	        		</h:panelGroup>
 				</p:panelGrid>

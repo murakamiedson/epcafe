@@ -167,7 +167,8 @@
         				<p:fileUpload id="upload" value="#{cadastroFuncionarioBean.file}"
 		                      mode="simple" skinSimple="true" auto="true"
 		                      process="@this" update="messagesFormacao :frmCadastro:nomearquivo"
-		                      listener="#{cadastroFuncionarioBean.upload}" />
+		                      listener="#{cadastroFuncionarioBean.upload}"
+		                      label="Selecionar Arquivo" />
 		                <p:outputLabel id="nomearquivo" value="#{cadastroFuncionarioBean.nomeArquivo}" />
 	        		</h:panelGroup>
 					
