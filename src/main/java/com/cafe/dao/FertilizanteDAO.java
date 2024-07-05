@@ -80,17 +80,15 @@ public class FertilizanteDAO implements Serializable {
 	}	
 	
 	@SuppressWarnings("unchecked")
-	public List<Fertilizante> buscarFertilizantes(Long tenantId) {
+	public List<Fertilizante> buscarFertilizantes() {
 		return manager.createNamedQuery("Fertilizante.buscarFertilizantes")
-				.setParameter("tenantId", tenantId)
 				.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Fertilizante> buscarFertilizantesPorTipoInsumo(TipoInsumo tipoInsumo, Long tenantId) {
-		return manager.createNamedQuery("Fertilizante.buscarFertilizantePorTipoInsumo")
-				.setParameter("tipoInsumo", tipoInsumo)
-				.setParameter("tenantId", tenantId)
+	public List<Fertilizante> buscarFertilizantesPorTipo(TipoInsumo tipoInsumo) {
+		return manager.createNamedQuery("Fertilizante.buscarFertilizantePorTipo")
+				.setParameter("tipo", tipoInsumo)
 				.getResultList();
 		}
 	

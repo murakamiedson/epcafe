@@ -7,6 +7,8 @@ import java.time.OffsetDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,8 @@ import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.cafe.modelo.enums.Medida;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,6 +46,9 @@ public class Item implements Serializable{
 	
 	@PositiveOrZero
 	private BigDecimal valor = new BigDecimal(0);
+	
+	@Enumerated(EnumType.STRING)
+	private Medida medida;
 	
 	@ToString.Include
 	@EqualsAndHashCode.Include

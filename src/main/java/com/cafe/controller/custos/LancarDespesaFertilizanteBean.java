@@ -24,6 +24,7 @@ import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.Talhao;
 import com.cafe.modelo.Unidade;
+import com.cafe.modelo.enums.Medida;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.DespesaFertilizanteService;
 import com.cafe.service.FertilizanteService;
@@ -102,7 +103,8 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.FUNGICIDA, TipoInsumo.HERBICIDA,
 				TipoInsumo.INSETICIDA, TipoInsumo.ADJUVANTE);
 
-		this.fertilizantes = this.fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
+		this.fertilizantes = this.fertilizanteService.buscarFertilizantes();
+		
 		
 		
 		//filtrar por ano
@@ -191,8 +193,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 
 	public void carregarTipos() {
 
-		this.fertilizantes = this.fertilizanteService.buscarFertilizantePorTipoInsumo(auxiliar,
-				loginBean.getTenantId());
+		this.fertilizantes = this.fertilizanteService.buscarFertilizantePorTipo(auxiliar);
 	}
 	
 	public void carregarNotasFiscais() {
@@ -307,7 +308,7 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 	
 	public void editarDespesa() {
 		log.info("editar despesa");
-		auxiliar = despesaFertilizante.getFertilizante().getTipoInsumo();
+		auxiliar = despesaFertilizante.getFertilizante().getTipo();
 		numeroNF = despesaFertilizante.getNotaFiscal().getNumero();
 
 	}
