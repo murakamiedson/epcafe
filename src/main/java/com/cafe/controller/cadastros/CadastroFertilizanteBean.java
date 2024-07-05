@@ -41,8 +41,6 @@ public class CadastroFertilizanteBean implements Serializable {
 	
 	private List<TipoInsumo> tiposInsumo;
 	private List<TipoAuxiliarInsumos> tiposFertilizante;
-	private List<Medida> medidas;
-	
 	private List<Fertilizante> fertilizantes = new ArrayList<>();
 	
 	private Long tenantId;
@@ -64,13 +62,12 @@ public class CadastroFertilizanteBean implements Serializable {
 		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.FUNGICIDA, TipoInsumo.HERBICIDA,
 				TipoInsumo.INSETICIDA, TipoInsumo.ADJUVANTE);
 		
-		this.medidas = Arrays.asList(Medida.values());
 		
 	}
 	
 	public void carregarTipos() {
 		
-		switch(fertilizante.getTipoInsumo()){
+		switch(fertilizante.getTipo()){
 			
 			case FERTILIZANTE: 
 				this.tiposFertilizante = EnumUtil.getTiposFertilizantes();
@@ -116,11 +113,10 @@ public class CadastroFertilizanteBean implements Serializable {
 	public void limpar() {
 		
 		this.fertilizante = new Fertilizante();
-		this.fertilizante.setTenant_id(this.tenantId);
 	}	 
 	
 	public void carregarInsumos() {
 		
-		fertilizantes = fertilizanteService.buscarFertilizantes(usuarioLogado.getTenantId());	
+		fertilizantes = fertilizanteService.buscarFertilizantes();	
 	}
 }

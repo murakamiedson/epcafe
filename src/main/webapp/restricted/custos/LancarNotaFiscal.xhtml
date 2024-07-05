@@ -327,23 +327,46 @@
 				
 				<p:panelGrid id="gridItem" columns="2"
 					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+					
+					<p:outputLabel value="Tipo Insumo" for="tipoInsumo" />
+					<p:selectOneMenu id="tipoInsumo"
+						value="#{lancarNotaFiscalBean.auxiliar}"
+						rendered="true" validatorMessage="O tipo é obrigatório.">
+						<f:selectItem itemLabel="Selecione o tipo" />
+						<f:selectItems
+							value="#{lancarNotaFiscalBean.tiposInsumo}"
+							var="tipoInsumo" itemLabel="#{tipoInsumo}"
+							itemValue="#{tipoInsumo}" />
+
+						<p:ajax listener="#{lancarNotaFiscalBean.carregarTipos}"
+							update="fert" process="tipoInsumo" />
+					</p:selectOneMenu>
 								
-					<p:outputLabel value="Insumos" for="fert" />
+					<p:outputLabel value="Nome" for="fert" />
 					<p:selectOneMenu id="fert"
 						value="#{lancarNotaFiscalBean.item.fertilizante}"
 						required="true" validatorMessage="O fertilizante é obrigatório.">
 						<f:selectItem
 							itemLabel="Selecione o fertilizante" />
 						<f:selectItems value="#{lancarNotaFiscalBean.fertilizantes}"
-							var="fert" itemLabel="#{fert.tipo}"
+							var="fert" itemLabel="#{fert.nome}"
 							itemValue="#{fert}" />
-						<p:ajax update="medida" process="fert" />
-					</p:selectOneMenu>			
+						
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Medida" for="medida" />
+					<p:selectOneMenu id="medida"
+						value="#{lancarNotaFiscalBean.item.medida}"
+						required="true" validatorMessage="A unidade de medida é obrigatória.">
+						<f:selectItem
+							itemLabel="Seleciona a unidade de medida" />
+						<f:selectItems value="#{lancarNotaFiscalBean.medidas}"
+							var="medida" itemLabel="#{medida}"
+							itemValue="#{medida}" />
+					</p:selectOneMenu>
 					
 					<h:panelGroup>	
 						<p:outputLabel value="Quantidade" for="itemQde"/>
-						<p:outputLabel id="medida" 
-							value=" (#{lancarNotaFiscalBean.item.fertilizante.medida})"/>
 					</h:panelGroup>		
 					<p:inputText id="itemQde"
 						value="#{lancarNotaFiscalBean.item.quantidade}" 

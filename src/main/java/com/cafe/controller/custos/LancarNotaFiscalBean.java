@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +24,9 @@ import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.Item;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.Unidade;
+import com.cafe.modelo.enums.Medida;
+import com.cafe.modelo.enums.TipoInsumo;
+import com.cafe.service.FertilizanteService;
 import com.cafe.service.NotaFiscalService;
 import com.cafe.util.CalculoUtil;
 import com.cafe.util.MessageUtil;
@@ -44,8 +48,11 @@ public class LancarNotaFiscalBean implements Serializable {
 
 	private NotaFiscal notaFiscal;
 	private NotaFiscal notaFiscalSelecionada;
+	private List<TipoInsumo> tiposInsumo;
+	private TipoInsumo auxiliar;
 	private List<NotaFiscal> notas = new ArrayList<NotaFiscal>();
 	private Item item;
+	private List<Medida> medidas;
 	private String yearRange;
 	private List<Fertilizante> fertilizantes = new ArrayList<Fertilizante>();
 	private String periodoSelecionado;
@@ -62,6 +69,8 @@ public class LancarNotaFiscalBean implements Serializable {
 	private NotaFiscalService notaFiscalService;
 	@Inject
 	private CalculoUtil calcUtil;
+	@Inject
+	private FertilizanteService fertilizanteService;
 
 
 	@PostConstruct
@@ -71,7 +80,7 @@ public class LancarNotaFiscalBean implements Serializable {
 		this.yearRange = this.calcUtil.getAnoCorrente();
 		this.unidade = loginBean.getUsuario().getUnidade();
 
-		fertilizantes = notaFiscalService.buscarFertilizantes(loginBean.getTenantId());
+		fertilizantes = notaFiscalService.buscarFertilizantes();
 		
 		//filtrar por ano
 		anos = notaFiscalService.buscarAnosComRegistros(loginBean.getUsuario().getUnidade());
@@ -79,6 +88,10 @@ public class LancarNotaFiscalBean implements Serializable {
 		dataFim = LocalDate.now().withMonth(Month.JULY.getValue()).withDayOfMonth(31);
 		notas = notaFiscalService.buscarNotasFiscaisPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
 		
+		this.tiposInsumo = Arrays.asList(TipoInsumo.FERTILIZANTE, TipoInsumo.FUNGICIDA, TipoInsumo.HERBICIDA,
+				TipoInsumo.INSETICIDA, TipoInsumo.ADJUVANTE);
+		
+		this.medidas = Arrays.asList(Medida.values());
 		
 		limpar();
 		limparItem();
@@ -221,4 +234,10 @@ public class LancarNotaFiscalBean implements Serializable {
 		notas = notaFiscalService.buscarNotasFiscaisPorAno(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
 		
 	}
+	
+	public void carregarTipos() {
+
+		this.fertilizantes = this.fertilizanteService.buscarFertilizantePorTipo(auxiliar);
+	}
+	
 }

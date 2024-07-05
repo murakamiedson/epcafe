@@ -80,6 +80,13 @@
 					style="width: 30px; text-align:left">
 					<h:outputText value="#{despesa.notaFiscal.numero}" />
 				</p:column>
+				
+				<p:column headerText="Valor Total"
+					style="width: 30px; text-align:left">
+					<h:outputText value="#{despesa.valorTotal}" >
+						<f:convertNumber type="currency" currencySymbol="R$"/>
+					</h:outputText>
+				</p:column>
 
 
 				<p:column headerText="Operações"
@@ -167,15 +174,12 @@
 							<f:selectItem itemLabel="Selecione o fertilizante" />
 							<f:selectItems
 								value="#{lancarDespesaFertilizanteBean.fertilizantes}"
-								var="fertilizante" itemLabel="#{fertilizante.tipo}"								
+								var="fertilizante" itemLabel="#{fertilizante.nome}"								
 								itemValue="#{fertilizante}" />
 
-							<p:ajax update="medida consultanf" process="fertilizante consultanf"/>
+							<p:ajax update="consultanf" process="fertilizante consultanf"/>
 						</p:selectOneMenu>
-						<p:spacer width="10px" />
-						<p:outputLabel id="medida"
-							value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.medida}" />
-
+						
 					</h:panelGroup>
 
 					<p:outputLabel value="Nota Fiscal" for="notaFiscal" />
@@ -197,11 +201,8 @@
 							oncomplete="PF('verNFDialogWidgetVar').show()"
 							update="verNFDialog" process="@this tipoInsumo fertilizante" />
 							
-						<p:spacer width="20px" />
 						
-						
-	            		
-	            		
+					
 					</h:panelGroup>
 
 
@@ -252,6 +253,11 @@
 									style="width:100%" label="Quantidade" />
 							</f:facet>
 						</p:cellEditor>
+					</p:column>
+					
+					<p:column headerText="Medida" sortBy="#{despesaTalhao.despesaFertilizante.medida}"
+						style="width: 30px; text-align: left">
+						<h:outputText value="#{despesaTalhao.despesaFertilizante.medida}" />
 					</p:column>
 
 					<p:column headerText="Valor" sortBy="#{despesaTalhao.valor}"

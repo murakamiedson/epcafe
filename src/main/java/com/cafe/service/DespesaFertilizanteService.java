@@ -35,6 +35,9 @@ public class DespesaFertilizanteService implements Serializable {
 	public DespesaFertilizante salvar(DespesaFertilizante despesaFertilizante) throws NegocioException {
 
 		log.info("salvando despesa...");
+		despesaFertilizante.setValorTotal(this.calculaValorTotal(despesaFertilizante));
+		log.info("VALOR TOTAL DESPESA:: " + despesaFertilizante.getValorTotal());
+		despesaFertilizante.setMedida(this.getItemDaDespesa(despesaFertilizante).getMedida());
 		return this.despesaFertilizanteDAO.salvar(despesaFertilizante);
 	}
 	
@@ -53,7 +56,8 @@ public class DespesaFertilizanteService implements Serializable {
 		return despesaFertilizanteDAO.buscarDespesasFertilizantes(unidade);
 	}
 	
-	public List<DespesaFertilizante> buscarDespesasFertilizantesPorAno(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+	public List<DespesaFertilizante> buscarDespesasFertilizantesPorAno(
+			LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
 		return despesaFertilizanteDAO.buscarDespesasFertilizantesPorAno(dataInicio, dataFim, unidade);
 	}
 	
@@ -74,7 +78,6 @@ public class DespesaFertilizanteService implements Serializable {
 	}
 	
 	public boolean validarQuantidadesTalhoesComNF(DespesaFertilizante despesaFertilizante) {
-		//BigDecimal total = despesaFertilizante.getNotaFiscal().getItens()
 		log.info("entrou no metodo de validação");
 		BigDecimal total = new BigDecimal(0);
 		BigDecimal totalFerNF = new BigDecimal(0);
@@ -82,11 +85,7 @@ public class DespesaFertilizanteService implements Serializable {
 			total = total.add(qdeTalhao.getQuantidade());
 			
 		}
-		/*for(Item item : despesaFertilizante.getNotaFiscal().getItens()) {
-			if(item.getFertilizante() == despesaFertilizante.getFertilizante()) {
-				totalFerNF = item.getQuantidade();
-			}
-		}*/
+
 		totalFerNF = this.getItemDaDespesa(despesaFertilizante).getQuantidade();
 		log.info("TOTAL FER NF: " + totalFerNF);
 		if(total.compareTo(totalFerNF) == 1) {
@@ -108,14 +107,7 @@ public class DespesaFertilizanteService implements Serializable {
 	//calcula o valor equivalente gasto com cada talhao da despesa
 	public void calculaValorPorTalhao(DespesaFertilizante despesaFertilizante) {
 		BigDecimal valorFertilizanteNF = new BigDecimal(0);
-		/*
-		for(Item itens : despesaFertilizante.getNotaFiscal().getItens()) {
-			if(itens.getFertilizante() == despesaFertilizante.getFertilizante()) {
-				valorFertilizanteNF = itens.getValor();
-				this.quantidadeFertilizanteNF = itens.getQuantidade();
-				log.info("Quantidade fertilizante nota fiscal: " + this.quantidadeFertilizanteNF);
-			}
-		}*/
+
 		
 		valorFertilizanteNF = this.getItemDaDespesa(despesaFertilizante).getValor();
 		
@@ -126,8 +118,14 @@ public class DespesaFertilizanteService implements Serializable {
 		
 	}
 	
-	
-	
-	
+	public BigDecimal calculaValorTotal(DespesaFertilizante despesaFertilizante) {
+		BigDecimal total = new BigDecimal(0);
+		for(DespesaFerTalhao qdeTalhao : despesaFertilizante.getDespesasTalhoes()) {
+			log.info(qdeTalhao.getValor());
+			total = total.add(qdeTalhao.getValor());
+		}
+		log.info("TOTAL DA DESPESA NO METODO:: " + total);
+		return total;
+	}
 
 }

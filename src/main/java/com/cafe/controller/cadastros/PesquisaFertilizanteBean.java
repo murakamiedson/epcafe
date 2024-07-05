@@ -41,7 +41,7 @@ private static final long serialVersionUID = 1L;
 	@PostConstruct
 	public void inicializar() {
 		
-		fertilizantes = fertilizanteService.buscarFertilizantes(loginBean.getTenantId());
+		fertilizantes = fertilizanteService.buscarFertilizantes();
 	}
 	
 	public void excluir() {
