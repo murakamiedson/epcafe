@@ -58,18 +58,16 @@ public class NotaFiscal implements Serializable{
 	private Long tenant_id;	
 	@NotNull
 	private String numero;	
-	private String descricao;	
+	private String descricao;
+	@NotNull
 	private LocalDate dataEmissao;
+	private String url;
+	@PositiveOrZero
+	private BigDecimal valorTotal = new BigDecimal(0);
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_unidade")
-	private Unidade unidade;
-
-	private String url;
-
-	
-	@PositiveOrZero
-	private BigDecimal valorTotal = new BigDecimal(0);
+	private Unidade unidade;	
 		
 	@OneToMany( mappedBy = "notaFiscal", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Item> itens = new HashSet<>();

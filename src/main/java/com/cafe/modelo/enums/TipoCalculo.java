@@ -4,5 +4,6 @@ public enum TipoCalculo {
 	TRATOR,
 	NAO_TRATOR,
 	ENERGIA_ELETRICA,
-	DISTANCIA
+	DISTANCIA,
+	NENHUM
 }

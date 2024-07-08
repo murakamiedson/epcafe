@@ -93,27 +93,6 @@ public class Funcionario {
 		LocalDate dataAtual = LocalDate.now();
         Period periodo = Period.between(dataNascimento, dataAtual);
         return periodo.getYears();
-	}
-	
-	/*	
-	public int getIdade() {
-		
-		int idade=0;
-		
-		if(this.getDataNascimento() != null) {
-			
-			idade = Calendar.getInstance().get(Calendar.YEAR) - this.getDataNascimento().getYear();
-			
-			if(Calendar.getInstance().get(Calendar.MONTH) < this.dataNascimento.getMonthValue()) {
-				idade--;
-			}else if(Calendar.getInstance().get(Calendar.MONTH) == this.getDataNascimento().getMonthValue()
-						&& Calendar.getInstance().get(Calendar.DAY_OF_MONTH) < this.getDataNascimento().getDayOfMonth()){
-				idade--;
-				
-			}
-		}
-		//log.info("Idade do funcionário é: " + idade);
-		return idade;
-	}*/
+	}	
 
 }

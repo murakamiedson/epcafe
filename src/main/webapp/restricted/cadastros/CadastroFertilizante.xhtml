@@ -40,8 +40,8 @@
 	    			columnClasses="rotulo, campo">
 	    			
 	    			
-	    		<p:outputLabel value="Tipo Insumo" for="tipoInsumo"/>
-	    		<p:selectOneMenu id="tipoInsumo" value="#{cadastroFertilizanteBean.fertilizante.tipoInsumo}"
+	    		<p:outputLabel value="Tipo" for="tipo"/>
+	    		<p:selectOneMenu id="tipo" value="#{cadastroFertilizanteBean.fertilizante.tipo}"
 	    			required="true" 
 			    	validatorMessage="O tipo de fertilizante é obrigatório.">
 	    			<f:selectItem itemLabel="Selecione o tipo" />
@@ -49,29 +49,11 @@
 						itemLabel="#{tipoInsumo}" itemValue="#{tipoInsumo}"/>
 						
 					<p:ajax listener="#{cadastroFertilizanteBean.carregarTipos}"
-						update="tipo" process="tipoInsumo tipo"/>
+						update="tipo" process="tipo nome"/>
 	    		</p:selectOneMenu>
 	    		
-	    		<p:outputLabel value="Tipo de Fertilizante/Defensivo" for="tipo"/>
-	    		<p:selectOneMenu id="tipo" 
-	    			value="#{cadastroFertilizanteBean.fertilizante.tipo}"
-			    	validatorMessage="O tipo de fertilizante é obrigatório.">
-	    			<f:selectItem itemLabel="Selecione o tipo" />
-	    			<f:selectItems value="#{cadastroFertilizanteBean.tiposFertilizante}" var="tipo" 
-						itemLabel="#{tipo}" itemValue="#{tipo}"/>
-	    		</p:selectOneMenu>
-	    		
-	    		
-			    					    		
-	    		<p:outputLabel value="Medida" for="medida"/>
-	    			<p:selectOneMenu id="medida" value="#{cadastroFertilizanteBean.fertilizante.medida}"
-	    				required="true" 
-			    		validatorMessage="A medida é obrigatória.">
-	    				<f:selectItem itemLabel="Selecione a medida" />
-	    				<f:selectItems value="#{cadastroFertilizanteBean.medidas}" var="medida" 
-							itemLabel="#{medida}" itemValue="#{medida}"/>
-	    			</p:selectOneMenu>
-	    			
+	    		<p:outputLabel value="Tipo de Fertilizante/Defensivo" for="nome"/>
+	    		<p:inputText id="nome" value="#{cadastroFertilizanteBean.fertilizante.nome}" />
 	    		
 	    	</p:panelGrid>
 	    	

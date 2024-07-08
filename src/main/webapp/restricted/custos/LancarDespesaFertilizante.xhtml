@@ -80,6 +80,13 @@
 					style="width: 30px; text-align:left">
 					<h:outputText value="#{despesa.notaFiscal.numero}" />
 				</p:column>
+				
+				<p:column headerText="Valor Total"
+					style="width: 30px; text-align:left">
+					<h:outputText value="#{despesa.valorTotal}" >
+						<f:convertNumber type="currency" currencySymbol="R$"/>
+					</h:outputText>
+				</p:column>
 
 
 				<p:column headerText="Operações"
@@ -167,15 +174,12 @@
 							<f:selectItem itemLabel="Selecione o fertilizante" />
 							<f:selectItems
 								value="#{lancarDespesaFertilizanteBean.fertilizantes}"
-								var="fertilizante" itemLabel="#{fertilizante.tipo}"								
+								var="fertilizante" itemLabel="#{fertilizante.nome}"								
 								itemValue="#{fertilizante}" />
 
-							<p:ajax update="medida consultanf" process="fertilizante consultanf"/>
+							<p:ajax update="consultanf" process="fertilizante consultanf"/>
 						</p:selectOneMenu>
-						<p:spacer width="10px" />
-						<p:outputLabel id="medida"
-							value="#{lancarDespesaFertilizanteBean.despesaFertilizante.fertilizante.medida}" />
-
+						
 					</h:panelGroup>
 
 					<p:outputLabel value="Nota Fiscal" for="notaFiscal" />
@@ -197,23 +201,20 @@
 							oncomplete="PF('verNFDialogWidgetVar').show()"
 							update="verNFDialog" process="@this tipoInsumo fertilizante" />
 							
-						<p:spacer width="20px" />
 						
-						
-	            		
-	            		
+					
 					</h:panelGroup>
 
 
 				</p:panelGrid>
-				<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+				<p:commandButton value="Distribuir nos Talhões" id="botaoDistribuir" icon="pi pi-save"
 					style="margin-top: 10px; margin-bottom: 10px"
 					actionListener="#{lancarDespesaFertilizanteBean.salvar}"
-					update="despesasTable messages qdesTalhaoTable qtdRestante"
-					process="@this gridDespesa "
-					>
-					
+					update="despesasTable messages qdesTalhaoTable qtdRestante botaoSalvar"
+					process="@this gridDespesa ">					
 				</p:commandButton>
+				
+				<p:spacer width="10px" />
 
 				<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-replay"
 					action="#{lancarDespesaFertilizanteBean.limpar}"
@@ -253,6 +254,11 @@
 							</f:facet>
 						</p:cellEditor>
 					</p:column>
+					
+					<p:column headerText="Medida" sortBy="#{despesaTalhao.despesaFertilizante.medida}"
+						style="width: 30px; text-align: left">
+						<h:outputText value="#{despesaTalhao.despesaFertilizante.medida}" />
+					</p:column>
 
 					<p:column headerText="Valor" sortBy="#{despesaTalhao.valor}"
 						style="width: 30px; text-align: left">
@@ -266,7 +272,7 @@
 					<p:toolbarGroup>
 						<p:spacer width="10px" />
 
-						<p:commandButton value="Salvar" id="botaoSalvarQdeTalhao"
+						<p:commandButton value="Salvar Despesa" id="botaoSalvar"
 							icon="pi pi-save"
 							actionListener="#{lancarDespesaFertilizanteBean.salvar}"
 							style="margin-top: 10px; margin-bottom: 10px"
@@ -312,6 +318,7 @@
 							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</p:column>
+				
 					
 					<p:column headerText="Descrição"
 						style="width: 30px; text-align: left">

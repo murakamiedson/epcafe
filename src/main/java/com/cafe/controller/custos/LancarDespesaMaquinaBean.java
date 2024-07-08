@@ -1,7 +1,6 @@
 package com.cafe.controller.custos;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -48,8 +47,6 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	private List<FatorPotencia> fatorPotencias;
 	private List<DespesaMaquina> despesas = new ArrayList<>();
 	private Long tenantId;
-	private boolean horas = true;
-	private BigDecimal tempo;
 	private Unidade unidade;
 	private String periodoSelecionado;
 	private LocalDate dataInicio;
@@ -93,16 +90,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 	
     public void salvar() {
     	
-    	
     	log.info("salvaR ..." + despesaMaquina);
-    	
-    	if(horas) {
-    		this.despesaMaquina.setMinutosTrabalhados(
-    				this.tempo.multiply(new BigDecimal(60)));
-    	}
-    	else{
-    		this.despesaMaquina.setMinutosTrabalhados(this.tempo);
-    	}      	
 
     	try {
     		this.despesaMaquina = this.despesaService.salvar(despesaMaquina);
@@ -116,8 +104,7 @@ public class LancarDespesaMaquinaBean implements Serializable {
 		this.limpar();
  	
     }
-    
-    
+       
     
     public void excluirDespesa() {
     	try {
@@ -129,16 +116,6 @@ public class LancarDespesaMaquinaBean implements Serializable {
 			e.printStackTrace();
 			MessageUtil.erro(e.getMessage());
 		}
-    }
-    
-    public void converterTempo() {
-
-    	log.info(horas);
-    	
-    	if(horas) {
-    		this.despesaMaquina.setMinutosTrabalhados(
-    				this.despesaMaquina.getMinutosTrabalhados().multiply(new BigDecimal(0)));
-    	}  	
     }
     
 

@@ -178,27 +178,30 @@
 						monthNavigator="true"
 						yearRange="#{lancarNotaFiscalBean.yearRange}" showIcon="true"
 						required="true" validatorMessage="A data é obrigatória." />
-						
-					<p:outputLabel for="descricao" value="Descrição" />
-					<p:inputTextarea id="descricao" rows="2" cols="40"
-						value="#{lancarNotaFiscalBean.notaFiscal.descricao}"/>
-						
+					
 					<p:outputLabel value="Total da NF" for="total"/>
 					<p:inputNumber id="total"
 						value="#{lancarNotaFiscalBean.notaFiscal.valorTotal}" symbol="R$ "
 						symbolPosition="p" decimalSeparator="," thousandSeparator="."
 						minValue="0" decimalPlaces="2" required="true"
 						validatorMessage="O valor total é obrigatório.">
-					</p:inputNumber>				
+					</p:inputNumber>	
 					
-					<p:outputLabel value="Upload NF"/>
-					<h:panelGroup>						
-        				<p:fileUpload id="upload" value="#{lancarNotaFiscalBean.file}"
-		                      mode="simple" skinSimple="true" auto="true"
-		                      process="@this" update="messages :form:nomearquivo"
-		                      listener="#{lancarNotaFiscalBean.upload}" />
-		                <p:outputLabel id="nomearquivo" value="#{lancarNotaFiscalBean.nomeArquivo}" />
-	        		</h:panelGroup>
+					<p:outputLabel for="descricao" value="Descrição" />
+					<p:inputTextarea id="descricao" rows="2" cols="40"
+						value="#{lancarNotaFiscalBean.notaFiscal.descricao}"/>
+											
+					
+					<p:outputLabel value="Arquivo da NF"/>
+					<h:panelGroup>
+						<p:fileUpload id="upload" value="#{lancarNotaFiscalBean.file}"
+							mode="simple" skinSimple="true" auto="true"
+							process="@this" update="messages :form:nomearquivo"
+							listener="#{lancarNotaFiscalBean.upload}"
+							label="Selecionar Arquivo" messageTemplate="{name} - {size}"/>
+						<p:outputLabel id="nomearquivo"
+							value="#{lancarNotaFiscalBean.nomeArquivo}" />
+					</h:panelGroup>
 				</p:panelGrid>
 				
 					
@@ -269,7 +272,8 @@
 	            	</p:commandButton>
 	            	
 					<p:commandButton icon="pi pi-trash" title="Excluir"
-						onclick="PF('confirmacaoExclusaoItem').show();" process="@this"
+						onclick="PF('confirmacaoExclusaoItem').show();" 
+						process="@this form:botaoSalvar"
 						imediate="true">
 						<f:setPropertyActionListener
 							target="#{lancarNotaFiscalBean.item}"
@@ -287,8 +291,8 @@
 					<p:toolbarGroup>
 						<p:spacer width="10px" />
 									
-						<p:commandButton value="Salvar NF" id="botaoSalvar" icon="pi pi-save"
-
+						<p:commandButton id="botaoSalvar" value="Salvar NF" icon="pi pi-save"
+							disabled="#{lancarNotaFiscalBean.semItens}"
 							style="margin-top: 10px; margin-bottom: 10px"
 							action="#{lancarNotaFiscalBean.salvar}" 
 							update="notasTable messages gridNota"
@@ -326,23 +330,46 @@
 				
 				<p:panelGrid id="gridItem" columns="2"
 					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+					
+					<p:outputLabel value="Tipo Insumo" for="tipoInsumo" />
+					<p:selectOneMenu id="tipoInsumo"
+						value="#{lancarNotaFiscalBean.auxiliar}"
+						rendered="true" validatorMessage="O tipo é obrigatório.">
+						<f:selectItem itemLabel="Selecione o tipo" />
+						<f:selectItems
+							value="#{lancarNotaFiscalBean.tiposInsumo}"
+							var="tipoInsumo" itemLabel="#{tipoInsumo}"
+							itemValue="#{tipoInsumo}" />
+
+						<p:ajax listener="#{lancarNotaFiscalBean.carregarTipos}"
+							update="fert" process="tipoInsumo" />
+					</p:selectOneMenu>
 								
-					<p:outputLabel value="Insumos" for="fert" />
+					<p:outputLabel value="Nome" for="fert" />
 					<p:selectOneMenu id="fert"
 						value="#{lancarNotaFiscalBean.item.fertilizante}"
 						required="true" validatorMessage="O fertilizante é obrigatório.">
 						<f:selectItem
 							itemLabel="Selecione o fertilizante" />
 						<f:selectItems value="#{lancarNotaFiscalBean.fertilizantes}"
-							var="fert" itemLabel="#{fert.tipo}"
+							var="fert" itemLabel="#{fert.nome}"
 							itemValue="#{fert}" />
-						<p:ajax update="medida" process="fert" />
-					</p:selectOneMenu>			
+						
+					</p:selectOneMenu>
+					
+					<p:outputLabel value="Medida" for="medida" />
+					<p:selectOneMenu id="medida"
+						value="#{lancarNotaFiscalBean.item.medida}"
+						required="true" validatorMessage="A unidade de medida é obrigatória.">
+						<f:selectItem
+							itemLabel="Seleciona a unidade de medida" />
+						<f:selectItems value="#{lancarNotaFiscalBean.medidas}"
+							var="medida" itemLabel="#{medida}"
+							itemValue="#{medida}" />
+					</p:selectOneMenu>
 					
 					<h:panelGroup>	
 						<p:outputLabel value="Quantidade" for="itemQde"/>
-						<p:outputLabel id="medida" 
-							value=" (#{lancarNotaFiscalBean.item.fertilizante.medida})"/>
 					</h:panelGroup>		
 					<p:inputText id="itemQde"
 						value="#{lancarNotaFiscalBean.item.quantidade}" 
@@ -361,7 +388,7 @@
 									
 				<p:commandButton value="Adicionar" id="botaoSalvarItem" icon="pi pi-save"
 					actionListener="#{lancarNotaFiscalBean.salvarItem}" 
-					update="itensTable gridItem messagesItem totalItem"
+					update="itensTable gridItem messagesItem totalItem botaoSalvar"
 					process="@this gridNota gridItem" />
 				<p:spacer width="10px" />
 				<p:commandButton value="Sair" id="botaoSair" icon="pi pi-save"

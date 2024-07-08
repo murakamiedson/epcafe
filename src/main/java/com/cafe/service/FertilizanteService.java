@@ -26,9 +26,7 @@ public class FertilizanteService implements Serializable{
 	
 	
 	public void salvar(Fertilizante fertilizante) throws NegocioException {
-		
-		log.info("Service : tenant = " + fertilizante.getTenant_id());
-		
+				
 		this.fertilizanteDAO.salvar(fertilizante);
 	}
 	
@@ -42,17 +40,17 @@ public class FertilizanteService implements Serializable{
 		return fertilizanteDAO.buscarPeloCodigo(codigo);
 	}	
 	
-	public List<Fertilizante> buscarFertilizantes(Long tenantId) {
+	public List<Fertilizante> buscarFertilizantes() {
 		
 		log.info("Primeiro acesso a banco... buscar fertilizantes");	
 		
-		return fertilizanteDAO.buscarFertilizantes(tenantId);
+		return fertilizanteDAO.buscarFertilizantes();
 	}
 	
-	public List<Fertilizante> buscarFertilizantePorTipoInsumo(TipoInsumo tipoInsumo, Long tenantId){
+	public List<Fertilizante> buscarFertilizantePorTipo(TipoInsumo tipoInsumo){
 		log.info("buscar fertilizante por tipo de insumo");
 		
-		return fertilizanteDAO.buscarFertilizantesPorTipoInsumo(tipoInsumo, tenantId);
+		return fertilizanteDAO.buscarFertilizantesPorTipo(tipoInsumo);
 	}
 
 }

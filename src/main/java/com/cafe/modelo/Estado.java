@@ -1,13 +1,18 @@
 package com.cafe.modelo;
 
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -37,4 +42,15 @@ public class Estado implements Serializable {
 	private Long codigo;
 	private String nome;
 	private String uf;	
+	
+	/*
+	 * Datas de Criação e Modificação
+	 */
+	@CreationTimestamp	
+	@Column(columnDefinition = "datetime")
+	private OffsetDateTime dataCriacao;
+	
+	@UpdateTimestamp
+	@Column(columnDefinition = "datetime")
+	private OffsetDateTime dataModificacao;
 }

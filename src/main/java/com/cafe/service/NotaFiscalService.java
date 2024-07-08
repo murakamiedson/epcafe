@@ -54,11 +54,10 @@ public class NotaFiscalService implements Serializable {
 		
 		for(Item i : notaFiscal.getItens()) {
 			total = total.add(i.getValor().multiply(i.getQuantidade()));			
-		}
-
+		}		
 		if(total.compareTo(notaFiscal.getValorTotal()) == 1) {			
 			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!");
-		}	
+		}
 	}
 
 	public void excluir(NotaFiscal notaFiscal) throws NegocioException {
@@ -101,9 +100,9 @@ public class NotaFiscalService implements Serializable {
 	 * Nota Fiscal / Fertilizante
 	 */
 	
-	public List<Fertilizante> buscarFertilizantes(Long tenantId) {
+	public List<Fertilizante> buscarFertilizantes() {
 
-		return fertilizanteDAO.buscarFertilizantes(tenantId);
+		return fertilizanteDAO.buscarFertilizantes();
 	}
 	
 	public List<NotaFiscal> buscarNotaFiscalPorFertilizante(Long codigoFertilizante, Unidade unidade){

@@ -66,7 +66,7 @@
 								var="maquina" itemLabel="#{maquina.nome}" itemValue="#{maquina}" />
 	
 							<p:ajax
-								update="tipo comb calc precoLabel"
+								update="tipo comb calc precoLabel distancia fator tt tmp"
 								process="maquina" />
 						</p:selectOneMenu>
 						<p:spacer width="10px" />
@@ -95,14 +95,11 @@
 					</p:inputNumber>
 	
 	
-					<p:outputLabel value="Fator de Potência" for="fator" 
-						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR'
-							and lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR_DE_RODA_PEQUENO_PORTE'}"/>
+					<p:outputLabel value="Fator de Potência" for="fator" />
 					<p:selectOneMenu id="fator"
 						value="#{lancarDespesaMaquinaBean.despesaMaquina.fatorPotencia}"
 						required="true" validatorMessage="O fator é obrigatório."
-						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR'
-							and lancarDespesaMaquinaBean.despesaMaquina.maquina.tipo ne 'TRATOR_DE_RODA_PEQUENO_PORTE'}">
+						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo ne 'TRATOR'}">
 						<f:selectItem
 							itemLabel="Selecione o fator correspondente a intensidade de uso" />
 						<f:selectItems value="#{lancarDespesaMaquinaBean.fatorPotencias}"
@@ -110,19 +107,17 @@
 							itemValue="#{fatorPotencia}" />
 					</p:selectOneMenu>
 	
-					<p:outputLabel value="Unidade de Tempo" for="tmp" 		
-						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}"/>
+					<p:outputLabel value="Unidade de Tempo" for="tmp" />
 					<h:selectOneRadio id="tmp"
-						value="#{lancarDespesaMaquinaBean.horas}"
+						value="#{lancarDespesaMaquinaBean.despesaMaquina.unidadeHoras}"
 						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}">
 						<f:selectItem itemValue="true" itemLabel="Horas" />
 						<f:selectItem itemValue="false" itemLabel="Minutos" />
 					</h:selectOneRadio>		
 
-					<p:outputLabel value="Tempo Trabalhado" for="tt" 
-						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}"/>
+					<p:outputLabel value="Tempo Trabalhado" for="tt" />
 					<p:inputNumber id="tt"
-						value="#{lancarDespesaMaquinaBean.tempo}"
+						value="#{lancarDespesaMaquinaBean.despesaMaquina.tempoTrabalhado}"
 						decimalSeparator="," thousandSeparator="." minValue="0"
 						decimalPlaces="2" required="true"
 						disabled="#{lancarDespesaMaquinaBean.despesaMaquina.maquina.tipoCalculo eq 'DISTANCIA'}">

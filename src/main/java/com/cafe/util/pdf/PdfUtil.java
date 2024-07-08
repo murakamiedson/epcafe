@@ -24,7 +24,7 @@ public class PdfUtil {
 
     	//separador de arquivos '\' ou '/' dependendo do Sistema Operacional
     	final String SEPARATOR = System.getProperty("file.separator");
-    	File file = new File("c:" + SEPARATOR + "temp" + SEPARATOR + "pdfs");
+    	File file = new File(SEPARATOR + "home" + SEPARATOR + "uploads");
     	
     	if (!file.exists())
 			file.mkdirs();

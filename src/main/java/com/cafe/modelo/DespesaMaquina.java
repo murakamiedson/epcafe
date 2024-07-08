@@ -52,7 +52,16 @@ public class DespesaMaquina {
 	private LocalDate data;
 
 	@PositiveOrZero
-	private BigDecimal minutosTrabalhados;
+	private BigDecimal tempoTrabalhado;
+	
+	private BigDecimal precoUnitarioCombustivel;
+	
+	private BigDecimal valorTotal;
+	
+	private BigDecimal distanciaTrabalhada;
+	
+	//true para horas e false para minutos
+	private boolean unidadeHoras;
 	
 	@Enumerated(EnumType.STRING)
 	private FatorPotencia fatorPotencia = FatorPotencia.INDEFINIDO;
@@ -64,12 +73,6 @@ public class DespesaMaquina {
 	@ManyToOne
 	@JoinColumn(nullable = false, name="codigo_maquina")
 	private Maquina maquina;
-	
-	private BigDecimal precoUnitarioCombustivel;
-	
-	private BigDecimal valorTotal;
-	
-	private BigDecimal distanciaTrabalhada;
 	
 	
 	
