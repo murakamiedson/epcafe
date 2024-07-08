@@ -54,11 +54,10 @@ public class NotaFiscalService implements Serializable {
 		
 		for(Item i : notaFiscal.getItens()) {
 			total = total.add(i.getValor().multiply(i.getQuantidade()));			
-		}
-
+		}		
 		if(total.compareTo(notaFiscal.getValorTotal()) == 1) {			
 			throw new NegocioException("Valor total dos itens é maior que o total da nota fiscal!");
-		}	
+		}
 	}
 
 	public void excluir(NotaFiscal notaFiscal) throws NegocioException {

@@ -13,7 +13,6 @@ import javax.inject.Named;
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.enums.EnumUtil;
-import com.cafe.modelo.enums.Medida;
 import com.cafe.modelo.enums.TipoAuxiliarInsumos;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.FertilizanteService;

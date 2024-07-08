@@ -207,14 +207,14 @@
 
 
 				</p:panelGrid>
-				<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+				<p:commandButton value="Distribuir nos Talhões" id="botaoDistribuir" icon="pi pi-save"
 					style="margin-top: 10px; margin-bottom: 10px"
 					actionListener="#{lancarDespesaFertilizanteBean.salvar}"
-					update="despesasTable messages qdesTalhaoTable qtdRestante"
-					process="@this gridDespesa "
-					>
-					
+					update="despesasTable messages qdesTalhaoTable qtdRestante botaoSalvar"
+					process="@this gridDespesa ">					
 				</p:commandButton>
+				
+				<p:spacer width="10px" />
 
 				<p:commandButton value="Limpar" id="botaoLimpar" icon="pi pi-replay"
 					action="#{lancarDespesaFertilizanteBean.limpar}"
@@ -272,7 +272,7 @@
 					<p:toolbarGroup>
 						<p:spacer width="10px" />
 
-						<p:commandButton value="Salvar" id="botaoSalvarQdeTalhao"
+						<p:commandButton value="Salvar Despesa" id="botaoSalvar"
 							icon="pi pi-save"
 							actionListener="#{lancarDespesaFertilizanteBean.salvar}"
 							style="margin-top: 10px; margin-bottom: 10px"
@@ -318,6 +318,7 @@
 							<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</p:column>
+				
 					
 					<p:column headerText="Descrição"
 						style="width: 30px; text-align: left">

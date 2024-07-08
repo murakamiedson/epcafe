@@ -178,28 +178,30 @@
 						monthNavigator="true"
 						yearRange="#{lancarNotaFiscalBean.yearRange}" showIcon="true"
 						required="true" validatorMessage="A data é obrigatória." />
-						
-					<p:outputLabel for="descricao" value="Descrição" />
-					<p:inputTextarea id="descricao" rows="2" cols="40"
-						value="#{lancarNotaFiscalBean.notaFiscal.descricao}"/>
-						
+					
 					<p:outputLabel value="Total da NF" for="total"/>
 					<p:inputNumber id="total"
 						value="#{lancarNotaFiscalBean.notaFiscal.valorTotal}" symbol="R$ "
 						symbolPosition="p" decimalSeparator="," thousandSeparator="."
 						minValue="0" decimalPlaces="2" required="true"
 						validatorMessage="O valor total é obrigatório.">
-					</p:inputNumber>				
+					</p:inputNumber>	
 					
-					<p:outputLabel value="Upload NF"/>
-					<h:panelGroup>						
-        				<p:fileUpload id="upload" value="#{lancarNotaFiscalBean.file}"
-		                      mode="simple" skinSimple="true" auto="true"
-		                      process="@this" update="messages :form:nomearquivo"
-		                      listener="#{lancarNotaFiscalBean.upload}" 
-		                      label="Selecionar Arquivo" />
-		                <p:outputLabel id="nomearquivo" value="#{lancarNotaFiscalBean.nomeArquivo}" />
-	        		</h:panelGroup>
+					<p:outputLabel for="descricao" value="Descrição" />
+					<p:inputTextarea id="descricao" rows="2" cols="40"
+						value="#{lancarNotaFiscalBean.notaFiscal.descricao}"/>
+											
+					
+					<p:outputLabel value="Arquivo da NF"/>
+					<h:panelGroup>
+						<p:fileUpload id="upload" value="#{lancarNotaFiscalBean.file}"
+							mode="simple" skinSimple="true" auto="true"
+							process="@this" update="messages :form:nomearquivo"
+							listener="#{lancarNotaFiscalBean.upload}"
+							label="Selecionar Arquivo" messageTemplate="{name} - {size}"/>
+						<p:outputLabel id="nomearquivo"
+							value="#{lancarNotaFiscalBean.nomeArquivo}" />
+					</h:panelGroup>
 				</p:panelGrid>
 				
 					
@@ -270,7 +272,8 @@
 	            	</p:commandButton>
 	            	
 					<p:commandButton icon="pi pi-trash" title="Excluir"
-						onclick="PF('confirmacaoExclusaoItem').show();" process="@this"
+						onclick="PF('confirmacaoExclusaoItem').show();" 
+						process="@this form:botaoSalvar"
 						imediate="true">
 						<f:setPropertyActionListener
 							target="#{lancarNotaFiscalBean.item}"
@@ -288,8 +291,8 @@
 					<p:toolbarGroup>
 						<p:spacer width="10px" />
 									
-						<p:commandButton value="Salvar NF" id="botaoSalvar" icon="pi pi-save"
-
+						<p:commandButton id="botaoSalvar" value="Salvar NF" icon="pi pi-save"
+							disabled="#{lancarNotaFiscalBean.semItens}"
 							style="margin-top: 10px; margin-bottom: 10px"
 							action="#{lancarNotaFiscalBean.salvar}" 
 							update="notasTable messages gridNota"
@@ -385,7 +388,7 @@
 									
 				<p:commandButton value="Adicionar" id="botaoSalvarItem" icon="pi pi-save"
 					actionListener="#{lancarNotaFiscalBean.salvarItem}" 
-					update="itensTable gridItem messagesItem totalItem"
+					update="itensTable gridItem messagesItem totalItem botaoSalvar"
 					process="@this gridNota gridItem" />
 				<p:spacer width="10px" />
 				<p:commandButton value="Sair" id="botaoSair" icon="pi pi-save"

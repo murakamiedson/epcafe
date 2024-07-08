@@ -10,8 +10,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,8 +25,6 @@ import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.cafe.modelo.enums.Medida;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -62,7 +58,8 @@ public class NotaFiscal implements Serializable{
 	private Long tenant_id;	
 	@NotNull
 	private String numero;	
-	private String descricao;	
+	private String descricao;
+	@NotNull
 	private LocalDate dataEmissao;
 	private String url;
 	@PositiveOrZero

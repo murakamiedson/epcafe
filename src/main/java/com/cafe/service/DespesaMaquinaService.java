@@ -103,8 +103,8 @@ public class DespesaMaquinaService implements Serializable {
 					.multiply(despesaMaquina.getPrecoUnitarioCombustivel());
 
 			break;
-
-			
+		case NENHUM:
+			// Não altera valor
 		}
 		return valor;
 

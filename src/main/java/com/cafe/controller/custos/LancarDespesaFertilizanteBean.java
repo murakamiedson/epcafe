@@ -24,7 +24,6 @@ import com.cafe.modelo.Fertilizante;
 import com.cafe.modelo.NotaFiscal;
 import com.cafe.modelo.Talhao;
 import com.cafe.modelo.Unidade;
-import com.cafe.modelo.enums.Medida;
 import com.cafe.modelo.enums.TipoInsumo;
 import com.cafe.service.DespesaFertilizanteService;
 import com.cafe.service.FertilizanteService;
@@ -120,52 +119,45 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 		log.info("salvando despesa ..." + despesaFertilizante);
 
 		if (numeroNF != null && !numeroNF.isEmpty()) {
-			despesaFertilizante
-					.setNotaFiscal(this.notaFiscalService.buscarNotaFiscalPorNumero
-							(numeroNF, unidade));
+			despesaFertilizante.setNotaFiscal(this.notaFiscalService.buscarNotaFiscalPorNumero(numeroNF, unidade));
 		}
 
-
-
-		if(despesaFertilizante.getId() != null){
+		if (despesaFertilizante.getId() != null) {
 
 			try {
 				if (!this.despesaService.validarNotaSelecionada(despesaFertilizante.getNotaFiscal(),
 						despesaFertilizante.getFertilizante())) {
 					throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
 				}
-				if(!this.despesaService.validarQuantidadesTalhoesComNF(despesaFertilizante)) {
-					throw new NegocioException("Quantidade de insumo usada por talhão "
-							+ "ultrapassa a informada na Nota Fiscal");
+				if (!this.despesaService.validarQuantidadesTalhoesComNF(despesaFertilizante)) {
+					throw new NegocioException(
+							"Quantidade de insumo usada por talhão " + "ultrapassa a informada na Nota Fiscal");
 				}
-				log.info("salvando despesa com id nao nulo");
+				log.info("alteração");
 
 				this.qtdItem = this.despesaService.getItemDaDespesa(despesaFertilizante).getQuantidade();
-				
+
 				this.despesaService.calculaValorPorTalhao(despesaFertilizante);
-				
+
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
 				
-
-	
-				despesaFertilizante.getDespesasTalhoes().forEach(t -> log.info(t.getValor()));
 				this.despesas = despesaService.buscarDespesasFertilizantes(unidade);
-	
+
 				this.despesaGravada = true;
-				MessageUtil.sucesso("Despesa salva com sucesso!");
+				MessageUtil.sucesso("Despesa alterada com sucesso!");
 			} catch (NegocioException e) {
 				e.printStackTrace();
 				MessageUtil.erro(e.getMessage());
 			}
-		}else{
+		} else {
 
 			try {
 				if (!this.despesaService.validarNotaSelecionada(despesaFertilizante.getNotaFiscal(),
 						despesaFertilizante.getFertilizante())) {
 					throw new NegocioException("Escolha uma nota fiscal que contenha o fertilizante selecionado");
 				}
-				
-				log.info("salvando despesa com id nulo");
+
+				log.info("inclusão");
 
 				despesaFertilizante = this.despesaService.salvar(despesaFertilizante);
 
@@ -173,16 +165,14 @@ public class LancarDespesaFertilizanteBean implements Serializable {
 				this.carregarTalhoes(despesaFertilizante);
 
 				this.despesas = despesaService.buscarDespesasFertilizantes(unidade);
-	
+
 				this.despesaGravada = true;
 				MessageUtil.sucesso("Despesa salva com sucesso!");
 			} catch (NegocioException e) {
 				e.printStackTrace();
 				MessageUtil.erro(e.getMessage());
-			} 
+			}
 		}
-
-
 	}
 	
 	public void despesaGravadaBool() {
