@@ -45,7 +45,8 @@ public enum TipoInstalacao {
 	TERREIRO_TERRA_BATIDA(0),
 	TULHA_ALVENARIA(40),
 	TULHA_CONCRETO(40),
-	TULHA_MADEIRA(25);
+	TULHA_MADEIRA(25),
+	OUTROS(0);
 	
 	
 	private final int valor;
