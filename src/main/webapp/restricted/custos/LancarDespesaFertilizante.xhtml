@@ -19,6 +19,13 @@
 			<p:toolbar id="toolbar">
 				<p:toolbarGroup>
 					<p:spacer width="10px" />
+					<p:button icon="pi pi-chevron-right" value="Lançar Nota Fiscal" 
+						outcome="/restricted/custos/LancarNotaFiscal.xhtml"/>				
+					
+					<span class="ui-separator">
+			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+			        </span>
+			        
 					<p:commandButton value="Adicionar Despesa"
 						title="Adicionar despesa"
 						style="margin-top: 10px; margin-bottom: 10px"
@@ -28,13 +35,6 @@
 						update="addDialog toolbar" process="@this">
 						<p:resetInput target="addDialog" />
 					</p:commandButton>
-					
-					<span class="ui-separator">
-			                <span class="ui-icon ui-icon-grip-dotted-vertical" />
-			        </span>
-			        
-					<p:button icon="pi pi-chevron-right" value="Lançar Nota Fiscal" 
-						outcome="/restricted/custos/LancarNotaFiscal.xhtml"/>				
 
 				</p:toolbarGroup>
 			</p:toolbar>

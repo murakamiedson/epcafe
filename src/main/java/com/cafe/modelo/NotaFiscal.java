@@ -57,6 +57,7 @@ public class NotaFiscal implements Serializable{
 	private Long id;	
 	private Long tenant_id;	
 	@NotNull
+	@Column(unique = true)
 	private String numero;	
 	private String descricao;
 	@NotNull
