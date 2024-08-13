@@ -19,7 +19,7 @@
 									<h:graphicImage width="40" height="30" library="imagens" name="cafe.png" title="Voltar para Home"/>
 								</h:link>									
 
-								<p:outputLabel value="v0.11.0" onmouseover="PF('dlg').show();" style="font-size: 0.625rem"/>
+								<p:outputLabel value="#{releaseTimeLineBean.lastVersion}" onmouseover="PF('dlg').show();" style="font-size: 0.625rem"/>
 
            					</f:facet>							
 						</p:menubar>
@@ -39,60 +39,35 @@
 				<div style="clear: both"></div>
 			</header>
 			
-			<p:dialog header="Notas da Versão"
-				modal="true" 
-				resizable="true" 
-	       		widgetVar="dlg" 
-	       		dynamic="true" 
-	       		closeOnEscape="true"
-	       		position="center"
-	       		width="600" height="400"
-	       		hideEffect="explode">   		
-				<br/>	
+			<p:dialog header="Notas da Versão" widgetVar="dlg" 
+				modal="true" resizable="true" closeOnEscape="true"
+				showEffect="explode" hideEffect="explode" 
+				width="70%" position="center top" maximizable="true"
+				height="50%" fitViewport="true" responsive="true">		
+			    
+			    <p:tooltip/>
+			    
+			    <div class="card">
+			        <p:timeline id="timeline" value="#{releaseTimeLineBean.model}"
+			            height="250px" selectable="#{releaseTimeLineBean.selectable}"
+			            zoomable="#{releaseTimeLineBean.zoomable}"
+			            moveable="#{releaseTimeLineBean.moveable}"
+			            stackEvents="#{releaseTimeLineBean.stackEvents}"
+			            eventStyle="#{releaseTimeLineBean.eventStyle}"
+			            showCurrentTime="#{releaseTimeLineBean.showCurrentTime}">
+			
+			            <p:ajax event="select" listener="#{releaseTimeLineBean.onSelect}" />
+			
+			        </p:timeline>
+			    </div>
 				
-				<b><h:outputText value="Versão 0.11.0 (08/07/2024)"/></b> <br/>
-				<h:outputText value="Alteração no cadastro de fertilizantes"/> <br/>
-				<h:outputText value="Alteração no cadastro de despesas fertilizantes"/> <br/>
-				
-				<b><h:outputText value="Versão 0.10.0"/></b> <br/>
-				<h:outputText value="Upload/downaload de pdf/img de NF em Lançar Nota Fiscal"/> <br/>
-				<h:outputText value="Upload/downaload de pdf/img de Certificados em Cadastro de Funcionários"/> <br/>
-				<b><h:outputText value="Versão 0.9.0"/></b> <br/>
-				<h:outputText value="Upload de imagem de NF em Lançar Nota Fiscal"/> <br/>
-				<h:outputText value="Correções nos lançamentos de despesas, NF e cadastro de Unidade"/> <br/>
-				<h:outputText value="Ajustado para tratar ano agrícola de Ago a Jul"/> <br/>
-				<b><h:outputText value="Versão 0.8.1"/></b> <br/>
-				<h:outputText value="Auto Cadastro de Propriedade/Proprietário"/> <br/>
-				<h:outputText value="Criado campo tipo de cálculo no cadastro de máquinas"/> <br/>	
-				<b><h:outputText value="Versão 0.8.0"/></b> <br/>
-				<h:outputText value="Criação de Cadastro de Proprietários"/> <br/>
-				<h:outputText value="Lançamento de despesas por unidade"/> <br/>			
-				<b><h:outputText value="Versão 0.7.2"/></b> <br/>
-				<h:outputText value="Criação de Cadastro de Nota Fiscal"/> <br/>
-				<h:outputText value="Adequação do Lançar Despesas Fertilizantes"/> <br/>
-				<b><h:outputText value="Versão 0.7.1"/></b> <br/>
-				<h:outputText value="Ajustes em Despesas Fertilizantes e Nota Fiscal"/> <br/>
-				<b><h:outputText value="Versão 0.7.0"/></b> <br/>
-				<h:outputText value="Criação de usuário administrador do sistema èpCafé"/> <br/>
-				<h:outputText value="Funcionalidade para criar novos proprietários com multiplas Unidades"/> <br/>
-				<b><h:outputText value="Versão 0.6.0"/></b> <br/>
-				<h:outputText value="Reestruturação dos itens de menu."/> <br/>
-				<b><h:outputText value="Versão 0.5.0"/></b> <br/>
-				<h:outputText value="Inclusão do Lançar Despesas Fertilizantes e Defensivos."/> <br/>
-				<b><h:outputText value="Versão 0.4.0"/></b> <br/>
-				<h:outputText value="Inclusão do Relatório de Despesas Máquinas e Implementos."/> <br/>
-				<b><h:outputText value="Versão 0.3.0"/></b> <br/>
-				<h:outputText value="Inclusão do Lançar Despesas Máquinas e Implementos."/> <br/>
-				<b><h:outputText value="Versão 0.2.0"/></b> <br/>
-				<h:outputText value="Inclusão dos cadastro de funcionários."/> <br/>
-				<h:outputText value="Exclusão do cadastro de fabricantes."/> <br/>
-				<h:outputText value="Alteração dos tipos de máquinas e fertilizantes."/> <br/>
-				<b><h:outputText value="Versão 0.1.1"/></b> <br/>
-				<h:outputText value="Inclusão dos cadastros básicos."/> <br/>
-				<b><h:outputText value="Versão 0.1.0"/></b> <br/>
-				<h:outputText value="Criação do projeto èpCafé."/> <br/>
-				
-												
+				<p:messages id="messages" 
+					closable="true"
+					escape="true"
+					skipDetailIfEqualsSummary="true">
+			        <p:autoUpdate />
+			    </p:messages>	
+			    												
 		   		<center> 
 		   			<p:spacer height="20px" />  
 		   			<p:button value="Ok" 

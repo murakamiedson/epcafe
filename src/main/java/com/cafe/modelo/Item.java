@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -52,11 +51,11 @@ public class Item implements Serializable{
 	
 	@ToString.Include
 	@EqualsAndHashCode.Include
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "codigo_fertilizante")
 	private Fertilizante fertilizante;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name= "codigo_nota")
 	private NotaFiscal notaFiscal;
 	
