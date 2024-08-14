@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -13,9 +14,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.cafe.controller.LoginBean;
+import com.cafe.modelo.to.DespesaAnualTO;
 import com.cafe.modelo.to.DespesaFertilizanteTO;
 import com.cafe.modelo.to.TotalDespesaTO;
 import com.cafe.service.RelatorioFertilizanteService;
+import com.cafe.service.RelatoriosUtilService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +48,10 @@ public class RelatorioDespesaFertilizanteBean implements Serializable {
 	
 	@Inject
 	private RelatorioFertilizanteService relatorioService;
+	
+	@Inject
+	private RelatoriosUtilService relatorioUtil;
+
 
 	@PostConstruct
 	public void inicializar() {
@@ -59,7 +66,9 @@ public class RelatorioDespesaFertilizanteBean implements Serializable {
 		this.alterarAnosHeader();
 		
 		despesasTO = relatorioService.buscarDespesasTO(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
-		despesaTotal = relatorioService.calcTotal(despesasTO);
+		List<DespesaAnualTO> nova = despesasTO.stream().map(DespesaFertilizanteTO::getTotaisMensais).collect(Collectors.toList());
+		despesaTotal = relatorioUtil.calcTotal(nova);
+		
 		anos = relatorioService.buscarAnosComRegistros(loginBean.getUsuario().getUnidade());
 		
 		log.info("finalizar...");
@@ -78,7 +87,8 @@ public class RelatorioDespesaFertilizanteBean implements Serializable {
 		this.alterarAnosHeader();
 		
 		despesasTO = relatorioService.buscarDespesasTO(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
-		despesaTotal = relatorioService.calcTotal(despesasTO);
+		List<DespesaAnualTO> nova = despesasTO.stream().map(DespesaFertilizanteTO::getTotaisMensais).collect(Collectors.toList());
+		despesaTotal = relatorioUtil.calcTotal(nova);
 		
 	}
 	

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -14,9 +15,11 @@ import javax.inject.Named;
 
 import com.cafe.controller.LoginBean;
 import com.cafe.modelo.DespesaMaquina;
+import com.cafe.modelo.to.DespesaAnualTO;
 import com.cafe.modelo.to.DespesaMaquinaTO;
 import com.cafe.modelo.to.TotalDespesaTO;
 import com.cafe.service.RelatorioMaquinaService;
+import com.cafe.service.RelatoriosUtilService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -51,17 +54,25 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 	
 	@Inject
 	private RelatorioMaquinaService relatorioService;
+	
+	@Inject
+	private RelatoriosUtilService relatorioUtil;
 
 	@PostConstruct
 	public void inicializar() {
 	
 		
-		dataInicio = LocalDate.now().withMonth(Month.AUGUST.getValue()).withDayOfMonth(1).minusYears(1);
-		dataFim = LocalDate.now().withMonth(Month.JULY.getValue()).withDayOfMonth(31);
-		this.alterarAnosHeader();
+		Integer diff = LocalDate.now().getMonthValue() < 8 ? 1 : 0;
+		
+		dataInicio 	= LocalDate.now().withMonth(Month.AUGUST.getValue()).withDayOfMonth(1).plusYears(0 - diff);
+		dataFim 	= LocalDate.now().withMonth(Month.JULY.getValue()).withDayOfMonth(31).plusYears((diff+1)%2);
 		
 		despesasTO = relatorioService.buscarDespesasTO(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
-		despesaTotal = relatorioService.calcTotal(despesasTO);
+		List<DespesaAnualTO> nova = despesasTO.stream()
+				.map(DespesaMaquinaTO::getTotaisMensais)
+				.collect(Collectors.toList());
+		despesaTotal = relatorioUtil.calcTotal(nova);
+		
 		
 		anos = relatorioService.buscarAnosComRegistros(loginBean.getUsuario().getUnidade());
 		
@@ -81,7 +92,8 @@ public class RelatorioDespesaMaquinaBean implements Serializable {
 		this.alterarAnosHeader();
 		
 		despesasTO = relatorioService.buscarDespesasTO(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
-		despesaTotal = relatorioService.calcTotal(despesasTO);
+		List<DespesaAnualTO> nova = despesasTO.stream().map(DespesaMaquinaTO::getTotaisMensais).collect(Collectors.toList());
+		despesaTotal = relatorioUtil.calcTotal(nova);
 		
 	}
 	
