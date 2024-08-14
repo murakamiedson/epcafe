@@ -25,5 +25,6 @@ public class DespesaFertilizanteTO {
 	private BigDecimal valorTotalAnual;
 	
 	private String nomeTalhao;
+	private Long idTalhao;
 	
 }

@@ -59,7 +59,7 @@ public class RelatorioDespesaFertilizanteBean implements Serializable {
 		this.alterarAnosHeader();
 		
 		despesasTO = relatorioService.buscarDespesasTO(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
-		//despesaTotal = relatorioService.calcTotal(despesasTO);
+		despesaTotal = relatorioService.calcTotal(despesasTO);
 		anos = relatorioService.buscarAnosComRegistros(loginBean.getUsuario().getUnidade());
 		
 		log.info("finalizar...");
@@ -78,7 +78,7 @@ public class RelatorioDespesaFertilizanteBean implements Serializable {
 		this.alterarAnosHeader();
 		
 		despesasTO = relatorioService.buscarDespesasTO(dataInicio, dataFim, loginBean.getUsuario().getUnidade());
-		//despesaTotal = relatorioService.calcTotal(despesasTO);
+		despesaTotal = relatorioService.calcTotal(despesasTO);
 		
 	}
 	

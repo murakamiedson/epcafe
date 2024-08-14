@@ -174,14 +174,15 @@ public class DespesaFertilizanteDAO implements Serializable {
 				"SELECT new com.cafe.modelo.to.DespesaFertilizanteDTO( "
 				+ "d.data, "
 				+ "m.valor,"
-				+ "t.nome) "
+				+ "t.nome,"
+				+ "t.id) "
 			+ "FROM DespesaFertilizante d "
 			+ "  INNER JOIN DespesaFerTalhao m on d.id = m.despesaFertilizante "
 			+ "	 INNER JOIN Talhao t on t.id = m.talhao "
 			+ " WHERE "
 			+ "  d.data BETWEEN :dataInicio AND :dataFim "
 			+ "  and d.unidade = :unidade "
-			+ " ORDER BY t.nome"
+			+ " ORDER BY t.id"
 				, DespesaFertilizanteDTO.class)
 				.setParameter("dataInicio", dataInicio)
 				.setParameter("dataFim", dataFim)
