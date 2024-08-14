@@ -1,16 +1,13 @@
 package com.cafe.modelo.to;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-
-import com.cafe.modelo.enums.TipoCombustivel;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class DespesaTO {
+public class DespesaFertilizanteTO {
 	
 	private BigDecimal valorTotalJan = new BigDecimal(0);
 	private BigDecimal valorTotalFev = new BigDecimal(0);
@@ -27,9 +24,6 @@ public class DespesaTO {
 	
 	private BigDecimal valorTotalAnual;
 	
-	private LocalDate mesAno;
-	private TipoCombustivel tipoCombustivel;
-	private Long maquinaId;
-	private String maquinaNome;
-
+	private String nomeTalhao;
+	
 }

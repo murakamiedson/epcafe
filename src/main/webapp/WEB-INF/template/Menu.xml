@@ -25,6 +25,8 @@
 		<submenu2 label="Relatório">
 			<menuitem2 value="Despesas de Máquinas"
 				outcome="/restricted/custos/RelatorioDespesaMaquina.xhtml"></menuitem2>
+			<menuitem2 value="Despesas de Fertilizantes"
+				outcome="/restricted/custos/RelatorioDespesaFertilizante.xhtml"></menuitem2>
 		</submenu2>
 	</submenu>
 

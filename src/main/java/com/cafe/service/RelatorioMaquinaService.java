@@ -10,8 +10,8 @@ import javax.inject.Inject;
 
 import com.cafe.dao.DespesaMaquinaDAO;
 import com.cafe.modelo.Unidade;
-import com.cafe.modelo.to.DespesaDTO;
-import com.cafe.modelo.to.DespesaTO;
+import com.cafe.modelo.to.DespesaMaquinaDTO;
+import com.cafe.modelo.to.DespesaMaquinaTO;
 import com.cafe.modelo.to.TotalDespesaTO;
 
 import lombok.extern.log4j.Log4j2;
@@ -29,26 +29,26 @@ public class RelatorioMaquinaService implements Serializable {
 		return anos;
 	}
 
-	public List<DespesaTO> buscarDespesasTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade) {
+	public List<DespesaMaquinaTO> buscarDespesasTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade) {
 
 		log.info("montando TO...");
-		List<DespesaDTO> despesasDTO = despesaMaquinaDAO.buscarDespesasDTO(dataInicio, dataFim, unidade);
+		List<DespesaMaquinaDTO> despesasDTO = despesaMaquinaDAO.buscarDespesasDTO(dataInicio, dataFim, unidade);
 
-		List<DespesaTO> despesasTO = new ArrayList<>();
+		List<DespesaMaquinaTO> despesasTO = new ArrayList<>();
 
-		List<DespesaTO> auxiliar = new ArrayList<>();
+		List<DespesaMaquinaTO> auxiliar = new ArrayList<>();
 
 		int cont = -1;
 
 		for (int i = 0; i < despesasDTO.size(); i++) {
 
-			DespesaDTO dto = despesasDTO.get(i);
+			DespesaMaquinaDTO dto = despesasDTO.get(i);
 
 			log.info("DTO" + i + ": mesAno: " + dto.getMesAno() + " valortotal: " + dto.getValorTotal() + " maquinaID: "
 					+ dto.getMaquinaId() + " maquinaNome: " + dto.getMaquinaNome() + " tipoCombustivel: "
 					+ dto.getTipoCombustivel());
 
-			DespesaTO to = new DespesaTO();
+			DespesaMaquinaTO to = new DespesaMaquinaTO();
 
 			if (i == 0 || (dto.getMaquinaId() != auxiliar.get(cont).getMaquinaId())) {
 				cont++;
@@ -84,7 +84,7 @@ public class RelatorioMaquinaService implements Serializable {
 		return despesasTO;
 	}
 
-	public void verificaMesAno(LocalDate mesAno, DespesaTO to, BigDecimal valorDespesa) {
+	public void verificaMesAno(LocalDate mesAno, DespesaMaquinaTO to, BigDecimal valorDespesa) {
 
 		int data = mesAno.getMonthValue();
 
@@ -218,7 +218,7 @@ public class RelatorioMaquinaService implements Serializable {
 		}
 	}
 
-	public void calcValorAnual(DespesaTO to) {
+	public void calcValorAnual(DespesaMaquinaTO to) {
 
 		log.info("calcValorAnual...");
 
@@ -231,7 +231,7 @@ public class RelatorioMaquinaService implements Serializable {
 
 	}
 	
-	public TotalDespesaTO calcTotal(List<DespesaTO> despesas) {
+	public TotalDespesaTO calcTotal(List<DespesaMaquinaTO> despesas) {
 		
 		log.info("calcular totais... ");
 		
@@ -239,7 +239,7 @@ public class RelatorioMaquinaService implements Serializable {
 		
 		
 		
-		for(DespesaTO despesa : despesas) {
+		for(DespesaMaquinaTO despesa : despesas) {
 			
 			totais.setValorTotalJan(totais.getValorTotalJan().add(despesa.getValorTotalJan()));
 			totais.setValorTotalFev(totais.getValorTotalFev().add(despesa.getValorTotalFev()));

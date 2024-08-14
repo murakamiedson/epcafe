@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DespesaDTO implements Serializable{
+public class DespesaMaquinaDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -28,7 +28,7 @@ public class DespesaDTO implements Serializable{
 		+ "m.nome, "
 		+ "m.tipoCombustivel) "
 	 */
-	public DespesaDTO(
+	public DespesaMaquinaDTO(
 			LocalDate mesAno,
 			BigDecimal valorTotal,
 			Long maquinaId, 
