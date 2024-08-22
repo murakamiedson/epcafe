@@ -10,7 +10,7 @@ import javax.persistence.PersistenceException;
 
 import com.cafe.modelo.DespesaMaquina;
 import com.cafe.modelo.Unidade;
-import com.cafe.modelo.to.DespesaDTO;
+import com.cafe.modelo.to.DespesaMaquinaDTO;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -104,7 +104,7 @@ public class DespesaMaquinaDAO implements Serializable{
 	/*
 	 * Para Relatorio Despesas Máquina
 	 */
-	public List<DespesaDTO> buscarDespesasDTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+	public List<DespesaMaquinaDTO> buscarDespesasDTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
 		
 		log.info("consultando DTO...");
 		
@@ -119,8 +119,8 @@ public class DespesaMaquinaDAO implements Serializable{
         order by m.id;
         */
 				
-		List<DespesaDTO> lista = manager.createQuery(
-				"SELECT new com.cafe.modelo.to.DespesaDTO( "
+		List<DespesaMaquinaDTO> lista = manager.createQuery(
+				"SELECT new com.cafe.modelo.to.DespesaMaquinaDTO( "
 				+ "d.data, "
 				+ "d.valorTotal, "
 				+ "m.id, "
@@ -131,7 +131,7 @@ public class DespesaMaquinaDAO implements Serializable{
 			+ "WHERE "
 			+ "  d.data BETWEEN :dataInicio AND :dataFim "  //TODO alterar, usado so para teste
 			+ "  and d.unidade = :unidade "
-			+ "ORDER BY m.id", DespesaDTO.class)
+			+ "ORDER BY m.id", DespesaMaquinaDTO.class)
 			.setParameter("dataInicio", dataInicio)
 			.setParameter("dataFim", dataFim)
 			.setParameter("unidade", unidade)

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TotalDespesaTO {
+public class TotalDespesaTO implements DespesaAnualTO {
 	
 	private BigDecimal valorTotalJan = new BigDecimal(0);
 	private BigDecimal valorTotalFev = new BigDecimal(0);
