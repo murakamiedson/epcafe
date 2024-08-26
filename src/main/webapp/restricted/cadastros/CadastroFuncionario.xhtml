@@ -95,16 +95,15 @@
 				</p:column>
 				
 				<p:column headerText="Certificado"
-						style="width: 30px; text-align: center">
-						<p:commandButton title="Download pdf" icon="pi pi-download"  
-				        	rendered="#{formacao.url ne null}"	
-			            	ajax="false"
-			            	process="@this"
-			            	immediate="true"
-			            	action="#{cadastroFuncionarioBean.download(formacao)}">            	
-		            	</p:commandButton>	
-					</p:column>
-				
+					style="width: 30px; text-align: center">
+					<p:commandButton title="Download pdf" icon="pi pi-download"  
+			        	rendered="#{formacao.url ne null}"	
+		            	ajax="false"
+		            	process="@this"
+		            	immediate="true"
+		            	action="#{cadastroFuncionarioBean.download2(formacao)}">            	
+	            	</p:commandButton>	
+				</p:column>
 
 				<p:column headerText="Operações"
 					style="width: 30px; text-align: center">

@@ -42,6 +42,8 @@ public class ReleaseTimeLineBean implements Serializable {
     @PostConstruct
     protected void initialize() {
         model = new TimelineModel<>();
+        model.add(TimelineEvent.<String>builder().data("v0.12.1")
+        		.startDate(LocalDate.of(2024, 8, 25)).build());
         model.add(TimelineEvent.<String>builder().data("v0.12.0")
         		.startDate(LocalDate.of(2024, 8, 8)).build());
         model.add(TimelineEvent.<String>builder().data("v0.11.0")
@@ -49,7 +51,7 @@ public class ReleaseTimeLineBean implements Serializable {
     }
 
     /* LAST VERSION */
-    private String lastVersion = "v0.12.0";
+    private String lastVersion = "v0.12.1";
     /* LAST VERSION */
     
     public void onSelect(TimelineSelectEvent<String> e) {
@@ -57,6 +59,12 @@ public class ReleaseTimeLineBean implements Serializable {
         String versao = timelineEvent.getData();
         
         switch(versao) {
+        case "v0.12.1": 
+	    	MessageUtil.sucesso("25/ago/2024");
+	    	MessageUtil.sucesso(
+	    	"Correção: download de arquivos");
+	    	MessageUtil.sucesso(
+	    	"Correção: aumento de casas decimais no cadastro de potência");
 	    case "v0.12.0": 
 	    	MessageUtil.sucesso("08/ago/2024");
 	    	MessageUtil.sucesso(

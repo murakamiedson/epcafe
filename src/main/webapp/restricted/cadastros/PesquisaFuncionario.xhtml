@@ -70,8 +70,9 @@
 				<p:column headerText="Formação"
 					style="width: 17px; text-align: center">
 					<p:commandButton icon="pi pi-eye" title="Ver Formações"
-						oncomplete="PF('formacoesDialog').show()"
-						update=":frmPesquisa:formacoesDialog" process="@this">
+						oncomplete="PF('formacoesDialog').show()"						
+						update=":frmPesquisa:formacoesDialog" 
+						process="@this">
 						<f:setPropertyActionListener
 							target="#{pesquisaFuncionarioBean.funcionarioSelecionado}"
 							value="#{funcionario}" />
@@ -137,7 +138,7 @@
 			            	ajax="false"
 			            	process="@this"
 			            	immediate="true"
-			            	action="#{pesquisaFuncionarioBean.download(formacao)}">            	
+			            	action="#{pesquisaFuncionarioBean.download2(formacao)}">            	
 		            	</p:commandButton>	
 					</p:column>
 

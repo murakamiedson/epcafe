@@ -1,7 +1,5 @@
 package com.cafe.controller.cadastros;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import com.cafe.modelo.Funcionario;
 import com.cafe.service.FuncionarioService;
 import com.cafe.util.MessageUtil;
 import com.cafe.util.NegocioException;
+import com.cafe.util.pdf.PdfUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -72,15 +71,29 @@ public class PesquisaFuncionarioBean implements Serializable {
 
 			String arquivoPath = form.getUrl();
 
-			log.info(arquivoPath);
-
-			File arquivoPDF = new File(arquivoPath);
-
-			if (arquivoPDF.exists()) {
-
-				// Abra o arquivo PDF com o aplicativo padrão associado
-				Desktop.getDesktop().open(arquivoPDF);
+			try {
+				PdfUtil.downloadDesktop(arquivoPath);				
 			}
+			catch(Exception e) {
+				MessageUtil.erro(e.getMessage());
+			}	
+		}
+	}
+	
+	public void download2(Formacao form)  {
+
+		log.info(form.getId());
+
+		if (form.getUrl() != null && !form.getUrl().isEmpty()) {
+
+			String arquivoPath = form.getUrl();
+
+			try {
+				PdfUtil.downloadStream(arquivoPath);				
+			}
+			catch(Exception e) {
+				MessageUtil.erro(e.getMessage());
+			}		
 		}
 	}
 

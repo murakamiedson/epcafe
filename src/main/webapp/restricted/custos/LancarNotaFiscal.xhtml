@@ -105,7 +105,7 @@
 		            	ajax="false"
 		            	process="@this"
 		            	immediate="true"
-		            	action="#{lancarNotaFiscalBean.download(nota)}">            	
+		            	action="#{lancarNotaFiscalBean.download2(nota)}">            	
 	            	</p:commandButton>	
 				</p:column>
 					
@@ -236,14 +236,25 @@
 					rows="10" paginator="true" paginatorAlwaysVisible="true"
 					paginatorPosition="bottom" rowsPerPageTemplate="5,10,15" style="margin-top: 10px">
 					
-					<p:column headerText="Fertilizante" sortBy="#{item.fertilizante.tipo}"
+					<p:column headerText="Tipo" sortBy="#{item.fertilizante.tipo}"
 						style="width: 100px; text-align: left">
 						<h:outputText value="#{item.fertilizante.tipo}" />
-					</p:column>				
+					</p:column>
+					
+					<p:column headerText="Nome" sortBy="#{item.fertilizante.nome}"
+						style="width: 100px; text-align: left">
+						<h:outputText value="#{item.fertilizante.nome}" />
+					</p:column>
+									
 
 					<p:column headerText="Qde" 
 						style="width: 30px; text-align: center">
 						<h:outputText value="#{item.quantidade}" />
+					</p:column>
+					
+					<p:column headerText="Medida" 
+						style="width: 30px; text-align: center">
+						<h:outputText value="#{item.medida}" />
 					</p:column>
 				
 					<p:column headerText="Valor Unitário"

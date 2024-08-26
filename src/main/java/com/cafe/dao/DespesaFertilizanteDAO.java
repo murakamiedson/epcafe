@@ -8,9 +8,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
+import com.cafe.modelo.DespesaFerTalhao;
 import com.cafe.modelo.DespesaFertilizante;
 import com.cafe.modelo.Unidade;
-import com.cafe.modelo.DespesaFerTalhao;
+import com.cafe.modelo.to.DespesaFertilizanteDTO;
 import com.cafe.util.NegocioException;
 import com.cafe.util.jpa.Transactional;
 
@@ -160,5 +161,38 @@ public class DespesaFertilizanteDAO implements Serializable {
 	                      "END", String.class).getResultList();
 		return anos;
 	}
+	
+	/*
+	 * Relatório
+	 */
+	
+	public List<DespesaFertilizanteDTO> buscarDespesasDTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+		log.info("dataInicio: " + dataInicio);
+		log.info("dataFim: " + dataFim);
+		log.info("Unidade: " + unidade);
+		List<DespesaFertilizanteDTO> lista = manager.createQuery(
+				"SELECT new com.cafe.modelo.to.DespesaFertilizanteDTO( "
+				+ "d.data, "
+				+ "m.valor,"
+				+ "t.nome,"
+				+ "t.id) "
+			+ "FROM DespesaFertilizante d "
+			+ "  INNER JOIN DespesaFerTalhao m on d.id = m.despesaFertilizante "
+			+ "	 INNER JOIN Talhao t on t.id = m.talhao "
+			+ " WHERE "
+			+ "  d.data BETWEEN :dataInicio AND :dataFim "
+			+ "  and d.unidade = :unidade "
+			+ " ORDER BY t.id"
+				, DespesaFertilizanteDTO.class)
+				.setParameter("dataInicio", dataInicio)
+				.setParameter("dataFim", dataFim)
+				.setParameter("unidade", unidade)
+				.getResultList();
+		
+		return lista;
+		
+		
+	}
+	
 
 }

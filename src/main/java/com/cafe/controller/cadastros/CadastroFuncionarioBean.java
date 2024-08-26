@@ -1,6 +1,5 @@
 package com.cafe.controller.cadastros;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -154,6 +153,7 @@ public class CadastroFuncionarioBean implements Serializable {
 		}
 	}
 
+	/* Descobrir configuração no servidor X11 - não funciona apenas no IFSuldeMinas*/
 	public void download(Formacao form) throws IOException {
 
 		log.info(form.getId());
@@ -162,17 +162,32 @@ public class CadastroFuncionarioBean implements Serializable {
 
 			String arquivoPath = form.getUrl();
 
-			log.info(arquivoPath);
-
-			File arquivoPDF = new File(arquivoPath);
-
-			if (arquivoPDF.exists()) {
-
-				// Abra o arquivo PDF com o aplicativo padrão associado
-				Desktop.getDesktop().open(arquivoPDF);
+			try {
+				PdfUtil.downloadDesktop(arquivoPath);				
 			}
+			catch(Exception e) {
+				MessageUtil.erro(e.getMessage());
+			}	
 		}
 	}
+	
+	public void download2(Formacao form)  {
+
+		log.info(form.getId());
+
+		if (form.getUrl() != null && !form.getUrl().isEmpty()) {
+
+			String arquivoPath = form.getUrl();
+
+			try {
+				PdfUtil.downloadStream(arquivoPath);				
+			}			
+			catch(Exception e) {
+				MessageUtil.erro(e.getMessage());
+			}		
+		}
+	}
+
 
 	public String getNomeArquivo() {
 		if (this.formacao.getUrl() != null)

@@ -1,6 +1,5 @@
 package com.cafe.controller.custos;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -214,13 +213,30 @@ public class LancarNotaFiscalBean implements Serializable {
 			
 			log.info(arquivoPath);
 			
-			File arquivoPDF = new File(arquivoPath);
+			try {
+				PdfUtil.downloadDesktop(arquivoPath);				
+			}
+			catch(Exception e) {
+				MessageUtil.erro(e.getMessage());
+			}	
+    	}
+	}
+	public void download2(NotaFiscal nf) throws IOException {
+    	
+    	log.info(nf.getId());
+		
+    	if(nf.getUrl() != null && !nf.getUrl().isEmpty()) {
+    		
+			String arquivoPath = nf.getUrl();
 			
-	        if (arquivoPDF.exists()) {
-	
-	            // Abra o arquivo PDF com o aplicativo padrão associado
-	            Desktop.getDesktop().open(arquivoPDF);
-	        }
+			log.info(arquivoPath);
+			
+			try {
+				PdfUtil.downloadStream(arquivoPath);				
+			}
+			catch(Exception e) {
+				MessageUtil.erro(e.getMessage());
+			}	
     	}
 	}
 	
