@@ -1,0 +1,199 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Outras Despesas de Custeio</ui:define>
+
+	<ui:define name="corpo">
+
+		<h2>Outras Despesas de Custeio</h2>
+
+		<h:form id="form">
+		
+			<p:messages id="alertMessages" showDetail="false" closable="true">
+			</p:messages>
+
+			<p:toolbar id="toolbar">
+				<p:toolbarGroup>
+					<p:spacer width="10px" />
+			        
+					<p:commandButton value="Adicionar Despesa"
+						title="Adicionar despesa"
+						style="margin-top: 10px; margin-bottom: 10px"
+						icon="pi pi-plus"
+						actionListener="#{lancarDespesaCusteioOutraBean.limpar}"
+						oncomplete="PF('addDialogWidgetVar').show()"
+						update="addDialog toolbar" process="@this">
+						<p:resetInput target="addDialog" />
+					</p:commandButton>
+
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			<p:dataTable id="despesasTable"
+				value="#{lancarDespesaCusteioOutraBean.despesas}" var="despesa"
+				style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada."
+				rows="10" paginator="true" paginatorAlwaysVisible="true"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
+				
+				<f:facet name="header">
+	                <div class="flex align-items-center justify-content-between">
+	                    
+	                    <div class="field col-12 md:col-4" style="margin-top: 10px">
+							<p:outputLabel for="anoAgricola" value="Filtrar por ano" style="margin-right: 10px" />
+							<p:selectOneMenu id="anoAgricola" value="#{lancarDespesaCusteioOutraBean.periodoSelecionado}" >
+								<f:selectItem itemLabel="Selecione o ano agrícola" />
+								<f:selectItems value="#{lancarDespesaCusteioOutraBean.anos}"
+									var="ano" itemValue="#{ano}" />
+								
+								<p:ajax
+									listener="#{lancarDespesaCusteioOutraBean.filtrarPorAno}"
+									update="form"
+									process="anoAgricola" />
+							</p:selectOneMenu>
+						</div>
+	                </div>
+	            </f:facet>
+				
+				<p:column headerText="Data"
+					style="width: 5px; text-align: center">
+					<h:outputText value="#{despesa.data}">
+						<f:convertDateTime type="localDate" pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Tipo"
+					style="width: 30px; text-align:left">
+					<h:outputText value="#{despesa.tipo}" />
+				</p:column>
+				
+				<p:column headerText="Valor Total"
+					style="width: 30px; text-align:left">
+					<h:outputText value="#{despesa.valorTotal}" >
+						<f:convertNumber type="currency" currencySymbol="R$"/>
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Descrição"
+					style="width: 30px; text-align:left">
+					<h:outputText value="#{despesa.descricao}" />
+				</p:column>
+				
+				<p:column headerText="Operações"
+					style="width: 10px; text-align: center">
+
+					<p:commandButton title="Editar despesa" icon="pi pi-pencil"
+						oncomplete="PF('addDialogWidgetVar').show()"
+						update="form:addDialog" process="@this">
+						<f:setPropertyActionListener
+							target="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra}"
+							value="#{despesa}" />
+					</p:commandButton>
+
+					<p:commandButton icon="pi pi-trash" title="Excluir"
+						onclick="PF('confirmacaoExclusao').show();" process="@this"
+						imediate="true">
+						<f:setPropertyActionListener
+							target="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra}"
+							value="#{despesa}" />
+					</p:commandButton>
+
+
+				</p:column>
+			
+			</p:dataTable>
+			
+			<p:dialog id="addDialog" widgetVar="addDialogWidgetVar"
+				header="Lançar Outras Despesas de Custeio" modal="true"
+				resizable="true" closeOnEscape="true" showEffect="explode"
+				hideEffect="explode" width="100%" position="center top"
+				maximizable="true" height="100%" fitViewport="true"
+				responsive="true">
+				
+				<p:messages id="messages" showDetail="false" closable="true">
+				</p:messages>
+				
+				<p:panelGrid id="gridDespesa" columns="2"
+					style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+					<p:outputLabel for="data" value="Data" />
+					<p:datePicker id="data"
+						value="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.data}"
+						pattern="dd/MM/yyyy" type="localDate" yearNavigator="true"
+						monthNavigator="true" showIcon="true" required="true"
+						yearRange="#{lancarDespesaCusteioOutraBean.yearRange}"
+						validatorMessage="A data é obrigatória.">
+					</p:datePicker>
+
+
+					<p:outputLabel value="Tipo" for="tipo" />
+					<p:selectOneMenu id="tipo"
+						value="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.tipo}"
+						rendered="true" validatorMessage="O tipo é obrigatório.">
+						<f:selectItem itemLabel="Selecione o tipo" />
+						<f:selectItems
+							value="#{lancarDespesaCusteioOutraBean.tipos}"
+							var="tipo" itemLabel="#{tipo}"
+							itemValue="#{tipo}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Descrição" for="descricao" />
+					<p:inputText id="descricao" size="60" maxlength="80"
+						value="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.descricao}" />
+					
+					<p:outputLabel value="Valor Total" for="valorTotal" />
+					<p:inputNumber id="valorTotal"
+						value="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.valorTotal}"
+						decimalSeparator="," thousandSeparator="." minValue="0"
+						decimalPlaces="2" symbol="R$" symbolPosition="p" />					
+
+				</p:panelGrid>
+				
+				<p:toolbar id="tbSalvar" style="margin-top: 10px">
+					<p:toolbarGroup>
+						<p:spacer width="10px" />
+
+						<p:commandButton value="Salvar Despesa" id="botaoSalvar"
+							icon="pi pi-save"
+							actionListener="#{lancarDespesaCusteioOutraBean.salvar}"
+							style="margin-top: 10px; margin-bottom: 10px"
+							update="despesasTable messages"
+							process="@this gridDespesa" />
+
+						<p:spacer width="10px" />
+
+						<p:commandButton value="Limpar" id="botaoLimparQdeTalhao"
+							icon="pi pi-replay" style="margin-top: 10px; margin-bottom: 10px"
+							action="#{lancarDespesaCusteioOutraBean.limpar}"
+							update="gridDespesa" process="@this" />
+
+						<p:spacer width="10px" />
+
+						<p:commandButton value="Sair" id="botaoSairDespesa"
+							icon="pi pi-times" onclick="PF('addDialogWidgetVar').hide();"
+							update="despesasTable messages" process="@this"
+							style="margin-top: 10px; margin-bottom: 10px" />
+					</p:toolbarGroup>
+				</p:toolbar>
+			
+			</p:dialog>
+			
+			<p:confirmDialog id="confirmacaoExclusaoDialog"
+				widgetVar="confirmacaoExclusao"
+				message="Tem certeza que deseja excluir a despesa 
+	        			#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.id}?"
+				header="Exclusão de Outras Despesas" severity="alert">
+
+				<p:button icon="pi pi-thumbs-down" value="Não"
+					onclick="PF('confirmacaoExclusao').hide(); return false;" />
+				<p:commandButton icon="pi pi-thumbs-up" value="Sim" process="@this"
+					update=":form:despesasTable alertMessages"
+					onclick="PF('confirmacaoExclusao').hide();"
+					action="#{lancarDespesaCusteioOutraBean.excluir}" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>
