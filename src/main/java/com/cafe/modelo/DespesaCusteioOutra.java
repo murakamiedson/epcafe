@@ -48,6 +48,10 @@ public class DespesaCusteioOutra {
 	
 	private String descricao;
 	
+	//0 nao é custeio
+	//1 é custeio
+	private Boolean eCusteio;
+	
 	@Enumerated(EnumType.STRING)
 	private TipoCusteioOutros tipo;
 	

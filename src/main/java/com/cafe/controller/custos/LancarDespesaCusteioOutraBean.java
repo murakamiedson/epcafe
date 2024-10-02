@@ -35,6 +35,7 @@ public class LancarDespesaCusteioOutraBean implements Serializable {
 
 	private List<DespesaCusteioOutra> despesas = new ArrayList<>();
 	private List<TipoCusteioOutros> tipos;
+	private List<TipoCusteioOutros> tipoCusteio;
 	private List<String> anos;
 	private DespesaCusteioOutra despesaCusteioOutra;
 	private String yearRange;
@@ -57,6 +58,8 @@ public class LancarDespesaCusteioOutraBean implements Serializable {
 		this.tipos = Arrays.asList(TipoCusteioOutros.values());
 
 		this.yearRange = this.calcUtil.getAnoCorrente();
+		
+		
 
 		// filtrar por ano
 		Integer diff = LocalDate.now().getMonthValue() < 8 ? 1 : 0;
@@ -78,6 +81,8 @@ public class LancarDespesaCusteioOutraBean implements Serializable {
 	public void salvar() {
 
 		log.info("salvando outra despesa");
+		
+		this.despesaCusteioOutra.setECusteio(this.despesaCusteioOutra.getTipo().getValor() == 1 ? true : false);
 
 		try {
 			this.despesaCusteioOutra = this.despesaService.salvar(this.despesaCusteioOutra);
