@@ -31,6 +31,8 @@
 				outcome="/restricted/custos/RelatorioDespesaFertilizante.xhtml"></menuitem2>
 			<menuitem2 value="Outras Despesas"
 				outcome="/restricted/custos/RelatorioOutrasDespesas.xhtml"></menuitem2>
+			<menuitem2 value="Outras Despesas de Custeio"
+				outcome="/restricted/custos/RelatorioOutrasDespesasCusteio.xhtml"></menuitem2>
 		</submenu2>
 	</submenu>
 

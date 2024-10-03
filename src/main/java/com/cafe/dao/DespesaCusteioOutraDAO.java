@@ -81,45 +81,6 @@ public class DespesaCusteioOutraDAO implements Serializable{
 				.setParameter("codigo_unidade", unidade).getResultList();
 	}
 	
-	public List<String> buscarAnosComRegistro (Unidade unidade) {
-		
-		log.info("Buscando anos com registro outras despesas");
-		List<String> anos = manager.createQuery(
-				"SELECT DISTINCT " +
-	                      "CASE " +
-	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
-	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
-	                      "END " +
-	                      "FROM DespesaCusteioOutra c " +
-	                      "WHERE c.eCusteio = false " +
-	                      "ORDER BY " +
-	                      "CASE " +
-	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
-	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
-	                      "END", String.class).getResultList();
-		
-		log.info("Lista anos size: " + anos.size());
-		return anos;
-	}
-	
-	public List<String> buscarAnosComRegistroCusteio (Unidade unidade) {
-		
-		List<String> anos = manager.createQuery(
-				"SELECT DISTINCT " +
-	                      "CASE " +
-	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
-	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
-	                      "END " +
-	                      "FROM DespesaCusteioOutra c " +
-	                      "WHERE c.novaColunaBoolean = true " +
-	                      "ORDER BY " +
-	                      "CASE " +
-	                      "  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
-	                      "  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
-	                      "END", String.class).getResultList();
-		return anos;
-	}
-	
 	public List<DespesaCusteioOutra> buscarOutrasDespesasPorAnoAgricola(
 			LocalDate dataInicio, 
 			LocalDate dataFim, 
@@ -135,6 +96,33 @@ public class DespesaCusteioOutraDAO implements Serializable{
 				.setParameter("dataFim", dataFim)
 				.setParameter("codigo_unidade", unidade)
 				.getResultList();
+	}
+	
+	/*
+	 * RELATORIO OUTRAS DESPESAS
+	 */
+	
+	
+	
+	public List<String> buscarAnosComRegistro (Unidade unidade) {
+		
+		log.info("Buscando anos com registro outras despesas");
+		List<String> anos = manager.createQuery(
+				"SELECT DISTINCT " +
+						"CASE " +
+						"  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+						"  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+						"END " +
+						"FROM DespesaCusteioOutra c " +
+						"WHERE c.eCusteio = false " +
+						"ORDER BY " +
+						"CASE " +
+						"  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+						"  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+						"END", String.class).getResultList();
+		
+		log.info("Lista anos size: " + anos.size());
+		return anos;
 	}
 	
 	public List<OutrasDespesasDTO> buscarDespesasDTO(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
@@ -158,5 +146,53 @@ public class DespesaCusteioOutraDAO implements Serializable{
 		
 		return lista;
 	}
+	
+	/*
+	 * RELATORIO OUTRAS DESPESAS CUSTEIO
+	 */
+	
+	
+	public List<String> buscarAnosComRegistroCusteio (Unidade unidade) {
+		
+		List<String> anos = manager.createQuery(
+				"SELECT DISTINCT " +
+						"CASE " +
+						"  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+						"  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+						"END " +
+						"FROM DespesaCusteioOutra c " +
+						"WHERE c.eCusteio = true " +
+						"ORDER BY " +
+						"CASE " +
+						"  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
+						"  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
+						"END", String.class).getResultList();
+		
+		log.info("Lista anos size: " + anos.size());
+		return anos;
+	}
+	
+	public List<OutrasDespesasDTO> buscarDespesasDTOCusteio(LocalDate dataInicio, LocalDate dataFim, Unidade unidade){
+		
+		List<OutrasDespesasDTO> lista = manager.createQuery(
+				"SELECT new com.cafe.modelo.to.OutrasDespesasDTO( "
+				+ "d.data, "
+				+ "d.valorTotal, "
+				+ "d.tipo) "
+			+ "FROM DespesaCusteioOutra d "
+			+ "WHERE "
+			+ " d.eCusteio = true "
+			+ " and d.data BETWEEN :dataInicio AND :dataFim "
+			+ " and d.unidade = :unidade "
+			+ " ORDER BY d.tipo"
+				, OutrasDespesasDTO.class)
+				.setParameter("dataInicio", dataInicio)
+				.setParameter("dataFim", dataFim)
+				.setParameter("unidade", unidade)
+				.getResultList();
+		
+		return lista;
+	}
+	
 
 }
