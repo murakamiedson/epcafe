@@ -21,7 +21,9 @@
 		<menuitem value="Despesas Máquinas e Implementos"
 			outcome="/restricted/custos/LancarDespesaMaquina.xhtml"></menuitem>
 		<menuitem value="Despesas Fertilizantes e Defensivos"
-			outcome="/restricted/custos/LancarDespesaFertilizante.xhtml"></menuitem>		
+			outcome="/restricted/custos/LancarDespesaFertilizante.xhtml"></menuitem>
+		<menuitem value="Outras Despesas de Custeio"
+			outcome="/restricted/custos/LancarDespesaCusteioOutra.xhtml"></menuitem>
 		<submenu2 label="Relatório">
 			<menuitem2 value="Despesas de Máquinas"
 				outcome="/restricted/custos/RelatorioDespesaMaquina.xhtml"></menuitem2>
