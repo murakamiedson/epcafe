@@ -1,6 +1,7 @@
 package com.cafe.modelo.enums;
 
 public enum TipoCusteioOutros {
+	// 1 = Outras despesas de custeio
 	OPERACAO_ANIMAL(1),
 	OPERACAO_AVIAO(1),
 	ALUGUEL_MAQUINAS(1),
@@ -12,6 +13,7 @@ public enum TipoCusteioOutros {
 	ANALISE_DE_SOLO(1),
 	DEMAIS_DESPESAS(1),
 	SERVICOS_DIVERSOS(1),
+	// Outras despesas
 	TRANSPORTE_EXTERNO(0),
 	DESPESAS_ADMINISTRATIVAS(0),
 	DESPESAS_DE_ARMAZENAGEM(0),

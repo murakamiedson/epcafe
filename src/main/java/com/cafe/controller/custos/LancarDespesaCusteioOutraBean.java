@@ -82,6 +82,9 @@ public class LancarDespesaCusteioOutraBean implements Serializable {
 
 		log.info("salvando outra despesa");
 		
+		/* Identifica se trata de outras despesas de custeio (relacionada diretamente a custeio)
+		 * e outras despesas
+		 */
 		this.despesaCusteioOutra.setECusteio(this.despesaCusteioOutra.getTipo().getValor() == 1 ? true : false);
 
 		try {
