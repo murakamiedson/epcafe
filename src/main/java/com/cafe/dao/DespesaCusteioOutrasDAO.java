@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import com.cafe.modelo.DespesaCusteioOutra;
+import com.cafe.modelo.DespesaCusteioOutras;
 import com.cafe.modelo.Unidade;
 import com.cafe.modelo.to.OutrasDespesasDTO;
 import com.cafe.util.NegocioException;
@@ -17,7 +17,7 @@ import com.cafe.util.jpa.Transactional;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class DespesaCusteioOutraDAO implements Serializable{
+public class DespesaCusteioOutrasDAO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -25,10 +25,10 @@ public class DespesaCusteioOutraDAO implements Serializable{
 	private EntityManager manager;
 	
 	@Transactional
-	public DespesaCusteioOutra salvar(DespesaCusteioOutra despesaCusteioOutra)
+	public DespesaCusteioOutras salvar(DespesaCusteioOutras despesaCusteioOutras)
 			throws PersistenceException, NegocioException {
 		try {
-			return manager.merge(despesaCusteioOutra);
+			return manager.merge(despesaCusteioOutras);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw e;
@@ -45,11 +45,11 @@ public class DespesaCusteioOutraDAO implements Serializable{
 	}
 
 	@Transactional
-	public void excluir(DespesaCusteioOutra despesaCusteioOutra) throws NegocioException {
+	public void excluir(DespesaCusteioOutras despesaCusteioOutras) throws NegocioException {
 
 		try {
 			log.info("excluir dao");
-			DespesaCusteioOutra m = this.buscarPeloCodigo(despesaCusteioOutra.getId());
+			DespesaCusteioOutras m = this.buscarPeloCodigo(despesaCusteioOutras.getId());
 			manager.remove(m);
 			manager.flush();
 		} catch (PersistenceException e) {
@@ -71,30 +71,60 @@ public class DespesaCusteioOutraDAO implements Serializable{
 	 * Buscas
 	 */
 	
-	public DespesaCusteioOutra buscarPeloCodigo(Long id) {
-		return manager.find(DespesaCusteioOutra.class, id);
+	public DespesaCusteioOutras buscarPeloCodigo(Long id) {
+		return manager.find(DespesaCusteioOutras.class, id);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<DespesaCusteioOutra> buscarDespesasOutrasDespesas(Unidade unidade) {
-		return manager.createNamedQuery("DespesaCusteioOutra.buscarDespesasOutrasDespesas")
-				.setParameter("codigo_unidade", unidade).getResultList();
+	public List<DespesaCusteioOutras> buscarOutrasDespesasCusteio(Unidade unidade) {
+		return manager.createNamedQuery("DespesaCusteioOutras.buscarDespesasCusteioOutras")
+				.setParameter("codigo_unidade", unidade)
+				.setParameter("tipo_despesa", true)
+				.getResultList();
 	}
 	
-	public List<DespesaCusteioOutra> buscarOutrasDespesasPorAnoAgricola(
+	@SuppressWarnings("unchecked")
+	public List<DespesaCusteioOutras> buscarOutrasDespesas(Unidade unidade) {
+		return manager.createNamedQuery("DespesaCusteioOutras.buscarDespesasCusteioOutras")
+				.setParameter("codigo_unidade", unidade)
+				.setParameter("tipo_despesa", false)
+				.getResultList();
+	}
+	
+	public List<DespesaCusteioOutras> buscarOutrasDespesasPorAnoAgricola(
 			LocalDate dataInicio, 
 			LocalDate dataFim, 
 			Unidade unidade
 			){
 		return manager.createQuery(
-				"SELECT d FROM DespesaCusteioOutra d "
+				"SELECT d FROM DespesaCusteioOutras d "
 				+ "WHERE d.data "
 				+ "BETWEEN :dataInicio AND :dataFim "
 				+ "AND d.unidade = :codigo_unidade "
-				+ "ORDER BY d.data", DespesaCusteioOutra.class)
+				+ "AND d.eCusteio = :tipo_despesa "
+				+ "ORDER BY d.data", DespesaCusteioOutras.class)
 				.setParameter("dataInicio", dataInicio)
 				.setParameter("dataFim", dataFim)
 				.setParameter("codigo_unidade", unidade)
+				.setParameter("tipo_despesa", false)
+				.getResultList();
+	}
+	public List<DespesaCusteioOutras> buscarOutrasDespesasCusteioPorAnoAgricola(
+			LocalDate dataInicio, 
+			LocalDate dataFim, 
+			Unidade unidade
+			){
+		return manager.createQuery(
+				"SELECT d FROM DespesaCusteioOutras d "
+				+ "WHERE d.data "
+				+ "BETWEEN :dataInicio AND :dataFim "
+				+ "AND d.unidade = :codigo_unidade "
+				+ "AND d.eCusteio = :tipo_despesa "
+				+ "ORDER BY d.data", DespesaCusteioOutras.class)
+				.setParameter("dataInicio", dataInicio)
+				.setParameter("dataFim", dataFim)
+				.setParameter("codigo_unidade", unidade)
+				.setParameter("tipo_despesa", true)
 				.getResultList();
 	}
 	
@@ -113,7 +143,7 @@ public class DespesaCusteioOutraDAO implements Serializable{
 						"  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
 						"  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
 						"END " +
-						"FROM DespesaCusteioOutra c " +
+						"FROM DespesaCusteioOutras c " +
 						"WHERE c.eCusteio = false " +
 						"ORDER BY " +
 						"CASE " +
@@ -132,7 +162,7 @@ public class DespesaCusteioOutraDAO implements Serializable{
 				+ "d.data, "
 				+ "d.valorTotal, "
 				+ "d.tipo) "
-			+ "FROM DespesaCusteioOutra d "
+			+ "FROM DespesaCusteioOutras d "
 			+ "WHERE "
 			+ " d.eCusteio = false "
 			+ " and d.data BETWEEN :dataInicio AND :dataFim "
@@ -160,7 +190,7 @@ public class DespesaCusteioOutraDAO implements Serializable{
 						"  WHEN FUNCTION('MONTH', c.data) >= 8 THEN CONCAT(FUNCTION('YEAR', c.data), '/', FUNCTION('YEAR', c.data) + 1) " +
 						"  ELSE CONCAT(FUNCTION('YEAR', c.data) - 1, '/', FUNCTION('YEAR', c.data)) " +
 						"END " +
-						"FROM DespesaCusteioOutra c " +
+						"FROM DespesaCusteioOutras c " +
 						"WHERE c.eCusteio = true " +
 						"ORDER BY " +
 						"CASE " +
@@ -179,7 +209,7 @@ public class DespesaCusteioOutraDAO implements Serializable{
 				+ "d.data, "
 				+ "d.valorTotal, "
 				+ "d.tipo) "
-			+ "FROM DespesaCusteioOutra d "
+			+ "FROM DespesaCusteioOutras d "
 			+ "WHERE "
 			+ " d.eCusteio = true "
 			+ " and d.data BETWEEN :dataInicio AND :dataFim "

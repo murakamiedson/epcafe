@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.cafe.dao.DespesaCusteioOutraDAO;
+import com.cafe.dao.DespesaCusteioOutrasDAO;
 import com.cafe.modelo.Unidade;
 import com.cafe.modelo.to.OutrasDespesasDTO;
 import com.cafe.modelo.to.OutrasDespesasTO;
@@ -24,7 +24,7 @@ public class RelatorioOutrasDespesasService implements Serializable{
 	private RelatoriosUtilService relatorioUtil;
 	
 	@Inject
-	private DespesaCusteioOutraDAO outrasDespesasDAO;
+	private DespesaCusteioOutrasDAO outrasDespesasDAO;
 	
 	public List<String> buscarAnosComRegistros(Unidade unidade) {
 		

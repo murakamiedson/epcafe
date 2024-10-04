@@ -1,6 +1,6 @@
 package com.cafe.modelo.to;
 
-import com.cafe.modelo.enums.TipoCusteioOutros;
+import com.cafe.modelo.enums.TipoDespesaCusteioOutras;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +10,6 @@ import lombok.Setter;
 public class OutrasDespesasTO {
 	
 	private TotalDespesaTO totaisMensais;
-	private TipoCusteioOutros tipo;
+	private TipoDespesaCusteioOutras tipo;
 
 }

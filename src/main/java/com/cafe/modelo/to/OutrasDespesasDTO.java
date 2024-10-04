@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.cafe.modelo.enums.TipoCusteioOutros;
+import com.cafe.modelo.enums.TipoDespesaCusteioOutras;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,12 +18,12 @@ public class OutrasDespesasDTO implements Serializable{
 	
 	private LocalDate data;
 	private BigDecimal valorDespesa;
-	private TipoCusteioOutros tipo;
+	private TipoDespesaCusteioOutras tipo;
 	
 	public OutrasDespesasDTO(
 			LocalDate data,
 			BigDecimal valorDespesa,
-			TipoCusteioOutros tipo
+			TipoDespesaCusteioOutras tipo
 			) {
 		this.data = data;
 		this.valorDespesa = valorDespesa;

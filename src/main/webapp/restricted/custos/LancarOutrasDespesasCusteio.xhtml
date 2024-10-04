@@ -24,7 +24,7 @@
 						title="Adicionar despesa"
 						style="margin-top: 10px; margin-bottom: 10px"
 						icon="pi pi-plus"
-						actionListener="#{lancarDespesaCusteioOutraBean.limpar}"
+						actionListener="#{lancarOutrasDespesasCusteioBean.limpar}"
 						oncomplete="PF('addDialogWidgetVar').show()"
 						update="addDialog toolbar" process="@this">
 						<p:resetInput target="addDialog" />
@@ -34,7 +34,7 @@
 			</p:toolbar>
 			
 			<p:dataTable id="despesasTable"
-				value="#{lancarDespesaCusteioOutraBean.despesas}" var="despesa"
+				value="#{lancarOutrasDespesasCusteioBean.despesas}" var="despesa"
 				style="margin-top: 20px" emptyMessage="Nenhuma despesa encontrada."
 				rows="10" paginator="true" paginatorAlwaysVisible="true"
 				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15">
@@ -44,13 +44,13 @@
 	                    
 	                    <div class="field col-12 md:col-4" style="margin-top: 10px">
 							<p:outputLabel for="anoAgricola" value="Filtrar por ano" style="margin-right: 10px" />
-							<p:selectOneMenu id="anoAgricola" value="#{lancarDespesaCusteioOutraBean.periodoSelecionado}" >
+							<p:selectOneMenu id="anoAgricola" value="#{lancarOutrasDespesasCusteioBean.periodoSelecionado}" >
 								<f:selectItem itemLabel="Selecione o ano agrícola" />
-								<f:selectItems value="#{lancarDespesaCusteioOutraBean.anos}"
+								<f:selectItems value="#{lancarOutrasDespesasCusteioBean.anos}"
 									var="ano" itemValue="#{ano}" />
 								
 								<p:ajax
-									listener="#{lancarDespesaCusteioOutraBean.filtrarPorAno}"
+									listener="#{lancarOutrasDespesasCusteioBean.filtrarPorAno}"
 									update="form"
 									process="anoAgricola" />
 							</p:selectOneMenu>
@@ -89,7 +89,7 @@
 						oncomplete="PF('addDialogWidgetVar').show()"
 						update="form:addDialog" process="@this">
 						<f:setPropertyActionListener
-							target="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra}"
+							target="#{lancarOutrasDespesasCusteioBean.despesaCusteioOutras}"
 							value="#{despesa}" />
 					</p:commandButton>
 
@@ -97,7 +97,7 @@
 						onclick="PF('confirmacaoExclusao').show();" process="@this"
 						imediate="true">
 						<f:setPropertyActionListener
-							target="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra}"
+							target="#{lancarOutrasDespesasCusteioBean.despesaCusteioOutras}"
 							value="#{despesa}" />
 					</p:commandButton>
 
@@ -121,32 +121,32 @@
 
 					<p:outputLabel for="data" value="Data" />
 					<p:datePicker id="data"
-						value="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.data}"
+						value="#{lancarOutrasDespesasCusteioBean.despesaCusteioOutras.data}"
 						pattern="dd/MM/yyyy" type="localDate" yearNavigator="true"
 						monthNavigator="true" showIcon="true" required="true"
-						yearRange="#{lancarDespesaCusteioOutraBean.yearRange}"
+						yearRange="#{lancarOutrasDespesasCusteioBean.yearRange}"
 						validatorMessage="A data é obrigatória.">
 					</p:datePicker>
 
 
 					<p:outputLabel value="Tipo" for="tipo" />
 					<p:selectOneMenu id="tipo"
-						value="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.tipo}"
+						value="#{lancarOutrasDespesasCusteioBean.despesaCusteioOutras.tipo}"
 						rendered="true" validatorMessage="O tipo é obrigatório.">
 						<f:selectItem itemLabel="Selecione o tipo" />
 						<f:selectItems
-							value="#{lancarDespesaCusteioOutraBean.tipos}"
+							value="#{lancarOutrasDespesasCusteioBean.tipos}"
 							var="tipo" itemLabel="#{tipo}"
 							itemValue="#{tipo}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Descrição" for="descricao" />
 					<p:inputText id="descricao" size="60" maxlength="80"
-						value="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.descricao}" />
+						value="#{lancarOutrasDespesasCusteioBean.despesaCusteioOutras.descricao}" />
 					
 					<p:outputLabel value="Valor Total" for="valorTotal" />
 					<p:inputNumber id="valorTotal"
-						value="#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.valorTotal}"
+						value="#{lancarOutrasDespesasCusteioBean.despesaCusteioOutras.valorTotal}"
 						decimalSeparator="," thousandSeparator="." minValue="0"
 						decimalPlaces="2" symbol="R$" symbolPosition="p" />					
 
@@ -158,7 +158,7 @@
 
 						<p:commandButton value="Salvar Despesa" id="botaoSalvar"
 							icon="pi pi-save"
-							actionListener="#{lancarDespesaCusteioOutraBean.salvar}"
+							actionListener="#{lancarOutrasDespesasCusteioBean.salvar}"
 							style="margin-top: 10px; margin-bottom: 10px"
 							update="despesasTable messages"
 							process="@this gridDespesa" />
@@ -167,7 +167,7 @@
 
 						<p:commandButton value="Limpar" id="botaoLimparQdeTalhao"
 							icon="pi pi-replay" style="margin-top: 10px; margin-bottom: 10px"
-							action="#{lancarDespesaCusteioOutraBean.limpar}"
+							action="#{lancarOutrasDespesasCusteioBean.limpar}"
 							update="gridDespesa" process="@this" />
 
 						<p:spacer width="10px" />
@@ -184,7 +184,7 @@
 			<p:confirmDialog id="confirmacaoExclusaoDialog"
 				widgetVar="confirmacaoExclusao"
 				message="Tem certeza que deseja excluir a despesa 
-	        			#{lancarDespesaCusteioOutraBean.despesaCusteioOutra.id}?"
+	        			#{lancarOutrasDespesasCusteioBean.despesaCusteioOutras.id}?"
 				header="Exclusão de Outras Despesas" severity="alert">
 
 				<p:button icon="pi pi-thumbs-down" value="Não"
@@ -192,7 +192,7 @@
 				<p:commandButton icon="pi pi-thumbs-up" value="Sim" process="@this"
 					update=":form:despesasTable alertMessages"
 					onclick="PF('confirmacaoExclusao').hide();"
-					action="#{lancarDespesaCusteioOutraBean.excluir}" />
+					action="#{lancarOutrasDespesasCusteioBean.excluir}" />
 			</p:confirmDialog>
 		</h:form>
 	</ui:define>
