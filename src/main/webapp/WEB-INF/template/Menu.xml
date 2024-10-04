@@ -16,7 +16,7 @@
 			outcome="/restricted/cadastros/PesquisaFertilizante.xhtml"></menuitem>
 	</submenu>
 
-	<submenu label="Despesas" icon="pi pi-folder-open">
+	<submenu label="Custo Variável" icon="pi pi-money-bill">
 		<grupo value="TECNICOS"></grupo>
 				
 		<submenu2 label="Despesas Custeio">
@@ -47,6 +47,14 @@
 			<menuitem2 value="Resultados Custo Variável"
 				outcome=""></menuitem2>
 		</submenu2>
+	</submenu>
+	
+	<submenu label="Custo Fixo" icon="pi pi-sun">
+		<grupo value="TECNICOS"></grupo>
+	</submenu>
+	
+	<submenu label="Custo Operacional" icon="pi pi-chart-line">
+		<grupo value="TECNICOS"></grupo>
 	</submenu>
 
 	<submenu label="Admin" icon="pi pi-home">
