@@ -65,6 +65,8 @@ public class ReleaseTimeLineBean implements Serializable {
 	    	MessageUtil.sucesso("03/out/2024");
 	    	MessageUtil.sucesso(
 	    	"Adicionado o Lançar Outras Despesas de Custeio e Outras Despesas na mesma funcionalidade.");
+	    	MessageUtil.sucesso(
+	    	"Adicionados os Relatórios: Outras Despesas de Custeio e Outras Despesas.");
 	    	break;
         case "v0.12.1": 
 	    	MessageUtil.sucesso("25/ago/2024");
