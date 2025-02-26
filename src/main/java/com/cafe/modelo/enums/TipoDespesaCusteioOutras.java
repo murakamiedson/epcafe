@@ -1,6 +1,6 @@
 package com.cafe.modelo.enums;
 
-public enum TipoCusteioOutros {
+public enum TipoDespesaCusteioOutras {
 	// 1 = Outras despesas de custeio
 	OPERACAO_ANIMAL(1),
 	OPERACAO_AVIAO(1),
@@ -13,6 +13,7 @@ public enum TipoCusteioOutros {
 	ANALISE_DE_SOLO(1),
 	DEMAIS_DESPESAS(1),
 	SERVICOS_DIVERSOS(1),
+	
 	// Outras despesas
 	TRANSPORTE_EXTERNO(0),
 	DESPESAS_ADMINISTRATIVAS(0),
@@ -27,7 +28,7 @@ public enum TipoCusteioOutros {
 	
 	private final int valor;
 	 
-    private TipoCusteioOutros(int valor) {
+    private TipoDespesaCusteioOutras(int valor) {
         this.valor = valor;
     }
 

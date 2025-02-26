@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.cafe.modelo.enums.TipoCusteioOutros;
+import com.cafe.modelo.enums.TipoDespesaCusteioOutras;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,10 +31,11 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "DespesaCusteioOutra.buscarDespesasOutrasDespesas", 
-				query = "select d from DespesaCusteioOutra d where d.unidade = :codigo_unidade") 
+	@NamedQuery(name = "DespesaCusteioOutras.buscarDespesasCusteioOutras", 
+		query = "select d from DespesaCusteioOutras d where d.unidade = :codigo_unidade "
+				+ "and  d.eCusteio = :tipo_despesa")
 })
-public class DespesaCusteioOutra {
+public class DespesaCusteioOutras {
 	
 	@EqualsAndHashCode.Include
 	@Id
@@ -53,7 +54,7 @@ public class DespesaCusteioOutra {
 	private Boolean eCusteio;
 	
 	@Enumerated(EnumType.STRING)
-	private TipoCusteioOutros tipo;
+	private TipoDespesaCusteioOutras tipo;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "codigo_unidade")

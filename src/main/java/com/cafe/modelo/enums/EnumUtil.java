@@ -19,6 +19,9 @@ public class EnumUtil {
 	private static final List<TipoAuxiliarInsumos> TIPOS_INSETICIDAS;
 	private static final List<TipoAuxiliarInsumos> TIPOS_ADJUVANTES;
 	
+	private static final List<TipoDespesaCusteioOutras> TIPOS_OUTRAS_DESPESAS_CUSTEIO;
+	private static final List<TipoDespesaCusteioOutras> TIPOS_OUTRAS_DESPESAS;
+	
 	
 	static {
 	TIPOS_MAQUINAS = Arrays.asList(
@@ -237,7 +240,34 @@ public class EnumUtil {
 				
 				TipoAuxiliarInsumos.MINERAL,
 				TipoAuxiliarInsumos.VEGETAL
-				);
+				);	
+	
+	TIPOS_OUTRAS_DESPESAS_CUSTEIO = Arrays.asList(
+		TipoDespesaCusteioOutras.OPERACAO_ANIMAL,
+		TipoDespesaCusteioOutras.OPERACAO_AVIAO,
+		TipoDespesaCusteioOutras.ALUGUEL_MAQUINAS,
+		TipoDespesaCusteioOutras.ALUGUEL_ANIMAIS,
+		TipoDespesaCusteioOutras.MAO_DE_OBRA,
+		TipoDespesaCusteioOutras.ADMINISTRADOR,
+		TipoDespesaCusteioOutras.SEMENTES_E_MUDAS,
+		TipoDespesaCusteioOutras.EMBALAGENS_UTENSILIOS,
+		TipoDespesaCusteioOutras.ANALISE_DE_SOLO,
+		TipoDespesaCusteioOutras.DEMAIS_DESPESAS,
+		TipoDespesaCusteioOutras.SERVICOS_DIVERSOS		
+		);
+	
+	TIPOS_OUTRAS_DESPESAS = Arrays.asList(
+		TipoDespesaCusteioOutras.TRANSPORTE_EXTERNO,
+		TipoDespesaCusteioOutras.DESPESAS_ADMINISTRATIVAS,
+		TipoDespesaCusteioOutras.DESPESAS_DE_ARMAZENAGEM,
+		TipoDespesaCusteioOutras.BENEFICIAMENTO,
+		TipoDespesaCusteioOutras.SEGURO_PRODUCAO,
+		TipoDespesaCusteioOutras.SEGURO_CREDITO,
+		TipoDespesaCusteioOutras.ASSISTENCIA_TECNICA,
+		TipoDespesaCusteioOutras.CLASSIFICAÇÃO,
+		TipoDespesaCusteioOutras.CESSR,
+		TipoDespesaCusteioOutras.OUTROS	
+		);
 	}
 	
 	public static List<TipoAuxiliarMaquinas> getTiposMaquinas() {
@@ -267,4 +297,15 @@ public class EnumUtil {
 	public static List<TipoAuxiliarInsumos> getTiposAdjuvantes() {
 		return TIPOS_ADJUVANTES;
 	}
+
+	public static List<TipoDespesaCusteioOutras> getTiposOutrasDespesasCusteio() {
+		return TIPOS_OUTRAS_DESPESAS_CUSTEIO;
+	}
+
+	public static List<TipoDespesaCusteioOutras> getTiposOutrasDespesas() {
+		return TIPOS_OUTRAS_DESPESAS;
+	}
+
+	
+	
 }
