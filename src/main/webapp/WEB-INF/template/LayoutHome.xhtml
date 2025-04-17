@@ -8,7 +8,6 @@
   xmlns:ui="http://java.sun.com/jsf/facelets"
 >
   <h:head>
-  	<meta charset="UTF-8"></meta>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     <meta name="description" content="O èpCafé pode ajudar os produtores de café na 
@@ -33,15 +32,15 @@
     <h:outputStylesheet library="css" name="footer.css" /> 
   </h:head>
   <body>
-    <header class="header" id="header">
+    <div class="header" id="header">
       <ui:include src="HeaderHome.xhtml" />
-    </header>
-    <main class="card" id="conteudo">
+    </div>
+    <div class="card" id="conteudo">
       <ui:insert name="corpo" />
-    </main>
-    <footer class="footer" id="footer">
+    </div>
+    <div class="footer" id="footer">
       <ui:include src="FooterHome.xhtml" />
-    </footer>
+    </div>
     <h:outputScript library="js" name="initMenuMobile.js"></h:outputScript>
     <h:outputScript library="js" name="initCopyEmail.js"></h:outputScript>
     <h:outputScript library="js" name="initSwitchTheme.js"></h:outputScript>
