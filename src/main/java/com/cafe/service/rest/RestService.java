@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +48,10 @@ public class RestService implements Serializable {
 		url = null;
 		con = null;
 		try {
-			url = new URL(URL_WS_UF);
+			
+			//url = new URL(URL_WS_UF);
+			url = URI.create(URL_WS_UF).toURL();
+
 			con = (HttpURLConnection) url.openConnection();
 
 			if (con.getResponseCode() != HTTP_COD_SUCESSO) {
@@ -110,7 +114,10 @@ public class RestService implements Serializable {
 		url = null;
 		con = null;
 		try {
-			url = new URL(URL_WS_MU.concat(uf));
+			
+			//url = new URL(URL_WS_MU.concat(uf));
+			url = URI.create(URL_WS_MU.concat(uf)).toURL();		
+
 			con = (HttpURLConnection) url.openConnection();
 
 			if (con.getResponseCode() != HTTP_COD_SUCESSO) {

@@ -1,6 +1,7 @@
 package com.cafe.service.rest;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.net.URL;
 import java.util.Iterator;
 
@@ -26,9 +27,8 @@ public class BuscaCEPService implements Serializable {
 	public EnderecoTO buscaEnderecoPorCEP(String cep) throws NegocioException {
 
 		try {
-			URL url = new URL(
-					"http://cep.republicavirtual.com.br/web_cep.php?cep=" + cep
-							+ "&formato=xml");
+			URL url = URI.create("http://cep.republicavirtual.com.br/web_cep.php?cep=" + cep
+					+ "&formato=xml").toURL(); 
 
 			Document document = getDocumento(url);
 

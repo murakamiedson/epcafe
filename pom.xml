@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>11.0.0</version>
+			<version>14.0.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/javax.el/javax.el-api -->
 		<dependency>
@@ -75,12 +75,6 @@
 			<artifactId>javax.el-api</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.primefaces.themes/cupertino - themes 		-->
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>cupertino</artifactId>
-			<version>1.0.10</version>
-		</dependency>	
 
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
